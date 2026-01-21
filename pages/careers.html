@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - Precision Law Firm</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Inter for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* AOS animations slow effect */
+        [data-aos] {
+            transition-duration: 1500ms !important;
+            transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        }
+
+        /* Custom slow animations */
+        [data-aos="fade-up-slow"] {
+            transform: translateY(40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+
+        [data-aos="fade-up-slow"].aos-animate {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        [data-aos="fade-down-slow"] {
+            transform: translateY(-40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+
+        [data-aos="fade-down-slow"].aos-animate {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        [data-aos="fade-left-slow"] {
+            transform: translateX(-40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+
+        [data-aos="fade-left-slow"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        [data-aos="fade-right-slow"] {
+            transform: translateX(40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+
+        [data-aos="fade-right-slow"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        [data-aos="zoom-slow"] {
+            transform: scale(0.9);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+
+        [data-aos="zoom-slow"].aos-animate {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Hover effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Career card hover */
+        .career-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .career-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(28, 77, 141, 0.15);
+            border-color: #1C4D8D;
+        }
+
+        /* Gradients */
+        .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        .accent-gradient {
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(28, 77, 141, 0.3);
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50" data-aos="fade-down-slow" data-aos-duration="1200"
+        data-aos-easing="ease-out-cubic">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="flex justify-between items-center py-5">
+
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="text-xl font-bold tracking-tight">
+                        <span class="text-[#0F2854]">Precision</span>
+                        <span class="text-[#1C4D8D]">Law Firm</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="../index.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Home</a>
+                    <a href="#"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Overview</a>
+                    <a href="team.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Our Team</a>
+                    <a href="#"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Expertise</a>
+                    <a href="#"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Jurisprudence</a>
+                    <a href="careers.html"
+                        class="text-[#1C4D8D] font-medium border-b-2 border-[#1C4D8D] pb-1">Careers</a>
+                    <a href="contact.html"
+                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-full font-medium hover:opacity-90 transition duration-300 hover-lift">
+                        Contact Us
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Burger -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl transition duration-300">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t">
+                <div class="flex flex-col space-y-4">
+                    <a href="../index.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Home</a>
+                    <a href="#"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Overview</a>
+                    <a href="team.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Our Team</a>
+                    <a href="#"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Expertise</a>
+                    <a href="#"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Jurisprudence</a>
+                    <a href="careers.html" class="text-[#1C4D8D] font-medium">Careers</a>
+                    <a href="contact.html"
+                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-md font-medium text-center mt-2 hover-lift transition duration-300">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-20 md:py-28">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-4xl mx-auto text-center" data-aos="fade-up-slow" data-aos-duration="1600">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                    <span class="text-[#0F2854]">Join Our</span>
+                    <span class="text-[#1C4D8D]"> Team</span>
+                </h1>
+                <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-8"
+                    data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="300"></div>
+                <p class="text-xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up-slow"
+                    data-aos-duration="1400" data-aos-delay="400">
+                    Build your legal career with a firm that values strategic thinking, commercial insight, and
+                    professional growth.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up-slow"
+                    data-aos-duration="1400" data-aos-delay="500">
+                    <a href="#open-positions"
+                        class="btn-primary text-white px-8 py-4 rounded-full font-medium inline-flex items-center justify-center hover-lift">
+                        View Open Positions
+                        <i class="fas fa-arrow-down ml-3"></i>
+                    </a>
+                    <a href="#why-join-us"
+                        class="border border-[#1C4D8D] text-[#1C4D8D] px-8 py-4 rounded-full font-medium inline-flex items-center justify-center hover:bg-[#1C4D8D] hover:text-white transition-all duration-300">
+                        Why Join Us?
+                        <i class="fas fa-star ml-3"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Join Us Section -->
+    <section id="why-join-us" class="py-20 bg-white">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-6xl mx-auto">
+                <!-- Section title -->
+                <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-16"
+                    data-aos="fade-up-slow" data-aos-duration="1400">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                            <span class="text-[#0F2854]">Why Join</span>
+                            <span class="text-[#1C4D8D]">Precision Law Firm ?</span>
+                        </h2>
+                        <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854]" data-aos="fade-right-slow"
+                            data-aos-duration="1200" data-aos-delay="200"></div>
+                    </div>
+                    <p class="text-lg text-gray-600 mt-4 md:mt-0 max-w-xl" data-aos="fade-left-slow"
+                        data-aos-duration="1400" data-aos-delay="300">
+                        We're building a different kind of law firm. One that combines legal excellence with commercial
+                        insight.
+                    </p>
+                </div>
+
+                <!-- Benefits Grid -->
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Benefit 1 -->
+                    <div class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-xl border border-gray-100 hover-lift career-card"
+                        data-aos="zoom-slow" data-aos-duration="1400">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center mb-6">
+                            <i class="fas fa-briefcase text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Meaningful Work</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Work on complex, high-stakes matters that challenge your skills and contribute to our
+                            clients' success.
+                        </p>
+                    </div>
+
+                    <!-- Benefit 2 -->
+                    <div class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-xl border border-gray-100 hover-lift career-card"
+                        data-aos="zoom-slow" data-aos-duration="1400" data-aos-delay="200">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center mb-6">
+                            <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Continuous Growth</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Ongoing training, mentorship programs, and clear progression paths for career advancement.
+                        </p>
+                    </div>
+
+                    <!-- Benefit 3 -->
+                    <div class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-xl border border-gray-100 hover-lift career-card"
+                        data-aos="zoom-slow" data-aos-duration="1400" data-aos-delay="400">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center mb-6">
+                            <i class="fas fa-users text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Collaborative Culture</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Join a supportive team where collaboration is encouraged and every voice is valued.
+                        </p>
+                    </div>
+                </div>
+
+              
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Open Positions Section -->
+    <section id="open-positions" class="py-20 gradient-bg">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-6xl mx-auto">
+                <!-- Section title -->
+                <div class="text-center mb-16" data-aos="fade-up-slow" data-aos-duration="1400">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                        <span class="text-[#0F2854]">Open</span>
+                        <span class="text-[#1C4D8D]">Positions</span>
+                    </h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Explore our current opportunities and join a team dedicated to legal excellence and strategic
+                        thinking.
+                    </p>
+                </div>
+
+                <!-- Positions Grid -->
+                <div class="space-y-6">
+                    <!-- Position 1 -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-8 hover-lift career-card"
+                        data-aos="fade-right-slow" data-aos-duration="1400">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-3">
+                                    <span
+                                        class="bg-blue-100 text-[#1C4D8D] px-3 py-1 rounded-full text-sm font-medium mr-4">
+                                        Full-time
+                                    </span>
+                                    <span class="text-gray-500 text-sm">
+                                        <i class="far fa-clock mr-1"></i> Posted 2 weeks ago
+                                    </span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Associate Lawyer</h3>
+                                <p class="text-gray-600 mb-4">
+                                    We're seeking a motivated Associate Lawyer with 2-3 years of experience in corporate
+                                    law to join our growing team.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Corporate
+                                        Law</span>
+                                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Contract
+                                        Review</span>
+                                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Due
+                                        Diligence</span>
+                                </div>
+                            </div>
+                            <div class="lg:text-right">
+                                <div class="text-2xl font-bold text-[#0F2854] mb-2">Competitive</div>
+                                <p class="text-gray-500 mb-4">Salary + Benefits</p>
+                                <a href="#apply-now"
+                                    class="btn-primary text-white px-6 py-3 rounded-lg font-medium inline-flex items-center hover-lift">
+                                    Apply Now
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Position 2 -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-8 hover-lift career-card"
+                        data-aos="fade-left-slow" data-aos-duration="1400" data-aos-delay="200">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-3">
+                                    <span
+                                        class="bg-blue-100 text-[#1C4D8D] px-3 py-1 rounded-full text-sm font-medium mr-4">
+                                        Full-time
+                                    </span>
+                                    <span class="text-gray-500 text-sm">
+                                        <i class="far fa-clock mr-1"></i> Posted 1 week ago
+                                    </span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Legal Secretary</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Join our administrative team to support our legal professionals with document
+                                    preparation, scheduling, and client communication.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Administrative</span>
+                                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Document
+                                        Management</span>
+                                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Client
+                                        Support</span>
+                                </div>
+                            </div>
+                            <div class="lg:text-right">
+                                <div class="text-2xl font-bold text-[#0F2854] mb-2">Attractive Package</div>
+                                <p class="text-gray-500 mb-4">Salary + Benefits</p>
+                                <a href="#apply-now"
+                                    class="btn-primary text-white px-6 py-3 rounded-lg font-medium inline-flex items-center hover-lift">
+                                    Apply Now
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Position 3 -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-8 hover-lift career-card"
+                        data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="400">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-3">
+                                    <span
+                                        class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium mr-4">
+                                        Internship
+                                    </span>
+                                    <span class="text-gray-500 text-sm">
+                                        <i class="far fa-clock mr-1"></i> Posted 3 days ago
+                                    </span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Legal Intern</h3>
+                                <p class="text-gray-600 mb-4">
+                                    6-month internship program for law students interested in gaining practical
+                                    experience in a dynamic legal environment.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Training</span>
+                                    <span
+                                        class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Mentorship</span>
+                                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Hands-on
+                                        Experience</span>
+                                </div>
+                            </div>
+                            <div class="lg:text-right">
+                                <div class="text-2xl font-bold text-[#0F2854] mb-2">Stipend Provided</div>
+                                <p class="text-gray-500 mb-4">6-month program</p>
+                                <a href="#apply-now"
+                                    class="btn-primary text-white px-6 py-3 rounded-lg font-medium inline-flex items-center hover-lift">
+                                    Apply Now
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No positions message (hidden when positions exist) -->
+                <div class="text-center mt-12" id="no-positions" style="display: none;" data-aos="fade-up-slow"
+                    data-aos-duration="1400">
+                    <div class="max-w-md mx-auto">
+                        <i class="fas fa-search text-5xl text-gray-300 mb-6"></i>
+                        <h3 class="text-2xl font-bold text-gray-700 mb-3">No Current Openings</h3>
+                        <p class="text-gray-600 mb-6">
+                            We don't have any open positions at the moment, but we're always interested in talented
+                            individuals.
+                        </p>
+                        <a href="#apply-now"
+                            class="border border-[#1C4D8D] text-[#1C4D8D] px-6 py-3 rounded-lg font-medium hover:bg-[#1C4D8D] hover:text-white transition-all duration-300">
+                            Submit General Application
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Process Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-6xl mx-auto">
+                <!-- Section title -->
+                <div class="text-center mb-16" data-aos="fade-up-slow" data-aos-duration="1400">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                        <span class="text-[#0F2854]">Application</span>
+                        <span class="text-[#1C4D8D]">Process</span>
+                    </h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Our transparent and efficient hiring process ensures we find the right fit for our team.
+                    </p>
+                </div>
+
+                <!-- Process Steps -->
+                <div class="grid md:grid-cols-4 gap-8">
+                    <!-- Step 1 -->
+                    <div class="text-center" data-aos="zoom-slow" data-aos-duration="1400">
+                        <div
+                            class="w-16 h-16 rounded-full bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+                            1
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Application</h3>
+                        <p class="text-gray-600">
+                            Submit your CV and cover letter through our online portal or email.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="text-center" data-aos="zoom-slow" data-aos-duration="1400" data-aos-delay="200">
+                        <div
+                            class="w-16 h-16 rounded-full bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+                            2
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Review</h3>
+                        <p class="text-gray-600">
+                            Our hiring team reviews all applications within 5-7 business days.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="text-center" data-aos="zoom-slow" data-aos-duration="1400" data-aos-delay="400">
+                        <div
+                            class="w-16 h-16 rounded-full bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+                            3
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Interviews</h3>
+                        <p class="text-gray-600">
+                            Selected candidates are invited for interviews with our team members.
+                        </p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="text-center" data-aos="zoom-slow" data-aos-duration="1400" data-aos-delay="600">
+                        <div
+                            class="w-16 h-16 rounded-full bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+                            4
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Decision</h3>
+                        <p class="text-gray-600">
+                            We make our final decision and extend offers to successful candidates.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Apply Now Section -->
+    <section id="apply-now" class="py-20 gradient-bg">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-4xl mx-auto">
+                <!-- Section title -->
+                <div class="text-center mb-12" data-aos="fade-up-slow" data-aos-duration="1400">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                        <span class="text-[#0F2854]">Apply</span>
+                        <span class="text-[#1C4D8D]">Now</span>
+                    </h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Ready to join our team? Submit your application and we'll get back to you shortly.
+                    </p>
+                </div>
+
+                <!-- Application Form -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12" data-aos="zoom-slow" data-aos-duration="1600">
+                    <form id="career-form" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="full-name">
+                                    Full Name *
+                                </label>
+                                <input type="text" id="full-name" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"
+                                    placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="email">
+                                    Email Address *
+                                </label>
+                                <input type="email" id="email" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"
+                                    placeholder="john@example.com">
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="phone">
+                                    Phone Number
+                                </label>
+                                <input type="tel" id="phone"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"
+                                    placeholder="+230 123 4567">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="position">
+                                    Position Applying For *
+                                </label>
+                                <select id="position" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                                    <option value="">Select a position</option>
+                                    <option value="associate-lawyer">Associate Lawyer</option>
+                                    <option value="legal-secretary">Legal Secretary</option>
+                                    <option value="legal-intern">Legal Intern</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2" for="cover-letter">
+                                Cover Letter *
+                            </label>
+                            <textarea id="cover-letter" rows="4" required
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"
+                                placeholder="Tell us about yourself and why you're interested in joining our team..."></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2" for="resume">
+                                Upload Resume/CV *
+                            </label>
+                            <div
+                                class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#1C4D8D] transition duration-300">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-3"></i>
+                                <p class="text-gray-600 mb-2">Drag & drop your file here or</p>
+                                <label for="resume-file" class="cursor-pointer">
+                                    <span
+                                        class="bg-[#1C4D8D] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#0F2854] transition duration-300 inline-block">
+                                        Browse Files
+                                    </span>
+                                    <input type="file" id="resume-file" class="hidden" accept=".pdf,.doc,.docx">
+                                </label>
+                                <p class="text-sm text-gray-500 mt-3">PDF, DOC, DOCX up to 5MB</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <button type="submit"
+                                class="w-full btn-primary text-white py-4 rounded-lg font-medium text-lg hover-lift transition duration-300">
+                                Submit Application
+                                <i class="fas fa-paper-plane ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Form Success Message -->
+                    <div id="form-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 text-xl mr-3"></i>
+                            <div>
+                                <h4 class="font-semibold text-green-800">Application Submitted!</h4>
+                                <p class="text-green-700">Thank you for your interest. We'll review your application and
+                                    get back to you soon.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <script>
+        // Tableau des composants à charger
+        const components = [
+            { id: "navbar", url: "/components/navbar.html" }
+        ];
+
+        // Boucle sur chaque composant
+        components.forEach(comp => {
+            fetch(comp.url)
+                .then(res => res.text())
+                .then(data => {
+                    document.getElementById(comp.id).innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading component:', error);
+                });
+        });
+    </script>
+    <script>
+        // Initialize AOS with slow settings
+        AOS.init({
+            duration: 1500,
+            offset: 80,
+            easing: 'ease-out-cubic',
+            once: true,
+            delay: 0,
+            mirror: false,
+            anchorPlacement: 'top-bottom',
+            disable: false
+        });
+
+        // Toggle mobile menu
+        const mobileButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+
+            // Change burger icon
+            const icon = mobileButton.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Form submission
+        document.getElementById('career-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show success message
+            document.getElementById('form-success').classList.remove('hidden');
+
+            // Scroll to success message
+            document.getElementById('form-success').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            // Reset form after 5 seconds
+            setTimeout(() => {
+                document.getElementById('career-form').reset();
+                document.getElementById('form-success').classList.add('hidden');
+            }, 5000);
+        });
+
+        // File upload preview
+        document.getElementById('resume-file').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const fileSize = file.size / 1024 / 1024; // in MB
+                if (fileSize > 5) {
+                    alert('File size must be less than 5MB');
+                    this.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
