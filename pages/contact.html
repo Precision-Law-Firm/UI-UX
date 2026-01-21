@@ -8,9 +8,64 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
+        }
+        
+        /* Animation lente et douce */
+        .aos-init[data-aos] {
+            transition-duration: 1500ms !important;
+            transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        }
+        
+        /* Effets de fondu personnalisés */
+        [data-aos="fade-up-slow"] {
+            transform: translateY(40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+        
+        [data-aos="fade-up-slow"].aos-animate {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        [data-aos="fade-left-slow"] {
+            transform: translateX(-40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+        
+        [data-aos="fade-left-slow"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        [data-aos="fade-right-slow"] {
+            transform: translateX(40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+        
+        [data-aos="fade-right-slow"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        [data-aos="zoom-slow"] {
+            transform: scale(0.9);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+        
+        [data-aos="zoom-slow"].aos-animate {
+            transform: scale(1);
+            opacity: 1;
         }
     </style>
 </head>
@@ -18,7 +73,10 @@
 <body class="bg-white">
 
     <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50" 
+         data-aos="fade-down" 
+         data-aos-duration="1200"
+         data-aos-easing="ease-out-cubic">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="flex justify-between items-center py-5">
 
@@ -70,7 +128,10 @@
 
 
     <!-- Simple Header -->
-    <div class="pt-20 pb-12 text-center">
+    <div class="pt-20 pb-12 text-center" 
+         data-aos="fade-up-slow" 
+         data-aos-duration="1500"
+         data-aos-easing="ease-out-cubic">
         <div class="container mx-auto px-6">
             <h1 class="text-4xl font-bold mb-4">
                 <span class="text-[#0F2854]">Contact</span>
@@ -85,7 +146,10 @@
         <div class="flex flex-col lg:flex-row gap-12 items-start max-w-5xl mx-auto">
             <!-- Contact Info -->
             <div class="lg:w-1/2 space-y-8">
-                <div class="flex items-start">
+                <div class="flex items-start" 
+                     data-aos="fade-right-slow" 
+                     data-aos-duration="1400"
+                     data-aos-delay="100">
                     <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
                         <i class="fas fa-map-marker-alt text-[#1C4D8D]"></i>
                     </div>
@@ -98,7 +162,10 @@
                     </div>
                 </div>
 
-                <div class="flex items-center">
+                <div class="flex items-center" 
+                     data-aos="fade-right-slow" 
+                     data-aos-duration="1400"
+                     data-aos-delay="200">
                     <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
                         <i class="fas fa-phone text-[#1C4D8D]"></i>
                     </div>
@@ -108,7 +175,10 @@
                     </div>
                 </div>
 
-                <div class="flex items-center">
+                <div class="flex items-center" 
+                     data-aos="fade-right-slow" 
+                     data-aos-duration="1400"
+                     data-aos-delay="300">
                     <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
                         <i class="fas fa-envelope text-[#1C4D8D]"></i>
                     </div>
@@ -118,15 +188,18 @@
                     </div>
                 </div>
 
-                <div class="pt-6 border-t">
+                <div class="pt-6 border-t" 
+                     data-aos="fade-right-slow" 
+                     data-aos-duration="1400"
+                     data-aos-delay="400">
                     <h3 class="font-semibold text-gray-800 mb-3">Connect</h3>
                     <div class="flex space-x-3">
                         <a href="#"
-                            class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center hover:bg-blue-100">
+                            class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center hover:bg-blue-100 transition duration-300">
                             <i class="fab fa-linkedin-in text-[#1C4D8D]"></i>
                         </a>
                         <a href="#"
-                            class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center hover:bg-blue-100">
+                            class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center hover:bg-blue-100 transition duration-300">
                             <i class="fas fa-phone text-[#1C4D8D]"></i>
                         </a>
                     </div>
@@ -134,28 +207,46 @@
             </div>
 
             <!-- Contact Form -->
-            <div class="lg:w-1/2">
-                <div class="bg-white border border-gray-200 rounded-lg p-8">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Send a Message</h2>
+            <div class="lg:w-1/2" 
+                 data-aos="fade-left-slow" 
+                 data-aos-duration="1500"
+                 data-aos-delay="300">
+                <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Send a Message</h2>
 
-                    <form class="space-y-4">
-                        <div class="grid md:grid-cols-2 gap-4">
+                    <form class="space-y-5">
+                        <div class="grid md:grid-cols-2 gap-4" 
+                             data-aos="fade-up" 
+                             data-aos-duration="1200"
+                             data-aos-delay="400">
                             <input type="text" placeholder="First Name"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] outline-none">
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
                             <input type="text" placeholder="Last Name"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] outline-none">
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
                         </div>
 
-                        <input type="email" placeholder="Email"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] outline-none">
+                        <div data-aos="fade-up" 
+                             data-aos-duration="1200"
+                             data-aos-delay="500">
+                            <input type="email" placeholder="Email"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                        </div>
 
-                        <textarea placeholder="Message" rows="4"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] outline-none"></textarea>
+                        <div data-aos="fade-up" 
+                             data-aos-duration="1200"
+                             data-aos-delay="600">
+                            <textarea placeholder="Message" rows="4"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"></textarea>
+                        </div>
 
-                        <button type="submit"
-                            class="w-full bg-[#1C4D8D] text-white py-3 rounded-lg hover:bg-[#0F2854] transition">
-                            Send Message
-                        </button>
+                        <div data-aos="fade-up" 
+                             data-aos-duration="1200"
+                             data-aos-delay="700">
+                            <button type="submit"
+                                class="w-full bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white py-3 rounded-lg hover:opacity-90 transition duration-300 transform hover:-translate-y-1">
+                                Send Message
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -164,24 +255,63 @@
 
     <!-- Simple Map -->
     <div class="container mx-auto px-6 py-12 max-w-4xl">
-        <div class="text-center mb-8">
+        <div class="text-center mb-8" 
+             data-aos="fade-up-slow" 
+             data-aos-duration="1400">
             <h2 class="text-2xl font-bold text-gray-800 mb-2">Find Our Office</h2>
             <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto"></div>
         </div>
 
-        <div class="bg-gray-100 rounded-lg h-64 flex items-center justify-center">
+        <div class="bg-gradient-to-br from-blue-50 to-gray-50 rounded-xl h-64 flex items-center justify-center border border-gray-200"
+             data-aos="zoom-slow" 
+             data-aos-duration="1600"
+             data-aos-delay="200">
             <div class="text-center">
-                <i class="fas fa-map-marker-alt text-3xl text-gray-400 mb-3"></i>
-                <p class="text-gray-600">Astor Court, Port Louis</p>
+                <i class="fas fa-map-marker-alt text-4xl text-[#1C4D8D] mb-4"></i>
+                <p class="text-gray-700 font-medium">Astor Court, Port Louis</p>
+                <p class="text-gray-500 text-sm mt-1">Georges Guibert Street</p>
             </div>
         </div>
     </div>
 
     <!-- Footer will be loaded here -->
-    <div id="footer" class="mt-12"></div>
+    <div id="footer" class="mt-12" 
+         data-aos="fade-up-slow" 
+         data-aos-duration="1500"></div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <script>
+        // Initialiser AOS avec des paramètres lents
+        AOS.init({
+            // Configuration pour un effet "slow"
+            duration: 1500,        // Durée par défaut de l'animation en ms
+            offset: 80,           // Déclenchement plus tôt (80px avant l'élément)
+            easing: 'ease-out-cubic', // Animation douce
+            once: true,            // Animation une seule fois
+            delay: 0,             // Délai par défaut entre les éléments
+            mirror: false,         // Ne pas animer au scroll retour
+            anchorPlacement: 'top-bottom', // Point d'ancrage pour le déclenchement
+            startEvent: 'DOMContentLoaded', // Démarrer après chargement du DOM
+            disable: false,        // Activer les animations
+            startEvent: 'load',    // Démarrer après le chargement complet
+            animatedClassName: 'aos-animate',
+            initClassName: 'aos-init',
+            disableMutationObserver: false,
+            debounceDelay: 50,
+            throttleDelay: 99
+        });
+        
+        // Rafraîchir AOS après le chargement du footer
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                AOS.refresh();
+            }, 500);
+        });
+    </script>
 
     <script src="../assets/js/navbar.js"></script>
-
 
     <!-- Script to load navbar and footer components -->
     <script>
@@ -196,31 +326,87 @@
                 .then(res => res.text())
                 .then(data => {
                     document.getElementById(comp.id).innerHTML = data;
+                    // Rafraîchir AOS après le chargement du contenu
+                    setTimeout(() => {
+                        AOS.refresh();
+                    }, 300);
+                })
+                .catch(error => {
+                    console.error('Error loading component:', error);
                 });
         });
     </script>
 
-<script>
-    // Toggle mobile menu
-    const mobileButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    mobileButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden'); // ouvre/ferme le menu
-    
-      // Change l’icône du burger
-      const icon = mobileButton.querySelector('i');
-      if (icon.classList.contains('fa-bars')) {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-times');
-      } else {
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
-      }
-    });
-    </script>
-    
+    <script>
+        // Toggle mobile menu
+        const mobileButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            // Change l'icône du burger avec animation
+            const icon = mobileButton.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                // Animation douce d'ouverture
+                mobileMenu.style.animation = 'slideDown 0.3s ease-out';
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                // Animation douce de fermeture
+                mobileMenu.style.animation = 'slideUp 0.3s ease-out';
+            }
+        });
 
+        // Ajouter des animations CSS pour le menu mobile
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            @keyframes slideUp {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+            }
+            
+            /* Effet de hover sur les boutons sociaux */
+            .social-hover {
+                transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            
+            .social-hover:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(28, 77, 141, 0.1);
+            }
+            
+            /* Animation pour le bouton d'envoi */
+            .submit-btn {
+                transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            
+            .submit-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(28, 77, 141, 0.25);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 
 </body>
 
