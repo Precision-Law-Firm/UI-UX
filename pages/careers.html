@@ -14,6 +14,7 @@
     <!-- AOS CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
+    <!-- Custom CSS -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -86,7 +87,7 @@
 
         /* Hover effects */
         .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .hover-lift:hover {
@@ -94,15 +95,102 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        /* Career card hover */
+        /* Career card hover - SUPER SMOOTH */
         .career-card {
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid #e5e7eb;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .career-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1C4D8D, #0F2854);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .career-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px -10px rgba(28, 77, 141, 0.15);
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 25px 50px -12px rgba(28, 77, 141, 0.25);
             border-color: #1C4D8D;
+        }
+
+        .career-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Staggered animation for card elements */
+        .career-card:hover .job-title {
+            color: #1C4D8D;
+            transition: color 0.4s ease 0.1s;
+        }
+
+        .career-card:hover .apply-btn {
+            transform: translateX(5px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+        }
+
+        .career-card:hover .tag {
+            transform: translateY(-2px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .career-card .tag:nth-child(1) {
+            transition-delay: 0.05s;
+        }
+
+        .career-card .tag:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        .career-card .tag:nth-child(3) {
+            transition-delay: 0.15s;
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px -10px rgba(28, 77, 141, 0.4);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        /* Tag hover effect */
+        .tag {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-block;
+        }
+
+        .career-card:hover .tag {
+            background-color: #f0f7ff;
+            color: #1C4D8D;
         }
 
         /* Gradients */
@@ -114,15 +202,27 @@
             background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
         }
 
-        /* Button styles */
-        .btn-primary {
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            transition: all 0.3s ease;
+        /* Smooth transitions for all interactive elements */
+        .apply-btn,
+        .job-title,
+        .tag,
+        .salary-text {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(28, 77, 141, 0.3);
+        /* Add a subtle glow on hover */
+        .career-card:hover {
+            animation: subtleGlow 2s infinite alternate;
+        }
+
+        @keyframes subtleGlow {
+            0% {
+                box-shadow: 0 25px 50px -12px rgba(28, 77, 141, 0.25);
+            }
+
+            100% {
+                box-shadow: 0 25px 50px -8px rgba(28, 77, 141, 0.3);
+            }
         }
     </style>
 </head>
@@ -289,8 +389,8 @@
                     </div>
                 </div>
 
-              
-                
+
+
             </div>
         </div>
     </section>
@@ -550,7 +650,7 @@
                                     Full Name *
                                 </label>
                                 <input type="text" id="full-name" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"
+                                    class="w-full px-4 py-3.5 border border-gray-300 rounded-xl focus:border-[#1C4D8D] focus:ring-4 focus:ring-blue-50 outline-none transition-all duration-300 hover:border-gray-400 hover:shadow-sm"
                                     placeholder="John Doe">
                             </div>
                             <div>
@@ -558,7 +658,7 @@
                                     Email Address *
                                 </label>
                                 <input type="email" id="email" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"
+                                    class="w-full px-4 py-3.5 border border-gray-300 rounded-xl focus:border-[#1C4D8D] focus:ring-4 focus:ring-blue-50 outline-none transition-all duration-300 hover:border-gray-400 hover:shadow-sm"
                                     placeholder="john@example.com">
                             </div>
                         </div>
@@ -569,73 +669,788 @@
                                     Phone Number
                                 </label>
                                 <input type="tel" id="phone"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"
+                                    class="w-full px-4 py-3.5 border border-gray-300 rounded-xl focus:border-[#1C4D8D] focus:ring-4 focus:ring-blue-50 outline-none transition-all duration-300 hover:border-gray-400 hover:shadow-sm"
                                     placeholder="+230 123 4567">
                             </div>
-                            <div>
-                                <label class="block text-gray-700 font-medium mb-2" for="position">
-                                    Position Applying For *
-                                </label>
-                                <select id="position" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                            <div class="relative" x-data="{ open: false, selected: '' }" x-init="selected = ''">
+                                <!-- Hidden select pour le formulaire -->
+                                <select id="position" required class="hidden" x-ref="select">
                                     <option value="">Select a position</option>
                                     <option value="associate-lawyer">Associate Lawyer</option>
                                     <option value="legal-secretary">Legal Secretary</option>
                                     <option value="legal-intern">Legal Intern</option>
-                                    <option value="other">Other</option>
+                                    <option value="other">Other Position</option>
                                 </select>
+
+                                <!-- Bouton custom -->
+                                <button type="button" @click="open = !open" @click.outside="open = false"
+                                    :class="open ? 'border-[#1C4D8D] shadow-lg ring-4 ring-blue-50' : 'border-gray-200 hover:border-blue-300 hover:shadow-lg'"
+                                    class="w-full px-5 py-4 border-2 rounded-xl bg-white text-left transition-all duration-300 flex items-center justify-between focus:outline-none">
+
+                                    <span class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-briefcase text-[#1C4D8D] text-sm"></i>
+                                        </div>
+                                        <span x-text="selected ? selected : 'Select a position'"
+                                            :class="selected ? 'text-[#1C4D8D] font-medium' : 'text-gray-400'"></span>
+                                    </span>
+
+                                    <svg class="h-5 w-5 text-gray-500 transition-transform duration-300"
+                                        :class="open ? 'rotate-180 text-[#1C4D8D]' : ''" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                <!-- Options custom -->
+                                <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0 translate-y-2"
+                                    x-transition:enter-end="opacity-100 translate-y-0"
+                                    x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100 translate-y-0"
+                                    x-transition:leave-end="opacity-0 translate-y-2"
+                                    class="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden">
+
+                                    <div class="py-2 max-h-64 overflow-y-auto custom-scrollbar">
+                                        <!-- Option 1 -->
+                                        <button type="button"
+                                            @click="selected = 'Associate Lawyer'; $refs.select.value = 'associate-lawyer'; open = false;"
+                                            :class="selected === 'Associate Lawyer' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
+                                            class="w-full px-6 py-4 text-left transition-all duration-200 flex items-center gap-3 hover:pl-8">
+                                            <div :class="selected === 'Associate Lawyer' ? 'bg-white/20' : 'bg-blue-50'"
+                                                class="w-10 h-10 rounded-lg flex items-center justify-center">
+                                                <i class="fas fa-gavel"
+                                                    :class="selected === 'Associate Lawyer' ? 'text-white' : 'text-[#1C4D8D]'"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="font-medium">Associate Lawyer</div>
+                                                <div class="text-sm opacity-75"
+                                                    :class="selected === 'Associate Lawyer' ? 'text-white/90' : 'text-gray-500'">
+                                                    Corporate law expertise</div>
+                                            </div>
+                                            <i x-show="selected === 'Associate Lawyer'"
+                                                class="fas fa-check text-white"></i>
+                                        </button>
+
+                                        <!-- Option 2 -->
+                                        <button type="button"
+                                            @click="selected = 'Legal Secretary'; $refs.select.value = 'legal-secretary'; open = false;"
+                                            :class="selected === 'Legal Secretary' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
+                                            class="w-full px-6 py-4 text-left transition-all duration-200 flex items-center gap-3 hover:pl-8">
+                                            <div :class="selected === 'Legal Secretary' ? 'bg-white/20' : 'bg-blue-50'"
+                                                class="w-10 h-10 rounded-lg flex items-center justify-center">
+                                                <i class="fas fa-file-alt"
+                                                    :class="selected === 'Legal Secretary' ? 'text-white' : 'text-[#1C4D8D]'"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="font-medium">Legal Secretary</div>
+                                                <div class="text-sm opacity-75"
+                                                    :class="selected === 'Legal Secretary' ? 'text-white/90' : 'text-gray-500'">
+                                                    Administrative support</div>
+                                            </div>
+                                            <i x-show="selected === 'Legal Secretary'"
+                                                class="fas fa-check text-white"></i>
+                                        </button>
+
+                                        <!-- Option 3 -->
+                                        <button type="button"
+                                            @click="selected = 'Legal Intern'; $refs.select.value = 'legal-intern'; open = false;"
+                                            :class="selected === 'Legal Intern' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
+                                            class="w-full px-6 py-4 text-left transition-all duration-200 flex items-center gap-3 hover:pl-8">
+                                            <div :class="selected === 'Legal Intern' ? 'bg-white/20' : 'bg-blue-50'"
+                                                class="w-10 h-10 rounded-lg flex items-center justify-center">
+                                                <i class="fas fa-graduation-cap"
+                                                    :class="selected === 'Legal Intern' ? 'text-white' : 'text-[#1C4D8D]'"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="font-medium">Legal Intern</div>
+                                                <div class="text-sm opacity-75"
+                                                    :class="selected === 'Legal Intern' ? 'text-white/90' : 'text-gray-500'">
+                                                    Training program</div>
+                                            </div>
+                                            <i x-show="selected === 'Legal Intern'" class="fas fa-check text-white"></i>
+                                        </button>
+
+                                        <!-- Option 4 -->
+                                        <button type="button"
+                                            @click="selected = 'Other Position'; $refs.select.value = 'other'; open = false;"
+                                            :class="selected === 'Other Position' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
+                                            class="w-full px-6 py-4 text-left transition-all duration-200 flex items-center gap-3 hover:pl-8 border-t border-gray-100">
+                                            <div :class="selected === 'Other Position' ? 'bg-white/20' : 'bg-gray-50'"
+                                                class="w-10 h-10 rounded-lg flex items-center justify-center">
+                                                <i class="fas fa-ellipsis-h"
+                                                    :class="selected === 'Other Position' ? 'text-white' : 'text-gray-500'"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="font-medium">Other Position</div>
+                                                <div class="text-sm opacity-75"
+                                                    :class="selected === 'Other Position' ? 'text-white/90' : 'text-gray-500'">
+                                                    Custom opportunity</div>
+                                            </div>
+                                            <i x-show="selected === 'Other Position'"
+                                                class="fas fa-check text-white"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+
+                            
+
+                            <style>
+                                .custom-scrollbar::-webkit-scrollbar {
+                                    width: 6px;
+                                }
+
+                                .custom-scrollbar::-webkit-scrollbar-track {
+                                    background: #f1f5f9;
+                                    border-radius: 3px;
+                                }
+
+                                .custom-scrollbar::-webkit-scrollbar-thumb {
+                                    background: #cbd5e1;
+                                    border-radius: 3px;
+                                }
+
+                                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                                    background: #94a3b8;
+                                }
+                            </style>
+
+                            <!-- AlpineJS CDN (à ajouter dans le head si pas déjà présent) -->
+                            <script src="//unpkg.com/alpinejs" defer></script>
+
+                            <style>
+                                .modern-select {
+                                    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%231C4D8D' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+                                    background-position: right 1rem center;
+                                    background-repeat: no-repeat;
+                                    background-size: 1.5em 1.5em;
+                                    padding-right: 3.5rem;
+                                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                                    font-size: 15px;
+                                    color: #374151;
+                                    line-height: 1.6;
+                                }
+
+                                .modern-select:focus {
+                                    border-color: #1C4D8D;
+                                    box-shadow: 0 0 0 4px rgba(28, 77, 141, 0.1);
+                                    transform: translateY(-1px);
+                                }
+
+                                .modern-select:hover {
+                                    border-color: #93c5fd;
+                                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+                                }
+
+                                .modern-select::-ms-expand {
+                                    display: none;
+                                }
+
+                                .modern-select {
+                                    font-weight: 500;
+                                    letter-spacing: -0.01em;
+                                }
+
+                                .modern-select option {
+                                    font-family: 'Inter', sans-serif;
+                                    font-size: 15px;
+                                    font-weight: 400;
+                                    color: #374151;
+                                    padding: 14px 20px;
+                                    margin: 4px 0;
+                                    background: white;
+                                    border: none;
+                                    cursor: pointer;
+                                    transition: all 0.3s ease;
+                                    line-height: 1.5;
+                                }
+
+                                .modern-select option.placeholder-option {
+                                    color: #9ca3af;
+                                    font-weight: 400;
+                                    font-style: italic;
+                                    background: white;
+                                }
+
+                                .modern-select option.dropdown-option {
+                                    position: relative;
+                                    padding-left: 20px;
+                                    border-bottom: 1px solid #f3f4f6;
+                                }
+
+                                .modern-select option.dropdown-option:hover {
+                                    background: linear-gradient(90deg, #EFF6FF 0%, #F0F9FF 100%);
+                                    color: #1C4D8D;
+                                    font-weight: 500;
+                                    padding-left: 28px;
+                                    transform: translateX(2px);
+                                }
+
+                                .modern-select option.dropdown-option:checked {
+                                    background: linear-gradient(90deg, #1C4D8D 0%, #0F2854 100%);
+                                    color: white;
+                                    font-weight: 600;
+                                    border-left: 4px solid white;
+                                    padding-left: 16px;
+                                }
+
+                                .modern-select option.dropdown-option:active {
+                                    background: linear-gradient(90deg, #1C4D8D 0%, #0F2854 100%);
+                                    color: white;
+                                }
+
+                                .modern-select option:first-of-type {
+                                    border-top-left-radius: 8px;
+                                    border-top-right-radius: 8px;
+                                }
+
+                                .modern-select option:last-of-type {
+                                    border-bottom-left-radius: 8px;
+                                    border-bottom-right-radius: 8px;
+                                    border-bottom: none;
+                                }
+
+                                .modern-select::-webkit-scrollbar {
+                                    width: 10px;
+                                    background: transparent;
+                                }
+
+                                .modern-select::-webkit-scrollbar-track {
+                                    background: #f1f5f9;
+                                    border-radius: 10px;
+                                    margin: 8px 0;
+                                }
+
+                                .modern-select::-webkit-scrollbar-thumb {
+                                    background: linear-gradient(to bottom, #dbeafe, #bfdbfe);
+                                    border-radius: 10px;
+                                    border: 3px solid #f1f5f9;
+                                }
+
+                                .modern-select::-webkit-scrollbar-thumb:hover {
+                                    background: linear-gradient(to bottom, #93c5fd, #60a5fa);
+                                }
+
+                                .modern-select:focus~.pointer-events-none .select-arrow {
+                                    transform: rotate(180deg);
+                                    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                                }
+
+                                .modern-select {
+                                    color: #111827;
+                                }
+
+                                .modern-select:not([value=""]) {
+                                    color: #1C4D8D;
+                                    font-weight: 500;
+                                    background-color: #f8fafc;
+                                    border-color: #dbeafe;
+                                }
+
+                                .modern-select:focus {
+                                    color: #1C4D8D;
+                                }
+
+                                .modern-select option.dropdown-option::before {
+                                    content: "▸";
+                                    position: absolute;
+                                    left: 8px;
+                                    color: #9ca3af;
+                                    font-size: 12px;
+                                    opacity: 0;
+                                    transition: opacity 0.2s ease;
+                                }
+
+                                .modern-select option.dropdown-option:hover::before {
+                                    opacity: 1;
+                                    color: #1C4D8D;
+                                }
+
+                                .modern-select option.dropdown-option:checked::before {
+                                    content: "✓";
+                                    color: white;
+                                    opacity: 1;
+                                    font-size: 14px;
+                                }
+
+                                .modern-select option[value="associate-lawyer"] {
+                                    font-weight: 500;
+                                }
+
+                                .modern-select option[value="legal-secretary"] {
+                                    font-weight: 500;
+                                }
+
+                                .modern-select option[value="legal-intern"] {
+                                    font-weight: 500;
+                                }
+
+                                .modern-select option[value="other"] {
+                                    font-style: italic;
+                                    color: #6b7280;
+                                }
+
+                                .modern-select option[value="other"]:hover {
+                                    font-style: normal;
+                                    color: #1C4D8D;
+                                }
+                            </style>
                         </div>
 
                         <div>
                             <label class="block text-gray-700 font-medium mb-2" for="cover-letter">
                                 Cover Letter *
                             </label>
-                            <textarea id="cover-letter" rows="4" required
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"
-                                placeholder="Tell us about yourself and why you're interested in joining our team..."></textarea>
+                            <div class="relative">
+                                <textarea id="cover-letter" rows="4" required
+                                    class="w-full px-4 py-3.5 border border-gray-300 rounded-xl focus:border-[#1C4D8D] focus:ring-4 focus:ring-blue-50 outline-none transition-all duration-300 hover:border-gray-400 hover:shadow-sm resize-none"
+                                    placeholder="Tell us about yourself and why you're interested in joining our team..."></textarea>
+                                <div class="absolute bottom-3 right-3">
+                                    <div
+                                        class="w-8 h-8 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-pen text-blue-400 text-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div>
                             <label class="block text-gray-700 font-medium mb-2" for="resume">
                                 Upload Resume/CV *
                             </label>
-                            <div
-                                class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#1C4D8D] transition duration-300">
-                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-3"></i>
-                                <p class="text-gray-600 mb-2">Drag & drop your file here or</p>
-                                <label for="resume-file" class="cursor-pointer">
-                                    <span
-                                        class="bg-[#1C4D8D] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#0F2854] transition duration-300 inline-block">
-                                        Browse Files
-                                    </span>
-                                    <input type="file" id="resume-file" class="hidden" accept=".pdf,.doc,.docx">
-                                </label>
-                                <p class="text-sm text-gray-500 mt-3">PDF, DOC, DOCX up to 5MB</p>
+                            <div class="relative group">
+                                <div
+                                    class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center transition-all duration-500 hover:border-[#1C4D8D] hover:bg-blue-50/50 cursor-pointer file-upload-area">
+                                    <div class="relative inline-block mb-4">
+                                        <div
+                                            class="w-16 h-16 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                                            <i class="fas fa-cloud-upload-alt text-2xl text-[#1C4D8D]"></i>
+                                        </div>
+                                        <div
+                                            class="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center">
+                                            <i class="fas fa-plus text-white text-xs"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-600 mb-2 text-lg font-medium">Drag & drop your file here</p>
+                                    <p class="text-gray-500 mb-4">or click to browse</p>
+                                    <label for="resume-file" class="cursor-pointer">
+                                        <span
+                                            class="btn-primary text-white px-8 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2 group-hover:scale-105">
+                                            <i class="fas fa-folder-open"></i>
+                                            Browse Files
+                                        </span>
+                                        <input type="file" id="resume-file" class="hidden" accept=".pdf,.doc,.docx">
+                                    </label>
+                                    <p class="text-sm text-gray-500 mt-4">
+                                        <i class="fas fa-file-alt mr-1"></i>
+                                        Supports: PDF, DOC, DOCX (Max 5MB)
+                                    </p>
+                                </div>
+                                <!-- File preview will appear here -->
+                                <div id="file-preview" class="hidden mt-4">
+                                    <div
+                                        class="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl p-4">
+                                        <div class="flex items-center">
+                                            <div
+                                                class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                                                <i class="fas fa-file-pdf text-green-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium text-gray-800" id="file-name">resume.pdf</p>
+                                                <p class="text-sm text-gray-500" id="file-size">2.4 MB</p>
+                                            </div>
+                                        </div>
+                                        <button type="button" id="remove-file" class="text-red-500 hover:text-red-700">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="pt-4">
+                        <div class="pt-6">
                             <button type="submit"
-                                class="w-full btn-primary text-white py-4 rounded-lg font-medium text-lg hover-lift transition duration-300">
-                                Submit Application
-                                <i class="fas fa-paper-plane ml-2"></i>
+                                class="w-full btn-primary text-white py-4 rounded-xl font-medium text-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 relative overflow-hidden group submit-btn">
+                                <span class="relative z-10 flex items-center justify-center gap-2">
+                                    <span>Submit Application</span>
+                                    <i
+                                        class="fas fa-paper-plane transition-transform duration-500 group-hover:translate-x-2"></i>
+                                </span>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-[#0F2854] to-[#1C4D8D] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                </div>
+                                <div
+                                    class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white to-transparent opacity-40 group-hover:animate-shine">
+                                </div>
                             </button>
+
+                            <!-- Animated checkmark for submission -->
+                            <div class="mt-4 text-center">
+                                <div class="inline-flex items-center text-gray-500 text-sm">
+                                    <div
+                                        class="w-2 h-2 bg-green-500 rounded-full mr-2 submission-dot animate-pulse hidden">
+                                    </div>
+                                    <span class="submission-text">Your information is secure with us</span>
+                                </div>
+                            </div>
                         </div>
                     </form>
 
                     <!-- Form Success Message -->
-                    <div id="form-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-check-circle text-green-500 text-xl mr-3"></i>
-                            <div>
-                                <h4 class="font-semibold text-green-800">Application Submitted!</h4>
-                                <p class="text-green-700">Thank you for your interest. We'll review your application and
-                                    get back to you soon.</p>
+                    <div id="form-success"
+                        class="hidden mt-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl animate-fade-in">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-check text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-green-800 mb-1">Application Submitted Successfully!
+                                </h4>
+                                <p class="text-green-700">Thank you for your interest in joining our team. We'll review
+                                    your application and get back to you within 5-7 business days.</p>
+                                <div class="mt-3 flex items-center text-sm text-green-600">
+                                    <i class="fas fa-clock mr-2"></i>
+                                    <span>Confirmation email sent to your inbox</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <style>
+                    /* Modern Select Dropdown Styling */
+                    .modern-select {
+                        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%231C4D8D' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+                        background-position: right 0.75rem center;
+                        background-repeat: no-repeat;
+                        background-size: 1.5em 1.5em;
+                        padding-right: 2.5rem;
+                        -webkit-appearance: none;
+                        -moz-appearance: none;
+                        appearance: none;
+                        cursor: pointer;
+                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+
+                    .modern-select:focus {
+                        box-shadow: 0 0 0 4px rgba(28, 77, 141, 0.1), 0 10px 25px -5px rgba(28, 77, 141, 0.1);
+                        transform: translateY(-2px);
+                    }
+
+                    .modern-select:hover:not(:focus) {
+                        border-color: #93c5fd;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                    }
+
+                    /* Custom dropdown arrow animation */
+                    .modern-select:focus+.pointer-events-none .select-arrow {
+                        transform: rotate(180deg);
+                        color: #1C4D8D;
+                    }
+
+                    /* Custom option styling */
+                    .modern-select option {
+                        padding: 12px;
+                        background: white;
+                        color: #374151;
+                        transition: all 0.3s ease;
+                    }
+
+                    .modern-select option:hover {
+                        background: linear-gradient(to right, #EFF6FF, #F0F9FF);
+                        color: #1C4D8D;
+                    }
+
+                    .modern-select option:checked {
+                        background: linear-gradient(to right, #1C4D8D, #0F2854);
+                        color: white;
+                    }
+
+                    .modern-select option:first-child {
+                        color: #9CA3AF;
+                    }
+
+                    /* File upload area enhancement */
+                    .file-upload-area {
+                        position: relative;
+                        overflow: hidden;
+                    }
+
+                    .file-upload-area::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: -100%;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(90deg, transparent, rgba(28, 77, 141, 0.05), transparent);
+                        transition: left 0.7s ease;
+                    }
+
+                    .file-upload-area:hover::before {
+                        left: 100%;
+                    }
+
+                    /* Shine effect for submit button */
+                    @keyframes shine {
+                        0% {
+                            left: -100%;
+                        }
+
+                        100% {
+                            left: 200%;
+                        }
+                    }
+
+                    .group-hover\:animate-shine {
+                        animation: shine 1.5s ease infinite;
+                    }
+
+                    /* Fade in animation for success message */
+                    @keyframes fade-in {
+                        from {
+                            opacity: 0;
+                            transform: translateY(10px);
+                        }
+
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    .animate-fade-in {
+                        animation: fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                    }
+
+                    /* Floating label effect for inputs */
+                    .input-group {
+                        position: relative;
+                    }
+
+                    .floating-label {
+                        position: absolute;
+                        top: 50%;
+                        left: 1rem;
+                        transform: translateY(-50%);
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        pointer-events: none;
+                        color: #9CA3AF;
+                        background: white;
+                        padding: 0 0.25rem;
+                    }
+
+                    input:focus+.floating-label,
+                    input:not(:placeholder-shown)+.floating-label,
+                    select:focus+.floating-label,
+                    select:not([value=""])+.floating-label {
+                        top: 0;
+                        left: 0.75rem;
+                        font-size: 0.75rem;
+                        color: #1C4D8D;
+                        font-weight: 600;
+                    }
+
+                    /* Smooth border animation */
+                    input,
+                    select,
+                    textarea {
+                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+
+                    /* Gradient border on focus */
+                    input:focus,
+                    select:focus,
+                    textarea:focus {
+                        border-image: linear-gradient(135deg, #1C4D8D, #0F2854) 1;
+                        border-width: 2px;
+                    }
+
+                    /* Custom scrollbar for dropdown */
+                    select::-webkit-scrollbar {
+                        width: 8px;
+                    }
+
+                    select::-webkit-scrollbar-track {
+                        background: #F3F4F6;
+                        border-radius: 4px;
+                    }
+
+                    select::-webkit-scrollbar-thumb {
+                        background: linear-gradient(to bottom, #1C4D8D, #0F2854);
+                        border-radius: 4px;
+                    }
+
+                    /* Ripple effect for buttons */
+                    .ripple {
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.6);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                    }
+
+                    @keyframes ripple {
+                        to {
+                            transform: scale(4);
+                            opacity: 0;
+                        }
+                    }
+                </style>
+
+                <script>
+                    // Enhanced dropdown functionality
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const select = document.getElementById('position');
+                        const fileInput = document.getElementById('resume-file');
+                        const filePreview = document.getElementById('file-preview');
+                        const fileName = document.getElementById('file-name');
+                        const fileSize = document.getElementById('file-size');
+                        const removeFileBtn = document.getElementById('remove-file');
+                        const form = document.getElementById('career-form');
+                        const submitBtn = document.querySelector('.submit-btn');
+                        const successMessage = document.getElementById('form-success');
+
+                        // Select dropdown enhancement
+                        select.addEventListener('change', function () {
+                            if (this.value) {
+                                this.classList.add('has-value');
+                            } else {
+                                this.classList.remove('has-value');
+                            }
+                        });
+
+                        // Select focus effect
+                        select.addEventListener('focus', function () {
+                            this.parentElement.classList.add('focused');
+                        });
+
+                        select.addEventListener('blur', function () {
+                            this.parentElement.classList.remove('focused');
+                        });
+
+                        // File upload handling
+                        fileInput.addEventListener('change', function (e) {
+                            const file = e.target.files[0];
+                            if (file) {
+                                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+
+                                if (fileSizeMB > 5) {
+                                    alert('File size must be less than 5MB');
+                                    this.value = '';
+                                    return;
+                                }
+
+                                // Show file preview
+                                fileName.textContent = file.name;
+                                fileSize.textContent = `${fileSizeMB} MB`;
+                                filePreview.classList.remove('hidden');
+
+                                // Add file type icon
+                                const fileTypeIcon = filePreview.querySelector('.fa-file-pdf');
+                                const fileExtension = file.name.split('.').pop().toLowerCase();
+
+                                if (fileExtension === 'pdf') {
+                                    fileTypeIcon.className = 'fas fa-file-pdf text-red-600';
+                                } else if (['doc', 'docx'].includes(fileExtension)) {
+                                    fileTypeIcon.className = 'fas fa-file-word text-blue-600';
+                                } else {
+                                    fileTypeIcon.className = 'fas fa-file text-gray-600';
+                                }
+                            }
+                        });
+
+                        // Remove file
+                        removeFileBtn.addEventListener('click', function () {
+                            fileInput.value = '';
+                            filePreview.classList.add('hidden');
+                        });
+
+                        // Form submission with enhanced feedback
+                        form.addEventListener('submit', function (e) {
+                            e.preventDefault();
+
+                            // Disable submit button
+                            submitBtn.disabled = true;
+                            submitBtn.innerHTML = `
+                <div class="flex items-center justify-center gap-2">
+                    <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Processing...</span>
+                </div>
+            `;
+
+                            // Show submission dots animation
+                            const submissionDot = document.querySelector('.submission-dot');
+                            const submissionText = document.querySelector('.submission-text');
+
+                            submissionDot.classList.remove('hidden');
+                            submissionText.textContent = 'Submitting your application...';
+
+                            // Simulate API call
+                            setTimeout(() => {
+                                // Reset form
+                                form.reset();
+                                filePreview.classList.add('hidden');
+
+                                // Show success message
+                                successMessage.classList.remove('hidden');
+                                successMessage.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
+
+                                // Reset button
+                                submitBtn.disabled = false;
+                                submitBtn.innerHTML = `
+                    <span class="relative z-10 flex items-center justify-center gap-2">
+                        <span>Submit Application</span>
+                        <i class="fas fa-paper-plane transition-transform duration-500 group-hover:translate-x-2"></i>
+                    </span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#0F2854] to-[#1C4D8D] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white to-transparent opacity-40 group-hover:animate-shine"></div>
+                `;
+
+                                // Update submission status
+                                submissionText.textContent = 'Application submitted successfully!';
+
+                                // Hide success message after 8 seconds
+                                setTimeout(() => {
+                                    successMessage.classList.add('hidden');
+                                    submissionText.textContent = 'Your information is secure with us';
+                                    submissionDot.classList.add('hidden');
+                                }, 8000);
+                            }, 2000);
+                        });
+
+                        // Ripple effect for buttons
+                        document.querySelectorAll('.btn-primary').forEach(button => {
+                            button.addEventListener('click', function (e) {
+                                const ripple = document.createElement('span');
+                                const rect = this.getBoundingClientRect();
+                                const size = Math.max(rect.width, rect.height);
+                                const x = e.clientX - rect.left - size / 2;
+                                const y = e.clientY - rect.top - size / 2;
+
+                                ripple.style.width = ripple.style.height = size + 'px';
+                                ripple.style.left = x + 'px';
+                                ripple.style.top = y + 'px';
+                                ripple.classList.add('ripple');
+
+                                this.appendChild(ripple);
+
+                                setTimeout(() => {
+                                    ripple.remove();
+                                }, 600);
+                            });
+                        });
+                    });
+                </script>
             </div>
         </div>
     </section>
