@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts - Inter for modern typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
         body {
@@ -46,14 +48,94 @@
             margin-top: 5rem;
             /* 80px */
         }
+
+        /* AOS animations slow effect */
+        [data-aos] {
+            transition-duration: 1500ms !important;
+            transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        }
+
+        /* Custom slow animations */
+        [data-aos="fade-up-slow"] {
+            transform: translateY(40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+        
+        [data-aos="fade-up-slow"].aos-animate {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        [data-aos="fade-down-slow"] {
+            transform: translateY(-40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+        
+        [data-aos="fade-down-slow"].aos-animate {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        [data-aos="fade-left-slow"] {
+            transform: translateX(-40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+        
+        [data-aos="fade-left-slow"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        [data-aos="fade-right-slow"] {
+            transform: translateX(40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+        
+        [data-aos="fade-right-slow"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        [data-aos="zoom-slow"] {
+            transform: scale(0.9);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+        
+        [data-aos="zoom-slow"].aos-animate {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Hover effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Stagger delays */
+        .stagger-delay-1 { animation-delay: 0.1s; }
+        .stagger-delay-2 { animation-delay: 0.2s; }
+        .stagger-delay-3 { animation-delay: 0.3s; }
+        .stagger-delay-4 { animation-delay: 0.4s; }
     </style>
 </head>
 
 <body class="bg-white">
 
     <!-- Navbar -->
-
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50" 
+         data-aos="fade-down-slow" 
+         data-aos-duration="1200"
+         data-aos-easing="ease-out-cubic">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="flex justify-between items-center py-5">
 
@@ -67,20 +149,20 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="index.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Home</a>
-                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Overview</a>
-                    <a href="pages/team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Our Team</a>
-                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Expertise</a>
-                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Jurisprudence</a>
-                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Careers</a>
+                    <a href="index.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Home</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Overview</a>
+                    <a href="pages/team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Our Team</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Expertise</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Jurisprudence</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Careers</a>
                     <a href="pages/contact.html"
-                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-full font-medium hover:opacity-90 transition">
+                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-full font-medium hover:opacity-90 transition duration-300 hover-lift">
                         Contact Us
                     </a>
                 </div>
 
                 <!-- Mobile Menu Burger -->
-                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl">
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl transition duration-300">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -88,14 +170,14 @@
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t">
                 <div class="flex flex-col space-y-4">
-                    <a id="mobile-home-link" class="text-gray-700 font-medium">Home</a>
-                    <a href="#" class="text-gray-700 font-medium">Overview</a>
-                    <a href="pages/team.html" class="text-gray-700 font-medium">Our Team</a>
-                    <a href="#" class="text-gray-700 font-medium">Expertise</a>
-                    <a href="#" class="text-gray-700 font-medium">Jurisprudence</a>
-                    <a href="#" class="text-gray-700 font-medium">Careers</a>
+                    <a id="mobile-home-link" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Home</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Overview</a>
+                    <a href="pages/team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Our Team</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Expertise</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Jurisprudence</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Careers</a>
                     <a href="pages/contact.html"
-                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-md font-medium text-center mt-2">
+                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-md font-medium text-center mt-2 hover-lift transition duration-300">
                         Contact Us
                     </a>
                 </div>
@@ -103,21 +185,22 @@
         </div>
     </nav>
 
-
     <!-- Simple Search Bar -->
-    <div class="w-full flex justify-center items-center py-8 bg-white">
+    <div class="w-full flex justify-center items-center py-8 bg-white" 
+         data-aos="fade-up-slow" 
+         data-aos-duration="1400">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="max-w-2xl mx-auto">
                 <!-- Minimal Search Bar -->
                 <div class="relative">
                     <div
-                        class="flex items-center bg-white rounded-full border border-gray-300 overflow-hidden focus-within:border-[#1C4D8D] focus-within:ring-1 focus-within:ring-[#1C4D8D] transition-all">
+                        class="flex items-center bg-white rounded-full border border-gray-300 overflow-hidden focus-within:border-[#1C4D8D] focus-within:ring-1 focus-within:ring-[#1C4D8D] transition-all duration-300 hover-lift">
                         <div class="pl-4 pr-2">
                             <i class="fas fa-search text-gray-400"></i>
                         </div>
                         <input type="text" placeholder="Search..." class="w-full py-3 px-2 outline-none text-gray-700">
                         <button
-                            class="bg-[#1C4D8D] text-white px-6 py-3 hover:bg-[#0F2854] transition-colors font-medium">
+                            class="bg-[#1C4D8D] text-white px-6 py-3 hover:bg-[#0F2854] transition-all duration-300 font-medium hover-lift">
                             Search
                         </button>
                     </div>
@@ -131,25 +214,42 @@
         <!-- Background with decorative elements -->
         <div class="absolute inset-0 z-0">
             <!-- Left decorative line -->
-            <div class="absolute left-10 top-1/4 decorative-line w-32 opacity-30"></div>
+            <div class="absolute left-10 top-1/4 decorative-line w-32 opacity-30" 
+                 data-aos="fade-right-slow" 
+                 data-aos-duration="1800"
+                 data-aos-delay="500"></div>
             <!-- Right decorative line -->
-            <div class="absolute right-10 bottom-1/4 decorative-line w-32 opacity-30"></div>
+            <div class="absolute right-10 bottom-1/4 decorative-line w-32 opacity-30"
+                 data-aos="fade-left-slow" 
+                 data-aos-duration="1800"
+                 data-aos-delay="500"></div>
         </div>
 
         <!-- Main content -->
         <div class="container mx-auto px-6 md:px-12 lg:px-24 z-10">
             <div class="max-w-3xl">
                 <!-- Main title -->
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-10">
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-10"
+                    data-aos="fade-up-slow" 
+                    data-aos-duration="1600">
                     <span class="text-[#0F2854]">Strategic legal attorneys</span><br>
-                    <span class="text-[#1C4D8D]"> with commercial foresight</span>
+                    <span class="text-[#1C4D8D]" 
+                          data-aos="fade-up-slow" 
+                          data-aos-duration="1600"
+                          data-aos-delay="300"> with commercial foresight</span>
                 </h1>
 
                 <!-- Separator -->
-                <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mb-12"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mb-12" 
+                     data-aos="fade-right-slow" 
+                     data-aos-duration="1400"
+                     data-aos-delay="400"></div>
 
                 <!-- Descriptive text and button in flex row -->
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-8">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-8"
+                     data-aos="fade-up-slow" 
+                     data-aos-duration="1500"
+                     data-aos-delay="500">
                     <!-- Descriptive text -->
                     <div class="flex-1">
                         <p class="text-xl md:text-2xl text-gray-700 leading-relaxed">
@@ -160,7 +260,7 @@
 
                     <!-- Button -->
                     <div class="flex-shrink-0 mt-6 md:mt-0">
-                        <a href="#" class="btn-hover inline-flex items-center group">
+                        <a href="#" class="btn-hover inline-flex items-center group hover-lift">
                             <span class="text-lg font-semibold text-[#0F2854] mr-3">Discover</span>
                             <span
                                 class="arrow-icon inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white rounded-full group-hover:shadow-lg transition-all duration-300">
@@ -178,15 +278,23 @@
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="max-w-6xl mx-auto">
                 <!-- Section title -->
-                <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-16">
+                <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-16" 
+                     data-aos="fade-up-slow" 
+                     data-aos-duration="1400">
                     <div>
                         <h2 class="text-4xl md:text-5xl font-bold mb-4">
                             <span class="text-[#0F2854]">About</span>
                             <span class="text-[#1C4D8D]">Us</span>
                         </h2>
-                        <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854]"></div>
+                        <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854]"
+                             data-aos="fade-right-slow" 
+                             data-aos-duration="1200"
+                             data-aos-delay="200"></div>
                     </div>
-                    <p class="text-lg text-gray-600 mt-4 md:mt-0 max-w-xl">
+                    <p class="text-lg text-gray-600 mt-4 md:mt-0 max-w-xl"
+                       data-aos="fade-left-slow" 
+                       data-aos-duration="1400"
+                       data-aos-delay="300">
                         A forward-thinking legal practice combining commercial insight with legal excellence.
                     </p>
                 </div>
@@ -194,17 +302,25 @@
                 <!-- Main content -->
                 <div class="grid md:grid-cols-2 gap-12 items-start">
                     <!-- Main text -->
-                    <div class="space-y-6">
+                    <div class="space-y-6" 
+                         data-aos="fade-right-slow" 
+                         data-aos-duration="1500">
                         <h3 class="text-2xl font-bold text-[#0F2854]">
                             Strategic legal partners for complex business challenges
                         </h3>
                         <div class="space-y-4">
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class="text-gray-700 leading-relaxed"
+                               data-aos="fade-right-slow" 
+                               data-aos-duration="1400"
+                               data-aos-delay="100">
                                 Precision Law Firm was founded on the principle that exceptional legal service requires
                                 more than just legal expertise—it demands a deep understanding of our clients'
                                 commercial realities with precision.
                             </p>
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class="text-gray-700 leading-relaxed"
+                               data-aos="fade-right-slow" 
+                               data-aos-duration="1400"
+                               data-aos-delay="200">
                                 Our team brings together specialists from diverse legal backgrounds, united by a shared
                                 commitment to delivering practical, strategic solutions that advance our clients'
                                 business objectives.
@@ -213,11 +329,17 @@
 
                         <!-- Statistics -->
                         <div class="grid grid-cols-2 gap-8 pt-6">
-                            <div class="border-l-4 border-[#1C4D8D] pl-4">
+                            <div class="border-l-4 border-[#1C4D8D] pl-4 hover-lift transition-all duration-300"
+                                 data-aos="fade-up-slow" 
+                                 data-aos-duration="1200"
+                                 data-aos-delay="300">
                                 <div class="text-3xl font-bold text-[#0F2854]">6+</div>
                                 <div class="text-gray-600">Years Experience</div>
                             </div>
-                            <div class="border-l-4 border-[#1C4D8D] pl-4">
+                            <div class="border-l-4 border-[#1C4D8D] pl-4 hover-lift transition-all duration-300"
+                                 data-aos="fade-up-slow" 
+                                 data-aos-duration="1200"
+                                 data-aos-delay="400">
                                 <div class="text-3xl font-bold text-[#0F2854]">10+</div>
                                 <div class="text-gray-600">Legal Specialists</div>
                             </div>
@@ -225,11 +347,16 @@
                     </div>
 
                     <!-- Card/Box -->
-                    <div
-                        class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-lg shadow-sm border border-gray-100">
+                    <div class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-lg shadow-sm border border-gray-100 hover-lift transition-all duration-300"
+                         data-aos="fade-left-slow" 
+                         data-aos-duration="1500"
+                         data-aos-delay="200">
                         <div class="mb-6">
                             <h4 class="text-xl font-bold text-[#0F2854] mb-4">Our Approach</h4>
-                            <p class="text-gray-700 mb-6">
+                            <p class="text-gray-700 mb-6"
+                               data-aos="fade-up-slow" 
+                               data-aos-duration="1200"
+                               data-aos-delay="300">
                                 We believe that the best legal outcomes are achieved through close collaboration,
                                 commercial awareness, and proactive strategy.
                             </p>
@@ -237,9 +364,12 @@
 
                         <!-- Key points -->
                         <div class="space-y-4">
-                            <div class="flex items-start">
+                            <div class="flex items-start group"
+                                 data-aos="fade-left-slow" 
+                                 data-aos-duration="1200"
+                                 data-aos-delay="400">
                                 <div
-                                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mr-4">
+                                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                                     <i class="fas fa-check text-white text-sm"></i>
                                 </div>
                                 <div>
@@ -248,9 +378,12 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-start">
+                            <div class="flex items-start group"
+                                 data-aos="fade-left-slow" 
+                                 data-aos-duration="1200"
+                                 data-aos-delay="500">
                                 <div
-                                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mr-4">
+                                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                                     <i class="fas fa-check text-white text-sm"></i>
                                 </div>
                                 <div>
@@ -259,9 +392,12 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-start">
+                            <div class="flex items-start group"
+                                 data-aos="fade-left-slow" 
+                                 data-aos-duration="1200"
+                                 data-aos-delay="600">
                                 <div
-                                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mr-4">
+                                    class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                                     <i class="fas fa-check text-white text-sm"></i>
                                 </div>
                                 <div>
@@ -272,8 +408,11 @@
                         </div>
 
                         <!-- Button -->
-                        <div class="mt-8 pt-6 border-t border-gray-200">
-                            <a href="#" class="btn-hover inline-flex items-center group">
+                        <div class="mt-8 pt-6 border-t border-gray-200"
+                             data-aos="fade-up-slow" 
+                             data-aos-duration="1200"
+                             data-aos-delay="700">
+                            <a href="#" class="btn-hover inline-flex items-center group hover-lift">
                                 <span class="text-[#0F2854] font-semibold mr-3">Meet Our Team</span>
                                 <span
                                     class="arrow-icon inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white rounded-full group-hover:shadow-lg transition-all duration-300">
@@ -292,15 +431,23 @@
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="max-w-6xl mx-auto">
                 <!-- Section title -->
-                <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-16">
+                <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-16"
+                     data-aos="fade-up-slow" 
+                     data-aos-duration="1400">
                     <div>
                         <h2 class="text-4xl md:text-5xl font-bold mb-4">
                             <span class="text-[#0F2854]">Client</span>
                             <span class="text-[#1C4D8D]">Testimonials</span>
                         </h2>
-                        <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854]"></div>
+                        <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854]"
+                             data-aos="fade-right-slow" 
+                             data-aos-duration="1200"
+                             data-aos-delay="200"></div>
                     </div>
-                    <p class="text-lg text-gray-600 mt-4 md:mt-0 max-w-xl">
+                    <p class="text-lg text-gray-600 mt-4 md:mt-0 max-w-xl"
+                       data-aos="fade-left-slow" 
+                       data-aos-duration="1400"
+                       data-aos-delay="300">
                         What our clients say about working with Precision Law Firm
                     </p>
                 </div>
@@ -308,8 +455,9 @@
                 <!-- Testimonials grid -->
                 <div class="grid md:grid-cols-3 gap-8">
                     <!-- Testimonial 1 -->
-                    <div
-                        class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group hover-lift"
+                         data-aos="zoom-slow" 
+                         data-aos-duration="1400">
                         <div class="mb-6">
                             <div class="flex items-center mb-4">
                                 <div class="flex text-yellow-400 mr-2">
@@ -321,15 +469,21 @@
                                 </div>
                                 <span class="text-sm text-gray-500">5.0</span>
                             </div>
-                            <p class="text-gray-700 italic leading-relaxed">
+                            <p class="text-gray-700 italic leading-relaxed"
+                               data-aos="fade-up-slow" 
+                               data-aos-duration="1200"
+                               data-aos-delay="200">
                                 "Precision Law Firm provided exceptional guidance through our company's acquisition.
                                 Their commercial insight was invaluable in negotiating terms that protected our
                                 interests while closing the deal efficiently."
                             </p>
                         </div>
-                        <div class="flex items-center pt-6 border-t border-gray-100">
+                        <div class="flex items-center pt-6 border-t border-gray-100"
+                             data-aos="fade-up-slow" 
+                             data-aos-duration="1200"
+                             data-aos-delay="300">
                             <div
-                                class="w-12 h-12 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold mr-4">
+                                class="w-12 h-12 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold mr-4 group-hover:scale-110 transition-transform duration-300">
                                 MS
                             </div>
                             <div>
@@ -340,8 +494,10 @@
                     </div>
 
                     <!-- Testimonial 2 -->
-                    <div
-                        class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group hover-lift"
+                         data-aos="zoom-slow" 
+                         data-aos-duration="1400"
+                         data-aos-delay="200">
                         <div class="mb-6">
                             <div class="flex items-center mb-4">
                                 <div class="flex text-yellow-400 mr-2">
@@ -353,15 +509,21 @@
                                 </div>
                                 <span class="text-sm text-gray-500">5.0</span>
                             </div>
-                            <p class="text-gray-700 italic leading-relaxed">
+                            <p class="text-gray-700 italic leading-relaxed"
+                               data-aos="fade-up-slow" 
+                               data-aos-duration="1200"
+                               data-aos-delay="300">
                                 "The strategic approach to our intellectual property portfolio was exactly what we
                                 needed. They not only protected our assets but helped us leverage them for business
                                 growth. Truly commercial lawyers."
                             </p>
                         </div>
-                        <div class="flex items-center pt-6 border-t border-gray-100">
+                        <div class="flex items-center pt-6 border-t border-gray-100"
+                             data-aos="fade-up-slow" 
+                             data-aos-duration="1200"
+                             data-aos-delay="400">
                             <div
-                                class="w-12 h-12 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold mr-4">
+                                class="w-12 h-12 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold mr-4 group-hover:scale-110 transition-transform duration-300">
                                 JA
                             </div>
                             <div>
@@ -372,8 +534,10 @@
                     </div>
 
                     <!-- Testimonial 3 -->
-                    <div
-                        class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group hover-lift"
+                         data-aos="zoom-slow" 
+                         data-aos-duration="1400"
+                         data-aos-delay="400">
                         <div class="mb-6">
                             <div class="flex items-center mb-4">
                                 <div class="flex text-yellow-400 mr-2">
@@ -385,15 +549,21 @@
                                 </div>
                                 <span class="text-sm text-gray-500">5.0</span>
                             </div>
-                            <p class="text-gray-700 italic leading-relaxed">
+                            <p class="text-gray-700 italic leading-relaxed"
+                               data-aos="fade-up-slow" 
+                               data-aos-duration="1200"
+                               data-aos-delay="500">
                                 "During a complex cross-border dispute, their team demonstrated remarkable agility and
                                 strategic thinking. They resolved matters favorably while minimizing business
                                 disruption. Highly recommended."
                             </p>
                         </div>
-                        <div class="flex items-center pt-6 border-t border-gray-100">
+                        <div class="flex items-center pt-6 border-t border-gray-100"
+                             data-aos="fade-up-slow" 
+                             data-aos-duration="1200"
+                             data-aos-delay="600">
                             <div
-                                class="w-12 h-12 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold mr-4">
+                                class="w-12 h-12 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold mr-4 group-hover:scale-110 transition-transform duration-300">
                                 RK
                             </div>
                             <div>
@@ -404,20 +574,30 @@
                     </div>
                 </div>
 
-
                 <!-- Stats bar with subtle color -->
-                <div
-                    class="mt-16 bg-gradient-to-br from-blue-50 to-gray-50 rounded-xl p-8 border border-blue-100 shadow-sm">
+                <div class="mt-16 bg-gradient-to-br from-blue-50 to-gray-50 rounded-xl p-8 border border-blue-100 shadow-sm hover-lift transition-all duration-300"
+                     data-aos="fade-up-slow" 
+                     data-aos-duration="1600"
+                     data-aos-delay="300">
                     <div class="grid md:grid-cols-3 gap-8">
-                        <div class="text-center">
+                        <div class="text-center"
+                             data-aos="fade-up-slow" 
+                             data-aos-duration="1200"
+                             data-aos-delay="400">
                             <div class="text-4xl font-bold mb-2 text-[#0F2854]">98%</div>
                             <p class="text-[#1C4D8D] font-medium">Client Retention Rate</p>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center"
+                             data-aos="fade-up-slow" 
+                             data-aos-duration="1200"
+                             data-aos-delay="500">
                             <div class="text-4xl font-bold mb-2 text-[#0F2854]">4.9/5</div>
                             <p class="text-[#1C4D8D] font-medium">Average Client Rating</p>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center"
+                             data-aos="fade-up-slow" 
+                             data-aos-duration="1200"
+                             data-aos-delay="600">
                             <div class="text-4xl font-bold mb-2 text-[#0F2854]">200+</div>
                             <p class="text-[#1C4D8D] font-medium">Successful Cases</p>
                         </div>
@@ -425,8 +605,11 @@
                 </div>
 
                 <!-- CTA button -->
-                <div class="mt-12 text-center">
-                    <a href="#" class="btn-hover inline-flex items-center group">
+                <div class="mt-12 text-center"
+                     data-aos="fade-up-slow" 
+                     data-aos-duration="1400"
+                     data-aos-delay="700">
+                    <a href="#" class="btn-hover inline-flex items-center group hover-lift">
                         <span class="text-lg font-semibold text-[#0F2854] mr-3">View All Testimonials</span>
                         <span
                             class="arrow-icon inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white rounded-full group-hover:shadow-lg transition-all duration-300">
@@ -441,33 +624,53 @@
     <!-- Minimal Newsletter with Image -->
     <section class="py-16 bg-white section-mt-5rem">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="flex flex-col md:flex-row items-center gap-8 max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center gap-8 max-w-5xl mx-auto"
+                 data-aos="fade-up-slow" 
+                 data-aos-duration="1500">
                 <!-- Left side: Minimal image/icon -->
-                <div class="md:w-2/5 flex justify-center">
+                <div class="md:w-2/5 flex justify-center"
+                     data-aos="zoom-slow" 
+                     data-aos-duration="1400"
+                     data-aos-delay="200">
                     <div
-                        class="w-48 h-48 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                        class="w-48 h-48 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center hover-lift transition-all duration-300">
                         <i class="fas fa-envelope text-6xl text-[#1C4D8D]"></i>
                     </div>
                 </div>
 
                 <!-- Right side: Content -->
-                <div class="md:w-3/5">
+                <div class="md:w-3/5"
+                     data-aos="fade-left-slow" 
+                     data-aos-duration="1400"
+                     data-aos-delay="300">
                     <h2 class="text-3xl font-bold mb-4">
                         <span class="text-[#0F2854]">Newsletter</span>
                     </h2>
 
-                    <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mb-6"></div>
+                    <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mb-6"
+                         data-aos="fade-right-slow" 
+                         data-aos-duration="1200"
+                         data-aos-delay="400"></div>
 
-                    <p class="text-gray-600 mb-6">
+                    <p class="text-gray-600 mb-6"
+                       data-aos="fade-up-slow" 
+                       data-aos-duration="1200"
+                       data-aos-delay="500">
                         Get legal insights and business updates monthly.
                     </p>
 
                     <!-- Simple form -->
                     <div class="flex flex-col sm:flex-row gap-3">
                         <input type="email" placeholder="Enter your email"
-                            class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:border-[#1C4D8D] focus:ring-1 focus:ring-[#1C4D8D] outline-none">
+                            class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:border-[#1C4D8D] focus:ring-1 focus:ring-[#1C4D8D] outline-none transition-all duration-300"
+                            data-aos="fade-up-slow" 
+                            data-aos-duration="1200"
+                            data-aos-delay="600">
                         <button
-                            class="bg-[#1C4D8D] text-white px-6 py-3 rounded-lg hover:bg-[#0F2854] transition-colors font-medium whitespace-nowrap">
+                            class="bg-[#1C4D8D] text-white px-6 py-3 rounded-lg hover:bg-[#0F2854] transition-all duration-300 font-medium whitespace-nowrap hover-lift"
+                            data-aos="fade-up-slow" 
+                            data-aos-duration="1200"
+                            data-aos-delay="700">
                             Subscribe
                         </button>
                     </div>
@@ -477,18 +680,114 @@
     </section>
 
     <!-- Footer -->
-    <div id="footer"></div>
+    <footer class="bg-[#0F2854] text-white py-12 mt-20">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Logo and description -->
+                <div class="md:col-span-2">
+                    <div class="text-2xl font-bold mb-4">
+                        <span class="text-white">Precision</span>
+                        <span class="text-blue-300">Law Firm</span>
+                    </div>
+                    <p class="text-gray-300 mb-6 max-w-md">
+                        A forward-thinking legal practice combining commercial insight with legal excellence.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
 
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-300 hover:text-white transition">Home</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Overview</a></li>
+                        <li><a href="pages/team.html" class="text-gray-300 hover:text-white transition">Our Team</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Expertise</a></li>
+                    </ul>
+                </div>
 
-    <script src="assets/js/navbar.js"></script>
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Contact Us</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300"></i>
+                            <span>7th floor, Astor Court<br>Georges Guibert Street, Port Louis</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-3 text-blue-300"></i>
+                            <span>214-4607</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-blue-300"></i>
+                            <span>LawfirmPrecision@outlook.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
+            <!-- Copyright -->
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2024 Precision Law Firm. All rights reserved.</p>
+                <p class="mt-2 text-sm">Strategic legal attorneys with commercial foresight</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <script>
+        // Initialize AOS with slow settings
+        AOS.init({
+            // Configuration for slow effect
+            duration: 1500,        // Default animation duration in ms
+            offset: 80,           // Trigger earlier (80px before element)
+            easing: 'ease-out-cubic', // Smooth animation
+            once: true,            // Animate only once
+            delay: 0,             // Default delay between elements
+            mirror: false,         // Don't animate on scroll back
+            anchorPlacement: 'top-bottom', // Anchor point for triggering
+            startEvent: 'DOMContentLoaded', // Start after DOM loading
+            disable: false,        // Enable animations
+            animatedClassName: 'aos-animate',
+            initClassName: 'aos-init',
+            disableMutationObserver: false,
+            debounceDelay: 50,
+            throttleDelay: 99
+        });
+
+        // Toggle mobile menu
+        const mobileButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            // Change burger icon
+            const icon = mobileButton.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
 
     <!-- Appel du navbar et footer -->
     <script>
         // Tableau des composants à charger
         const components = [
-            { id: "navbar", url: "/components/navbar.html" },
-            { id: "footer", url: "/components/footer.html" }
+            { id: "navbar", url: "/components/navbar.html" }
         ];
 
         // Boucle sur chaque composant
@@ -497,33 +796,11 @@
                 .then(res => res.text())
                 .then(data => {
                     document.getElementById(comp.id).innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading component:', error);
                 });
         });
     </script>
-
-<script>
-    // Toggle mobile menu
-    const mobileButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    mobileButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden'); // ouvre/ferme le menu
-    
-      // Change l’icône du burger
-      const icon = mobileButton.querySelector('i');
-      if (icon.classList.contains('fa-bars')) {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-times');
-      } else {
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
-      }
-    });
-    </script>
-    
-
-
-
 </body>
-
 </html>
