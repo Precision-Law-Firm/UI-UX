@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expertise - Precision Law Firm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .zoom-in {
+            animation: zoomIn 1.2s ease-out forwards;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1.2s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stagger-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .stagger-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .stagger-delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .slow-transition {
+            transition: all 0.3s ease;
+        }
+
+        .expertise-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .expertise-card:hover .expertise-icon {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 zoom-in">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="flex justify-between items-center py-5">
+
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="../index.html" class="text-xl font-bold tracking-tight">
+                        <span class="text-[#0F2854]">Precision</span>
+                        <span class="text-[#1C4D8D]">Law Firm</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../index.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
+                    <a href="overview.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our Team</a>
+                    <a href="expertise.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
+                    <a href="careers.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Careers</a>
+                    <a href="contact.html"
+                        class="bg-[#1C4D8D] text-white px-6 py-2 rounded font-medium hover:bg-[#0F2854] slow-transition">
+                        Contact Us
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Burger -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl slow-transition">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t">
+                <div class="flex flex-col space-y-4">
+                    <a href="../index.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
+                    <a href="overview.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our Team</a>
+                    <a href="expertise.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
+                    <a href="careers.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Careers</a>
+                    <a href="contact.html"
+                        class="bg-[#1C4D8D] text-white px-4 py-2 rounded-md font-medium text-center mt-2">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden py-20 md:py-28 min-h-[400px] md:min-h-[450px] flex items-center">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <!-- Background Image -->
+            <div class="absolute inset-0">
+                <img src="../components/img/bg-try.png"
+                    alt="Precision Law Firm Expertise"
+                    class="w-full h-full object-cover object-center">
+                <!-- Dark overlay for better text readability -->
+                <div class="absolute inset-0 bg-gradient-to-r from-[#0F2854]/70 to-[#1C4D8D]/50"></div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 md:px-12 lg:px-24 z-10 relative">
+            <div class="max-w-4xl">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 animate-on-scroll">
+                    OUR EXPERTISE
+                </h1>
+                <div class="text-white text-lg md:text-xl leading-relaxed space-y-4 animate-on-scroll" style="animation-delay: 0.2s">
+                    <p class="opacity-95">
+                        Comprehensive legal services across diverse practice areas, combining deep Mauritian legal knowledge with strategic commercial insight.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Expertise Sections -->
+    <div class="py-20 bg-white">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <!-- Litigation & Dispute Resolution -->
+            <div class="max-w-6xl mx-auto mb-20 animate-on-scroll">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-8 mb-12">
+                    <div class="md:w-1/3">
+                        <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mb-4"></div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-[#0F2854]">Litigation & Dispute Resolution</h2>
+                    </div>
+                    <div class="md:w-2/3">
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Expert representation before all Mauritian courts and tribunals, with strategic approach to dispute resolution.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="expertise-card bg-white border border-gray-200 rounded-xl p-8 hover-lift">
+                        <div class="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-6 expertise-icon">
+                            <i class="fas fa-gavel text-2xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Civil & Commercial Litigation</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Contract disputes and breach of contract matters</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Tort claims and negligence cases</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Debt recovery and enforcement proceedings</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="expertise-card bg-white border border-gray-200 rounded-xl p-8 hover-lift">
+                        <div class="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-6 expertise-icon">
+                            <i class="fas fa-balance-scale text-2xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Administrative & Constitutional Law</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Judicial review of administrative decisions</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Constitutional rights protection</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Public law disputes and remedies</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="expertise-card bg-white border border-gray-200 rounded-xl p-8 hover-lift">
+                        <div class="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-6 expertise-icon">
+                            <i class="fas fa-handshake text-2xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Alternative Dispute Resolution</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Mediation and negotiation services</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Arbitration under International Arbitration Act 2008</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Domestic arbitration procedures</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Corporate & Commercial Law -->
+            <div class="max-w-6xl mx-auto mb-20 animate-on-scroll" style="animation-delay: 0.1s">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-8 mb-12">
+                    <div class="md:w-1/3">
+                        <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mb-4"></div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-[#0F2854]">Corporate & Commercial Law</h2>
+                    </div>
+                    <div class="md:w-2/3">
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Comprehensive legal services for businesses, from formation to complex commercial transactions.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="expertise-card bg-white border border-gray-200 rounded-xl p-8 hover-lift">
+                        <div class="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-6 expertise-icon">
+                            <i class="fas fa-building text-2xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Business Formation & Compliance</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Company incorporation and registration</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Corporate governance and compliance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Shareholder agreements and disputes</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="expertise-card bg-white border border-gray-200 rounded-xl p-8 hover-lift">
+                        <div class="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-6 expertise-icon">
+                            <i class="fas fa-file-contract text-2xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Commercial Contracts</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Drafting and review of commercial agreements</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Distribution, agency, and franchise agreements</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Joint ventures and partnerships</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="expertise-card bg-white border border-gray-200 rounded-xl p-8 hover-lift">
+                        <div class="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-6 expertise-icon">
+                            <i class="fas fa-chart-line text-2xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Financial Services Regulation</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Compliance with Financial Services Act 2007</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Banking Act and Bank of Mauritius regulations</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                <span>Anti-money laundering (FIAMLA) compliance</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialized Practice Areas -->
+            <div class="max-w-6xl mx-auto animate-on-scroll" style="animation-delay: 0.2s">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#0F2854] mb-4">Specialized Practice Areas</h2>
+                    <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-4"></div>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Focused expertise in key legal domains requiring specialized knowledge</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 text-center hover-lift">
+                        <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-lightbulb text-xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Intellectual Property</h4>
+                        <p class="text-gray-600 text-sm">Industrial Property Act 2019 - Patents, Trademarks, Copyrights</p>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 text-center hover-lift">
+                        <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-briefcase text-xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Employment Law</h4>
+                        <p class="text-gray-600 text-sm">Workers' Rights Act 2019 compliance and disputes</p>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 text-center hover-lift">
+                        <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-home text-xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Real Estate Law</h4>
+                        <p class="text-gray-600 text-sm">Property transactions, disputes, and ownership matters</p>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 text-center hover-lift">
+                        <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Family Law</h4>
+                        <p class="text-gray-600 text-sm">Divorce, custody, succession, and matrimonial property</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Choose Our Expertise -->
+    <div class="bg-gradient-to-b from-white to-gray-50 py-20">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12 animate-on-scroll">
+                    <h2 class="text-3xl font-bold text-[#0F2854] mb-4">Why Choose Our Legal Expertise</h2>
+                    <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-4"></div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center animate-on-scroll stagger-delay-1">
+                        <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-university text-2xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-3">Government-Level Insight</h4>
+                        <p class="text-gray-600">Former Senior State Attorney experience provides unique understanding of Mauritian legal system</p>
+                    </div>
+
+                    <div class="text-center animate-on-scroll stagger-delay-2">
+                        <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-chess-knight text-2xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-3">Strategic Approach</h4>
+                        <p class="text-gray-600">Commercial thinking combined with legal precision for optimal outcomes</p>
+                    </div>
+
+                    <div class="text-center animate-on-scroll stagger-delay-3">
+                        <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-balance-scale text-2xl text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-3">Comprehensive Coverage</h4>
+                        <p class="text-gray-600">Diverse practice areas handled by experienced legal professionals</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="py-20 bg-white">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 animate-on-scroll">Need Specialized Legal Assistance?</h2>
+                <p class="text-gray-600 mb-8 max-w-2xl mx-auto animate-on-scroll" style="animation-delay: 0.1s">
+                    Contact us to discuss how our expertise can help with your specific legal requirements.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="contact.html"
+                        class="inline-flex items-center bg-[#1C4D8D] text-white px-8 py-3 rounded hover:bg-[#0F2854] slow-transition animate-on-scroll" style="animation-delay: 0.2s">
+                        <span class="mr-2 font-medium">Contact Our Team</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="team.html"
+                        class="inline-flex items-center bg-white text-[#1C4D8D] border border-[#1C4D8D] px-8 py-3 rounded hover:bg-blue-50 slow-transition animate-on-scroll" style="animation-delay: 0.3s">
+                        <span class="mr-2 font-medium">Meet Our Experts</span>
+                        <i class="fas fa-users"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#0F2854] text-white py-12">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Logo and description -->
+                <div class="md:col-span-2">
+                    <div class="text-2xl font-bold mb-4">
+                        <span class="text-white">Precision</span>
+                        <span class="text-blue-300">Law Firm</span>
+                    </div>
+                    <p class="text-gray-300 mb-6 max-w-md">
+                        Comprehensive legal expertise combined with strategic commercial insight for Mauritian and international clients.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a></li>
+                        <li><a href="overview.html" class="text-gray-300 hover:text-white transition">Overview</a></li>
+                        <li><a href="team.html" class="text-gray-300 hover:text-white transition">Our Team</a></li>
+                        <li><a href="expertise.html" class="text-gray-300 hover:text-white transition">Expertise</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Contact Us</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300"></i>
+                            <span>7th floor, Astor Court<br>Georges Guibert Street, Port Louis</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-3 text-blue-300"></i>
+                            <span>+230 214 4607</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-blue-300"></i>
+                            <span>LawfirmPrecision@outlook.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2024 Precision Law Firm. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Animation Script -->
+    <script>
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // Elements that animate on load
+            const loadAnimated = document.querySelectorAll('.zoom-in, .fade-in-up');
+            loadAnimated.forEach(el => {
+                el.style.animationPlayState = 'running';
+            });
+        });
+
+        // Toggle mobile menu
+        const mobileButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            // Change burger icon
+            const icon = mobileButton.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+</body>
+
+</html>

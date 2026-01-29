@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview - Precision Law Firm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .zoom-in {
+            animation: zoomIn 1.2s ease-out forwards;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slow-transition {
+            transition: all 0.3s ease;
+        }
+    </style>
+
+</head>
+
+<body class="bg-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 zoom-in">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="flex justify-between items-center py-5">
+
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <img src="../components/img/logo.PNG" alt="Precision Law Firm Logo"
+                            class="h-16 md:h-16 lg:h-16 w-auto object-contain">
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../accueil.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
+                    <a href="overview.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our
+                        Team</a>
+                    <a href="expertise.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
+                    <a href="careers.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Careers</a>
+                    <a href="contact.html"
+                        class="bg-[#1C4D8D] text-white px-6 py-2 rounded font-medium hover:bg-[#0F2854] slow-transition">
+                        Contact Us
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Burger -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl slow-transition">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t">
+                <div class="flex flex-col space-y-4">
+                    <a href="../accueil.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
+                    <a href="overview.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our
+                        Team</a>
+                    <a href="expertise.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
+                    <a href="careers.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Careers</a>
+                    <a href="contact.html"
+                        class="bg-[#1C4D8D] text-white px-4 py-2 rounded-full font-medium text-center mt-2">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden py-20 md:py-28 min-h-[500px] md:min-h-[600px] flex items-center">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <!-- Background Image -->
+            <div class="absolute inset-0">
+                <img src="../components/img/bg-try.png" alt="Precision Law Firm Overview"
+                    class="w-full h-full object-cover object-center">
+                <!-- Dark overlay for better text readability -->
+                <div class="absolute inset-0 bg-gradient-to-r from-[#0F2854]/70 to-[#1C4D8D]/50"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="container mx-auto px-6 md:px-12 lg:px-24 z-10 relative">
+            <div class="max-w-4xl">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 animate-on-scroll">
+                    OVERVIEW
+                </h1>
+                <div class="text-white text-lg md:text-xl leading-relaxed space-y-4 animate-on-scroll"
+                    style="animation-delay: 0.2s">
+                    <p class="opacity-95">
+                        Precision Law Firm is a well established  Law Firm which delivers legal advice with precision. We act for local and
+                        international clients across various sectors, combining deep legal knowledge with strategic
+                        commercial insight.
+                    </p>
+                    <p class="opacity-95">
+                        Founded by a former Senior State Attorney, our firm brings unique government experience to
+                        private practice, ensuring comprehensive legal solutions tailored to our clients' specific
+                        needs.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- What We Do Section -->
+    <div class="py-20 bg-white">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-16 animate-on-scroll">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#0F2854] mb-6">What we do</h2>
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                We advise on all legal issues that arise in commercial transactions and business
+                                operations in Mauritius. Our expertise spans from routine corporate matters to complex
+                                regulatory compliance.
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                Our litigation team represents clients before Mauritian courts including the Supreme
+                                Court, Intermediate Court, and various specialized tribunals.
+                            </p>
+                        </div>
+                        <div class="space-y-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                We provide strategic legal opinions for corporate and individual clients, ensuring
+                                compliance with Mauritian legislation while protecting their business interests.
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                Our practice includes both contentious and non-contentious matters, with particular
+                                strength in regulatory frameworks specific to Mauritius's financial and business
+                                landscape.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice Areas Grid -->
+                <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="border border-gray-200 p-6 hover:border-[#1C4D8D] transition-colors animate-on-scroll">
+                        <div class="w-12 h-12 bg-blue-50 rounded flex items-center justify-center mb-4">
+                            <i class="fas fa-gavel text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Commercial Litigation</h4>
+                        <p class="text-gray-600 text-sm">Strategic dispute resolution across Mauritian courts</p>
+                    </div>
+
+                    <div class="border border-gray-200 p-6 hover:border-[#1C4D8D] transition-colors animate-on-scroll"
+                        style="animation-delay: 0.1s">
+                        <div class="w-12 h-12 bg-blue-50 rounded flex items-center justify-center mb-4">
+                            <i class="fas fa-lightbulb text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Intellectual Property</h4>
+                        <p class="text-gray-600 text-sm">Industrial Property Act 2019 expertise</p>
+                    </div>
+
+                    <div class="border border-gray-200 p-6 hover:border-[#1C4D8D] transition-colors animate-on-scroll"
+                        style="animation-delay: 0.2s">
+                        <div class="w-12 h-12 bg-blue-50 rounded flex items-center justify-center mb-4">
+                            <i class="fas fa-briefcase text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Employment Law</h4>
+                        <p class="text-gray-600 text-sm">Workers' Rights Act compliance & disputes</p>
+                    </div>
+
+                    <div class="border border-gray-200 p-6 hover:border-[#1C4D8D] transition-colors animate-on-scroll"
+                        style="animation-delay: 0.3s">
+                        <div class="w-12 h-12 bg-blue-50 rounded flex items-center justify-center mb-4">
+                            <i class="fas fa-chart-line text-[#1C4D8D]"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Financial Services</h4>
+                        <p class="text-gray-600 text-sm">Regulatory compliance & advisory</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Approach Section -->
+    <div class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-16 items-start">
+                    <div class="animate-on-scroll">
+                        <h2 class="text-3xl md:text-4xl font-bold text-[#0F2854] mb-6">Our approach</h2>
+                        <div class="space-y-6">
+                            <p class="text-gray-700 leading-relaxed">
+                                <strong>Commercial thinking</strong> is at the heart of our approach. We take the time
+                                to understand the commercial rationale of every assignment, whether it's a transaction,
+                                dispute, or regulatory matter.
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                We analyze and discuss with our clients the possible means to achieve their objectives,
+                                leveraging our unique government experience to anticipate challenges and opportunities.
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                We agree with clients on clear timelines for delivery and adopt a transparent pricing
+                                policy so that legal costs are predictable from the outset.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-200 animate-on-scroll"
+                        style="animation-delay: 0.2s">
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-search text-[#1C4D8D]"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-2">Analytical Precision</h4>
+                                    <p class="text-gray-600 text-sm">Meticulous attention to legal detail and strategic
+                                        implications</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-university text-[#1C4D8D]"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-2">Government Insight</h4>
+                                    <p class="text-gray-600 text-sm">Unique perspective from former State Attorney
+                                        experience</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-handshake text-[#1C4D8D]"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-2">Client Partnership</h4>
+                                    <p class="text-gray-600 text-sm">Collaborative approach focused on your business
+                                        objectives</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="py-20 bg-white">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 animate-on-scroll">Ready to discuss your legal needs?
+                </h2>
+                <p class="text-gray-600 mb-8 max-w-2xl mx-auto animate-on-scroll" style="animation-delay: 0.1s">
+                    Contact us for strategic legal advice from attorneys with government-level expertise and commercial
+                    insight.
+                </p>
+                <a href="contact.html"
+                    class="inline-flex items-center bg-[#1C4D8D] text-white px-8 py-3 rounded hover:bg-[#0F2854] slow-transition animate-on-scroll"
+                    style="animation-delay: 0.2s">
+                    <span class="mr-2 font-medium">Contact Our Team</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#0F2854] text-white py-12">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Logo and description -->
+                <div class="md:col-span-2">
+                    <div class="text-2xl font-bold mb-4">
+                        <span class="text-white">Precision</span>
+                        <span class="text-blue-300">Law Firm</span>
+                    </div>
+                    <p class="text-gray-300 mb-6 max-w-md">
+                        A premier Mauritian law firm founded by former Senior State Attorney, combining government
+                        litigation expertise with strategic private practice.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="../accueil.html" class="text-gray-300 hover:text-white transition">Home</a></li>
+                        <li><a href="overview.html" class="text-gray-300 hover:text-white transition">Overview</a></li>
+                        <li><a href="team.html" class="text-gray-300 hover:text-white transition">Our Team</a></li>
+                        <li><a href="expertise.html" class="text-gray-300 hover:text-white transition">Expertise</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Contact Us</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300"></i>
+                            <span>7th floor, Astor Court<br>Georges Guibert Street, Port Louis</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-3 text-blue-300"></i>
+                            <span>+230 214 4607</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-blue-300"></i>
+                            <span>LawfirmPrecision@outlook.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2024 Precision Law Firm. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Animation Script -->
+    <script>
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // Elements that animate on load
+            const loadAnimated = document.querySelectorAll('.zoom-in');
+            loadAnimated.forEach(el => {
+                el.style.animationPlayState = 'running';
+            });
+        });
+
+        // Toggle mobile menu
+        const mobileButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+
+            // Change burger icon
+            const icon = mobileButton.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+</body>
+
+</html>

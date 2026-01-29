@@ -237,17 +237,17 @@
 
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <div class="text-xl font-bold tracking-tight">
-                        <span class="text-[#0F2854]">Precision</span>
-                        <span class="text-[#1C4D8D]">Law Firm</span>
-                    </div>
+                    <a href="/" class="flex items-center">
+                        <img src="../components/img/logo.PNG" alt="Precision Law Firm Logo"
+                            class="h-16 md:h-16 lg:h-16 w-auto object-contain">
+                    </a>
                 </div>
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="../index.html"
+                    <a href="../accueil.html"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Home</a>
-                    <a href="#"
+                    <a href="overview.html"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Overview</a>
                     <a href="team.html"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Our Team</a>
@@ -272,15 +272,15 @@
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t">
                 <div class="flex flex-col space-y-4">
-                    <a href="../index.html"
+                    <a href="../accueil.html"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Home</a>
-                    <a href="#"
+                    <a href="overview.html"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Overview</a>
                     <a href="team.html"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Our Team</a>
-                    <a href="#"
+                    <a href="expertise.html"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Expertise</a>
-                    <a href="#"
+                    <a href="jurisprudence.html"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Jurisprudence</a>
                     <a href="careers.html" class="text-[#1C4D8D] font-medium">Careers</a>
                     <a href="contact.html"
@@ -716,25 +716,25 @@
                                     <div class="py-2 max-h-64 overflow-y-auto custom-scrollbar">
                                         <!-- Option 1 -->
                                         <button type="button"
-                                            @click="selected = 'Associate Lawyer'; $refs.select.value = 'associate-lawyer'; open = false;"
-                                            :class="selected === 'Associate Lawyer' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
+                                            @click="selected = 'Associate Attorney'; $refs.select.value = 'associate-Attorney'; open = false;"
+                                            :class="selected === 'Associate Attorney' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
                                             class="w-full px-6 py-4 text-left transition-all duration-200 flex items-center gap-3 hover:pl-8">
-                                            <div :class="selected === 'Associate Lawyer' ? 'bg-white/20' : 'bg-blue-50'"
+                                            <div :class="selected === 'Associate Attorney' ? 'bg-white/20' : 'bg-blue-50'"
                                                 class="w-10 h-10 rounded-lg flex items-center justify-center">
                                                 <i class="fas fa-gavel"
-                                                    :class="selected === 'Associate Lawyer' ? 'text-white' : 'text-[#1C4D8D]'"></i>
+                                                    :class="selected === 'Associate Attorney' ? 'text-white' : 'text-[#1C4D8D]'"></i>
                                             </div>
                                             <div class="flex-1">
-                                                <div class="font-medium">Associate Lawyer</div>
+                                                <div class="font-medium">Associate Attorney</div>
                                                 <div class="text-sm opacity-75"
-                                                    :class="selected === 'Associate Lawyer' ? 'text-white/90' : 'text-gray-500'">
+                                                    :class="selected === 'Associate Attorney' ? 'text-white/90' : 'text-gray-500'">
                                                     Corporate law expertise</div>
                                             </div>
-                                            <i x-show="selected === 'Associate Lawyer'"
+                                            <i x-show="selected === 'Associate Attorney'"
                                                 class="fas fa-check text-white"></i>
                                         </button>
 
-                                        <!-- Option 2 -->
+                                        <!-- Option 2 changer en attorney's clerk  -->
                                         <button type="button"
                                             @click="selected = 'Legal Secretary'; $refs.select.value = 'legal-secretary'; open = false;"
                                             :class="selected === 'Legal Secretary' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
@@ -796,7 +796,7 @@
                                 </div>
                             </div>
 
-                            
+
 
                             <style>
                                 .custom-scrollbar::-webkit-scrollbar {
@@ -976,7 +976,7 @@
                                     font-size: 14px;
                                 }
 
-                                .modern-select option[value="associate-lawyer"] {
+                                .modern-select option[value="associate-Attorney"] {
                                     font-weight: 500;
                                 }
 
