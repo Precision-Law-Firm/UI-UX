@@ -1,122 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Precision Law Firm</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .login-card { animation: fadeIn 0.8s ease-out forwards; width: 100%; max-width: 480px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .input-field { transition: all 0.3s ease; }
-        .input-field:focus { border-color: #1C4D8D; box-shadow: 0 0 0 2px rgba(28, 77, 141, 0.1); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Precision Law Firm</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Inter', sans-serif; background-color: #f9fafb; min-height: 100vh; display:flex; align-items:center; justify-content:center; padding:20px;}
+.login-card { animation: fadeIn 0.8s ease-out forwards; width:100%; max-width:480px;}
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0); } }
+.input-field { transition: all 0.3s ease; }
+.input-field:focus { border-color: #1C4D8D; box-shadow:0 0 0 2px rgba(28,77,141,0.1);}
+</style>
 </head>
-
 <body>
 <div class="login-card">
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-        <div class="px-10 py-8 text-center border-b border-gray-100">
-            <div class="text-2xl font-bold text-[#0F2854]">Login</div>
-        </div>
-
-        <div class="px-10 py-8">
-            <form id="loginForm" class="space-y-6">
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input type="email" id="email" required
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field"
-                           placeholder="Enter your email">
-                </div>
-
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                    <div class="relative">
-                        <input type="password" id="password" required
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field pr-10"
-                               placeholder="Enter your password">
-                        <button type="button" id="togglePassword"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input type="checkbox" id="remember"
-                               class="h-4 w-4 text-[#1C4D8D] focus:ring-[#1C4D8D] border-gray-300 rounded">
-                        <label for="remember" class="ml-2 text-sm text-gray-700">Remember me</label>
-                    </div>
-                    <a href="#" class="text-sm text-[#1C4D8D] hover:text-[#0F2854]">Forgot password?</a>
-                </div>
-
-                <button type="submit"
-                        class="w-full text-center bg-[#1C4D8D] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#0F2854] transition duration-300">
-                    Sign In
-                </button>
-
-                <div id="errorMessage" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mt-4">
-                    <i class="fas fa-exclamation-circle mr-2"></i>
-                    <span id="errorText"></span>
-                </div>
-            </form>
-        </div>
-
-        <div class="px-10 py-6 bg-gray-50 border-t border-gray-200 text-center">
-            <p class="text-sm text-gray-500">
-                Need access? <a href="mailto:admin@precisionlaw.com" class="text-[#1C4D8D] hover:text-[#0F2854] font-medium">Contact support</a>
-            </p>
-            <p class="text-xs text-gray-400 mt-2">© 2024 Precision Law Firm</p>
-        </div>
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="px-10 py-8 text-center border-b border-gray-100">
+      <div class="text-2xl font-bold text-[#0F2854]">Login</div>
     </div>
+
+    <div class="px-10 py-8">
+      <form id="loginForm" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+          <input type="email" id="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field" placeholder="Enter your email">
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <div class="relative">
+            <input type="password" id="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field pr-10" placeholder="Enter your password">
+            <button type="button" id="togglePassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <input type="checkbox" id="remember" class="h-4 w-4 text-[#1C4D8D] focus:ring-[#1C4D8D] border-gray-300 rounded">
+            <label for="remember" class="ml-2 text-sm text-gray-700">Remember me</label>
+          </div>
+          <a href="#" class="text-sm text-[#1C4D8D] hover:text-[#0F2854]">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="w-full text-center bg-[#1C4D8D] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#0F2854] transition duration-300">Sign In</button>
+
+        <div id="errorMessage" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mt-4">
+          <i class="fas fa-exclamation-circle mr-2"></i>
+          <span id="errorText"></span>
+        </div>
+      </form>
+    </div>
+
+    <div class="px-10 py-6 bg-gray-50 border-t border-gray-200 text-center">
+      <p class="text-sm text-gray-500">Need access? <a href="mailto:admin@precisionlaw.com" class="text-[#1C4D8D] hover:text-[#0F2854] font-medium">Contact support</a></p>
+      <p class="text-xs text-gray-400 mt-2">© 2024 Precision Law Firm</p>
+    </div>
+  </div>
 </div>
 
 <script>
-    document.getElementById('togglePassword').addEventListener('click', function () {
-        const passwordInput = document.getElementById('password');
-        const icon = this.querySelector('i');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            icon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            icon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
+document.getElementById('togglePassword').addEventListener('click', function() {
+  const passwordInput = document.getElementById('password');
+  const icon = this.querySelector('i');
+  if(passwordInput.type === 'password') {
+    passwordInput.type = 'text'; icon.classList.replace('fa-eye','fa-eye-slash');
+  } else {
+    passwordInput.type = 'password'; icon.classList.replace('fa-eye-slash','fa-eye');
+  }
+});
+
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const errorDiv = document.getElementById('errorMessage');
+  const errorText = document.getElementById('errorText');
+
+  try {
+    const response = await fetch('https://precisionlawfirm.alwaysdata.net/login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
     });
 
-    document.getElementById('loginForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const errorDiv = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
+    const data = await response.json();
 
-        try {
-            const response = await fetch('https://precisionlawfirm.alwaysdata.net/login.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-            const data = await response.json();
-
-            if (data.success) {
-                errorDiv.classList.add('hidden');
-                localStorage.setItem('user', JSON.stringify(data.user));
-                window.location.href = 'https://precisionlawfirm.alwaysdata.net/accueil.php';
-            } else {
-                errorDiv.classList.remove('hidden');
-                errorText.textContent = data.message;
-            }
-        } catch (err) {
-            errorDiv.classList.remove('hidden');
-            errorText.textContent = 'Server error. Please try again.';
-        }
-    });
+    if(data.success) {
+      errorDiv.classList.add('hidden');
+      localStorage.setItem('user', JSON.stringify(data.user));
+      // 🔹 Redirection vers ton front Vercel
+      window.location.href = 'https://precisionlawfirm.vercel.app/accueil.html';
+    } else {
+      errorDiv.classList.remove('hidden');
+      errorText.textContent = data.message;
+    }
+  } catch(err) {
+    errorDiv.classList.remove('hidden');
+    errorText.textContent = 'Server error. Please try again.';
+  }
+});
 </script>
 </body>
 </html>
