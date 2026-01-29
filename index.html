@@ -77,7 +77,6 @@
 </div>
 
 <script>
-    // Toggle password visibility
     document.getElementById('togglePassword').addEventListener('click', function () {
         const passwordInput = document.getElementById('password');
         const icon = this.querySelector('i');
@@ -90,7 +89,6 @@
         }
     });
 
-    // Form submission
     document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
         const email = document.getElementById('email').value;
@@ -109,7 +107,7 @@
             if (data.success) {
                 errorDiv.classList.add('hidden');
                 localStorage.setItem('user', JSON.stringify(data.user));
-                window.location.href = 'accueil.php'; // redirection après login
+                window.location.href = 'https://precisionlawfirm.alwaysdata.net/accueil.php';
             } else {
                 errorDiv.classList.remove('hidden');
                 errorText.textContent = data.message;
