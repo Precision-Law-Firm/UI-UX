@@ -253,7 +253,7 @@
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Our Team</a>
                     <a href="#"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Expertise</a>
-                    <a href="#"
+                    <a href="jurisprudence.html"
                         class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Jurisprudence</a>
                     <a href="careers.html"
                         class="text-[#1C4D8D] font-medium border-b-2 border-[#1C4D8D] pb-1">Careers</a>
@@ -428,9 +428,9 @@
                                         <i class="far fa-clock mr-1"></i> Posted 2 weeks ago
                                     </span>
                                 </div>
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Associate Lawyer</h3>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Associate Attorney</h3>
                                 <p class="text-gray-600 mb-4">
-                                    We're seeking a motivated Associate Lawyer with 2-3 years of experience in corporate
+                                    We're seeking a motivated Associate Attorney with 2-3 years of experience in corporate
                                     law to join our growing team.
                                 </p>
                                 <div class="flex flex-wrap gap-2">
@@ -454,7 +454,7 @@
                         </div>
                     </div>
 
-                    <!-- Position 2 -->
+                    <!-- Position 2 - CHANGED TO ATTORNEY'S CLERK -->
                     <div class="bg-white rounded-xl border border-gray-200 p-8 hover-lift career-card"
                         data-aos="fade-left-slow" data-aos-duration="1400" data-aos-delay="200">
                         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -468,18 +468,18 @@
                                         <i class="far fa-clock mr-1"></i> Posted 1 week ago
                                     </span>
                                 </div>
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Legal Secretary</h3>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Attorney's Clerk</h3>
                                 <p class="text-gray-600 mb-4">
-                                    Join our administrative team to support our legal professionals with document
-                                    preparation, scheduling, and client communication.
+                                    Join our legal support team to assist attorneys with legal research, document preparation,
+                                    case management, and client liaison.
                                 </p>
                                 <div class="flex flex-wrap gap-2">
                                     <span
-                                        class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Administrative</span>
+                                        class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Legal Research</span>
                                     <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Document
+                                        Drafting</span>
+                                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Case
                                         Management</span>
-                                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Client
-                                        Support</span>
                                 </div>
                             </div>
                             <div class="lg:text-right">
@@ -676,8 +676,8 @@
                                 <!-- Hidden select pour le formulaire -->
                                 <select id="position" required class="hidden" x-ref="select">
                                     <option value="">Select a position</option>
-                                    <option value="associate-lawyer">Associate Lawyer</option>
-                                    <option value="legal-secretary">Legal Secretary</option>
+                                    <option value="associate-attorney">Associate Attorney</option>
+                                    <option value="attorney-clerk">Attorney's Clerk</option>
                                     <option value="legal-intern">Legal Intern</option>
                                     <option value="other">Other Position</option>
                                 </select>
@@ -716,7 +716,7 @@
                                     <div class="py-2 max-h-64 overflow-y-auto custom-scrollbar">
                                         <!-- Option 1 -->
                                         <button type="button"
-                                            @click="selected = 'Associate Attorney'; $refs.select.value = 'associate-Attorney'; open = false;"
+                                            @click="selected = 'Associate Attorney'; $refs.select.value = 'associate-attorney'; open = false;"
                                             :class="selected === 'Associate Attorney' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
                                             class="w-full px-6 py-4 text-left transition-all duration-200 flex items-center gap-3 hover:pl-8">
                                             <div :class="selected === 'Associate Attorney' ? 'bg-white/20' : 'bg-blue-50'"
@@ -734,23 +734,23 @@
                                                 class="fas fa-check text-white"></i>
                                         </button>
 
-                                        <!-- Option 2 changer en attorney's clerk  -->
+                                        <!-- Option 2 - CHANGED TO ATTORNEY'S CLERK -->
                                         <button type="button"
-                                            @click="selected = 'Legal Secretary'; $refs.select.value = 'legal-secretary'; open = false;"
-                                            :class="selected === 'Legal Secretary' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
+                                            @click="selected = 'Attorney Clerk'; $refs.select.value = 'attorney-clerk'; open = false;"
+                                            :class="selected === 'Attorney Clerk' ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
                                             class="w-full px-6 py-4 text-left transition-all duration-200 flex items-center gap-3 hover:pl-8">
-                                            <div :class="selected === 'Legal Secretary' ? 'bg-white/20' : 'bg-blue-50'"
+                                            <div :class="selected === 'Attorney Clerk' ? 'bg-white/20' : 'bg-blue-50'"
                                                 class="w-10 h-10 rounded-lg flex items-center justify-center">
                                                 <i class="fas fa-file-alt"
-                                                    :class="selected === 'Legal Secretary' ? 'text-white' : 'text-[#1C4D8D]'"></i>
+                                                    :class="selected === 'Attorney Clerk' ? 'text-white' : 'text-[#1C4D8D]'"></i>
                                             </div>
                                             <div class="flex-1">
-                                                <div class="font-medium">Legal Secretary</div>
+                                                <div class="font-medium">Attorney's Clerk</div>
                                                 <div class="text-sm opacity-75"
-                                                    :class="selected === 'Legal Secretary' ? 'text-white/90' : 'text-gray-500'">
-                                                    Administrative support</div>
+                                                    :class="selected === 'Attorney Clerk' ? 'text-white/90' : 'text-gray-500'">
+                                                    Legal support specialist</div>
                                             </div>
-                                            <i x-show="selected === 'Legal Secretary'"
+                                            <i x-show="selected === 'Attorney Clerk'"
                                                 class="fas fa-check text-white"></i>
                                         </button>
 
@@ -768,9 +768,10 @@
                                                 <div class="font-medium">Legal Intern</div>
                                                 <div class="text-sm opacity-75"
                                                     :class="selected === 'Legal Intern' ? 'text-white/90' : 'text-gray-500'">
-                                                    Training program</div>
+                                                    6-month training program</div>
                                             </div>
-                                            <i x-show="selected === 'Legal Intern'" class="fas fa-check text-white"></i>
+                                            <i x-show="selected === 'Legal Intern'"
+                                                class="fas fa-check text-white"></i>
                                         </button>
 
                                         <!-- Option 4 -->
@@ -976,11 +977,11 @@
                                     font-size: 14px;
                                 }
 
-                                .modern-select option[value="associate-Attorney"] {
+                                .modern-select option[value="associate-attorney"] {
                                     font-weight: 500;
                                 }
 
-                                .modern-select option[value="legal-secretary"] {
+                                .modern-select option[value="attorney-clerk"] {
                                     font-weight: 500;
                                 }
 
@@ -1243,305 +1244,306 @@
                         pointer-events: none;
                         color: #9CA3AF;
                         background: white;
-                        padding: 0 0.25rem;
-                    }
+                                        padding: 0 0.25rem;
+                                    }
 
-                    input:focus+.floating-label,
-                    input:not(:placeholder-shown)+.floating-label,
-                    select:focus+.floating-label,
-                    select:not([value=""])+.floating-label {
-                        top: 0;
-                        left: 0.75rem;
-                        font-size: 0.75rem;
-                        color: #1C4D8D;
-                        font-weight: 600;
-                    }
+                                    input:focus+.floating-label,
+                                    input:not(:placeholder-shown)+.floating-label,
+                                    select:focus+.floating-label,
+                                    select:not([value=""])+.floating-label {
+                                        top: 0;
+                                        left: 0.75rem;
+                                        font-size: 0.75rem;
+                                        color: #1C4D8D;
+                                        font-weight: 600;
+                                    }
 
-                    /* Smooth border animation */
-                    input,
-                    select,
-                    textarea {
-                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                    }
+                                    /* Smooth border animation */
+                                    input,
+                                    select,
+                                    textarea {
+                                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                                    }
 
-                    /* Gradient border on focus */
-                    input:focus,
-                    select:focus,
-                    textarea:focus {
-                        border-image: linear-gradient(135deg, #1C4D8D, #0F2854) 1;
-                        border-width: 2px;
-                    }
+                                    /* Gradient border on focus */
+                                    input:focus,
+                                    select:focus,
+                                    textarea:focus {
+                                        border-image: linear-gradient(135deg, #1C4D8D, #0F2854) 1;
+                                        border-width: 2px;
+                                    }
 
-                    /* Custom scrollbar for dropdown */
-                    select::-webkit-scrollbar {
-                        width: 8px;
-                    }
+                                    /* Custom scrollbar for dropdown */
+                                    select::-webkit-scrollbar {
+                                        width: 8px;
+                                    }
 
-                    select::-webkit-scrollbar-track {
-                        background: #F3F4F6;
-                        border-radius: 4px;
-                    }
+                                    select::-webkit-scrollbar-track {
+                                        background: #F3F4F6;
+                                        border-radius: 4px;
+                                    }
 
-                    select::-webkit-scrollbar-thumb {
-                        background: linear-gradient(to bottom, #1C4D8D, #0F2854);
-                        border-radius: 4px;
-                    }
+                                    select::-webkit-scrollbar-thumb {
+                                        background: linear-gradient(to bottom, #1C4D8D, #0F2854);
+                                        border-radius: 4px;
+                                    }
 
-                    /* Ripple effect for buttons */
-                    .ripple {
-                        position: absolute;
-                        border-radius: 50%;
-                        background: rgba(255, 255, 255, 0.6);
-                        transform: scale(0);
-                        animation: ripple 0.6s linear;
-                    }
+                                    /* Ripple effect for buttons */
+                                    .ripple {
+                                        position: absolute;
+                                        border-radius: 50%;
+                                        background: rgba(255, 255, 255, 0.6);
+                                        transform: scale(0);
+                                        animation: ripple 0.6s linear;
+                                    }
 
-                    @keyframes ripple {
-                        to {
-                            transform: scale(4);
-                            opacity: 0;
-                        }
-                    }
-                </style>
+                                    @keyframes ripple {
+                                        to {
+                                            transform: scale(4);
+                                            opacity: 0;
+                                        }
+                                    }
+                                </style>
+
+                                <script>
+                                    // Enhanced dropdown functionality
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const select = document.getElementById('position');
+                                        const fileInput = document.getElementById('resume-file');
+                                        const filePreview = document.getElementById('file-preview');
+                                        const fileName = document.getElementById('file-name');
+                                        const fileSize = document.getElementById('file-size');
+                                        const removeFileBtn = document.getElementById('remove-file');
+                                        const form = document.getElementById('career-form');
+                                        const submitBtn = document.querySelector('.submit-btn');
+                                        const successMessage = document.getElementById('form-success');
+
+                                        // Select dropdown enhancement
+                                        select.addEventListener('change', function () {
+                                            if (this.value) {
+                                                this.classList.add('has-value');
+                                            } else {
+                                                this.classList.remove('has-value');
+                                            }
+                                        });
+
+                                        // Select focus effect
+                                        select.addEventListener('focus', function () {
+                                            this.parentElement.classList.add('focused');
+                                        });
+
+                                        select.addEventListener('blur', function () {
+                                            this.parentElement.classList.remove('focused');
+                                        });
+
+                                        // File upload handling
+                                        fileInput.addEventListener('change', function (e) {
+                                            const file = e.target.files[0];
+                                            if (file) {
+                                                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+
+                                                if (fileSizeMB > 5) {
+                                                    alert('File size must be less than 5MB');
+                                                    this.value = '';
+                                                    return;
+                                                }
+
+                                                // Show file preview
+                                                fileName.textContent = file.name;
+                                                fileSize.textContent = `${fileSizeMB} MB`;
+                                                filePreview.classList.remove('hidden');
+
+                                                // Add file type icon
+                                                const fileTypeIcon = filePreview.querySelector('.fa-file-pdf');
+                                                const fileExtension = file.name.split('.').pop().toLowerCase();
+
+                                                if (fileExtension === 'pdf') {
+                                                    fileTypeIcon.className = 'fas fa-file-pdf text-red-600';
+                                                } else if (['doc', 'docx'].includes(fileExtension)) {
+                                                    fileTypeIcon.className = 'fas fa-file-word text-blue-600';
+                                                } else {
+                                                    fileTypeIcon.className = 'fas fa-file text-gray-600';
+                                                }
+                                            }
+                                        });
+
+                                        // Remove file
+                                        removeFileBtn.addEventListener('click', function () {
+                                            fileInput.value = '';
+                                            filePreview.classList.add('hidden');
+                                        });
+
+                                        // Form submission with enhanced feedback
+                                        form.addEventListener('submit', function (e) {
+                                            e.preventDefault();
+
+                                            // Disable submit button
+                                            submitBtn.disabled = true;
+                                            submitBtn.innerHTML = `
+                                                    <div class="flex items-center justify-center gap-2">
+                                                        <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                                        <span>Processing...</span>
+                                                    </div>
+                                                `;
+
+                                            // Show submission dots animation
+                                            const submissionDot = document.querySelector('.submission-dot');
+                                            const submissionText = document.querySelector('.submission-text');
+
+                                            submissionDot.classList.remove('hidden');
+                                            submissionText.textContent = 'Submitting your application...';
+
+                                            // Simulate API call
+                                            setTimeout(() => {
+                                                // Reset form
+                                                form.reset();
+                                                filePreview.classList.add('hidden');
+
+                                                // Show success message
+                                                successMessage.classList.remove('hidden');
+                                                successMessage.scrollIntoView({
+                                                    behavior: 'smooth',
+                                                    block: 'center'
+                                                });
+
+                                                // Reset button
+                                                submitBtn.disabled = false;
+                                                submitBtn.innerHTML = `
+                                                        <span class="relative z-10 flex items-center justify-center gap-2">
+                                                            <span>Submit Application</span>
+                                                            <i class="fas fa-paper-plane transition-transform duration-500 group-hover:translate-x-2"></i>
+                                                        </span>
+                                                        <div class="absolute inset-0 bg-gradient-to-r from-[#0F2854] to-[#1C4D8D] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                                        <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white to-transparent opacity-40 group-hover:animate-shine"></div>
+                                                    `;
+
+                                                // Update submission status
+                                                submissionText.textContent = 'Application submitted successfully!';
+
+                                                // Hide success message after 8 seconds
+                                                setTimeout(() => {
+                                                    successMessage.classList.add('hidden');
+                                                    submissionText.textContent = 'Your information is secure with us';
+                                                    submissionDot.classList.add('hidden');
+                                                }, 8000);
+                                            }, 2000);
+                                        });
+
+                                        // Ripple effect for buttons
+                                        document.querySelectorAll('.btn-primary').forEach(button => {
+                                            button.addEventListener('click', function (e) {
+                                                const ripple = document.createElement('span');
+                                                const rect = this.getBoundingClientRect();
+                                                const size = Math.max(rect.width, rect.height);
+                                                const x = e.clientX - rect.left - size / 2;
+                                                const y = e.clientY - rect.top - size / 2;
+
+                                                ripple.style.width = ripple.style.height = size + 'px';
+                                                ripple.style.left = x + 'px';
+                                                ripple.style.top = y + 'px';
+                                                ripple.classList.add('ripple');
+
+                                                this.appendChild(ripple);
+
+                                                setTimeout(() => {
+                                                    ripple.remove();
+                                                }, 600);
+                                            });
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <div id="footer"></div>
+
+                <!-- AOS JS -->
+                <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
                 <script>
-                    // Enhanced dropdown functionality
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const select = document.getElementById('position');
-                        const fileInput = document.getElementById('resume-file');
-                        const filePreview = document.getElementById('file-preview');
-                        const fileName = document.getElementById('file-name');
-                        const fileSize = document.getElementById('file-size');
-                        const removeFileBtn = document.getElementById('remove-file');
-                        const form = document.getElementById('career-form');
-                        const submitBtn = document.querySelector('.submit-btn');
-                        const successMessage = document.getElementById('form-success');
+                    // Tableau des composants à charger
+                    const components = [
+                        { id: "navbar", url: "/components/navbar.html" }
+                    ];
 
-                        // Select dropdown enhancement
-                        select.addEventListener('change', function () {
-                            if (this.value) {
-                                this.classList.add('has-value');
-                            } else {
-                                this.classList.remove('has-value');
-                            }
-                        });
-
-                        // Select focus effect
-                        select.addEventListener('focus', function () {
-                            this.parentElement.classList.add('focused');
-                        });
-
-                        select.addEventListener('blur', function () {
-                            this.parentElement.classList.remove('focused');
-                        });
-
-                        // File upload handling
-                        fileInput.addEventListener('change', function (e) {
-                            const file = e.target.files[0];
-                            if (file) {
-                                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
-
-                                if (fileSizeMB > 5) {
-                                    alert('File size must be less than 5MB');
-                                    this.value = '';
-                                    return;
-                                }
-
-                                // Show file preview
-                                fileName.textContent = file.name;
-                                fileSize.textContent = `${fileSizeMB} MB`;
-                                filePreview.classList.remove('hidden');
-
-                                // Add file type icon
-                                const fileTypeIcon = filePreview.querySelector('.fa-file-pdf');
-                                const fileExtension = file.name.split('.').pop().toLowerCase();
-
-                                if (fileExtension === 'pdf') {
-                                    fileTypeIcon.className = 'fas fa-file-pdf text-red-600';
-                                } else if (['doc', 'docx'].includes(fileExtension)) {
-                                    fileTypeIcon.className = 'fas fa-file-word text-blue-600';
-                                } else {
-                                    fileTypeIcon.className = 'fas fa-file text-gray-600';
-                                }
-                            }
-                        });
-
-                        // Remove file
-                        removeFileBtn.addEventListener('click', function () {
-                            fileInput.value = '';
-                            filePreview.classList.add('hidden');
-                        });
-
-                        // Form submission with enhanced feedback
-                        form.addEventListener('submit', function (e) {
-                            e.preventDefault();
-
-                            // Disable submit button
-                            submitBtn.disabled = true;
-                            submitBtn.innerHTML = `
-                <div class="flex items-center justify-center gap-2">
-                    <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Processing...</span>
-                </div>
-            `;
-
-                            // Show submission dots animation
-                            const submissionDot = document.querySelector('.submission-dot');
-                            const submissionText = document.querySelector('.submission-text');
-
-                            submissionDot.classList.remove('hidden');
-                            submissionText.textContent = 'Submitting your application...';
-
-                            // Simulate API call
-                            setTimeout(() => {
-                                // Reset form
-                                form.reset();
-                                filePreview.classList.add('hidden');
-
-                                // Show success message
-                                successMessage.classList.remove('hidden');
-                                successMessage.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'center'
-                                });
-
-                                // Reset button
-                                submitBtn.disabled = false;
-                                submitBtn.innerHTML = `
-                    <span class="relative z-10 flex items-center justify-center gap-2">
-                        <span>Submit Application</span>
-                        <i class="fas fa-paper-plane transition-transform duration-500 group-hover:translate-x-2"></i>
-                    </span>
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#0F2854] to-[#1C4D8D] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white to-transparent opacity-40 group-hover:animate-shine"></div>
-                `;
-
-                                // Update submission status
-                                submissionText.textContent = 'Application submitted successfully!';
-
-                                // Hide success message after 8 seconds
-                                setTimeout(() => {
-                                    successMessage.classList.add('hidden');
-                                    submissionText.textContent = 'Your information is secure with us';
-                                    submissionDot.classList.add('hidden');
-                                }, 8000);
-                            }, 2000);
-                        });
-
-                        // Ripple effect for buttons
-                        document.querySelectorAll('.btn-primary').forEach(button => {
-                            button.addEventListener('click', function (e) {
-                                const ripple = document.createElement('span');
-                                const rect = this.getBoundingClientRect();
-                                const size = Math.max(rect.width, rect.height);
-                                const x = e.clientX - rect.left - size / 2;
-                                const y = e.clientY - rect.top - size / 2;
-
-                                ripple.style.width = ripple.style.height = size + 'px';
-                                ripple.style.left = x + 'px';
-                                ripple.style.top = y + 'px';
-                                ripple.classList.add('ripple');
-
-                                this.appendChild(ripple);
-
-                                setTimeout(() => {
-                                    ripple.remove();
-                                }, 600);
+                    // Boucle sur chaque composant
+                    components.forEach(comp => {
+                        fetch(comp.url)
+                            .then(res => res.text())
+                            .then(data => {
+                                document.getElementById(comp.id).innerHTML = data;
+                            })
+                            .catch(error => {
+                                console.error('Error loading component:', error);
                             });
-                        });
                     });
                 </script>
-            </div>
-        </div>
-    </section>
+                <script>
+                    // Initialize AOS with slow settings
+                    AOS.init({
+                        duration: 1500,
+                        offset: 80,
+                        easing: 'ease-out-cubic',
+                        once: true,
+                        delay: 0,
+                        mirror: false,
+                        anchorPlacement: 'top-bottom',
+                        disable: false
+                    });
 
-    <!-- Footer -->
-    <div id="footer"></div>
+                    // Toggle mobile menu
+                    const mobileButton = document.getElementById('mobile-menu-button');
+                    const mobileMenu = document.getElementById('mobile-menu');
 
-    <!-- AOS JS -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+                    mobileButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
 
-    <script>
-        // Tableau des composants à charger
-        const components = [
-            { id: "navbar", url: "/components/navbar.html" }
-        ];
+                        // Change burger icon
+                        const icon = mobileButton.querySelector('i');
+                        if (icon.classList.contains('fa-bars')) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-times');
+                        } else {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    });
 
-        // Boucle sur chaque composant
-        components.forEach(comp => {
-            fetch(comp.url)
-                .then(res => res.text())
-                .then(data => {
-                    document.getElementById(comp.id).innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error loading component:', error);
-                });
-        });
-    </script>
-    <script>
-        // Initialize AOS with slow settings
-        AOS.init({
-            duration: 1500,
-            offset: 80,
-            easing: 'ease-out-cubic',
-            once: true,
-            delay: 0,
-            mirror: false,
-            anchorPlacement: 'top-bottom',
-            disable: false
-        });
+                    // Form submission
+                    document.getElementById('career-form').addEventListener('submit', function (e) {
+                        e.preventDefault();
 
-        // Toggle mobile menu
-        const mobileButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+                        // Show success message
+                        document.getElementById('form-success').classList.remove('hidden');
 
-        mobileButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+                        // Scroll to success message
+                        document.getElementById('form-success').scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
 
-            // Change burger icon
-            const icon = mobileButton.querySelector('i');
-            if (icon.classList.contains('fa-bars')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
+                        // Reset form after 5 seconds
+                        setTimeout(() => {
+                            document.getElementById('career-form').reset();
+                            document.getElementById('form-success').classList.add('hidden');
+                        }, 5000);
+                    });
 
-        // Form submission
-        document.getElementById('career-form').addEventListener('submit', function (e) {
-            e.preventDefault();
+                    // File upload preview
+                    document.getElementById('resume-file').addEventListener('change', function (e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const fileSize = file.size / 1024 / 1024; // in MB
+                            if (fileSize > 5) {
+                                alert('File size must be less than 5MB');
+                                this.value = '';
+                            }
+                        }
+                    });
+                </script>
+            </body>
 
-            // Show success message
-            document.getElementById('form-success').classList.remove('hidden');
-
-            // Scroll to success message
-            document.getElementById('form-success').scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
-
-            // Reset form after 5 seconds
-            setTimeout(() => {
-                document.getElementById('career-form').reset();
-                document.getElementById('form-success').classList.add('hidden');
-            }, 5000);
-        });
-
-        // File upload preview
-        document.getElementById('resume-file').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const fileSize = file.size / 1024 / 1024; // in MB
-                if (fileSize > 5) {
-                    alert('File size must be less than 5MB');
-                    this.value = '';
-                }
-            }
-        });
-    </script>
-</body>
-
-</html>
+            </html>
