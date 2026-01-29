@@ -1,5 +1,8 @@
 <?php
 // config.php - Connexion à la base Alwaysdata
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: POST');
 
 // Infos Alwaysdata
 define('DB_HOST', 'mysql-precisionlawfirm.alwaysdata.net');  // Host Alwaysdata
