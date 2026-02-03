@@ -230,14 +230,13 @@
 <body class="bg-white">
 
     <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50" data-aos="fade-down-slow" data-aos-duration="1200"
-        data-aos-easing="ease-out-cubic">
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 zoom-in">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="flex justify-between items-center py-5">
 
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="/" class="flex items-center">
+                    <a href="../accueil.html" class="flex items-center">
                         <img src="../components/img/logo.PNG" alt="Precision Law Firm Logo"
                             class="h-16 md:h-16 lg:h-16 w-auto object-contain">
                     </a>
@@ -246,25 +245,34 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="../accueil.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Home</a>
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
+
                     <a href="overview.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Overview</a>
-                    <a href="team.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Our Team</a>
-                    <a href="#"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Expertise</a>
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
+
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our
+                        Team</a>
+
+                    <a href="expertise.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
+
                     <a href="jurisprudence.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Jurisprudence</a>
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
+
+                    <a href="student.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Students</a>
+
                     <a href="careers.html"
-                        class="text-[#1C4D8D] font-medium border-b-2 border-[#1C4D8D] pb-1">Careers</a>
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Careers</a>
+
                     <a href="contact.html"
-                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-full font-medium hover:opacity-90 transition duration-300 hover-lift">
+                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-full font-medium hover:opacity-90 slow-transition hover-lift">
                         Contact Us
                     </a>
                 </div>
 
                 <!-- Mobile Menu Burger -->
-                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl transition duration-300">
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl slow-transition">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -273,24 +281,35 @@
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t">
                 <div class="flex flex-col space-y-4">
                     <a href="../accueil.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Home</a>
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
+
                     <a href="overview.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Overview</a>
-                    <a href="team.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Our Team</a>
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
+
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our
+                        Team</a>
+
                     <a href="expertise.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Expertise</a>
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
+
                     <a href="jurisprudence.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition duration-300">Jurisprudence</a>
-                    <a href="careers.html" class="text-[#1C4D8D] font-medium">Careers</a>
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
+
+                    <a href="student.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Students</a>
+
+                    <a href="careers.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Careers</a>
+
                     <a href="contact.html"
-                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-md font-medium text-center mt-2 hover-lift transition duration-300">
+                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-md font-medium text-center mt-2 hover-lift slow-transition">
                         Contact Us
                     </a>
                 </div>
             </div>
         </div>
     </nav>
+
 
     <!-- Hero Section -->
     <section class="gradient-bg py-20 md:py-28">
@@ -430,7 +449,8 @@
                                 </div>
                                 <h3 class="text-2xl font-bold text-gray-800 mb-2">Associate Attorney</h3>
                                 <p class="text-gray-600 mb-4">
-                                    We're seeking a motivated Associate Attorney with 2-3 years of experience in corporate
+                                    We're seeking a motivated Associate Attorney with 2-3 years of experience in
+                                    corporate
                                     law to join our growing team.
                                 </p>
                                 <div class="flex flex-wrap gap-2">
@@ -470,12 +490,13 @@
                                 </div>
                                 <h3 class="text-2xl font-bold text-gray-800 mb-2">Attorney's Clerk</h3>
                                 <p class="text-gray-600 mb-4">
-                                    Join our legal support team to assist attorneys with legal research, document preparation,
+                                    Join our legal support team to assist attorneys with legal research, document
+                                    preparation,
                                     case management, and client liaison.
                                 </p>
                                 <div class="flex flex-wrap gap-2">
-                                    <span
-                                        class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Legal Research</span>
+                                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Legal
+                                        Research</span>
                                     <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Document
                                         Drafting</span>
                                     <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Case
@@ -770,8 +791,7 @@
                                                     :class="selected === 'Legal Intern' ? 'text-white/90' : 'text-gray-500'">
                                                     6-month training program</div>
                                             </div>
-                                            <i x-show="selected === 'Legal Intern'"
-                                                class="fas fa-check text-white"></i>
+                                            <i x-show="selected === 'Legal Intern'" class="fas fa-check text-white"></i>
                                         </button>
 
                                         <!-- Option 4 -->
@@ -1244,171 +1264,171 @@
                         pointer-events: none;
                         color: #9CA3AF;
                         background: white;
-                                        padding: 0 0.25rem;
-                                    }
+                        padding: 0 0.25rem;
+                    }
 
-                                    input:focus+.floating-label,
-                                    input:not(:placeholder-shown)+.floating-label,
-                                    select:focus+.floating-label,
-                                    select:not([value=""])+.floating-label {
-                                        top: 0;
-                                        left: 0.75rem;
-                                        font-size: 0.75rem;
-                                        color: #1C4D8D;
-                                        font-weight: 600;
-                                    }
+                    input:focus+.floating-label,
+                    input:not(:placeholder-shown)+.floating-label,
+                    select:focus+.floating-label,
+                    select:not([value=""])+.floating-label {
+                        top: 0;
+                        left: 0.75rem;
+                        font-size: 0.75rem;
+                        color: #1C4D8D;
+                        font-weight: 600;
+                    }
 
-                                    /* Smooth border animation */
-                                    input,
-                                    select,
-                                    textarea {
-                                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                                    }
+                    /* Smooth border animation */
+                    input,
+                    select,
+                    textarea {
+                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
 
-                                    /* Gradient border on focus */
-                                    input:focus,
-                                    select:focus,
-                                    textarea:focus {
-                                        border-image: linear-gradient(135deg, #1C4D8D, #0F2854) 1;
-                                        border-width: 2px;
-                                    }
+                    /* Gradient border on focus */
+                    input:focus,
+                    select:focus,
+                    textarea:focus {
+                        border-image: linear-gradient(135deg, #1C4D8D, #0F2854) 1;
+                        border-width: 2px;
+                    }
 
-                                    /* Custom scrollbar for dropdown */
-                                    select::-webkit-scrollbar {
-                                        width: 8px;
-                                    }
+                    /* Custom scrollbar for dropdown */
+                    select::-webkit-scrollbar {
+                        width: 8px;
+                    }
 
-                                    select::-webkit-scrollbar-track {
-                                        background: #F3F4F6;
-                                        border-radius: 4px;
-                                    }
+                    select::-webkit-scrollbar-track {
+                        background: #F3F4F6;
+                        border-radius: 4px;
+                    }
 
-                                    select::-webkit-scrollbar-thumb {
-                                        background: linear-gradient(to bottom, #1C4D8D, #0F2854);
-                                        border-radius: 4px;
-                                    }
+                    select::-webkit-scrollbar-thumb {
+                        background: linear-gradient(to bottom, #1C4D8D, #0F2854);
+                        border-radius: 4px;
+                    }
 
-                                    /* Ripple effect for buttons */
-                                    .ripple {
-                                        position: absolute;
-                                        border-radius: 50%;
-                                        background: rgba(255, 255, 255, 0.6);
-                                        transform: scale(0);
-                                        animation: ripple 0.6s linear;
-                                    }
+                    /* Ripple effect for buttons */
+                    .ripple {
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.6);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                    }
 
-                                    @keyframes ripple {
-                                        to {
-                                            transform: scale(4);
-                                            opacity: 0;
-                                        }
-                                    }
-                                </style>
+                    @keyframes ripple {
+                        to {
+                            transform: scale(4);
+                            opacity: 0;
+                        }
+                    }
+                </style>
 
-                                <script>
-                                    // Enhanced dropdown functionality
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        const select = document.getElementById('position');
-                                        const fileInput = document.getElementById('resume-file');
-                                        const filePreview = document.getElementById('file-preview');
-                                        const fileName = document.getElementById('file-name');
-                                        const fileSize = document.getElementById('file-size');
-                                        const removeFileBtn = document.getElementById('remove-file');
-                                        const form = document.getElementById('career-form');
-                                        const submitBtn = document.querySelector('.submit-btn');
-                                        const successMessage = document.getElementById('form-success');
+                <script>
+                    // Enhanced dropdown functionality
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const select = document.getElementById('position');
+                        const fileInput = document.getElementById('resume-file');
+                        const filePreview = document.getElementById('file-preview');
+                        const fileName = document.getElementById('file-name');
+                        const fileSize = document.getElementById('file-size');
+                        const removeFileBtn = document.getElementById('remove-file');
+                        const form = document.getElementById('career-form');
+                        const submitBtn = document.querySelector('.submit-btn');
+                        const successMessage = document.getElementById('form-success');
 
-                                        // Select dropdown enhancement
-                                        select.addEventListener('change', function () {
-                                            if (this.value) {
-                                                this.classList.add('has-value');
-                                            } else {
-                                                this.classList.remove('has-value');
-                                            }
-                                        });
+                        // Select dropdown enhancement
+                        select.addEventListener('change', function () {
+                            if (this.value) {
+                                this.classList.add('has-value');
+                            } else {
+                                this.classList.remove('has-value');
+                            }
+                        });
 
-                                        // Select focus effect
-                                        select.addEventListener('focus', function () {
-                                            this.parentElement.classList.add('focused');
-                                        });
+                        // Select focus effect
+                        select.addEventListener('focus', function () {
+                            this.parentElement.classList.add('focused');
+                        });
 
-                                        select.addEventListener('blur', function () {
-                                            this.parentElement.classList.remove('focused');
-                                        });
+                        select.addEventListener('blur', function () {
+                            this.parentElement.classList.remove('focused');
+                        });
 
-                                        // File upload handling
-                                        fileInput.addEventListener('change', function (e) {
-                                            const file = e.target.files[0];
-                                            if (file) {
-                                                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+                        // File upload handling
+                        fileInput.addEventListener('change', function (e) {
+                            const file = e.target.files[0];
+                            if (file) {
+                                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
 
-                                                if (fileSizeMB > 5) {
-                                                    alert('File size must be less than 5MB');
-                                                    this.value = '';
-                                                    return;
-                                                }
+                                if (fileSizeMB > 5) {
+                                    alert('File size must be less than 5MB');
+                                    this.value = '';
+                                    return;
+                                }
 
-                                                // Show file preview
-                                                fileName.textContent = file.name;
-                                                fileSize.textContent = `${fileSizeMB} MB`;
-                                                filePreview.classList.remove('hidden');
+                                // Show file preview
+                                fileName.textContent = file.name;
+                                fileSize.textContent = `${fileSizeMB} MB`;
+                                filePreview.classList.remove('hidden');
 
-                                                // Add file type icon
-                                                const fileTypeIcon = filePreview.querySelector('.fa-file-pdf');
-                                                const fileExtension = file.name.split('.').pop().toLowerCase();
+                                // Add file type icon
+                                const fileTypeIcon = filePreview.querySelector('.fa-file-pdf');
+                                const fileExtension = file.name.split('.').pop().toLowerCase();
 
-                                                if (fileExtension === 'pdf') {
-                                                    fileTypeIcon.className = 'fas fa-file-pdf text-red-600';
-                                                } else if (['doc', 'docx'].includes(fileExtension)) {
-                                                    fileTypeIcon.className = 'fas fa-file-word text-blue-600';
-                                                } else {
-                                                    fileTypeIcon.className = 'fas fa-file text-gray-600';
-                                                }
-                                            }
-                                        });
+                                if (fileExtension === 'pdf') {
+                                    fileTypeIcon.className = 'fas fa-file-pdf text-red-600';
+                                } else if (['doc', 'docx'].includes(fileExtension)) {
+                                    fileTypeIcon.className = 'fas fa-file-word text-blue-600';
+                                } else {
+                                    fileTypeIcon.className = 'fas fa-file text-gray-600';
+                                }
+                            }
+                        });
 
-                                        // Remove file
-                                        removeFileBtn.addEventListener('click', function () {
-                                            fileInput.value = '';
-                                            filePreview.classList.add('hidden');
-                                        });
+                        // Remove file
+                        removeFileBtn.addEventListener('click', function () {
+                            fileInput.value = '';
+                            filePreview.classList.add('hidden');
+                        });
 
-                                        // Form submission with enhanced feedback
-                                        form.addEventListener('submit', function (e) {
-                                            e.preventDefault();
+                        // Form submission with enhanced feedback
+                        form.addEventListener('submit', function (e) {
+                            e.preventDefault();
 
-                                            // Disable submit button
-                                            submitBtn.disabled = true;
-                                            submitBtn.innerHTML = `
+                            // Disable submit button
+                            submitBtn.disabled = true;
+                            submitBtn.innerHTML = `
                                                     <div class="flex items-center justify-center gap-2">
                                                         <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                                                         <span>Processing...</span>
                                                     </div>
                                                 `;
 
-                                            // Show submission dots animation
-                                            const submissionDot = document.querySelector('.submission-dot');
-                                            const submissionText = document.querySelector('.submission-text');
+                            // Show submission dots animation
+                            const submissionDot = document.querySelector('.submission-dot');
+                            const submissionText = document.querySelector('.submission-text');
 
-                                            submissionDot.classList.remove('hidden');
-                                            submissionText.textContent = 'Submitting your application...';
+                            submissionDot.classList.remove('hidden');
+                            submissionText.textContent = 'Submitting your application...';
 
-                                            // Simulate API call
-                                            setTimeout(() => {
-                                                // Reset form
-                                                form.reset();
-                                                filePreview.classList.add('hidden');
+                            // Simulate API call
+                            setTimeout(() => {
+                                // Reset form
+                                form.reset();
+                                filePreview.classList.add('hidden');
 
-                                                // Show success message
-                                                successMessage.classList.remove('hidden');
-                                                successMessage.scrollIntoView({
-                                                    behavior: 'smooth',
-                                                    block: 'center'
-                                                });
+                                // Show success message
+                                successMessage.classList.remove('hidden');
+                                successMessage.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
 
-                                                // Reset button
-                                                submitBtn.disabled = false;
-                                                submitBtn.innerHTML = `
+                                // Reset button
+                                submitBtn.disabled = false;
+                                submitBtn.innerHTML = `
                                                         <span class="relative z-10 flex items-center justify-center gap-2">
                                                             <span>Submit Application</span>
                                                             <i class="fas fa-paper-plane transition-transform duration-500 group-hover:translate-x-2"></i>
@@ -1417,133 +1437,133 @@
                                                         <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white to-transparent opacity-40 group-hover:animate-shine"></div>
                                                     `;
 
-                                                // Update submission status
-                                                submissionText.textContent = 'Application submitted successfully!';
+                                // Update submission status
+                                submissionText.textContent = 'Application submitted successfully!';
 
-                                                // Hide success message after 8 seconds
-                                                setTimeout(() => {
-                                                    successMessage.classList.add('hidden');
-                                                    submissionText.textContent = 'Your information is secure with us';
-                                                    submissionDot.classList.add('hidden');
-                                                }, 8000);
-                                            }, 2000);
-                                        });
-
-                                        // Ripple effect for buttons
-                                        document.querySelectorAll('.btn-primary').forEach(button => {
-                                            button.addEventListener('click', function (e) {
-                                                const ripple = document.createElement('span');
-                                                const rect = this.getBoundingClientRect();
-                                                const size = Math.max(rect.width, rect.height);
-                                                const x = e.clientX - rect.left - size / 2;
-                                                const y = e.clientY - rect.top - size / 2;
-
-                                                ripple.style.width = ripple.style.height = size + 'px';
-                                                ripple.style.left = x + 'px';
-                                                ripple.style.top = y + 'px';
-                                                ripple.classList.add('ripple');
-
-                                                this.appendChild(ripple);
-
-                                                setTimeout(() => {
-                                                    ripple.remove();
-                                                }, 600);
-                                            });
-                                        });
-                                    });
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Footer -->
-                <div id="footer"></div>
-
-                <!-- AOS JS -->
-                <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-                <script>
-                    // Tableau des composants à charger
-                    const components = [
-                        { id: "navbar", url: "/components/navbar.html" }
-                    ];
-
-                    // Boucle sur chaque composant
-                    components.forEach(comp => {
-                        fetch(comp.url)
-                            .then(res => res.text())
-                            .then(data => {
-                                document.getElementById(comp.id).innerHTML = data;
-                            })
-                            .catch(error => {
-                                console.error('Error loading component:', error);
-                            });
-                    });
-                </script>
-                <script>
-                    // Initialize AOS with slow settings
-                    AOS.init({
-                        duration: 1500,
-                        offset: 80,
-                        easing: 'ease-out-cubic',
-                        once: true,
-                        delay: 0,
-                        mirror: false,
-                        anchorPlacement: 'top-bottom',
-                        disable: false
-                    });
-
-                    // Toggle mobile menu
-                    const mobileButton = document.getElementById('mobile-menu-button');
-                    const mobileMenu = document.getElementById('mobile-menu');
-
-                    mobileButton.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-
-                        // Change burger icon
-                        const icon = mobileButton.querySelector('i');
-                        if (icon.classList.contains('fa-bars')) {
-                            icon.classList.remove('fa-bars');
-                            icon.classList.add('fa-times');
-                        } else {
-                            icon.classList.remove('fa-times');
-                            icon.classList.add('fa-bars');
-                        }
-                    });
-
-                    // Form submission
-                    document.getElementById('career-form').addEventListener('submit', function (e) {
-                        e.preventDefault();
-
-                        // Show success message
-                        document.getElementById('form-success').classList.remove('hidden');
-
-                        // Scroll to success message
-                        document.getElementById('form-success').scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'center'
+                                // Hide success message after 8 seconds
+                                setTimeout(() => {
+                                    successMessage.classList.add('hidden');
+                                    submissionText.textContent = 'Your information is secure with us';
+                                    submissionDot.classList.add('hidden');
+                                }, 8000);
+                            }, 2000);
                         });
 
-                        // Reset form after 5 seconds
-                        setTimeout(() => {
-                            document.getElementById('career-form').reset();
-                            document.getElementById('form-success').classList.add('hidden');
-                        }, 5000);
-                    });
+                        // Ripple effect for buttons
+                        document.querySelectorAll('.btn-primary').forEach(button => {
+                            button.addEventListener('click', function (e) {
+                                const ripple = document.createElement('span');
+                                const rect = this.getBoundingClientRect();
+                                const size = Math.max(rect.width, rect.height);
+                                const x = e.clientX - rect.left - size / 2;
+                                const y = e.clientY - rect.top - size / 2;
 
-                    // File upload preview
-                    document.getElementById('resume-file').addEventListener('change', function (e) {
-                        const file = e.target.files[0];
-                        if (file) {
-                            const fileSize = file.size / 1024 / 1024; // in MB
-                            if (fileSize > 5) {
-                                alert('File size must be less than 5MB');
-                                this.value = '';
-                            }
-                        }
+                                ripple.style.width = ripple.style.height = size + 'px';
+                                ripple.style.left = x + 'px';
+                                ripple.style.top = y + 'px';
+                                ripple.classList.add('ripple');
+
+                                this.appendChild(ripple);
+
+                                setTimeout(() => {
+                                    ripple.remove();
+                                }, 600);
+                            });
+                        });
                     });
                 </script>
-            </body>
+            </div>
+        </div>
+        </div>
+    </section>
 
-            </html>
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <script>
+        // Tableau des composants à charger
+        const components = [
+            { id: "navbar", url: "/components/navbar.html" }
+        ];
+
+        // Boucle sur chaque composant
+        components.forEach(comp => {
+            fetch(comp.url)
+                .then(res => res.text())
+                .then(data => {
+                    document.getElementById(comp.id).innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading component:', error);
+                });
+        });
+    </script>
+    <script>
+        // Initialize AOS with slow settings
+        AOS.init({
+            duration: 1500,
+            offset: 80,
+            easing: 'ease-out-cubic',
+            once: true,
+            delay: 0,
+            mirror: false,
+            anchorPlacement: 'top-bottom',
+            disable: false
+        });
+
+        // Toggle mobile menu
+        const mobileButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+
+            // Change burger icon
+            const icon = mobileButton.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Form submission
+        document.getElementById('career-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show success message
+            document.getElementById('form-success').classList.remove('hidden');
+
+            // Scroll to success message
+            document.getElementById('form-success').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            // Reset form after 5 seconds
+            setTimeout(() => {
+                document.getElementById('career-form').reset();
+                document.getElementById('form-success').classList.add('hidden');
+            }, 5000);
+        });
+
+        // File upload preview
+        document.getElementById('resume-file').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const fileSize = file.size / 1024 / 1024; // in MB
+                if (fileSize > 5) {
+                    alert('File size must be less than 5MB');
+                    this.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

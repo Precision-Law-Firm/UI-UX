@@ -134,6 +134,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -362,6 +363,7 @@
                 opacity: 0;
                 transform: translateY(10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -453,9 +455,11 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
             }
+
             70% {
                 box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
             }
@@ -466,14 +470,13 @@
 <body class="bg-white">
 
     <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50" data-aos="fade-down" data-aos-duration="1200"
-        data-aos-easing="ease-out-cubic">
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 zoom-in">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="flex justify-between items-center py-5">
 
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="/" class="flex items-center">
+                    <a href="../accueil.html" class="flex items-center">
                         <img src="../components/img/logo.PNG" alt="Precision Law Firm Logo"
                             class="h-16 md:h-16 lg:h-16 w-auto object-contain">
                     </a>
@@ -481,22 +484,35 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="../accueil.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Home</a>
-                    <a href="#" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Overview</a>
-                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Our Team</a>
+                    <a href="../accueil.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
+
+                    <a href="overview.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
+
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our
+                        Team</a>
+
                     <a href="expertise.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Expertise</a>
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
+
                     <a href="jurisprudence.html"
-                        class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Jurisprudence</a>
-                    <a href="careers.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] transition">Careers</a>
-                    <a href="appointment.html"
-                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-full font-medium hover:opacity-90 transition">
-                        Contact
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
+
+                    <a href="student.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Students</a>
+
+                    <a href="careers.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Careers</a>
+
+                    <a href="contact.html"
+                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-full font-medium hover:opacity-90 slow-transition hover-lift">
+                        Contact Us
                     </a>
                 </div>
 
                 <!-- Mobile Menu Burger -->
-                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl">
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl slow-transition">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -504,20 +520,36 @@
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t">
                 <div class="flex flex-col space-y-4">
-                    <a href="../accueil.html" class="text-gray-700 font-medium">Home</a>
-                    <a href="overview.html" class="text-gray-700 font-medium">Overview</a>
-                    <a href="team.html" class="text-gray-700 font-medium">Our Team</a>
-                    <a href="expertise.html" class="text-gray-700 font-medium">Expertise</a>
-                    <a href="jurisprudence.html" class="text-gray-700 font-medium">Jurisprudence</a>
-                    <a href="careers.html" class="text-gray-700 font-medium">Careers</a>
+                    <a href="../accueil.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
+
+                    <a href="overview.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
+
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our
+                        Team</a>
+
+                    <a href="expertise.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
+
+                    <a href="jurisprudence.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
+
+                    <a href="student.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Students</a>
+
+                    <a href="careers.html"
+                        class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Careers</a>
+
                     <a href="contact.html"
-                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-md font-medium text-center mt-2">
-                        Contact
+                        class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-md font-medium text-center mt-2 hover-lift slow-transition">
+                        Contact Us
                     </a>
                 </div>
             </div>
         </div>
     </nav>
+
 
     <!-- Simple Header -->
     <div class="pt-20 pb-12 text-center" data-aos="fade-up-slow" data-aos-duration="1500"
@@ -763,15 +795,15 @@
 
         // Appointment form functionality
         let currentStep = 1;
-        
+
         function nextStep(step) {
             document.getElementById(`step${currentStep}`).classList.remove('active');
             document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('active');
-            
+
             currentStep = step;
             document.getElementById(`step${currentStep}`).classList.add('active');
             document.querySelectorAll('.progress-step')[currentStep - 1].classList.add('active');
-            
+
             // Generate calendar for step 2
             if (step === 2) {
                 generateCalendar();
@@ -781,11 +813,11 @@
                 generateTimeSlots();
             }
         }
-        
+
         function prevStep(step) {
             document.getElementById(`step${currentStep}`).classList.remove('active');
             document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('active');
-            
+
             currentStep = step;
             document.getElementById(`step${currentStep}`).classList.add('active');
             document.querySelectorAll('.progress-step')[currentStep - 1].classList.add('active');
@@ -794,9 +826,9 @@
         function generateCalendar() {
             const calendar = document.querySelector('.date-grid');
             calendar.innerHTML = '';
-            
+
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            
+
             // Add day headers
             days.forEach(day => {
                 const dayHeader = document.createElement('div');
@@ -804,35 +836,35 @@
                 dayHeader.textContent = day;
                 calendar.appendChild(dayHeader);
             });
-            
+
             const today = new Date();
             const currentMonth = today.getMonth();
             const currentYear = today.getFullYear();
-            
+
             // Get first day of current month
             const firstDay = new Date(currentYear, currentMonth, 1);
             // Get last day of current month
             const lastDay = new Date(currentYear, currentMonth + 1, 0);
-            
+
             // Add empty cells for days before first day of month
             for (let i = 0; i < firstDay.getDay(); i++) {
                 const emptyCell = document.createElement('div');
                 calendar.appendChild(emptyCell);
             }
-            
+
             // Add days of the month
             for (let day = 1; day <= lastDay.getDate(); day++) {
                 const dateCell = document.createElement('div');
                 dateCell.className = 'date-cell';
                 dateCell.textContent = day;
-                
+
                 const cellDate = new Date(currentYear, currentMonth, day);
-                
+
                 // Mark today
                 if (day === today.getDate() && currentMonth === today.getMonth()) {
                     dateCell.classList.add('today');
                 }
-                
+
                 // Disable past dates
                 if (cellDate < today) {
                     dateCell.classList.add('disabled');
@@ -844,7 +876,7 @@
                         dateCell.classList.add('selected');
                     });
                 }
-                
+
                 calendar.appendChild(dateCell);
             }
         }
@@ -852,20 +884,20 @@
         function generateTimeSlots() {
             const timeSlots = document.querySelector('.time-slots');
             timeSlots.innerHTML = '';
-            
+
             const slots = [
                 '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
                 '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'
             ];
-            
+
             // Randomly mark some slots as booked for demo
             const bookedSlots = [1, 4, 6]; // Indexes of booked slots
-            
+
             slots.forEach((slot, index) => {
                 const timeSlot = document.createElement('div');
                 timeSlot.className = 'time-slot';
                 timeSlot.textContent = slot;
-                
+
                 if (bookedSlots.includes(index)) {
                     timeSlot.classList.add('booked');
                 } else {
@@ -876,7 +908,7 @@
                         timeSlot.classList.add('selected');
                     });
                 }
-                
+
                 timeSlots.appendChild(timeSlot);
             });
         }
@@ -924,27 +956,27 @@
         function addMessage(text, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
-            
+
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
             contentDiv.textContent = text;
-            
+
             const timeDiv = document.createElement('div');
             timeDiv.className = 'message-time';
             const now = new Date();
-            timeDiv.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
+            timeDiv.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
             messageDiv.appendChild(contentDiv);
             messageDiv.appendChild(timeDiv);
             chatboxBody.appendChild(messageDiv);
-            
+
             // Scroll to bottom
             chatboxBody.scrollTop = chatboxBody.scrollHeight;
         }
 
         function getBotResponse(message) {
             const lowerMessage = message.toLowerCase();
-            
+
             if (lowerMessage.includes('appointment') || lowerMessage.includes('book')) {
                 return "You can book an appointment using the form above. Our office hours are Monday-Friday 9AM-5PM and Saturday 9AM-1PM.";
             } else if (lowerMessage.includes('hour') || lowerMessage.includes('time')) {
@@ -965,7 +997,7 @@
         }
 
         // Appointment form submission
-        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+        document.getElementById('appointment-form').addEventListener('submit', function (e) {
             e.preventDefault();
             alert('Thank you! Your appointment request has been submitted. We will contact you shortly to confirm.');
             // Reset form
