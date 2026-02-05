@@ -5,10 +5,10 @@ header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Methods: POST');
 
 // Infos Alwaysdata
-define('DB_HOST', 'mysql-precisionlawfirm.alwaysdata.net');  // Host Alwaysdata
-define('DB_NAME', 'precisionlawfirm_db');                    // Nom de la base
-define('DB_USER', 'precisionlawfirm');                      // Nom d'utilisateur
-define('DB_PASS', 'pomVet-xohje5-kanniq');                  // Mot de passe
+define('DB_HOST', 'mysql-precisionlawfirm.alwaysdata.net');  
+define('DB_NAME', 'precisionlawfirm_db');                    
+define('DB_USER', 'precisionlawfirm');                     
+define('DB_PASS', 'pomVet-xohje5-kanniq');                  
 
 try {
     $pdo = new PDO(
