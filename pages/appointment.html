@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Precision Law Firm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Animation lente et douce */
+        .aos-init[data-aos] {
+            transition-duration: 1500ms !important;
+            transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        }
+
+        /* Effets de fondu personnalisés */
+        [data-aos="fade-up-slow"] {
+            transform: translateY(40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+
+        [data-aos="fade-up-slow"].aos-animate {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        [data-aos="fade-left-slow"] {
+            transform: translateX(-40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+
+        [data-aos="fade-left-slow"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        [data-aos="fade-right-slow"] {
+            transform: translateX(40px);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+
+        [data-aos="fade-right-slow"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        [data-aos="zoom-slow"] {
+            transform: scale(0.9);
+            opacity: 0;
+            transition-property: transform, opacity;
+        }
+
+        [data-aos="zoom-slow"].aos-animate {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Styles pour le chatbox */
+        .chatbox-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbox-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(28, 77, 141, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 3px solid white;
+        }
+
+        .chatbox-toggle:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 15px 40px rgba(28, 77, 141, 0.4);
+        }
+
+        .chatbox-toggle i {
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbox-toggle:hover i {
+            transform: scale(1.2);
+        }
+
+        .chatbox-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid #e5e7eb;
+        }
+
+        .chatbox-window.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+            animation: slideInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbox-header {
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbox-header h3 {
+            font-weight: 600;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chatbox-header h3 i {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .close-chat {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .close-chat:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .chatbox-body {
+            height: 360px;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8fafc;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-bottom-left-radius: 5px;
+            color: #374151;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 4px;
+            margin-left: 12px;
+        }
+
+        .message.user .message-time {
+            text-align: right;
+            margin-right: 12px;
+        }
+
+        .chatbox-footer {
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .message-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        .message-input input:focus {
+            border-color: #1C4D8D;
+            box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
+        }
+
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(28, 77, 141, 0.3);
+        }
+
+        /* Styles pour le calendrier */
+        .date-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .date-cell {
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .date-cell:hover:not(.disabled):not(.selected) {
+            background: #f3f4f6;
+            border-color: #dbeafe;
+        }
+
+        .date-cell.selected {
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .date-cell.disabled {
+            color: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        .date-cell.today {
+            border: 2px solid #1C4D8D;
+            background: #eff6ff;
+        }
+
+        /* Styles pour les créneaux horaires */
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .time-slot {
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .time-slot:hover:not(.booked) {
+            border-color: #1C4D8D;
+            background: #eff6ff;
+            transform: translateY(-2px);
+        }
+
+        .time-slot.selected {
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(28, 77, 141, 0.2);
+        }
+
+        .time-slot.booked {
+            background: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        /* Animation pour les messages */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Styles pour le formulaire de rendez-vous */
+        .appointment-form-step {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .appointment-form-step.active {
+            display: block;
+        }
+
+        .form-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .form-progress::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e5e7eb;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #9ca3af;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+
+        .progress-step.active {
+            border-color: #1C4D8D;
+            background: #1C4D8D;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .progress-step.completed {
+            border-color: #10b981;
+            background: #10b981;
+            color: white;
+        }
+
+        /* Badge de notification sur le chatbox */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-3" data-aos="fade-down-slow"
+        data-aos-duration="1200" data-aos-easing="ease-out-cubic">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="flex justify-between items-center">
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8 w-full justify-between">
+
+                    <!-- Logo à gauche (une seule ligne) -->
+                    <div class="text-[#D4AF37] font-bold text-xl tracking-tight">
+                        Precision Law Firm
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="flex items-center space-x-8">
+                        <a href="../accueil.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Home
+                        </a>
+
+                        <a href="overview.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Overview
+                        </a>
+
+                        <a href="team.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Our Team
+                        </a>
+
+                        <a href="expertise.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Expertise
+                        </a>
+
+                        <a href="jurisprudence.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Jurisprudence
+                        </a>
+
+                        <a href="courses.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Courses
+                        </a>
+
+                        <a href="appointment.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Appointment
+                        </a>
+                    </div>
+
+                    <!-- Bouton à droite (bleu marine) -->
+                    <a href="contact.html"
+                        class="bg-[#0A1F44] text-white px-6 py-2.5 rounded-full font-medium
+                     hover:opacity-90 transition duration-300 hover-lift text-sm tracking-wide shadow-sm hover:shadow-md">
+                        Contact Us
+                    </a>
+                </div>
+
+                <!-- Mobile Header -->
+                <div class="md:hidden flex items-center justify-between w-full">
+                    <div class="text-[#D4AF37] font-bold text-lg">
+                        Precision Law Firm
+                    </div>
+
+                    <button id="mobile-menu-button" class="text-gray-700 text-xl transition duration-300">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
+                <div class="flex flex-col space-y-4">
+                    <a href="../accueil.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Home
+                    </a>
+
+                    <a href="overview.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Overview
+                    </a>
+
+                    <a href="team.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Our Team
+                    </a>
+
+                    <a href="expertise.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Expertise
+                    </a>
+
+                    <a href="jurisprudence.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Jurisprudence
+                    </a>
+
+                    <a href="courses.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Courses
+                    </a>
+
+                    <a href="appointment.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Appointment
+                    </a>
+
+                    <a href="contact.html"
+                        class="bg-[#0A1F44] text-white px-4 py-2.5 rounded-md font-medium text-center mt-2 transition duration-300 text-sm">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Simple Header -->
+    <div class="pt-20 pb-12 text-center" data-aos="fade-up-slow" data-aos-duration="1500"
+        data-aos-easing="ease-out-cubic">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold mb-4">
+                <span class="text-[#0F2854]">Book an</span>
+                <span class="text-[#1C4D8D]">Appointment</span>
+            </h1>
+            <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto"></div>
+            <p class="text-gray-600 max-w-2xl mx-auto mt-4">
+                Schedule a consultation with our expert legal team. Choose your preferred date and time.
+            </p>
+        </div>
+    </div>
+
+    <!-- Appointment Booking Section -->
+    <div class="container mx-auto px-6 py-12">
+        <div class="flex flex-col lg:flex-row gap-12 items-start max-w-5xl mx-auto">
+            <!-- Appointment Info -->
+            <div class="lg:w-1/2 space-y-8">
+                <div class="flex items-start" data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="100">
+                    <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-calendar-check text-[#1C4D8D]"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-1">Available Hours</h3>
+                        <p class="text-gray-600">
+                            Monday - Friday: 9:00 AM - 5:00 PM<br>
+                            Saturday: 9:00 AM - 1:00 PM
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center" data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="200">
+                    <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-clock text-[#1C4D8D]"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-1">Appointment Duration</h3>
+                        <p class="text-gray-600">Initial consultation: 45 minutes<br>Follow-up: 30 minutes</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center" data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="300">
+                    <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-users text-[#1C4D8D]"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-1">Consultation Types</h3>
+                        <p class="text-gray-600">
+                            • In-person at our office<br>
+                            • Video conference call<br>
+                            • Telephone consultation
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t" data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="400">
+                    <h3 class="font-semibold text-gray-800 mb-3">Need Immediate Help?</h3>
+                    <div class="flex space-x-3">
+                        <div class="flex items-center text-gray-600">
+                            <i class="fas fa-phone mr-2 text-[#1C4D8D]"></i>
+                            <span>214-4607</span>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <i class="fas fa-envelope mr-2 text-[#1C4D8D]"></i>
+                            <span>LawfirmPrecision@outlook.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointment Booking Form -->
+            <div class="lg:w-1/2" data-aos="fade-left-slow" data-aos-duration="1500" data-aos-delay="300">
+                <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Schedule Your Appointment</h2>
+
+                    <!-- Form Progress Steps -->
+                    <div class="form-progress mb-8">
+                        <div class="progress-step active">1</div>
+                        <div class="progress-step">2</div>
+                        <div class="progress-step">3</div>
+                        <div class="progress-step">4</div>
+                    </div>
+
+                    <form id="appointment-form" class="space-y-5">
+                        <!-- Step 1: Personal Info -->
+                        <div class="appointment-form-step active" id="step1">
+                            <h3 class="font-semibold text-gray-800 mb-4">Personal Information</h3>
+                            <div class="space-y-4">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <input type="text" placeholder="First Name" required
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                                    <input type="text" placeholder="Last Name" required
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                                </div>
+                                <input type="email" placeholder="Email Address" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                                <input type="tel" placeholder="Phone Number" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                            </div>
+                            <div class="mt-6 flex justify-end">
+                                <button type="button" onclick="nextStep(2)"
+                                    class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-6 py-3 rounded-lg hover:opacity-90 transition duration-300">
+                                    Next: Choose Date <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Date Selection -->
+                        <div class="appointment-form-step" id="step2">
+                            <h3 class="font-semibold text-gray-800 mb-4">Select Date</h3>
+                            <div class="date-grid">
+                                <!-- Date cells will be generated by JavaScript -->
+                            </div>
+                            <div class="mt-6 flex justify-between">
+                                <button type="button" onclick="prevStep(1)"
+                                    class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300">
+                                    <i class="fas fa-arrow-left mr-2"></i> Back
+                                </button>
+                                <button type="button" onclick="nextStep(3)"
+                                    class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-6 py-3 rounded-lg hover:opacity-90 transition duration-300">
+                                    Next: Choose Time <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Time Selection -->
+                        <div class="appointment-form-step" id="step3">
+                            <h3 class="font-semibold text-gray-800 mb-4">Select Time Slot</h3>
+                            <div class="time-slots">
+                                <!-- Time slots will be generated by JavaScript -->
+                            </div>
+                            <div class="mt-6 flex justify-between">
+                                <button type="button" onclick="prevStep(2)"
+                                    class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300">
+                                    <i class="fas fa-arrow-left mr-2"></i> Back
+                                </button>
+                                <button type="button" onclick="nextStep(4)"
+                                    class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-6 py-3 rounded-lg hover:opacity-90 transition duration-300">
+                                    Next: Final Details <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Final Details -->
+                        <div class="appointment-form-step" id="step4">
+                            <h3 class="font-semibold text-gray-800 mb-4">Appointment Details</h3>
+                            <div class="space-y-4">
+                                <select
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                                    <option value="">Select Consultation Type</option>
+                                    <option value="in-person">In-person at Office</option>
+                                    <option value="video">Video Conference</option>
+                                    <option value="phone">Phone Call</option>
+                                </select>
+                                <select
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                                    <option value="">Select Attorney</option>
+                                    <option value="general">Any Available Attorney</option>
+                                    <option value="corporate">Corporate Law Specialist</option>
+                                    <option value="family">Family Law Specialist</option>
+                                    <option value="property">Property Law Specialist</option>
+                                </select>
+                                <textarea placeholder="Brief description of your legal matter (optional)" rows="3"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"></textarea>
+                            </div>
+                            <div class="mt-6 flex justify-between">
+                                <button type="button" onclick="prevStep(3)"
+                                    class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300">
+                                    <i class="fas fa-arrow-left mr-2"></i> Back
+                                </button>
+                                <button type="submit"
+                                    class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-lg hover:opacity-90 transition duration-300">
+                                    <i class="fas fa-calendar-check mr-2"></i> Confirm Appointment
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbox -->
+    <div class="chatbox-container">
+        <div class="chatbox-toggle" id="chatbox-toggle">
+            <i class="fas fa-comments"></i>
+            <div class="notification-badge">1</div>
+        </div>
+        <div class="chatbox-window" id="chatbox-window">
+            <div class="chatbox-header">
+                <h3><i class="fas fa-robot"></i> Legal Assistant Bot</h3>
+                <button class="close-chat" id="close-chat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbox-body" id="chatbox-body">
+                <div class="message bot">
+                    <div class="message-content">
+                        Hello! I'm your legal assistant. How can I help you today? You can ask about:
+                        <br><br>
+                        • Appointment booking<br>
+                        • Legal consultation types<br>
+                        • Office hours<br>
+                        • Document requirements<br>
+                        • Or type your question
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+            <div class="chatbox-footer">
+                <div class="message-input">
+                    <input type="text" id="chat-input" placeholder="Type your message here...">
+                    <button class="send-btn" id="send-message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer" class="mt-12" data-aos="fade-up-slow" data-aos-duration="1500"></div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1500,
+            offset: 80,
+            easing: 'ease-out-cubic',
+            once: true,
+            delay: 0,
+            mirror: false,
+            anchorPlacement: 'top-bottom',
+            startEvent: 'DOMContentLoaded',
+            disable: false
+        });
+
+        // Appointment form functionality
+        let currentStep = 1;
+
+        function nextStep(step) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('active');
+
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.querySelectorAll('.progress-step')[currentStep - 1].classList.add('active');
+
+            // Generate calendar for step 2
+            if (step === 2) {
+                generateCalendar();
+            }
+            // Generate time slots for step 3
+            else if (step === 3) {
+                generateTimeSlots();
+            }
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('active');
+
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.querySelectorAll('.progress-step')[currentStep - 1].classList.add('active');
+        }
+
+        function generateCalendar() {
+            const calendar = document.querySelector('.date-grid');
+            calendar.innerHTML = '';
+
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            // Add day headers
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'text-center text-sm font-medium text-gray-500 py-2';
+                dayHeader.textContent = day;
+                calendar.appendChild(dayHeader);
+            });
+
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+
+            // Get first day of current month
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            // Get last day of current month
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+
+            // Add empty cells for days before first day of month
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyCell = document.createElement('div');
+                calendar.appendChild(emptyCell);
+            }
+
+            // Add days of the month
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dateCell = document.createElement('div');
+                dateCell.className = 'date-cell';
+                dateCell.textContent = day;
+
+                const cellDate = new Date(currentYear, currentMonth, day);
+
+                // Mark today
+                if (day === today.getDate() && currentMonth === today.getMonth()) {
+                    dateCell.classList.add('today');
+                }
+
+                // Disable past dates
+                if (cellDate < today) {
+                    dateCell.classList.add('disabled');
+                } else {
+                    dateCell.addEventListener('click', () => {
+                        document.querySelectorAll('.date-cell.selected').forEach(cell => {
+                            cell.classList.remove('selected');
+                        });
+                        dateCell.classList.add('selected');
+                    });
+                }
+
+                calendar.appendChild(dateCell);
+            }
+        }
+
+        function generateTimeSlots() {
+            const timeSlots = document.querySelector('.time-slots');
+            timeSlots.innerHTML = '';
+
+            const slots = [
+                '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
+                '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'
+            ];
+
+            // Randomly mark some slots as booked for demo
+            const bookedSlots = [1, 4, 6]; // Indexes of booked slots
+
+            slots.forEach((slot, index) => {
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                timeSlot.textContent = slot;
+
+                if (bookedSlots.includes(index)) {
+                    timeSlot.classList.add('booked');
+                } else {
+                    timeSlot.addEventListener('click', () => {
+                        document.querySelectorAll('.time-slot.selected').forEach(slot => {
+                            slot.classList.remove('selected');
+                        });
+                        timeSlot.classList.add('selected');
+                    });
+                }
+
+                timeSlots.appendChild(timeSlot);
+            });
+        }
+
+        // Chatbox functionality
+        const chatboxToggle = document.getElementById('chatbox-toggle');
+        const chatboxWindow = document.getElementById('chatbox-window');
+        const closeChat = document.getElementById('close-chat');
+        const chatInput = document.getElementById('chat-input');
+        const sendMessageBtn = document.getElementById('send-message');
+        const chatboxBody = document.getElementById('chatbox-body');
+
+        chatboxToggle.addEventListener('click', () => {
+            chatboxWindow.classList.toggle('active');
+            // Hide notification badge when chat is opened
+            document.querySelector('.notification-badge').style.display = 'none';
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatboxWindow.classList.remove('active');
+        });
+
+        sendMessageBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            chatInput.value = '';
+
+            // Simulate bot response
+            setTimeout(() => {
+                const botResponse = getBotResponse(message);
+                addMessage(botResponse, 'bot');
+            }, 1000);
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = text;
+
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            const now = new Date();
+            timeDiv.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            messageDiv.appendChild(contentDiv);
+            messageDiv.appendChild(timeDiv);
+            chatboxBody.appendChild(messageDiv);
+
+            // Scroll to bottom
+            chatboxBody.scrollTop = chatboxBody.scrollHeight;
+        }
+
+        function getBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+
+            if (lowerMessage.includes('appointment') || lowerMessage.includes('book')) {
+                return "You can book an appointment using the form above. Our office hours are Monday-Friday 9AM-5PM and Saturday 9AM-1PM.";
+            } else if (lowerMessage.includes('hour') || lowerMessage.includes('time')) {
+                return "Our office hours are: Monday to Friday: 9:00 AM - 5:00 PM, Saturday: 9:00 AM - 1:00 PM.";
+            } else if (lowerMessage.includes('phone') || lowerMessage.includes('call')) {
+                return "You can call us at 214-4607 during office hours.";
+            } else if (lowerMessage.includes('email') || lowerMessage.includes('contact')) {
+                return "You can email us at LawfirmPrecision@outlook.com. We typically respond within 24 hours.";
+            } else if (lowerMessage.includes('location') || lowerMessage.includes('address')) {
+                return "We're located at: 7th floor, Astor Court (Block B), Georges Guibert Street, Port Louis.";
+            } else if (lowerMessage.includes('document') || lowerMessage.includes('paper')) {
+                return "For your consultation, please bring any relevant documents related to your case. If it's your first visit, bring identification and any court documents if applicable.";
+            } else if (lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('fee')) {
+                return "Our consultation fees vary based on the type of legal matter. Initial consultation fees will be discussed when you book your appointment.";
+            } else {
+                return "Thank you for your message. For specific legal advice, please book an appointment with one of our attorneys. Is there anything else I can help you with regarding appointments, hours, or general information?";
+            }
+        }
+
+        // Appointment form submission
+        document.getElementById('appointment-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Thank you! Your appointment request has been submitted. We will contact you shortly to confirm.');
+            // Reset form
+            this.reset();
+            currentStep = 1;
+            document.querySelectorAll('.appointment-form-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step1').classList.add('active');
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index === 0) step.classList.add('active');
+            });
+        });
+
+        // Load components
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                AOS.refresh();
+            }, 500);
+        });
+
+        // Toggle mobile menu
+        const mobileButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileButton.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
+    <script src="../assets/js/navbar.js"></script>
+
+    <!-- Script to load footer component -->
+    <script>
+        // Load footer component
+        fetch("/components/footer.html")
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("footer").innerHTML = data;
+                setTimeout(() => {
+                    AOS.refresh();
+                }, 300);
+            })
+            .catch(error => {
+                console.error('Error loading footer:', error);
+            });
+    </script>
+
+</body>
+
+</html>

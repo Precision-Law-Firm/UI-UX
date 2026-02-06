@@ -76,86 +76,124 @@
 
 <body class="bg-white">
 
-   <!-- Navbar -->
-   <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 zoom-in">
-    <div class="container mx-auto px-6 md:px-12 lg:px-24">
-        <div class="flex justify-between items-center py-5">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-3" data-aos="fade-down-slow"
+        data-aos-duration="1200" data-aos-easing="ease-out-cubic">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+            <div class="flex justify-between items-center">
 
-            <!-- Logo -->
-            <div class="flex items-center">
-                <a href="../accueil.html" class="flex items-center">
-                    <img src="../components/img/logo.PNG" alt="Precision Law Firm Logo"
-                        class="h-16 md:h-16 lg:h-16 w-auto object-contain">
-                </a>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8 w-full justify-between">
+
+                    <!-- Logo à gauche (une seule ligne) -->
+                    <div class="text-[#D4AF37] font-bold text-xl tracking-tight">
+                        Precision Law Firm
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="flex items-center space-x-8">
+                        <a href="../accueil.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Home
+                        </a>
+
+                        <a href="overview.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Overview
+                        </a>
+
+                        <a href="team.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Our Team
+                        </a>
+
+                        <a href="expertise.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Expertise
+                        </a>
+
+                        <a href="jurisprudence.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Jurisprudence
+                        </a>
+
+                        <a href="courses.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Courses
+                        </a>
+
+                        <a href="appointment.html"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            Appointment
+                        </a>
+                    </div>
+
+                    <!-- Bouton à droite (bleu marine) -->
+                    <a href="contact.html"
+                        class="bg-[#0A1F44] text-white px-6 py-2.5 rounded-full font-medium
+                     hover:opacity-90 transition duration-300 hover-lift text-sm tracking-wide shadow-sm hover:shadow-md">
+                        Contact Us
+                    </a>
+                </div>
+
+                <!-- Mobile Header -->
+                <div class="md:hidden flex items-center justify-between w-full">
+                    <div class="text-[#D4AF37] font-bold text-lg">
+                        Precision Law Firm
+                    </div>
+
+                    <button id="mobile-menu-button" class="text-gray-700 text-xl transition duration-300">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="../accueil.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
+                <div class="flex flex-col space-y-4">
+                    <a href="../accueil.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Home
+                    </a>
 
-                <a href="overview.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
+                    <a href="overview.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Overview
+                    </a>
 
-                <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our
-                    Team</a>
+                    <a href="team.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Our Team
+                    </a>
 
-                <a href="expertise.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
+                    <a href="expertise.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Expertise
+                    </a>
 
-                <a href="jurisprudence.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
+                    <a href="jurisprudence.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Jurisprudence
+                    </a>
 
-                <a href="student.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Courses</a>
+                    <a href="courses.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Courses
+                    </a>
 
-                <a href="careers.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Appointment</a>
+                    <a href="appointment.html"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        Appointment
+                    </a>
 
-                <a href="contact.html"
-                    class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-full font-medium hover:opacity-90 slow-transition hover-lift">
-                    Contact Us
-                </a>
+                    <a href="contact.html"
+                        class="bg-[#0A1F44] text-white px-4 py-2.5 rounded-md font-medium text-center mt-2 transition duration-300 text-sm">
+                        Contact Us
+                    </a>
+                </div>
             </div>
-
-            <!-- Mobile Menu Burger -->
-            <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl slow-transition">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden py-4 border-t">
-            <div class="flex flex-col space-y-4">
-                <a href="../accueil.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Home</a>
-
-                <a href="overview.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Overview</a>
-
-                <a href="team.html" class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Our
-                    Team</a>
-
-                <a href="expertise.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Expertise</a>
-
-                <a href="jurisprudence.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Jurisprudence</a>
-
-                <a href="student.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Courses</a>
-
-                <a href="careers.html"
-                    class="text-gray-700 font-medium hover:text-[#1C4D8D] slow-transition">Appointment</a>
-
-                <a href="contact.html"
-                    class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-4 py-2 rounded-md font-medium text-center mt-2 hover-lift slow-transition">
-                    Contact Us
-                </a>
-            </div>
-        </div>
-    </div>
-</nav>
+    </nav>
 
 
     <!-- Hero Section -->
