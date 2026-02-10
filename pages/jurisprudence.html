@@ -8,186 +8,222 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
 
-        .zoom-in {
-            animation: zoomIn 1.2s ease-out forwards;
+        /* Hero Section with Dark Overlay */
+        .hero-section {
+            background: linear-gradient(rgba(79, 79, 79, 0.132), rgba(0, 0, 0, 0.7)), url('../components/img/bg-try.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
         }
 
-        @keyframes zoomIn {
+        /* Card Hover Effects */
+        .case-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .case-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(28, 77, 141, 0.15);
+            border-color: #1C4D8D;
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #1C4D8D, transparent);
+            transition: left 0.6s ease;
+        }
+
+        .case-card:hover::before {
+            left: 100%;
+        }
+
+        /* Category Filter Buttons */
+        .category-btn {
+            background: white;
+            border: 2px solid #e5e7eb;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-btn:hover {
+            border-color: #1C4D8D;
+            color: #1C4D8D;
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(28, 77, 141, 0.2);
+        }
+
+        /* Animated Badge */
+        .animated-badge {
+            animation: pulse 2s infinite;
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(28, 77, 141, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(28, 77, 141, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(28, 77, 141, 0);
+            }
+        }
+
+        /* Stat Counter Animation */
+        .stat-counter {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: translateY(30px);
             }
-
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: translateY(0);
             }
         }
 
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
         }
 
-        .animate-on-scroll.visible {
+        /* Animated Background Pattern */
+        .pattern-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231c4d8d' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Section Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .slow-transition {
+        /* Mobile Menu Fix */
+        #mobile-menu {
             transition: all 0.3s ease;
-        }
-
-        .case-category {
-            transition: all 0.3s ease;
-        }
-
-        .case-category.active {
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            color: white;
-        }
-
-        .year-badge {
-            transition: all 0.3s ease;
-        }
-
-        .case-card:hover .year-badge {
-            background-color: #0F2854;
-            color: white;
         }
     </style>
 </head>
 
 <body class="bg-white">
 
-    <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-3" data-aos="fade-down-slow"
-        data-aos-duration="1200" data-aos-easing="ease-out-cubic">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-4 shadow-sm">
+        <div class="container mx-auto px-6">
             <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="text-[#D4AF37] font-bold text-xl tracking-tight">
+                    <i class="fas fa-balance-scale mr-2"></i>Precision Law Firm
+                </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8 w-full justify-between">
-
-                    <!-- Logo à gauche (une seule ligne) -->
-                    <div class="text-[#D4AF37] font-bold text-xl tracking-tight">
-                        Precision Law Firm
-                    </div>
-
-                    <!-- Navigation -->
-                    <div class="flex items-center space-x-8">
-                        <a href="../accueil.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
-                            Home
-                        </a>
-
-                        <a href="overview.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
-                            Overview
-                        </a>
-
-                        <a href="team.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
-                            Our Team
-                        </a>
-
-                        <a href="expertise.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
-                            Expertise
-                        </a>
-
-                        <a href="jurisprudence.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
-                            Jurisprudence
-                        </a>
-
-                        <a href="courses.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
-                            Courses
-                        </a>
-
-                        <a href="appointment.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
-                            Appointment
-                        </a>
-                    </div>
-
-                    <!-- Bouton à droite (bleu marine) -->
-                    <a href="contact.html"
-                        class="bg-[#0A1F44] text-white px-6 py-2.5 rounded-full font-medium
-                     hover:opacity-90 transition duration-300 hover-lift text-sm tracking-wide shadow-sm hover:shadow-md">
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../accueil.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm">
+                        Home
+                    </a>
+                    <a href="overview.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm">
+                        Overview
+                    </a>
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm">
+                        Our Team
+                    </a>
+                    <a href="expertise.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm">
+                        Expertise
+                    </a>
+                    <a href="jurisprudence.html" class="text-[#D4AF37] font-semibold transition duration-300 text-sm border-b-2 border-[#D4AF37]">
+                        Jurisprudence
+                    </a>
+                    <a href="courses.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm">
+                        Courses
+                    </a>
+                    <a href="appointment.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm">
+                        Appointment
+                    </a>
+                    <a href="contact.html" class="bg-[#0A1F44] text-white px-6 py-2.5 rounded-full font-medium hover:opacity-90 transition duration-300 text-sm">
                         Contact Us
                     </a>
                 </div>
 
-                <!-- Mobile Header -->
-                <div class="md:hidden flex items-center justify-between w-full">
-                    <div class="text-[#D4AF37] font-bold text-lg">
-                        Precision Law Firm
-                    </div>
-
-                    <button id="mobile-menu-button" class="text-gray-700 text-xl transition duration-300">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-xl">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
 
             <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-4">
                 <div class="flex flex-col space-y-4">
-                    <a href="../accueil.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="../accueil.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Home
                     </a>
-
-                    <a href="overview.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="overview.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Overview
                     </a>
-
-                    <a href="team.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="team.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Our Team
                     </a>
-
-                    <a href="expertise.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="expertise.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Expertise
                     </a>
-
-                    <a href="jurisprudence.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="jurisprudence.html" class="text-[#D4AF37] font-semibold transition duration-300 text-sm py-2">
                         Jurisprudence
                     </a>
-
-                    <a href="courses.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="courses.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Courses
                     </a>
-
-                    <a href="appointment.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="appointment.html" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Appointment
                     </a>
-
-                    <a href="contact.html"
-                        class="bg-[#0A1F44] text-white px-4 py-2.5 rounded-md font-medium text-center mt-2 transition duration-300 text-sm">
+                    <a href="contact.html" class="bg-[#0A1F44] text-white px-4 py-2.5 rounded-md font-medium text-center transition duration-300 text-sm">
                         Contact Us
                     </a>
                 </div>
@@ -195,530 +231,551 @@
         </div>
     </nav>
 
-
     <!-- Hero Section -->
-    <div class="relative overflow-hidden py-20 md:py-28 min-h-[400px] md:min-h-[450px] flex items-center">
-        <!-- Background Image with Overlay -->
-        <div class="absolute inset-0 z-0">
-            <!-- Background Image -->
-            <div class="absolute inset-0">
-                <img src="../components/img/bg-try.png"
-                    alt="Precision Law Firm Jurisprudence" class="w-full h-full object-cover object-center">
-                <!-- Dark overlay for better text readability -->
-                <div class="absolute inset-0 bg-gradient-to-r from-[#0F2854]/70 to-[#1C4D8D]/50"></div>
-            </div>
-        </div>
-
-        <div class="container mx-auto px-6 md:px-12 lg:px-24 z-10 relative">
-            <div class="max-w-4xl">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 animate-on-scroll">
-                    JURISPRUDENCE
+    <section class="hero-section">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <span class="animated-badge mb-6 inline-block fade-in-up">
+                    <i class="fas fa-gavel mr-2"></i>Landmark Cases
+                </span>
+                
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 fade-in-up" data-aos="fade-up" data-aos-delay="200">
+                    Our <span class="text-[#D4AF37]">Jurisprudence</span>
                 </h1>
-                <div class="text-white text-lg md:text-xl leading-relaxed space-y-4 animate-on-scroll"
-                    style="animation-delay: 0.2s">
-                    <p class="opacity-95">
-                        Landmark cases and significant legal precedents handled by our firm, showcasing our litigation
-                        expertise and strategic legal approach.
-                    </p>
+                
+                <p class="text-xl text-gray-200 mb-10 max-w-2xl mx-auto fade-in-up" data-aos="fade-up" data-aos-delay="300">
+                    Discover landmark cases and significant legal precedents handled by our firm. 
+                    Each case represents our commitment to excellence in legal strategy and advocacy.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in-up" data-aos="fade-up" data-aos-delay="400">
+                    <a href="#featured-cases" class="bg-white text-[#0F2854] px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition duration-300 inline-flex items-center justify-center">
+                        <i class="fas fa-book-open mr-3"></i> Explore Cases
+                    </a>
+                    <a href="#stats" class="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/20 transition duration-300 inline-flex items-center justify-center">
+                        <i class="fas fa-chart-bar mr-3"></i> View Statistics
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Case Categories Filter -->
-    <div class="py-8 bg-gray-50 border-b border-gray-200">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="flex flex-wrap gap-3 justify-center">
-                <button
-                    class="case-category active px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 font-medium hover:bg-gray-50"
-                    data-category="all">
-                    All Cases
-                </button>
-                <button
-                    class="case-category px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 font-medium hover:bg-gray-50"
-                    data-category="commercial">
-                    Commercial Litigation
-                </button>
-                <button
-                    class="case-category px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 font-medium hover:bg-gray-50"
-                    data-category="constitutional">
-                    Constitutional Law
-                </button>
-                <button
-                    class="case-category px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 font-medium hover:bg-gray-50"
-                    data-category="administrative">
-                    Administrative Law
-                </button>
-                <button
-                    class="case-category px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 font-medium hover:bg-gray-50"
-                    data-category="employment">
-                    Employment Law
-                </button>
-                <button
-                    class="case-category px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 font-medium hover:bg-gray-50"
-                    data-category="property">
-                    Property Law
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Featured Cases -->
-    <div class="py-20 bg-white">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16 animate-on-scroll">
-                    <h2 class="text-3xl md:text-4xl font-bold text-[#0F2854] mb-4">Featured Cases</h2>
-                    <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-4"></div>
-                    <p class="text-gray-600 max-w-2xl mx-auto">Significant legal matters where our expertise made a
-                        decisive difference</p>
+    <!-- Statistics Section -->
+    <section id="stats" class="py-16 bg-gradient-to-b from-white to-gray-50 pattern-bg">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="stat-counter mb-2" data-count="150">0+</div>
+                    <p class="text-gray-600 font-medium">Cases Handled</p>
                 </div>
-
-                <!-- Case 1 -->
-                <div class="mb-16 animate-on-scroll" data-category="commercial administrative">
-                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover-lift">
-                        <div class="md:flex">
-                            <div
-                                class="md:w-1/3 bg-gradient-to-br from-blue-50 to-gray-50 p-8 flex flex-col justify-center">
-                                <div class="mb-6">
-                                    <span
-                                        class="year-badge inline-block bg-blue-100 text-[#1C4D8D] text-sm font-medium px-3 py-1 rounded-full mb-3">
-                                        2023
-                                    </span>
-                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Supreme Court Commercial Division
-                                    </h3>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Commercial
-                                            Law</span>
-                                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Contract
-                                            Dispute</span>
-                                    </div>
-                                </div>
-                                <div class="text-sm text-gray-500">
-                                    <i class="fas fa-balance-scale mr-2"></i>
-                                    Case No: SCJ 123/2023
-                                </div>
-                            </div>
-                            <div class="md:w-2/3 p-8">
-                                <h4 class="text-lg font-bold text-gray-800 mb-4">Complex Commercial Contract
-                                    Interpretation</h4>
-                                <div class="space-y-4 text-gray-700">
-                                    <p>
-                                        Successfully represented a major Mauritian corporation in a high-value contract
-                                        dispute involving cross-border commercial agreements. The case centered on the
-                                        interpretation of force majeure clauses in the context of international trade
-                                        disruptions.
-                                    </p>
-                                    <div class="bg-blue-50 p-4 rounded-lg">
-                                        <p class="text-sm font-medium text-[#1C4D8D] mb-2">
-                                            <i class="fas fa-gavel mr-2"></i>
-                                            Key Legal Points:
-                                        </p>
-                                        <ul class="text-sm text-gray-600 space-y-1">
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Interpretation of contractual obligations under Mauritian contract law
-                                            </li>
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Application of international commercial terms in domestic courts
-                                            </li>
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Quantification of commercial damages and loss assessment
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm text-gray-600">
-                                        <strong>Outcome:</strong> Favorable settlement achieved through strategic
-                                        litigation approach, preserving client's commercial interests.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="stat-counter mb-2" data-count="95">0%</div>
+                    <p class="text-gray-600 font-medium">Success Rate</p>
                 </div>
-
-                <!-- Case 2 -->
-                <div class="mb-16 animate-on-scroll" data-category="constitutional administrative"
-                    style="animation-delay: 0.1s">
-                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover-lift">
-                        <div class="md:flex">
-                            <div
-                                class="md:w-1/3 bg-gradient-to-br from-blue-50 to-gray-50 p-8 flex flex-col justify-center">
-                                <div class="mb-6">
-                                    <span
-                                        class="year-badge inline-block bg-blue-100 text-[#1C4D8D] text-sm font-medium px-3 py-1 rounded-full mb-3">
-                                        2022
-                                    </span>
-                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Constitutional Division</h3>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Constitutional
-                                            Law</span>
-                                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Judicial
-                                            Review</span>
-                                    </div>
-                                </div>
-                                <div class="text-sm text-gray-500">
-                                    <i class="fas fa-landmark mr-2"></i>
-                                    Case No: CD 45/2022
-                                </div>
-                            </div>
-                            <div class="md:w-2/3 p-8">
-                                <h4 class="text-lg font-bold text-gray-800 mb-4">Judicial Review of Administrative
-                                    Decision</h4>
-                                <div class="space-y-4 text-gray-700">
-                                    <p>
-                                        Acted for a group of applicants challenging administrative decisions affecting
-                                        property rights. The case involved significant constitutional questions
-                                        regarding procedural fairness and legitimate expectation in Mauritian
-                                        administrative law.
-                                    </p>
-                                    <div class="bg-blue-50 p-4 rounded-lg">
-                                        <p class="text-sm font-medium text-[#1C4D8D] mb-2">
-                                            <i class="fas fa-gavel mr-2"></i>
-                                            Key Legal Points:
-                                        </p>
-                                        <ul class="text-sm text-gray-600 space-y-1">
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Application of Section 17 of the Constitution of Mauritius
-                                            </li>
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Scope of judicial review in administrative matters
-                                            </li>
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Protection of property rights under Mauritian law
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm text-gray-600">
-                                        <strong>Outcome:</strong> Successful application for judicial review,
-                                        establishing important precedent for administrative procedure compliance.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="stat-counter mb-2" data-count="25">+</div>
+                    <p class="text-gray-600 font-medium">Years Experience</p>
                 </div>
-
-                <!-- Case 3 -->
-                <div class="mb-16 animate-on-scroll" data-category="employment" style="animation-delay: 0.2s">
-                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover-lift">
-                        <div class="md:flex">
-                            <div
-                                class="md:w-1/3 bg-gradient-to-br from-blue-50 to-gray-50 p-8 flex flex-col justify-center">
-                                <div class="mb-6">
-                                    <span
-                                        class="year-badge inline-block bg-blue-100 text-[#1C4D8D] text-sm font-medium px-3 py-1 rounded-full mb-3">
-                                        2023
-                                    </span>
-                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Industrial Court</h3>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Employment
-                                            Law</span>
-                                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Workers'
-                                            Rights</span>
-                                    </div>
-                                </div>
-                                <div class="text-sm text-gray-500">
-                                    <i class="fas fa-briefcase mr-2"></i>
-                                    Case No: IC 89/2023
-                                </div>
-                            </div>
-                            <div class="md:w-2/3 p-8">
-                                <h4 class="text-lg font-bold text-gray-800 mb-4">Unfair Dismissal under Workers' Rights
-                                    Act 2019</h4>
-                                <div class="space-y-4 text-gray-700">
-                                    <p>
-                                        Represented an employee in a landmark unfair dismissal case interpreting the new
-                                        provisions of the Workers' Rights Act 2019. The case clarified employer
-                                        obligations regarding termination procedures and severance calculations.
-                                    </p>
-                                    <div class="bg-blue-50 p-4 rounded-lg">
-                                        <p class="text-sm font-medium text-[#1C4D8D] mb-2">
-                                            <i class="fas fa-gavel mr-2"></i>
-                                            Key Legal Points:
-                                        </p>
-                                        <ul class="text-sm text-gray-600 space-y-1">
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Interpretation of Section 45 of Workers' Rights Act 2019
-                                            </li>
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Procedural fairness in employment termination
-                                            </li>
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Calculation of compensation under new statutory framework
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm text-gray-600">
-                                        <strong>Outcome:</strong> Successful claim resulting in significant compensation
-                                        award and establishing important guidelines for termination procedures.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Case 4 -->
-                <div class="animate-on-scroll" data-category="property" style="animation-delay: 0.3s">
-                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover-lift">
-                        <div class="md:flex">
-                            <div
-                                class="md:w-1/3 bg-gradient-to-br from-blue-50 to-gray-50 p-8 flex flex-col justify-center">
-                                <div class="mb-6">
-                                    <span
-                                        class="year-badge inline-block bg-blue-100 text-[#1C4D8D] text-sm font-medium px-3 py-1 rounded-full mb-3">
-                                        2022
-                                    </span>
-                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Intermediate Court</h3>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Property
-                                            Law</span>
-                                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Ownership
-                                            Dispute</span>
-                                    </div>
-                                </div>
-                                <div class="text-sm text-gray-500">
-                                    <i class="fas fa-home mr-2"></i>
-                                    Case No: IC 67/2022
-                                </div>
-                            </div>
-                            <div class="md:w-2/3 p-8">
-                                <h4 class="text-lg font-bold text-gray-800 mb-4">Land Ownership and Acquisitive
-                                    Prescription</h4>
-                                <div class="space-y-4 text-gray-700">
-                                    <p>
-                                        Complex property dispute involving competing claims to land ownership under the
-                                        Affidavit of Prescription Act 2018. The case required detailed analysis of
-                                        historical land use and statutory requirements for acquisitive prescription.
-                                    </p>
-                                    <div class="bg-blue-50 p-4 rounded-lg">
-                                        <p class="text-sm font-medium text-[#1C4D8D] mb-2">
-                                            <i class="fas fa-gavel mr-2"></i>
-                                            Key Legal Points:
-                                        </p>
-                                        <ul class="text-sm text-gray-600 space-y-1">
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Application of Affidavit of Prescription Act 2018
-                                            </li>
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Evidence requirements for acquisitive prescription claims
-                                            </li>
-                                            <li class="flex items-start">
-                                                <i class="fas fa-check text-[#1C4D8D] text-xs mt-1 mr-2"></i>
-                                                Interpretation of historical land boundaries and use
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="text-sm text-gray-600">
-                                        <strong>Outcome:</strong> Successful defense of client's property rights, with
-                                        court providing important clarification on evidentiary standards for
-                                        prescription claims.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="stat-counter mb-2" data-count="12">+</div>
+                    <p class="text-gray-600 font-medium">Landmark Precedents</p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Recent Cases Summary -->
-    <div class="bg-gradient-to-b from-white to-gray-50 py-20">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-12 animate-on-scroll">
-                    <h2 class="text-3xl font-bold text-[#0F2854] mb-4">Recent Case Highlights</h2>
-                    <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-4"></div>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-xl p-6 border border-gray-200 hover-lift animate-on-scroll">
-                        <div class="flex items-center mb-4">
-                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-file-contract text-[#1C4D8D]"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800">Contract Law</h4>
-                                <p class="text-gray-500 text-sm">12 cases in 2023</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 text-sm">
-                            Successful resolution of complex contract disputes across various commercial sectors.
-                        </p>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 border border-gray-200 hover-lift animate-on-scroll"
-                        style="animation-delay: 0.1s">
-                        <div class="flex items-center mb-4">
-                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-users text-[#1C4D8D]"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800">Employment Law</h4>
-                                <p class="text-gray-500 text-sm">8 cases in 2023</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 text-sm">
-                            Representation in unfair dismissal and Workers' Rights Act compliance matters.
-                        </p>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 border border-gray-200 hover-lift animate-on-scroll"
-                        style="animation-delay: 0.2s">
-                        <div class="flex items-center mb-4">
-                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-landmark text-[#1C4D8D]"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800">Administrative Law</h4>
-                                <p class="text-gray-500 text-sm">6 cases in 2023</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 text-sm">
-                            Judicial review applications and constitutional matters before Supreme Court.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Legal Insights -->
-    <div class="py-20 bg-white">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+    <!-- Case Filter -->
+    <section class="py-12 bg-white border-b border-gray-200">
+        <div class="container mx-auto px-6">
             <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12 animate-on-scroll">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Legal Insights from Our Cases</h2>
+                <div class="text-center mb-8" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold text-[#0F2854] mb-3">Filter by Practice Area</h3>
+                    <p class="text-gray-600">Select a category to view relevant cases</p>
+                </div>
+                
+                <div class="flex flex-wrap gap-3 justify-center" data-aos="fade-up" data-aos-delay="100">
+                    <button class="category-btn active" data-category="all">
+                        <i class="fas fa-layer-group mr-2"></i>All Cases
+                    </button>
+                    <button class="category-btn" data-category="commercial">
+                        <i class="fas fa-briefcase mr-2"></i>Commercial Law
+                    </button>
+                    <button class="category-btn" data-category="constitutional">
+                        <i class="fas fa-landmark mr-2"></i>Constitutional Law
+                    </button>
+                    <button class="category-btn" data-category="civil">
+                        <i class="fas fa-balance-scale mr-2"></i>Civil Litigation
+                    </button>
+                    <button class="category-btn" data-category="employment">
+                        <i class="fas fa-users mr-2"></i>Employment Law
+                    </button>
+                    <button class="category-btn" data-category="property">
+                        <i class="fas fa-home mr-2"></i>Property Law
+                    </button>
+                    <button class="category-btn" data-category="corporate">
+                        <i class="fas fa-building mr-2"></i>Corporate Law
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Cases Section -->
+    <section id="featured-cases" class="py-20 bg-gray-50 pattern-bg">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#0F2854] mb-4">Landmark Cases & Precedents</h2>
                     <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-4"></div>
-                    <p class="text-gray-600 max-w-2xl mx-auto">Key legal principles established through our litigation
-                        practice</p>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Significant legal matters where our strategic approach made a decisive impact</p>
                 </div>
 
-                <div class="bg-blue-50 rounded-xl p-8 animate-on-scroll" style="animation-delay: 0.1s">
-                    <div class="space-y-6">
-                        <div class="flex items-start">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 bg-white rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-lightbulb text-[#1C4D8D]"></i>
+                <div class="space-y-8">
+                    <!-- Case 1 - Commercial Law -->
+                    <div class="case-card bg-white rounded-2xl p-6 reveal" data-category="commercial corporate" data-aos="fade-up">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="lg:w-1/3">
+                                <div class="bg-gradient-to-br from-blue-50 to-gray-50 p-6 rounded-xl h-full">
+                                    <div class="mb-6">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <span class="bg-blue-100 text-[#1C4D8D] text-sm font-semibold px-3 py-1 rounded-full">
+                                                2023 • Supreme Court
+                                            </span>
+                                            <span class="text-xs text-gray-500">
+                                                <i class="fas fa-clock mr-1"></i>6 months
+                                            </span>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-2">Doe v. Mauritius Commercial Bank</h3>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="text-xs bg-blue-100 text-[#1C4D8D] px-3 py-1 rounded-full">Banking Law</span>
+                                            <span class="text-xs bg-blue-100 text-[#1C4D8D] px-3 py-1 rounded-full">Contract Law</span>
+                                            <span class="text-xs bg-blue-100 text-[#1C4D8D] px-3 py-1 rounded-full">Finance</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        <div class="flex items-center mb-2">
+                                            <i class="fas fa-file-alt text-[#1C4D8D] mr-2"></i>
+                                            <span>Case No: SCJ 2023-45</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-user-tie text-[#1C4D8D] mr-2"></i>
+                                            <span>Lead Attorney: Maître Jean Dupont</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800 mb-2">Contract Interpretation Principles</h4>
-                                <p class="text-gray-600 text-sm">
-                                    Our cases have helped clarify principles of contractual interpretation in Mauritian
-                                    law, particularly regarding implied terms and commercial context.
-                                </p>
+                            
+                            <div class="lg:w-2/3">
+                                <h4 class="text-2xl font-bold text-gray-800 mb-4">Redefining Banking Liability in Digital Transactions</h4>
+                                <div class="space-y-4 text-gray-700">
+                                    <p>
+                                        This landmark case established new standards for bank liability in unauthorized digital transactions. 
+                                        Our firm successfully argued for expanded consumer protection in the rapidly evolving digital banking landscape.
+                                    </p>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="bg-blue-50 p-4 rounded-lg">
+                                            <p class="text-sm font-semibold text-[#1C4D8D] mb-2">
+                                                <i class="fas fa-gavel mr-2"></i>Key Legal Issues:
+                                            </p>
+                                            <ul class="text-sm text-gray-600 space-y-1">
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check-circle text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                                    Digital transaction security standards
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check-circle text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                                    Burden of proof in fraud cases
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check-circle text-[#1C4D8D] text-xs mt-1 mr-2"></i>
+                                                    Consumer protection under Banking Act
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="bg-green-50 p-4 rounded-lg">
+                                            <p class="text-sm font-semibold text-green-700 mb-2">
+                                                <i class="fas fa-trophy mr-2"></i>Case Outcome:
+                                            </p>
+                                            <ul class="text-sm text-gray-600 space-y-1">
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check text-green-600 text-xs mt-1 mr-2"></i>
+                                                    Ruling in favor of consumer rights
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check text-green-600 text-xs mt-1 mr-2"></i>
+                                                    Established new security protocols
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check text-green-600 text-xs mt-1 mr-2"></i>
+                                                    Set important legal precedent
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+                                        <span class="text-sm font-medium text-[#1C4D8D]">
+                                            <i class="fas fa-star mr-1"></i>Landmark Precedent Established
+                                        </span>
+                                        <a href="#" class="text-[#1C4D8D] font-medium hover:text-[#0F2854] transition">
+                                            Read Full Case Study <i class="fas fa-arrow-right ml-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="flex items-start">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 bg-white rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-gavel text-[#1C4D8D]"></i>
+                    <!-- Case 2 - Constitutional Law -->
+                    <div class="case-card bg-white rounded-2xl p-6 reveal" data-category="constitutional civil" data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="lg:w-1/3">
+                                <div class="bg-gradient-to-br from-purple-50 to-gray-50 p-6 rounded-xl h-full">
+                                    <div class="mb-6">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <span class="bg-purple-100 text-purple-700 text-sm font-semibold px-3 py-1 rounded-full">
+                                                2022 • Constitutional Court
+                                            </span>
+                                            <span class="text-xs text-gray-500">
+                                                <i class="fas fa-clock mr-1"></i>8 months
+                                            </span>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-2">Republic v. Civil Liberties Union</h3>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full">Human Rights</span>
+                                            <span class="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full">Free Speech</span>
+                                            <span class="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full">Constitutional Law</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        <div class="flex items-center mb-2">
+                                            <i class="fas fa-file-alt text-purple-600 mr-2"></i>
+                                            <span>Case No: CC 2022-12</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-user-tie text-purple-600 mr-2"></i>
+                                            <span>Lead Attorney: Maître Marie Curé</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800 mb-2">Procedural Fairness Standards</h4>
-                                <p class="text-gray-600 text-sm">
-                                    Established precedents regarding administrative fairness and the requirements for
-                                    valid decision-making processes.
-                                </p>
+                            
+                            <div class="lg:w-2/3">
+                                <h4 class="text-2xl font-bold text-gray-800 mb-4">Expanding Freedom of Expression Protections</h4>
+                                <div class="space-y-4 text-gray-700">
+                                    <p>
+                                        A groundbreaking constitutional challenge that redefined the boundaries of free speech in Mauritius. 
+                                        Our advocacy led to expanded protections for digital expression and online journalism.
+                                    </p>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="bg-purple-50 p-4 rounded-lg">
+                                            <p class="text-sm font-semibold text-purple-700 mb-2">
+                                                <i class="fas fa-gavel mr-2"></i>Constitutional Issues:
+                                            </p>
+                                            <ul class="text-sm text-gray-600 space-y-1">
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check-circle text-purple-600 text-xs mt-1 mr-2"></i>
+                                                    Section 12: Freedom of Expression
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check-circle text-purple-600 text-xs mt-1 mr-2"></i>
+                                                    Digital rights and online speech
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check-circle text-purple-600 text-xs mt-1 mr-2"></i>
+                                                    Balance with national security
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="bg-green-50 p-4 rounded-lg">
+                                            <p class="text-sm font-semibold text-green-700 mb-2">
+                                                <i class="fas fa-trophy mr-2"></i>Legal Impact:
+                                            </p>
+                                            <ul class="text-sm text-gray-600 space-y-1">
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check text-green-600 text-xs mt-1 mr-2"></i>
+                                                    Expanded free speech protections
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check text-green-600 text-xs mt-1 mr-2"></i>
+                                                    Influenced media legislation
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check text-green-600 text-xs mt-1 mr-2"></i>
+                                                    Cited in 15+ subsequent cases
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+                                        <span class="text-sm font-medium text-purple-600">
+                                            <i class="fas fa-star mr-1"></i>Constitutional Precedent
+                                        </span>
+                                        <a href="#" class="text-purple-600 font-medium hover:text-purple-700 transition">
+                                            Read Full Case Study <i class="fas fa-arrow-right ml-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="flex items-start">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 bg-white rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-balance-scale text-[#1C4D8D]"></i>
+                    <!-- Case 3 - Employment Law -->
+                    <div class="case-card bg-white rounded-2xl p-6 reveal" data-category="employment civil" data-aos="fade-up" data-aos-delay="200">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="lg:w-1/3">
+                                <div class="bg-gradient-to-br from-orange-50 to-gray-50 p-6 rounded-xl h-full">
+                                    <div class="mb-6">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <span class="bg-orange-100 text-orange-700 text-sm font-semibold px-3 py-1 rounded-full">
+                                                2023 • Industrial Court
+                                            </span>
+                                            <span class="text-xs text-gray-500">
+                                                <i class="fas fa-clock mr-1"></i>5 months
+                                            </span>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-2">Smith v. Global Tech Solutions</h3>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="text-xs bg-orange-100 text-orange-700 px-3 py-1 rounded-full">Unfair Dismissal</span>
+                                            <span class="text-xs bg-orange-100 text-orange-700 px-3 py-1 rounded-full">Workers' Rights</span>
+                                            <span class="text-xs bg-orange-100 text-orange-700 px-3 py-1 rounded-full">Discrimination</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        <div class="flex items-center mb-2">
+                                            <i class="fas fa-file-alt text-orange-600 mr-2"></i>
+                                            <span>Case No: IC 2023-78</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-user-tie text-orange-600 mr-2"></i>
+                                            <span>Lead Attorney: Maître Paul Richard</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800 mb-2">Evidence in Property Disputes</h4>
-                                <p class="text-gray-600 text-sm">
-                                    Clarified evidentiary standards for acquisitive prescription claims under recent
-                                    legislative changes.
-                                </p>
+                            
+                            <div class="lg:w-2/3">
+                                <h4 class="text-2xl font-bold text-gray-800 mb-4">Setting New Standards for Workplace Fairness</h4>
+                                <div class="space-y-4 text-gray-700">
+                                    <p>
+                                        This case established important precedents regarding workplace discrimination and unfair dismissal procedures. 
+                                        Our successful litigation led to significant changes in corporate HR policies across Mauritius.
+                                    </p>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="bg-orange-50 p-4 rounded-lg">
+                                            <p class="text-sm font-semibold text-orange-700 mb-2">
+                                                <i class="fas fa-gavel mr-2"></i>Employment Law Issues:
+                                            </p>
+                                            <ul class="text-sm text-gray-600 space-y-1">
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check-circle text-orange-600 text-xs mt-1 mr-2"></i>
+                                                    Constructive dismissal criteria
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check-circle text-orange-600 text-xs mt-1 mr-2"></i>
+                                                    Burden of proof in discrimination cases
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check-circle text-orange-600 text-xs mt-1 mr-2"></i>
+                                                    Calculation of compensation
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="bg-green-50 p-4 rounded-lg">
+                                            <p class="text-sm font-semibold text-green-700 mb-2">
+                                                <i class="fas fa-trophy mr-2"></i>Outcome & Impact:
+                                            </p>
+                                            <ul class="text-sm text-gray-600 space-y-1">
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check text-green-600 text-xs mt-1 mr-2"></i>
+                                                    Record compensation awarded
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check text-green-600 text-xs mt-1 mr-2"></i>
+                                                    New HR standards established
+                                                </li>
+                                                <li class="flex items-start">
+                                                    <i class="fas fa-check text-green-600 text-xs mt-1 mr-2"></i>
+                                                    Cited in employment law reforms
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+                                        <span class="text-sm font-medium text-orange-600">
+                                            <i class="fas fa-star mr-1"></i>Employment Law Milestone
+                                        </span>
+                                        <a href="#" class="text-orange-600 font-medium hover:text-orange-700 transition">
+                                            Read Full Case Study <i class="fas fa-arrow-right ml-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#0F2854] mb-4">Our Legal Journey</h2>
+                    <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-4"></div>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Key milestones and landmark cases that shaped our practice</p>
+                </div>
+
+                <div class="relative">
+                    <!-- Timeline Line -->
+                    <div class="absolute left-6 md:left-1/2 transform md:-translate-x-1/2 h-full w-1 bg-gradient-to-b from-[#1C4D8D] to-[#0F2854]"></div>
+
+                    <!-- Timeline Items -->
+                    <div class="space-y-12">
+                        <!-- 2023 -->
+                        <div class="relative" data-aos="fade-right">
+                            <div class="flex flex-col md:flex-row items-center md:items-start">
+                                <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                                    <div class="bg-blue-50 p-6 rounded-2xl">
+                                        <span class="text-sm font-semibold text-[#1C4D8D]">2023</span>
+                                        <h3 class="text-lg font-bold text-gray-800 mt-2">Digital Banking Precedent</h3>
+                                        <p class="text-gray-600 text-sm mt-2">Established new standards for consumer protection in digital transactions</p>
+                                    </div>
+                                </div>
+                                <div class="w-12 h-12 bg-white border-4 border-[#1C4D8D] rounded-full flex items-center justify-center z-10 mx-auto md:mx-0">
+                                    <i class="fas fa-mobile-alt text-[#1C4D8D]"></i>
+                                </div>
+                                <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0">
+                                    <div class="opacity-0 md:opacity-100"> <!-- Spacer for alignment --> </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2022 -->
+                        <div class="relative" data-aos="fade-left" data-aos-delay="100">
+                            <div class="flex flex-col md:flex-row items-center md:items-start">
+                                <div class="md:w-1/2 md:pr-12 mb-4 md:mb-0">
+                                    <div class="opacity-0 md:opacity-100"> <!-- Spacer for alignment --> </div>
+                                </div>
+                                <div class="w-12 h-12 bg-white border-4 border-[#1C4D8D] rounded-full flex items-center justify-center z-10 mx-auto md:mx-0">
+                                    <i class="fas fa-comments text-[#1C4D8D]"></i>
+                                </div>
+                                <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0">
+                                    <div class="bg-purple-50 p-6 rounded-2xl">
+                                        <span class="text-sm font-semibold text-purple-700">2022</span>
+                                        <h3 class="text-lg font-bold text-gray-800 mt-2">Free Speech Expansion</h3>
+                                        <p class="text-gray-600 text-sm mt-2">Redefined constitutional protections for digital expression</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2021 -->
+                        <div class="relative" data-aos="fade-right" data-aos-delay="200">
+                            <div class="flex flex-col md:flex-row items-center md:items-start">
+                                <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                                    <div class="bg-orange-50 p-6 rounded-2xl">
+                                        <span class="text-sm font-semibold text-orange-700">2021</span>
+                                        <h3 class="text-lg font-bold text-gray-800 mt-2">Workplace Rights Milestone</h3>
+                                        <p class="text-gray-600 text-sm mt-2">Set new standards for employment discrimination cases</p>
+                                    </div>
+                                </div>
+                                <div class="w-12 h-12 bg-white border-4 border-[#1C4D8D] rounded-full flex items-center justify-center z-10 mx-auto md:mx-0">
+                                    <i class="fas fa-briefcase text-[#1C4D8D]"></i>
+                                </div>
+                                <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0">
+                                    <div class="opacity-0 md:opacity-100"> <!-- Spacer for alignment --> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- CTA Section -->
-    <div class="py-20 bg-gradient-to-r from-[#0F2854] to-[#1C4D8D]">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+    <section class="py-20 bg-gradient-to-r from-[#0F2854] to-[#1C4D8D] relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;);"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl font-bold text-white mb-6 animate-on-scroll">Discuss Your Legal Matter</h2>
-                <p class="text-blue-100 mb-8 max-w-2xl mx-auto animate-on-scroll" style="animation-delay: 0.1s">
-                    Our experience in handling complex cases across various legal domains positions us to provide
-                    strategic advice for your specific legal challenges.
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6" data-aos="fade-up">
+                    Ready to Build Your Case Strategy?
+                </h2>
+                <p class="text-blue-100 mb-8 max-w-2xl mx-auto text-lg" data-aos="fade-up" data-aos-delay="100">
+                    Our proven track record in landmark cases demonstrates our ability to develop winning strategies for complex legal challenges.
                 </p>
-                <a href="contact.html"
-                    class="inline-flex items-center bg-white text-[#1C4D8D] px-8 py-3 rounded-lg font-medium hover:bg-blue-50 slow-transition animate-on-scroll"
-                    style="animation-delay: 0.2s">
-                    <span class="mr-2">Schedule a Case Review</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
+                    <a href="contact.html" class="bg-white text-[#0F2854] px-8 py-4 rounded-xl font-bold hover:bg-blue-50 transition duration-300 inline-flex items-center justify-center text-lg">
+                        <i class="fas fa-calendar-check mr-3"></i> Schedule Consultation
+                    </a>
+                    <a href="tel:+2302144607" class="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition duration-300 inline-flex items-center justify-center text-lg">
+                        <i class="fas fa-phone mr-3"></i> +230 214 4607
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-[#0F2854] text-white py-12">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+        <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-8">
-                <!-- Logo and description -->
+                <!-- Firm Info -->
                 <div class="md:col-span-2">
                     <div class="text-2xl font-bold mb-4">
                         <span class="text-white">Precision</span>
                         <span class="text-blue-300">Law Firm</span>
                     </div>
                     <p class="text-gray-300 mb-6 max-w-md">
-                        Strategic legal representation with proven track record in significant cases across Mauritian
-                        courts.
+                        Strategic legal representation with a proven track record in landmark cases across Mauritian courts and tribunals.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#"
-                            class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="#"
-                            class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                            <i class="fas fa-phone"></i>
+                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fas fa-envelope"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- Quick Links -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4 text-white">Quick Links</h3>
-                    <ul class="space-y-3">
-                        <li><a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a></li>
-                        <li><a href="overview.html" class="text-gray-300 hover:text-white transition">Overview</a></li>
-                        <li><a href="team.html" class="text-gray-300 hover:text-white transition">Our Team</a></li>
-                        <li><a href="jurisprudence.html"
-                                class="text-gray-300 hover:text-white transition">Jurisprudence</a></li>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Practice Areas</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Commercial Litigation</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Constitutional Law</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Employment Law</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Corporate Law</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Property Disputes</a></li>
                     </ul>
                 </div>
 
-                <!-- Contact Info -->
+                <!-- Contact -->
                 <div>
                     <h3 class="text-lg font-semibold mb-4 text-white">Contact Us</h3>
                     <ul class="space-y-3 text-gray-300">
                         <li class="flex items-start">
                             <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300"></i>
-                            <span>7th floor, Astor Court<br>Georges Guibert Street, Port Louis</span>
+                            <span>7th floor, Astor Court<br>Georges Guibert Street<br>Port Louis, Mauritius</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-phone mr-3 text-blue-300"></i>
@@ -728,6 +785,10 @@
                             <i class="fas fa-envelope mr-3 text-blue-300"></i>
                             <span>LawfirmPrecision@outlook.com</span>
                         </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-clock mr-3 text-blue-300"></i>
+                            <span>Mon-Fri: 9AM-6PM</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -735,92 +796,30 @@
             <!-- Copyright -->
             <div class="border-t border-blue-800 mt-8 pt-8 text-center text-gray-400">
                 <p>© 2024 Precision Law Firm. All rights reserved.</p>
-                <p class="text-sm mt-2">Case summaries are for informational purposes only and do not constitute legal
-                    advice.</p>
+                <p class="text-sm mt-2">Case summaries are for informational purposes only. Past results do not guarantee similar outcomes.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Animation and Filter Script -->
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        // Animation on scroll
-        document.addEventListener('DOMContentLoaded', function () {
-            const animatedElements = document.querySelectorAll('.animate-on-scroll');
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            entry.target.classList.add('visible');
-                        }, entry.target.style.animationDelay ? parseInt(entry.target.style.animationDelay) : 0);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
-
-            animatedElements.forEach(el => {
-                observer.observe(el);
-            });
-
-            // Elements that animate on load
-            const loadAnimated = document.querySelectorAll('.zoom-in');
-            loadAnimated.forEach(el => {
-                el.style.animationPlayState = 'running';
-            });
-
-            // Case category filtering
-            const categoryButtons = document.querySelectorAll('.case-category');
-            const caseCards = document.querySelectorAll('[data-category]');
-
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    // Update active button
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const selectedCategory = this.getAttribute('data-category');
-
-                    // Filter cases
-                    caseCards.forEach(card => {
-                        if (selectedCategory === 'all') {
-                            card.style.display = 'block';
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'translateY(0)';
-                            }, 100);
-                        } else {
-                            const categories = card.getAttribute('data-category').split(' ');
-                            if (categories.includes(selectedCategory)) {
-                                card.style.display = 'block';
-                                setTimeout(() => {
-                                    card.style.opacity = '1';
-                                    card.style.transform = 'translateY(0)';
-                                }, 100);
-                            } else {
-                                card.style.opacity = '0';
-                                card.style.transform = 'translateY(20px)';
-                                setTimeout(() => {
-                                    card.style.display = 'none';
-                                }, 300);
-                            }
-                        }
-                    });
-                });
-            });
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            easing: 'ease-out-cubic',
+            once: true,
+            mirror: false
         });
 
-        // Toggle mobile menu
-        const mobileButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-
-            // Change burger icon
-            const icon = mobileButton.querySelector('i');
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = this.querySelector('i');
+            
+            menu.classList.toggle('hidden');
+            
             if (icon.classList.contains('fa-bars')) {
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-times');
@@ -828,6 +827,103 @@
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
             }
+        });
+
+        // Case Filtering System
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const caseCards = document.querySelectorAll('.case-card');
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const selectedCategory = this.getAttribute('data-category');
+                    
+                    // Filter case cards
+                    caseCards.forEach(card => {
+                        const cardCategories = card.getAttribute('data-category');
+                        
+                        if (selectedCategory === 'all' || cardCategories.includes(selectedCategory)) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 100);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+
+            // Animated counters
+            const counters = document.querySelectorAll('[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                const suffix = counter.textContent.replace(/[0-9]/g, '');
+                let current = 0;
+                const increment = target / 100;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current) + suffix;
+                        setTimeout(updateCounter, 20);
+                    } else {
+                        counter.textContent = target + suffix;
+                    }
+                };
+                
+                // Start counter when in viewport
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCounter();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe(counter);
+            });
+
+            // Scroll reveal animations
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            revealElements.forEach(el => revealObserver.observe(el));
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
     </script>
 </body>
