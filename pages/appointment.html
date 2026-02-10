@@ -7,7 +7,7 @@
     <title>Book Appointment - Precision Law Firm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- AOS CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
@@ -15,6 +15,158 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+        }
+
+        /* Hero Section avec overlay */
+        .hero-section {
+            background: linear-gradient(rgba(15, 40, 84, 0.85), rgba(28, 77, 141, 0.9)), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            padding-top: 120px;
+            padding-bottom: 100px;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Cartes améliorées */
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-card-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        /* Formulaires améliorés */
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(28, 77, 141, 0.15);
+            overflow: hidden;
+            border: 1px solid rgba(28, 77, 141, 0.1);
+        }
+
+        .form-input {
+            transition: all 0.3s;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 15px;
+        }
+
+        .form-input:focus {
+            border-color: #1C4D8D;
+            box-shadow: 0 0 0 4px rgba(28, 77, 141, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Boutons améliorés */
+        .btn-primary {
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(28, 77, 141, 0.3);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::after {
+            left: 100%;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            color: white;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Section spacing améliorée */
+        .section-spacing {
+            padding: 80px 0;
+        }
+
+        /* Timeline pour les étapes */
+        .timeline-step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+        }
+
+        .timeline-step::after {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: -30px;
+            width: 2px;
+            background: #e5e7eb;
+        }
+
+        .timeline-step:last-child::after {
+            display: none;
         }
 
         /* Animation lente et douce */
@@ -134,7 +286,6 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -363,7 +514,6 @@
                 opacity: 0;
                 transform: translateY(10px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -455,14 +605,22 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
             }
-
             70% {
                 box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
             }
-
             100% {
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
             }
+        }
+
+        /* Stats counter */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
         }
     </style>
 </head>
@@ -470,17 +628,14 @@
 <body class="bg-white">
 
     <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-3" data-aos="fade-down-slow"
-        data-aos-duration="1200" data-aos-easing="ease-out-cubic">
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-3 shadow-sm">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="flex justify-between items-center">
-
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8 w-full justify-between">
-
                     <!-- Logo à gauche (une seule ligne) -->
                     <div class="text-[#D4AF37] font-bold text-xl tracking-tight">
-                        Precision Law Firm
+                        <i class="fas fa-balance-scale mr-2"></i>Precision Law Firm
                     </div>
 
                     <!-- Navigation -->
@@ -489,32 +644,26 @@
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
                             Home
                         </a>
-
                         <a href="overview.html"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
                             Overview
                         </a>
-
                         <a href="team.html"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
                             Our Team
                         </a>
-
                         <a href="expertise.html"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
                             Expertise
                         </a>
-
                         <a href="jurisprudence.html"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
                             Jurisprudence
                         </a>
-
                         <a href="courses.html"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
                             Courses
                         </a>
-
                         <a href="appointment.html"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
                             Appointment
@@ -523,8 +672,7 @@
 
                     <!-- Bouton à droite (bleu marine) -->
                     <a href="contact.html"
-                        class="bg-[#0A1F44] text-white px-6 py-2.5 rounded-full font-medium
-                     hover:opacity-90 transition duration-300 hover-lift text-sm tracking-wide shadow-sm hover:shadow-md">
+                        class="bg-[#0A1F44] text-white px-6 py-2.5 rounded-full font-medium hover:opacity-90 transition duration-300 hover-lift text-sm tracking-wide shadow-sm hover:shadow-md">
                         Contact Us
                     </a>
                 </div>
@@ -532,9 +680,8 @@
                 <!-- Mobile Header -->
                 <div class="md:hidden flex items-center justify-between w-full">
                     <div class="text-[#D4AF37] font-bold text-lg">
-                        Precision Law Firm
+                        <i class="fas fa-balance-scale mr-2"></i>Precision Law Firm
                     </div>
-
                     <button id="mobile-menu-button" class="text-gray-700 text-xl transition duration-300">
                         <i class="fas fa-bars"></i>
                     </button>
@@ -548,37 +695,30 @@
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Home
                     </a>
-
                     <a href="overview.html"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Overview
                     </a>
-
                     <a href="team.html"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Our Team
                     </a>
-
                     <a href="expertise.html"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Expertise
                     </a>
-
                     <a href="jurisprudence.html"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Jurisprudence
                     </a>
-
                     <a href="courses.html"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Courses
                     </a>
-
                     <a href="appointment.html"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Appointment
                     </a>
-
                     <a href="contact.html"
                         class="bg-[#0A1F44] text-white px-4 py-2.5 rounded-md font-medium text-center mt-2 transition duration-300 text-sm">
                         Contact Us
@@ -588,190 +728,251 @@
         </div>
     </nav>
 
-
-    <!-- Simple Header -->
-    <div class="pt-20 pb-12 text-center" data-aos="fade-up-slow" data-aos-duration="1500"
-        data-aos-easing="ease-out-cubic">
-        <div class="container mx-auto px-6">
-            <h1 class="text-4xl font-bold mb-4">
-                <span class="text-[#0F2854]">Book an</span>
-                <span class="text-[#1C4D8D]">Appointment</span>
-            </h1>
-            <div class="w-16 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto"></div>
-            <p class="text-gray-600 max-w-2xl mx-auto mt-4">
-                Schedule a consultation with our expert legal team. Choose your preferred date and time.
-            </p>
+    <!-- Hero Section avec image -->
+    <section class="hero-section relative overflow-hidden" data-aos="fade-up" data-aos-duration="1500">
+        <div class="hero-pattern"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <span class="badge mb-6" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-calendar-alt mr-2"></i>Book Your Consultation
+                </span>
+                
+                <h1 class="text-5xl md:text-6xl font-bold text-white mb-6" data-aos="fade-up" data-aos-delay="200">
+                    Expert Legal <span class="text-[#D4AF37]">Consultation</span>
+                </h1>
+                
+                <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="300">
+                    Schedule a personalized consultation with our experienced attorneys. 
+                    Your first step towards legal resolution starts here.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="400">
+                    <a href="#booking-form" class="btn-primary inline-flex items-center justify-center">
+                        <i class="fas fa-calendar-check mr-3"></i> Book Appointment Now
+                    </a>
+                    <a href="tel:2144607" class="bg-white text-[#0F2854] px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition duration-300 inline-flex items-center justify-center">
+                        <i class="fas fa-phone mr-3"></i> Call: 214-4607
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+   
+    <!-- Appointment Process -->
+    <section class="section-spacing bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4" data-aos="fade-up">
+                    Simple <span class="text-[#1C4D8D]">4-Step</span> Appointment Process
+                </h2>
+                <p class="text-gray-600 text-lg" data-aos="fade-up" data-aos-delay="100">
+                    Our streamlined process ensures you get the legal assistance you need quickly and efficiently.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">1. Personal Information</h3>
+                        <p class="text-gray-600">Provide your contact details so we can reach you for confirmation.</p>
+                    </div>
+                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="200">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">2. Select Date & Time</h3>
+                        <p class="text-gray-600">Choose your preferred consultation date and available time slot.</p>
+                    </div>
+                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="300">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">3. Consultation Details</h3>
+                        <p class="text-gray-600">Specify the type of consultation and attorney preference.</p>
+                    </div>
+                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="400">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">4. Confirmation</h3>
+                        <p class="text-gray-600">Review and submit your appointment. We'll confirm within 24 hours.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card" data-aos="zoom-slow" data-aos-delay="500">
+                    <div class="feature-card-icon">
+                        <i class="fas fa-calendar-check text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Why Book With Us?</h3>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>Flexible consultation options (in-person, video, phone)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>Experienced attorneys in specialized legal fields</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>Confidential and secure client-attorney communication</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>Transparent pricing with no hidden fees</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>24-hour appointment confirmation guarantee</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Appointment Booking Section -->
-    <div class="container mx-auto px-6 py-12">
-        <div class="flex flex-col lg:flex-row gap-12 items-start max-w-5xl mx-auto">
-            <!-- Appointment Info -->
-            <div class="lg:w-1/2 space-y-8">
-                <div class="flex items-start" data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="100">
-                    <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
-                        <i class="fas fa-calendar-check text-[#1C4D8D]"></i>
+    <section class="section-spacing bg-gray-50" id="booking-form">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="form-container" data-aos="fade-up" data-aos-duration="1500">
+                    <div class="p-8 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white">
+                        <h2 class="text-3xl font-bold mb-2">Schedule Your Legal Consultation</h2>
+                        <p class="text-blue-100">Complete the form below to book your appointment</p>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800 mb-1">Available Hours</h3>
-                        <p class="text-gray-600">
-                            Monday - Friday: 9:00 AM - 5:00 PM<br>
-                            Saturday: 9:00 AM - 1:00 PM
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex items-center" data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="200">
-                    <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
-                        <i class="fas fa-clock text-[#1C4D8D]"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800 mb-1">Appointment Duration</h3>
-                        <p class="text-gray-600">Initial consultation: 45 minutes<br>Follow-up: 30 minutes</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center" data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="300">
-                    <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4">
-                        <i class="fas fa-users text-[#1C4D8D]"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800 mb-1">Consultation Types</h3>
-                        <p class="text-gray-600">
-                            • In-person at our office<br>
-                            • Video conference call<br>
-                            • Telephone consultation
-                        </p>
-                    </div>
-                </div>
-
-                <div class="pt-6 border-t" data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="400">
-                    <h3 class="font-semibold text-gray-800 mb-3">Need Immediate Help?</h3>
-                    <div class="flex space-x-3">
-                        <div class="flex items-center text-gray-600">
-                            <i class="fas fa-phone mr-2 text-[#1C4D8D]"></i>
-                            <span>214-4607</span>
+                    
+                    <div class="p-8 md:p-10">
+                        <!-- Form Progress Steps -->
+                        <div class="form-progress mb-10">
+                            <div class="progress-step active">1</div>
+                            <div class="progress-step">2</div>
+                            <div class="progress-step">3</div>
+                            <div class="progress-step">4</div>
                         </div>
-                        <div class="flex items-center text-gray-600">
-                            <i class="fas fa-envelope mr-2 text-[#1C4D8D]"></i>
-                            <span>LawfirmPrecision@outlook.com</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Appointment Booking Form -->
-            <div class="lg:w-1/2" data-aos="fade-left-slow" data-aos-duration="1500" data-aos-delay="300">
-                <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6">Schedule Your Appointment</h2>
-
-                    <!-- Form Progress Steps -->
-                    <div class="form-progress mb-8">
-                        <div class="progress-step active">1</div>
-                        <div class="progress-step">2</div>
-                        <div class="progress-step">3</div>
-                        <div class="progress-step">4</div>
-                    </div>
-
-                    <form id="appointment-form" class="space-y-5">
-                        <!-- Step 1: Personal Info -->
-                        <div class="appointment-form-step active" id="step1">
-                            <h3 class="font-semibold text-gray-800 mb-4">Personal Information</h3>
-                            <div class="space-y-4">
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <input type="text" placeholder="First Name" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
-                                    <input type="text" placeholder="Last Name" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                        <form id="appointment-form" class="space-y-6">
+                            <!-- Step 1: Personal Info -->
+                            <div class="appointment-form-step active" id="step1">
+                                <h3 class="text-xl font-bold text-gray-800 mb-6">Personal Information</h3>
+                                <div class="space-y-6">
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-gray-700 mb-2 font-medium">First Name</label>
+                                            <input type="text" required class="form-input w-full" placeholder="Enter your first name">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 mb-2 font-medium">Last Name</label>
+                                            <input type="text" required class="form-input w-full" placeholder="Enter your last name">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2 font-medium">Email Address</label>
+                                        <input type="email" required class="form-input w-full" placeholder="Enter your email">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2 font-medium">Phone Number</label>
+                                        <input type="tel" required class="form-input w-full" placeholder="Enter your phone number">
+                                    </div>
                                 </div>
-                                <input type="email" placeholder="Email Address" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
-                                <input type="tel" placeholder="Phone Number" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
+                                <div class="mt-10 flex justify-end">
+                                    <button type="button" onclick="nextStep(2)" class="btn-primary">
+                                        Next: Choose Date <i class="fas fa-arrow-right ml-2"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="mt-6 flex justify-end">
-                                <button type="button" onclick="nextStep(2)"
-                                    class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-6 py-3 rounded-lg hover:opacity-90 transition duration-300">
-                                    Next: Choose Date <i class="fas fa-arrow-right ml-2"></i>
-                                </button>
-                            </div>
-                        </div>
 
-                        <!-- Step 2: Date Selection -->
-                        <div class="appointment-form-step" id="step2">
-                            <h3 class="font-semibold text-gray-800 mb-4">Select Date</h3>
-                            <div class="date-grid">
-                                <!-- Date cells will be generated by JavaScript -->
+                            <!-- Step 2: Date Selection -->
+                            <div class="appointment-form-step" id="step2">
+                                <h3 class="text-xl font-bold text-gray-800 mb-6">Select Date</h3>
+                                <div class="date-grid">
+                                    <!-- Date cells will be generated by JavaScript -->
+                                </div>
+                                <div class="mt-10 flex justify-between">
+                                    <button type="button" onclick="prevStep(1)" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium">
+                                        <i class="fas fa-arrow-left mr-2"></i> Back
+                                    </button>
+                                    <button type="button" onclick="nextStep(3)" class="btn-primary">
+                                        Next: Choose Time <i class="fas fa-arrow-right ml-2"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="mt-6 flex justify-between">
-                                <button type="button" onclick="prevStep(1)"
-                                    class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300">
-                                    <i class="fas fa-arrow-left mr-2"></i> Back
-                                </button>
-                                <button type="button" onclick="nextStep(3)"
-                                    class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-6 py-3 rounded-lg hover:opacity-90 transition duration-300">
-                                    Next: Choose Time <i class="fas fa-arrow-right ml-2"></i>
-                                </button>
-                            </div>
-                        </div>
 
-                        <!-- Step 3: Time Selection -->
-                        <div class="appointment-form-step" id="step3">
-                            <h3 class="font-semibold text-gray-800 mb-4">Select Time Slot</h3>
-                            <div class="time-slots">
-                                <!-- Time slots will be generated by JavaScript -->
+                            <!-- Step 3: Time Selection -->
+                            <div class="appointment-form-step" id="step3">
+                                <h3 class="text-xl font-bold text-gray-800 mb-6">Select Time Slot</h3>
+                                <div class="time-slots">
+                                    <!-- Time slots will be generated by JavaScript -->
+                                </div>
+                                <div class="mt-10 flex justify-between">
+                                    <button type="button" onclick="prevStep(2)" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium">
+                                        <i class="fas fa-arrow-left mr-2"></i> Back
+                                    </button>
+                                    <button type="button" onclick="nextStep(4)" class="btn-primary">
+                                        Next: Final Details <i class="fas fa-arrow-right ml-2"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="mt-6 flex justify-between">
-                                <button type="button" onclick="prevStep(2)"
-                                    class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300">
-                                    <i class="fas fa-arrow-left mr-2"></i> Back
-                                </button>
-                                <button type="button" onclick="nextStep(4)"
-                                    class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-6 py-3 rounded-lg hover:opacity-90 transition duration-300">
-                                    Next: Final Details <i class="fas fa-arrow-right ml-2"></i>
-                                </button>
-                            </div>
-                        </div>
 
-                        <!-- Step 4: Final Details -->
-                        <div class="appointment-form-step" id="step4">
-                            <h3 class="font-semibold text-gray-800 mb-4">Appointment Details</h3>
-                            <div class="space-y-4">
-                                <select
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
-                                    <option value="">Select Consultation Type</option>
-                                    <option value="in-person">In-person at Office</option>
-                                    <option value="video">Video Conference</option>
-                                    <option value="phone">Phone Call</option>
-                                </select>
-                                <select
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300">
-                                    <option value="">Select Attorney</option>
-                                    <option value="general">Any Available Attorney</option>
-                                    <option value="corporate">Corporate Law Specialist</option>
-                                    <option value="family">Family Law Specialist</option>
-                                    <option value="property">Property Law Specialist</option>
-                                </select>
-                                <textarea placeholder="Brief description of your legal matter (optional)" rows="3"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300"></textarea>
+                            <!-- Step 4: Final Details -->
+                            <div class="appointment-form-step" id="step4">
+                                <h3 class="text-xl font-bold text-gray-800 mb-6">Appointment Details</h3>
+                                <div class="space-y-6">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2 font-medium">Consultation Type</label>
+                                        <select class="form-input w-full">
+                                            <option value="">Select Consultation Type</option>
+                                            <option value="in-person">In-person at Office</option>
+                                            <option value="video">Video Conference</option>
+                                            <option value="phone">Phone Call</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2 font-medium">Attorney Preference</label>
+                                        <select class="form-input w-full">
+                                            <option value="">Select Attorney</option>
+                                            <option value="general">Any Available Attorney</option>
+                                            <option value="corporate">Corporate Law Specialist</option>
+                                            <option value="family">Family Law Specialist</option>
+                                            <option value="property">Property Law Specialist</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2 font-medium">Case Description (Optional)</label>
+                                        <textarea rows="4" class="form-input w-full" placeholder="Brief description of your legal matter"></textarea>
+                                    </div>
+                                </div>
+                                <div class="mt-10 flex justify-between">
+                                    <button type="button" onclick="prevStep(3)" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium">
+                                        <i class="fas fa-arrow-left mr-2"></i> Back
+                                    </button>
+                                    <button type="submit" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-lg hover:opacity-90 transition duration-300 font-bold">
+                                        <i class="fas fa-calendar-check mr-2"></i> Confirm Appointment
+                                    </button>
+                                </div>
                             </div>
-                            <div class="mt-6 flex justify-between">
-                                <button type="button" onclick="prevStep(3)"
-                                    class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300">
-                                    <i class="fas fa-arrow-left mr-2"></i> Back
-                                </button>
-                                <button type="submit"
-                                    class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-lg hover:opacity-90 transition duration-300">
-                                    <i class="fas fa-calendar-check mr-2"></i> Confirm Appointment
-                                </button>
-                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="grid md:grid-cols-3 gap-8 mt-12">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-card-icon">
+                            <i class="fas fa-shield-alt text-white text-2xl"></i>
                         </div>
-                    </form>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Confidentiality Guaranteed</h3>
+                        <p class="text-gray-600">All consultations are protected by attorney-client privilege and strict confidentiality protocols.</p>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-card-icon">
+                            <i class="fas fa-clock text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Flexible Scheduling</h3>
+                        <p class="text-gray-600">We offer appointments during extended hours, including Saturdays, to accommodate your schedule.</p>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-card-icon">
+                            <i class="fas fa-file-contract text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">No Obligation Consultation</h3>
+                        <p class="text-gray-600">Initial consultations carry no obligation to retain our services. Get expert advice first.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Chatbox -->
     <div class="chatbox-container">
@@ -820,8 +1021,8 @@
     <script>
         // Initialize AOS
         AOS.init({
-            duration: 1500,
-            offset: 80,
+            duration: 1200,
+            offset: 100,
             easing: 'ease-out-cubic',
             once: true,
             delay: 0,
@@ -837,6 +1038,7 @@
         function nextStep(step) {
             document.getElementById(`step${currentStep}`).classList.remove('active');
             document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('active');
+            document.querySelectorAll('.progress-step')[currentStep - 1].classList.add('completed');
 
             currentStep = step;
             document.getElementById(`step${currentStep}`).classList.add('active');
@@ -855,6 +1057,7 @@
         function prevStep(step) {
             document.getElementById(`step${currentStep}`).classList.remove('active');
             document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('active');
+            document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('completed');
 
             currentStep = step;
             document.getElementById(`step${currentStep}`).classList.add('active');
@@ -1037,19 +1240,33 @@
         // Appointment form submission
         document.getElementById('appointment-form').addEventListener('submit', function (e) {
             e.preventDefault();
-            alert('Thank you! Your appointment request has been submitted. We will contact you shortly to confirm.');
-            // Reset form
-            this.reset();
-            currentStep = 1;
-            document.querySelectorAll('.appointment-form-step').forEach(step => {
-                step.classList.remove('active');
-            });
-            document.getElementById('step1').classList.add('active');
-            document.querySelectorAll('.progress-step').forEach((step, index) => {
-                step.classList.remove('active', 'completed');
-                if (index === 0) step.classList.add('active');
-            });
+            
+            // Show success message
+            const successHTML = `
+                <div class="text-center py-8">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-check-circle text-green-500 text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Appointment Request Submitted!</h3>
+                    <p class="text-gray-600 mb-6">
+                        Thank you for scheduling with Precision Law Firm. We will contact you within 24 hours to confirm your appointment.
+                    </p>
+                    <div class="space-y-2 text-gray-700">
+                        <p><i class="fas fa-envelope text-blue-500 mr-2"></i> Confirmation email sent to your inbox</p>
+                        <p><i class="fas fa-phone text-blue-500 mr-2"></i> You'll receive a confirmation call shortly</p>
+                    </div>
+                    <button onclick="resetForm()" class="btn-primary mt-8">
+                        <i class="fas fa-calendar-plus mr-2"></i> Book Another Appointment
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('appointment-form').innerHTML = successHTML;
         });
+
+        function resetForm() {
+            location.reload();
+        }
 
         // Load components
         window.addEventListener('load', function () {
@@ -1072,6 +1289,23 @@
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
             }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
     </script>
 
