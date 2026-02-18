@@ -1,3 +1,39 @@
+<?php
+session_start();
+require_once 'config.php';
+
+$loginError = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    if (!$email || !$password) {
+        $loginError = 'Email et mot de passe requis.';
+    } else {
+        try {
+            $stmt = $pdo->prepare("SELECT id, email, password, name FROM users WHERE email = :email LIMIT 1");
+            $stmt->execute(['email' => $email]);
+            $user = $stmt->fetch();
+
+            if ($user && $password === $user['password']) { 
+                $_SESSION['user'] = [
+                    'id' => $user['id'],
+                    'email' => $user['email'],
+                    'name' => $user['name']
+                ];
+                header('Location: accueil.php');
+                exit;
+            } else {
+                $loginError = 'Email ou mot de passe incorrect.';
+            }
+        } catch (Exception $e) {
+            $loginError = 'Erreur serveur : ' . $e->getMessage();
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +66,6 @@
         opacity: 0;
         transform: translateY(20px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
@@ -56,18 +91,18 @@
       </div>
 
       <div class="px-10 py-8">
-        <form id="loginForm" class="space-y-6">
+        <form method="POST" class="space-y-6">
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-            <input type="email" id="email" required
+            <input type="email" name="email" id="email" required
               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field"
-              placeholder="Enter your email">
+              placeholder="Enter your email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
           </div>
 
           <div>
             <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
             <div class="relative">
-              <input type="password" id="password" required
+              <input type="password" name="password" id="password" required
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field pr-10"
                 placeholder="Enter your password">
               <button type="button" id="togglePassword"
@@ -79,7 +114,7 @@
 
           <div class="flex items-center justify-between">
             <div class="flex items-center">
-              <input type="checkbox" id="remember"
+              <input type="checkbox" name="remember" id="remember"
                 class="h-4 w-4 text-[#1C4D8D] focus:ring-[#1C4D8D] border-gray-300 rounded">
               <label for="remember" class="ml-2 text-sm text-gray-700">Remember me</label>
             </div>
@@ -90,61 +125,29 @@
             class="w-full text-center bg-[#1C4D8D] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#0F2854] transition duration-300">Sign
             In</button>
 
-          <div id="errorMessage"
-            class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mt-4">
+          <?php if ($loginError) : ?>
+          <div
+            class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mt-4 flex items-center">
             <i class="fas fa-exclamation-circle mr-2"></i>
-            <span id="errorText"></span>
+            <span><?= htmlspecialchars($loginError) ?></span>
           </div>
+          <?php endif; ?>
         </form>
-
-
-
-
       </div>
     </div>
+  </div>
 
-    <script>
-      document.getElementById('togglePassword').addEventListener('click', function () {
-        const passwordInput = document.getElementById('password');
-        const icon = this.querySelector('i');
-        if (passwordInput.type === 'password') {
-          passwordInput.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-          passwordInput.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
-      });
-
-      document.getElementById('loginForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const errorDiv = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
-
-        try {
-          const response = await fetch('https://precisionlawfirm.alwaysdata.net/login.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-          });
-
-          const data = await response.json();
-
-          if (data.success) {
-            errorDiv.classList.add('hidden');
-            localStorage.setItem('user', JSON.stringify(data.user));
-            // 🔹 Redirection vers ton front Vercel
-            window.location.href = 'https://precisionlawfirm.vercel.app/accueil.php';
-          } else {
-            errorDiv.classList.remove('hidden');
-            errorText.textContent = data.message;
-          }
-        } catch (err) {
-          errorDiv.classList.remove('hidden');
-          errorText.textContent = 'Server error. Please try again.';
-        }
-      });
-    </script>
+  <script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+      const passwordInput = document.getElementById('password');
+      const icon = this.querySelector('i');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        passwordInput.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    });
+  </script>
 </body>
 
 </html>

@@ -1,3 +1,159 @@
+<?php
+require '../config.php';
+
+// Activer l'affichage des erreurs pour le debug
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// --- Fetch Appointment Hero ---
+$hero = null;
+try {
+    $stmt = $pdo->query("SELECT * FROM appointment_hero ORDER BY id DESC LIMIT 1");
+    $hero = $stmt->fetch();
+} catch (Exception $e) {
+    // Silently fail, will use defaults
+}
+
+// --- Fetch Appointment Steps ---
+$steps = [];
+try {
+    $stmt = $pdo->query("SELECT * FROM appointment_steps WHERE is_active = 1 ORDER BY step_number ASC");
+    $steps = $stmt->fetchAll();
+} catch (Exception $e) {
+    // Silently fail
+}
+
+// --- Fetch Appointment Features ---
+$features = [];
+try {
+    $stmt = $pdo->query("SELECT * FROM appointment_features WHERE is_active = 1 ORDER BY sort_order ASC");
+    $features = $stmt->fetchAll();
+} catch (Exception $e) {
+    // Silently fail
+}
+
+// --- Fetch Consultation Types ---
+$consultationTypes = [];
+try {
+    $stmt = $pdo->query("SELECT * FROM consultation_types WHERE is_active = 1 ORDER BY sort_order ASC");
+    $consultationTypes = $stmt->fetchAll();
+} catch (Exception $e) {
+    // Silently fail
+}
+
+// --- Fetch Attorneys ---
+$attorneys = [];
+try {
+    $stmt = $pdo->query("SELECT * FROM attorneys WHERE is_active = 1 AND available = 1 ORDER BY sort_order ASC");
+    $attorneys = $stmt->fetchAll();
+} catch (Exception $e) {
+    // Silently fail
+}
+
+// --- Fetch Time Slots ---
+$timeSlots = [];
+try {
+    $stmt = $pdo->query("SELECT * FROM time_slots WHERE is_active = 1 ORDER BY sort_order ASC");
+    $timeSlots = $stmt->fetchAll();
+} catch (Exception $e) {
+    // Silently fail
+}
+
+// --- Fetch Today's booked slots for demo ---
+$bookedSlots = [];
+try {
+    $today = date('Y-m-d');
+    $stmt = $pdo->prepare("SELECT time_slot FROM booked_slots WHERE appointment_date = ?");
+    $stmt->execute([$today]);
+    $bookedSlots = $stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (Exception $e) {
+    // For demo, use some default booked slots
+    $bookedSlots = ['10:00', '13:00', '15:00'];
+}
+
+// --- Fetch Info Cards ---
+$infoCards = [];
+try {
+    $stmt = $pdo->query("SELECT * FROM appointment_info_cards WHERE is_active = 1 ORDER BY sort_order ASC");
+    $infoCards = $stmt->fetchAll();
+} catch (Exception $e) {
+    // Silently fail
+}
+
+// DONNÉES PAR DÉFAUT SI RIEN N'EST TROUVÉ
+if (empty($hero)) {
+    $hero = [
+        'badge_text' => 'Book Your Consultation',
+        'title_line1' => 'Expert Legal',
+        'title_line2' => 'Consultation',
+        'description' => 'Schedule a personalized consultation with our experienced attorneys. Your first step towards legal resolution starts here.',
+        'background_image' => 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+        'phone_number' => '214-4607'
+    ];
+}
+
+if (empty($steps)) {
+    $steps = [
+        ['step_number' => 1, 'title' => 'Personal Information', 'description' => 'Provide your contact details so we can reach you for confirmation.'],
+        ['step_number' => 2, 'title' => 'Select Date & Time', 'description' => 'Choose your preferred consultation date and available time slot.'],
+        ['step_number' => 3, 'title' => 'Consultation Details', 'description' => 'Specify the type of consultation and attorney preference.'],
+        ['step_number' => 4, 'title' => 'Confirmation', 'description' => 'Review and submit your appointment. We\'ll confirm within 24 hours.']
+    ];
+}
+
+if (empty($features)) {
+    $features = [
+        ['icon' => 'fa-calendar-check', 'title' => 'Why Book With Us?', 'description' => 'Flexible consultation options (in-person, video, phone)'],
+        ['icon' => 'fa-check-circle', 'title' => 'Experienced Attorneys', 'description' => 'Experienced attorneys in specialized legal fields'],
+        ['icon' => 'fa-check-circle', 'title' => 'Confidential Communication', 'description' => 'Confidential and secure client-attorney communication'],
+        ['icon' => 'fa-check-circle', 'title' => 'Transparent Pricing', 'description' => 'Transparent pricing with no hidden fees'],
+        ['icon' => 'fa-check-circle', 'title' => 'Quick Confirmation', 'description' => '24-hour appointment confirmation guarantee']
+    ];
+}
+
+if (empty($consultationTypes)) {
+    $consultationTypes = [
+        ['value' => 'in-person', 'name' => 'In-person at Office'],
+        ['value' => 'video', 'name' => 'Video Conference'],
+        ['value' => 'phone', 'name' => 'Phone Call']
+    ];
+}
+
+if (empty($attorneys)) {
+    $attorneys = [
+        ['value' => 'general', 'name' => 'Any Available Attorney', 'specialization' => 'General Practice'],
+        ['value' => 'corporate', 'name' => 'Maître Jean Dupont', 'specialization' => 'Corporate Law Specialist'],
+        ['value' => 'family', 'name' => 'Maître Marie Curé', 'specialization' => 'Family Law Specialist'],
+        ['value' => 'property', 'name' => 'Maître Pierre Laurent', 'specialization' => 'Property Law Specialist']
+    ];
+}
+
+if (empty($timeSlots)) {
+    $timeSlots = [
+        ['time_value' => '09:00', 'display_time' => '9:00 AM'],
+        ['time_value' => '10:00', 'display_time' => '10:00 AM'],
+        ['time_value' => '11:00', 'display_time' => '11:00 AM'],
+        ['time_value' => '12:00', 'display_time' => '12:00 PM'],
+        ['time_value' => '13:00', 'display_time' => '1:00 PM'],
+        ['time_value' => '14:00', 'display_time' => '2:00 PM'],
+        ['time_value' => '15:00', 'display_time' => '3:00 PM'],
+        ['time_value' => '16:00', 'display_time' => '4:00 PM']
+    ];
+}
+
+if (empty($infoCards)) {
+    $infoCards = [
+        ['icon' => 'fa-shield-alt', 'title' => 'Confidentiality Guaranteed', 'description' => 'All consultations are protected by attorney-client privilege and strict confidentiality protocols.'],
+        ['icon' => 'fa-clock', 'title' => 'Flexible Scheduling', 'description' => 'We offer appointments during extended hours, including Saturdays, to accommodate your schedule.'],
+        ['icon' => 'fa-file-contract', 'title' => 'No Obligation Consultation', 'description' => 'Initial consultations carry no obligation to retain our services. Get expert advice first.']
+    ];
+}
+
+// Function to check if a time slot is booked
+function isTimeSlotBooked($timeValue, $bookedSlots) {
+    return in_array($timeValue, $bookedSlots);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,8 +164,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- AOS CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
@@ -19,7 +173,7 @@
 
         /* Hero Section avec overlay */
         .hero-section {
-            background: linear-gradient(rgba(15, 40, 84, 0.85), rgba(28, 77, 141, 0.9)), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background: linear-gradient(rgba(15, 40, 84, 0.85), rgba(28, 77, 141, 0.9)), url('<?= htmlspecialchars($hero['background_image']) ?>');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -78,7 +232,7 @@
             border: 2px solid #e5e7eb;
             border-radius: 12px;
             padding: 14px 16px;
-            font-size: 15px;
+            font-size: 16px;
         }
 
         .form-input:focus {
@@ -98,6 +252,7 @@
             border: none;
             position: relative;
             overflow: hidden;
+            font-size: 16px;
         }
 
         .btn-primary:hover {
@@ -123,11 +278,11 @@
         /* Badges */
         .badge {
             display: inline-block;
-            padding: 6px 14px;
+            padding: 8px 18px;
             background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
             color: white;
             border-radius: 30px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
@@ -175,7 +330,6 @@
             transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
         }
 
-        /* Effets de fondu personnalisés */
         [data-aos="fade-up-slow"] {
             transform: translateY(40px);
             opacity: 0;
@@ -286,7 +440,6 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -441,12 +594,13 @@
         }
 
         .date-cell {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
             border: 2px solid transparent;
+            font-size: 16px;
         }
 
         .date-cell:hover:not(.disabled):not(.selected) {
@@ -463,6 +617,7 @@
         .date-cell.disabled {
             color: #d1d5db;
             cursor: not-allowed;
+            background: #f9fafb;
         }
 
         .date-cell.today {
@@ -479,13 +634,13 @@
         }
 
         .time-slot {
-            padding: 12px;
+            padding: 14px;
             border: 2px solid #e5e7eb;
             border-radius: 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
         }
 
@@ -515,7 +670,6 @@
                 opacity: 0;
                 transform: translateY(10px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -569,6 +723,7 @@
             position: relative;
             z-index: 2;
             transition: all 0.3s;
+            font-size: 16px;
         }
 
         .progress-step.active {
@@ -607,11 +762,9 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
             }
-
             70% {
                 box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
             }
-
             100% {
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
             }
@@ -626,67 +779,78 @@
             -webkit-text-fill-color: transparent;
             line-height: 1;
         }
+
+        /* Larger base font size */
+        html {
+            font-size: 16px;
+        }
+
+        @media (min-width: 768px) {
+            html {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
 <body class="bg-white">
 
-    <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-3 shadow-sm">
+    <!-- Navbar - Increased text size -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-4 shadow-sm">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="flex justify-between items-center">
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8 w-full justify-between">
-                    <!-- Logo à gauche (une seule ligne) -->
-                    <div class="text-[#D4AF37] font-bold text-xl tracking-tight">
+                    <!-- Logo -->
+                    <div class="text-[#D4AF37] font-bold text-2xl tracking-tight">
                         <i class="fas fa-balance-scale mr-2"></i>Precision Law Firm
                     </div>
 
-                    <!-- Navigation -->
+                    <!-- Navigation - from text-sm to text-base -->
                     <div class="flex items-center space-x-8">
                         <a href="../accueil.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Home
                         </a>
                         <a href="overview.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Overview
                         </a>
                         <a href="team.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Our Team
                         </a>
-                        <a href="expertise.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                        <a href="expertise.php"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Expertise
                         </a>
-                        <a href="jurisprudence.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                        <a href="jurisprudence.php"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Jurisprudence
                         </a>
-                        <a href="courses.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                        <a href="courses.php"
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Courses
                         </a>
-                        <a href="appointment.html"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
+                        <a href="appointment.php"
+                            class="text-[#D4AF37] font-medium transition duration-300 text-base tracking-wide">
                             Appointment
                         </a>
                     </div>
 
-                    <!-- Bouton à droite (bleu marine) -->
-                    <a href="contact.html"
-                        class="bg-[#0A1F44] text-white px-6 py-2.5 rounded-full font-medium hover:opacity-90 transition duration-300 hover-lift text-sm tracking-wide shadow-sm hover:shadow-md">
+                    <!-- Contact Button -->
+                    <a href="contact.php"
+                        class="bg-[#0A1F44] text-white px-6 py-3 rounded-full font-medium hover:opacity-90 transition duration-300 hover-lift text-base tracking-wide shadow-sm hover:shadow-md">
                         Contact Us
                     </a>
                 </div>
 
                 <!-- Mobile Header -->
                 <div class="md:hidden flex items-center justify-between w-full">
-                    <div class="text-[#D4AF37] font-bold text-lg">
+                    <div class="text-[#D4AF37] font-bold text-xl">
                         <i class="fas fa-balance-scale mr-2"></i>Precision Law Firm
                     </div>
-                    <button id="mobile-menu-button" class="text-gray-700 text-xl transition duration-300">
+                    <button id="mobile-menu-button" class="text-gray-700 text-2xl transition duration-300">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
@@ -696,35 +860,35 @@
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
                 <div class="flex flex-col space-y-4">
                     <a href="../accueil.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Home
                     </a>
                     <a href="overview.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Overview
                     </a>
                     <a href="team.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Our Team
                     </a>
-                    <a href="expertise.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="expertise.php"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Expertise
                     </a>
-                    <a href="jurisprudence.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="jurisprudence.php"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Jurisprudence
                     </a>
-                    <a href="courses.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="courses.php"
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Courses
                     </a>
-                    <a href="appointment.html"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
+                    <a href="appointment.php"
+                        class="text-[#D4AF37] font-medium transition duration-300 text-base py-2">
                         Appointment
                     </a>
-                    <a href="contact.html"
-                        class="bg-[#0A1F44] text-white px-4 py-2.5 rounded-md font-medium text-center mt-2 transition duration-300 text-sm">
+                    <a href="contact.php"
+                        class="bg-[#0A1F44] text-white px-4 py-3 rounded-md font-medium text-center mt-2 transition duration-300 text-base">
                         Contact Us
                     </a>
                 </div>
@@ -732,68 +896,56 @@
         </div>
     </nav>
 
-    <!-- Hero Section avec image -->
-    <section class="hero-section relative overflow-hidden" data-aos="fade-up" data-aos-duration="1500">
+    <!-- Hero Section -->
+    <section class="hero-section relative overflow-hidden" data-aos="fade-up-slow" data-aos-duration="1500">
         <div class="hero-pattern"></div>
         <div class="container mx-auto px-6 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
-                <span class="badge mb-6" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fas fa-calendar-alt mr-2"></i>Book Your Consultation
+                <span class="badge mb-6" data-aos="fade-up-slow" data-aos-delay="100">
+                    <i class="fas fa-calendar-alt mr-2"></i><?= htmlspecialchars($hero['badge_text']) ?>
                 </span>
 
-                <h1 class="text-5xl md:text-6xl font-bold text-white mb-6" data-aos="fade-up" data-aos-delay="200">
-                    Expert Legal <span class="text-[#D4AF37]">Consultation</span>
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6" data-aos="fade-up-slow" data-aos-delay="200">
+                    <?= htmlspecialchars($hero['title_line1']) ?> <span class="text-[#D4AF37]"><?= htmlspecialchars($hero['title_line2']) ?></span>
                 </h1>
 
-                <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="300">
-                    Schedule a personalized consultation with our experienced attorneys.
-                    Your first step towards legal resolution starts here.
+                <p class="text-xl md:text-2xl text-blue-100 mb-10 max-w-2xl mx-auto" data-aos="fade-up-slow" data-aos-delay="300">
+                    <?= htmlspecialchars($hero['description']) ?>
                 </p>
 
-                <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="400">
-                    <a href="#booking-form" class="btn-primary inline-flex items-center justify-center">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up-slow" data-aos-delay="400">
+                    <a href="#booking-form" class="btn-primary inline-flex items-center justify-center text-lg">
                         <i class="fas fa-calendar-check mr-3"></i> Book Appointment Now
                     </a>
-                    <a href="tel:2144607"
-                        class="bg-white text-[#0F2854] px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition duration-300 inline-flex items-center justify-center">
-                        <i class="fas fa-phone mr-3"></i> Call: 214-4607
+                    <a href="tel:<?= htmlspecialchars($hero['phone_number']) ?>"
+                        class="bg-white text-[#0F2854] px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition duration-300 inline-flex items-center justify-center text-lg">
+                        <i class="fas fa-phone mr-3"></i> Call: <?= htmlspecialchars($hero['phone_number']) ?>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-
-    <!-- Appointment Process -->
+    <!-- Appointment Process - Larger text -->
     <section class="section-spacing bg-white">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="max-w-3xl mx-auto text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4" data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4" data-aos="fade-up-slow">
                     Simple <span class="text-[#1C4D8D]">4-Step</span> Appointment Process
                 </h2>
-                <p class="text-gray-600 text-lg" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-gray-600 text-xl" data-aos="fade-up-slow" data-aos-delay="100">
                     Our streamlined process ensures you get the legal assistance you need quickly and efficiently.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-8">
-                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="100">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">1. Personal Information</h3>
-                        <p class="text-gray-600">Provide your contact details so we can reach you for confirmation.</p>
+                    <?php foreach ($steps as $index => $step): ?>
+                    <div class="timeline-step" data-aos="fade-right-slow" data-aos-delay="<?= ($index + 1) * 100 ?>">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2"><?= $step['step_number'] ?>. <?= htmlspecialchars($step['title']) ?></h3>
+                        <p class="text-gray-600 text-lg"><?= htmlspecialchars($step['description']) ?></p>
                     </div>
-                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="200">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">2. Select Date & Time</h3>
-                        <p class="text-gray-600">Choose your preferred consultation date and available time slot.</p>
-                    </div>
-                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="300">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">3. Consultation Details</h3>
-                        <p class="text-gray-600">Specify the type of consultation and attorney preference.</p>
-                    </div>
-                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="400">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">4. Confirmation</h3>
-                        <p class="text-gray-600">Review and submit your appointment. We'll confirm within 24 hours.</p>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="feature-card" data-aos="zoom-slow" data-aos-delay="500">
@@ -801,41 +953,27 @@
                         <i class="fas fa-calendar-check text-white text-2xl"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-gray-800 mb-4">Why Book With Us?</h3>
-                    <ul class="space-y-4 text-gray-600">
+                    <ul class="space-y-4 text-gray-600 text-lg">
+                        <?php foreach ($features as $feature): ?>
                         <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                            <span>Flexible consultation options (in-person, video, phone)</span>
+                            <i class="fas <?= $feature['icon'] ?> text-green-500 mr-3 mt-1"></i>
+                            <span><?= htmlspecialchars($feature['description']) ?></span>
                         </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                            <span>Experienced attorneys in specialized legal fields</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                            <span>Confidential and secure client-attorney communication</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                            <span>Transparent pricing with no hidden fees</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                            <span>24-hour appointment confirmation guarantee</span>
-                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Appointment Booking Section -->
+    <!-- Appointment Booking Section - Larger text -->
     <section class="section-spacing bg-gray-50" id="booking-form">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="max-w-6xl mx-auto">
-                <div class="form-container" data-aos="fade-up" data-aos-duration="1500">
+                <div class="form-container" data-aos="fade-up-slow" data-aos-duration="1500">
                     <div class="p-8 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white">
-                        <h2 class="text-3xl font-bold mb-2">Schedule Your Legal Consultation</h2>
-                        <p class="text-blue-100">Complete the form below to book your appointment</p>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-2">Schedule Your Legal Consultation</h2>
+                        <p class="text-blue-100 text-lg">Complete the form below to book your appointment</p>
                     </div>
 
                     <div class="p-8 md:p-10">
@@ -847,36 +985,36 @@
                             <div class="progress-step">4</div>
                         </div>
 
-                        <form id="appointment-form" class="space-y-6">
+                        <form id="appointment-form" class="space-y-6" method="POST" action="process-appointment.php">
                             <!-- Step 1: Personal Info -->
                             <div class="appointment-form-step active" id="step1">
-                                <h3 class="text-xl font-bold text-gray-800 mb-6">Personal Information</h3>
+                                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Personal Information</h3>
                                 <div class="space-y-6">
                                     <div class="grid md:grid-cols-2 gap-6">
                                         <div>
-                                            <label class="block text-gray-700 mb-2 font-medium">First Name</label>
-                                            <input type="text" required class="form-input w-full"
+                                            <label class="block text-gray-700 mb-2 font-medium text-lg">First Name</label>
+                                            <input type="text" name="first_name" required class="form-input w-full text-base"
                                                 placeholder="Enter your first name">
                                         </div>
                                         <div>
-                                            <label class="block text-gray-700 mb-2 font-medium">Last Name</label>
-                                            <input type="text" required class="form-input w-full"
+                                            <label class="block text-gray-700 mb-2 font-medium text-lg">Last Name</label>
+                                            <input type="text" name="last_name" required class="form-input w-full text-base"
                                                 placeholder="Enter your last name">
                                         </div>
                                     </div>
                                     <div>
-                                        <label class="block text-gray-700 mb-2 font-medium">Email Address</label>
-                                        <input type="email" required class="form-input w-full"
+                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Email Address</label>
+                                        <input type="email" name="email" required class="form-input w-full text-base"
                                             placeholder="Enter your email">
                                     </div>
                                     <div>
-                                        <label class="block text-gray-700 mb-2 font-medium">Phone Number</label>
-                                        <input type="tel" required class="form-input w-full"
+                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Phone Number</label>
+                                        <input type="tel" name="phone" required class="form-input w-full text-base"
                                             placeholder="Enter your phone number">
                                     </div>
                                 </div>
                                 <div class="mt-10 flex justify-end">
-                                    <button type="button" onclick="nextStep(2)" class="btn-primary">
+                                    <button type="button" onclick="nextStep(2)" class="btn-primary text-lg">
                                         Next: Choose Date <i class="fas fa-arrow-right ml-2"></i>
                                     </button>
                                 </div>
@@ -884,16 +1022,16 @@
 
                             <!-- Step 2: Date Selection -->
                             <div class="appointment-form-step" id="step2">
-                                <h3 class="text-xl font-bold text-gray-800 mb-6">Select Date</h3>
-                                <div class="date-grid">
+                                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Select Date</h3>
+                                <div class="date-grid" id="calendar-grid">
                                     <!-- Date cells will be generated by JavaScript -->
                                 </div>
                                 <div class="mt-10 flex justify-between">
                                     <button type="button" onclick="prevStep(1)"
-                                        class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium">
+                                        class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium text-lg">
                                         <i class="fas fa-arrow-left mr-2"></i> Back
                                     </button>
-                                    <button type="button" onclick="nextStep(3)" class="btn-primary">
+                                    <button type="button" onclick="nextStep(3)" class="btn-primary text-lg">
                                         Next: Choose Time <i class="fas fa-arrow-right ml-2"></i>
                                     </button>
                                 </div>
@@ -901,16 +1039,16 @@
 
                             <!-- Step 3: Time Selection -->
                             <div class="appointment-form-step" id="step3">
-                                <h3 class="text-xl font-bold text-gray-800 mb-6">Select Time Slot</h3>
-                                <div class="time-slots">
+                                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Select Time Slot</h3>
+                                <div class="time-slots" id="time-slots">
                                     <!-- Time slots will be generated by JavaScript -->
                                 </div>
                                 <div class="mt-10 flex justify-between">
                                     <button type="button" onclick="prevStep(2)"
-                                        class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium">
+                                        class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium text-lg">
                                         <i class="fas fa-arrow-left mr-2"></i> Back
                                     </button>
-                                    <button type="button" onclick="nextStep(4)" class="btn-primary">
+                                    <button type="button" onclick="nextStep(4)" class="btn-primary text-lg">
                                         Next: Final Details <i class="fas fa-arrow-right ml-2"></i>
                                     </button>
                                 </div>
@@ -918,41 +1056,41 @@
 
                             <!-- Step 4: Final Details -->
                             <div class="appointment-form-step" id="step4">
-                                <h3 class="text-xl font-bold text-gray-800 mb-6">Appointment Details</h3>
+                                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Appointment Details</h3>
                                 <div class="space-y-6">
                                     <div>
-                                        <label class="block text-gray-700 mb-2 font-medium">Consultation Type</label>
-                                        <select class="form-input w-full">
+                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Consultation Type</label>
+                                        <select name="consultation_type" class="form-input w-full text-base" required>
                                             <option value="">Select Consultation Type</option>
-                                            <option value="in-person">In-person at Office</option>
-                                            <option value="video">Video Conference</option>
-                                            <option value="phone">Phone Call</option>
+                                            <?php foreach ($consultationTypes as $type): ?>
+                                            <option value="<?= htmlspecialchars($type['value']) ?>"><?= htmlspecialchars($type['name']) ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-gray-700 mb-2 font-medium">Attorney Preference</label>
-                                        <select class="form-input w-full">
+                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Attorney Preference</label>
+                                        <select name="attorney_preference" class="form-input w-full text-base">
                                             <option value="">Select Attorney</option>
-                                            <option value="general">Any Available Attorney</option>
-                                            <option value="corporate">Corporate Law Specialist</option>
-                                            <option value="family">Family Law Specialist</option>
-                                            <option value="property">Property Law Specialist</option>
+                                            <?php foreach ($attorneys as $attorney): ?>
+                                            <option value="<?= htmlspecialchars($attorney['value']) ?>"><?= htmlspecialchars($attorney['name']) ?> - <?= htmlspecialchars($attorney['specialization']) ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-gray-700 mb-2 font-medium">Case Description
-                                            (Optional)</label>
-                                        <textarea rows="4" class="form-input w-full"
+                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Case Description (Optional)</label>
+                                        <textarea name="case_description" rows="4" class="form-input w-full text-base"
                                             placeholder="Brief description of your legal matter"></textarea>
                                     </div>
+                                    <input type="hidden" name="appointment_date" id="selected-date">
+                                    <input type="hidden" name="appointment_time" id="selected-time">
                                 </div>
                                 <div class="mt-10 flex justify-between">
                                     <button type="button" onclick="prevStep(3)"
-                                        class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium">
+                                        class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium text-lg">
                                         <i class="fas fa-arrow-left mr-2"></i> Back
                                     </button>
                                     <button type="submit"
-                                        class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-lg hover:opacity-90 transition duration-300 font-bold">
+                                        class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-lg hover:opacity-90 transition duration-300 font-bold text-lg">
                                         <i class="fas fa-calendar-check mr-2"></i> Confirm Appointment
                                     </button>
                                 </div>
@@ -961,32 +1099,17 @@
                     </div>
                 </div>
 
-                <!-- Additional Info -->
+                <!-- Additional Info Cards - Larger text -->
                 <div class="grid md:grid-cols-3 gap-8 mt-12">
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <?php foreach ($infoCards as $index => $card): ?>
+                    <div class="feature-card" data-aos="fade-up-slow" data-aos-delay="<?= ($index + 1) * 100 ?>">
                         <div class="feature-card-icon">
-                            <i class="fas fa-shield-alt text-white text-2xl"></i>
+                            <i class="fas <?= htmlspecialchars($card['icon']) ?> text-white text-2xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Confidentiality Guaranteed</h3>
-                        <p class="text-gray-600">All consultations are protected by attorney-client privilege and strict
-                            confidentiality protocols.</p>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3"><?= htmlspecialchars($card['title']) ?></h3>
+                        <p class="text-gray-600 text-base"><?= htmlspecialchars($card['description']) ?></p>
                     </div>
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="feature-card-icon">
-                            <i class="fas fa-clock text-white text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Flexible Scheduling</h3>
-                        <p class="text-gray-600">We offer appointments during extended hours, including Saturdays, to
-                            accommodate your schedule.</p>
-                    </div>
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="feature-card-icon">
-                            <i class="fas fa-file-contract text-white text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">No Obligation Consultation</h3>
-                        <p class="text-gray-600">Initial consultations carry no obligation to retain our services. Get
-                            expert advice first.</p>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
@@ -1030,8 +1153,7 @@
         </div>
     </div>
 
-    <!-- Footer will be loaded here -->
-    <div id="footer" class="mt-12" data-aos="fade-up-slow" data-aos-duration="1500"></div>
+   
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -1039,8 +1161,8 @@
     <script>
         // Initialize AOS
         AOS.init({
-            duration: 1200,
-            offset: 100,
+            duration: 1500,
+            offset: 80,
             easing: 'ease-out-cubic',
             once: true,
             delay: 0,
@@ -1052,8 +1174,37 @@
 
         // Appointment form functionality
         let currentStep = 1;
+        let selectedDate = '';
+        let selectedTime = '';
+
+        // Time slots data from PHP
+        const timeSlots = <?= json_encode($timeSlots) ?>;
+        const bookedSlots = <?= json_encode($bookedSlots) ?>;
 
         function nextStep(step) {
+            // Validate current step before proceeding
+            if (currentStep === 1) {
+                const firstName = document.querySelector('input[name="first_name"]').value;
+                const lastName = document.querySelector('input[name="last_name"]').value;
+                const email = document.querySelector('input[name="email"]').value;
+                const phone = document.querySelector('input[name="phone"]').value;
+
+                if (!firstName || !lastName || !email || !phone) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+            }
+
+            if (currentStep === 2 && !selectedDate) {
+                alert('Please select a date');
+                return;
+            }
+
+            if (currentStep === 3 && !selectedTime) {
+                alert('Please select a time slot');
+                return;
+            }
+
             document.getElementById(`step${currentStep}`).classList.remove('active');
             document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('active');
             document.querySelectorAll('.progress-step')[currentStep - 1].classList.add('completed');
@@ -1083,7 +1234,7 @@
         }
 
         function generateCalendar() {
-            const calendar = document.querySelector('.date-grid');
+            const calendar = document.getElementById('calendar-grid');
             calendar.innerHTML = '';
 
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -1091,7 +1242,7 @@
             // Add day headers
             days.forEach(day => {
                 const dayHeader = document.createElement('div');
-                dayHeader.className = 'text-center text-sm font-medium text-gray-500 py-2';
+                dayHeader.className = 'text-center text-sm font-medium text-gray-500 py-2 text-base';
                 dayHeader.textContent = day;
                 calendar.appendChild(dayHeader);
             });
@@ -1114,10 +1265,11 @@
             // Add days of the month
             for (let day = 1; day <= lastDay.getDate(); day++) {
                 const dateCell = document.createElement('div');
-                dateCell.className = 'date-cell';
+                dateCell.className = 'date-cell text-base';
                 dateCell.textContent = day;
 
                 const cellDate = new Date(currentYear, currentMonth, day);
+                const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
                 // Mark today
                 if (day === today.getDate() && currentMonth === today.getMonth()) {
@@ -1133,6 +1285,8 @@
                             cell.classList.remove('selected');
                         });
                         dateCell.classList.add('selected');
+                        selectedDate = dateString;
+                        document.getElementById('selected-date').value = dateString;
                     });
                 }
 
@@ -1141,23 +1295,15 @@
         }
 
         function generateTimeSlots() {
-            const timeSlots = document.querySelector('.time-slots');
-            timeSlots.innerHTML = '';
+            const timeSlotsContainer = document.getElementById('time-slots');
+            timeSlotsContainer.innerHTML = '';
 
-            const slots = [
-                '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
-                '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'
-            ];
-
-            // Randomly mark some slots as booked for demo
-            const bookedSlots = [1, 4, 6]; // Indexes of booked slots
-
-            slots.forEach((slot, index) => {
+            timeSlots.forEach((slot, index) => {
                 const timeSlot = document.createElement('div');
-                timeSlot.className = 'time-slot';
-                timeSlot.textContent = slot;
+                timeSlot.className = 'time-slot text-base';
+                timeSlot.textContent = slot.display_time;
 
-                if (bookedSlots.includes(index)) {
+                if (bookedSlots.includes(slot.time_value)) {
                     timeSlot.classList.add('booked');
                 } else {
                     timeSlot.addEventListener('click', () => {
@@ -1165,10 +1311,12 @@
                             slot.classList.remove('selected');
                         });
                         timeSlot.classList.add('selected');
+                        selectedTime = slot.time_value;
+                        document.getElementById('selected-time').value = slot.time_value;
                     });
                 }
 
-                timeSlots.appendChild(timeSlot);
+                timeSlotsContainer.appendChild(timeSlot);
             });
         }
 
@@ -1182,7 +1330,6 @@
 
         chatboxToggle.addEventListener('click', () => {
             chatboxWindow.classList.toggle('active');
-            // Hide notification badge when chat is opened
             document.querySelector('.notification-badge').style.display = 'none';
         });
 
@@ -1201,11 +1348,9 @@
             const message = chatInput.value.trim();
             if (!message) return;
 
-            // Add user message
             addMessage(message, 'user');
             chatInput.value = '';
 
-            // Simulate bot response
             setTimeout(() => {
                 const botResponse = getBotResponse(message);
                 addMessage(botResponse, 'bot');
@@ -1229,7 +1374,6 @@
             messageDiv.appendChild(timeDiv);
             chatboxBody.appendChild(messageDiv);
 
-            // Scroll to bottom
             chatboxBody.scrollTop = chatboxBody.scrollHeight;
         }
 
@@ -1241,7 +1385,7 @@
             } else if (lowerMessage.includes('hour') || lowerMessage.includes('time')) {
                 return "Our office hours are: Monday to Friday: 9:00 AM - 5:00 PM, Saturday: 9:00 AM - 1:00 PM.";
             } else if (lowerMessage.includes('phone') || lowerMessage.includes('call')) {
-                return "You can call us at 214-4607 during office hours.";
+                return "You can call us at <?= $hero['phone_number'] ?> during office hours.";
             } else if (lowerMessage.includes('email') || lowerMessage.includes('contact')) {
                 return "You can email us at LawfirmPrecision@outlook.com. We typically respond within 24 hours.";
             } else if (lowerMessage.includes('location') || lowerMessage.includes('address')) {
@@ -1256,62 +1400,67 @@
         }
 
         // Appointment form submission
-        document.getElementById('appointment-form').addEventListener('submit', function (e) {
+        document.getElementById('appointment-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Show success message
+            // Validate all required fields
+            if (!selectedDate || !selectedTime) {
+                alert('Please select both date and time');
+                return;
+            }
+
+            // You can add AJAX submission here
+            // For now, show success message
+            const formData = new FormData(this);
+            
+            // Simulate successful submission
             const successHTML = `
                 <div class="text-center py-8">
                     <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-check-circle text-green-500 text-4xl"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-gray-800 mb-3">Appointment Request Submitted!</h3>
-                    <p class="text-gray-600 mb-6">
+                    <p class="text-gray-600 text-lg mb-6">
                         Thank you for scheduling with Precision Law Firm. We will contact you within 24 hours to confirm your appointment.
                     </p>
-                    <div class="space-y-2 text-gray-700">
+                    <div class="space-y-2 text-gray-700 text-base">
                         <p><i class="fas fa-envelope text-blue-500 mr-2"></i> Confirmation email sent to your inbox</p>
                         <p><i class="fas fa-phone text-blue-500 mr-2"></i> You'll receive a confirmation call shortly</p>
                     </div>
-                    <button onclick="resetForm()" class="btn-primary mt-8">
+                    <button onclick="resetForm()" class="btn-primary mt-8 text-lg">
                         <i class="fas fa-calendar-plus mr-2"></i> Book Another Appointment
                     </button>
                 </div>
             `;
 
-            document.getElementById('appointment-form').innerHTML = successHTML;
+            document.querySelector('.form-container').innerHTML = successHTML;
         });
 
         function resetForm() {
             location.reload();
         }
 
-        // Load components
-        window.addEventListener('load', function () {
-            setTimeout(function () {
-                AOS.refresh();
-            }, 500);
-        });
-
         // Toggle mobile menu
         const mobileButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
-        mobileButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            const icon = mobileButton.querySelector('i');
-            if (icon.classList.contains('fa-bars')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
+        if (mobileButton && mobileMenu) {
+            mobileButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileButton.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        }
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 if (targetId === '#') return;
@@ -1327,11 +1476,8 @@
         });
     </script>
 
-    <script src="../assets/js/navbar.js"></script>
-
     <!-- Script to load footer component -->
     <script>
-        // Load footer component
         fetch("/components/footer.html")
             .then(res => res.text())
             .then(data => {
@@ -1344,7 +1490,6 @@
                 console.error('Error loading footer:', error);
             });
     </script>
-
 </body>
 
 </html>

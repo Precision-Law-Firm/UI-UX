@@ -213,29 +213,29 @@ $stats = [
                             Our Team
                         </a>
 
-                        <a href="pages/expertise.html"
+                        <a href="pages/expertise.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Expertise
                         </a>
 
-                        <a href="pages/jurisprudence.html"
+                        <a href="pages/jurisprudence.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Jurisprudence
                         </a>
 
-                        <a href="pages/courses.html"
+                        <a href="pages/courses.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Courses
                         </a>
 
-                        <a href="pages/appointment.html"
+                        <a href="pages/appointment.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Appointment
                         </a>
                     </div>
 
                     <!-- Contact Button - from text-sm to text-base -->
-                    <a href="pages/contact.html"
+                    <a href="pages/contact.php"
                         class="bg-[#0A1F44] text-white px-6 py-3 rounded-full font-medium
                      hover:opacity-90 transition duration-300 hover-lift text-base tracking-wide shadow-sm hover:shadow-md">
                         Contact Us
@@ -272,27 +272,27 @@ $stats = [
                         Our Team
                     </a>
 
-                    <a href="pages/expertise.html"
+                    <a href="pages/expertise.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Expertise
                     </a>
 
-                    <a href="pages/jurisprudence.html"
+                    <a href="pages/jurisprudence.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Jurisprudence
                     </a>
 
-                    <a href="pages/courses.html"
+                    <a href="pages/courses.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Courses
                     </a>
 
-                    <a href="pages/appointment.html"
+                    <a href="pages/appointment.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Appointment
                     </a>
 
-                    <a href="pages/contact.html"
+                    <a href="pages/contact.php"
                         class="bg-[#0A1F44] text-white px-4 py-3 rounded-md font-medium text-center mt-2 transition duration-300 text-base">
                         Contact Us
                     </a>
@@ -355,7 +355,7 @@ $stats = [
                 </p>
 
                 <div data-aos="fade-up-slow" data-aos-delay="600">
-                    <a href="<?= htmlspecialchars($hero['button_link'] ?? 'pages/expertise.html') ?>" class="inline-flex items-center gap-4 text-white font-semibold text-lg group">
+                    <a href="<?= htmlspecialchars($hero['button_link'] ?? 'pages/expertise.php') ?>" class="inline-flex items-center gap-4 text-white font-semibold text-lg group">
                         <?= htmlspecialchars($hero['button_label'] ?? 'Discover') ?>
                         <span class="w-14 h-14 rounded-full bg-white text-[#1C4D8D]
                                flex items-center justify-center
@@ -764,7 +764,7 @@ $stats = [
                         <li><a href="accueil.php" class="text-gray-300 hover:text-white transition text-base">Home</a></li>
                         <li><a href="pages/overview.php" class="text-gray-300 hover:text-white transition text-base">Overview</a></li>
                         <li><a href="pages/team.php" class="text-gray-300 hover:text-white transition text-base">Our Team</a></li>
-                        <li><a href="pages/expertise.html" class="text-gray-300 hover:text-white transition text-base">Expertise</a></li>
+                        <li><a href="pages/expertise.php" class="text-gray-300 hover:text-white transition text-base">Expertise</a></li>
                     </ul>
                 </div>
 
