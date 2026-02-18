@@ -188,12 +188,12 @@ $stats = [
 
                     <!-- Navigation -->
                     <div class="flex items-center space-x-8">
-                        <a href="accueil.html"
+                        <a href="accueil.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
                             Home
                         </a>
 
-                        <a href="pages/overview.html"
+                        <a href="pages/overview.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm tracking-wide">
                             Overview
                         </a>
@@ -247,12 +247,12 @@ $stats = [
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
                 <div class="flex flex-col space-y-4">
-                    <a href="accueil.html"
+                    <a href="accueil.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Home
                     </a>
 
-                    <a href="pages/overview.html"
+                    <a href="pages/overview.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-sm py-2">
                         Overview
                     </a>
@@ -301,11 +301,11 @@ $stats = [
 
         <!-- Hero Image (dynamique) -->
         <?php if ($hero && !empty($hero['image_url'])): ?>
-        <div class="absolute right-[-80px] top-1/2 -translate-y-1/2 z-0">
-            <img src="<?= htmlspecialchars($hero['image_url']) ?>" alt="Hero Image"
-                class="w-[520px] md:w-[650px] opacity-[0.12] blur-[0.3px]" data-aos="zoom-in-slow"
-                data-aos-duration="2200">
-        </div>
+            <div class="absolute right-[-80px] top-1/2 -translate-y-1/2 z-0">
+                <img src="<?= htmlspecialchars($hero['image_url']) ?>" alt="Hero Image"
+                    class="w-[520px] md:w-[650px] opacity-[0.12] blur-[0.3px]" data-aos="zoom-in-slow"
+                    data-aos-duration="2200">
+            </div>
         <?php endif; ?>
 
         <!-- Light radial glow -->
@@ -321,8 +321,8 @@ $stats = [
                         <div class="pl-4 pr-2">
                             <i class="fas fa-search text-gray-400 text-sm"></i>
                         </div>
-                        <input type="text" placeholder="Search for legal expertise, cases, or information..." 
-                               class="w-full py-3 px-2 outline-none text-gray-700 placeholder-gray-500 text-sm">
+                        <input type="text" placeholder="Search for legal expertise, cases, or information..."
+                            class="w-full py-3 px-2 outline-none text-gray-700 placeholder-gray-500 text-sm">
                         <button class="bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white px-5 py-3 hover:opacity-90 transition-all duration-300 font-medium text-sm">
                             Search
                         </button>
@@ -398,10 +398,10 @@ $stats = [
                         <div class="space-y-6">
                             <?php if (!empty($about_us)): ?>
                                 <?php foreach ($about_us as $index => $section): ?>
-                                <div class="bg-gradient-to-r from-white to-gray-50 p-6 rounded-xl border-l-4 border-[#1C4D8D] shadow-sm hover:shadow-md transition-all duration-300"
-                                    data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="<?= $index * 100 ?>">
-                                    <p class="text-gray-700 leading-relaxed"><?= htmlspecialchars($section['content']) ?></p>
-                                </div>
+                                    <div class="bg-gradient-to-r from-white to-gray-50 p-6 rounded-xl border-l-4 border-[#1C4D8D] shadow-sm hover:shadow-md transition-all duration-300"
+                                        data-aos="fade-right-slow" data-aos-duration="1400" data-aos-delay="<?= $index * 100 ?>">
+                                        <p class="text-gray-700 leading-relaxed"><?= htmlspecialchars($section['content']) ?></p>
+                                    </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <!-- Fallback content if no data -->
@@ -444,9 +444,9 @@ $stats = [
                                     <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
                                         <?php if (!empty($expertise)): ?>
                                             <?php foreach ($expertise as $area): ?>
-                                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700">
-                                                <?= htmlspecialchars($area['name']) ?>
-                                            </span>
+                                                <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700">
+                                                    <?= htmlspecialchars($area['name']) ?>
+                                                </span>
                                             <?php endforeach; ?>
                                         <?php else: ?>
                                             <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700">Civil Law</span>
@@ -497,23 +497,23 @@ $stats = [
                             <div class="space-y-5">
                                 <?php if (!empty($public_service)): ?>
                                     <?php foreach ($public_service as $index => $service): ?>
-                                    <div class="flex items-start group/item" data-aos="fade-left-slow"
-                                        data-aos-duration="1200" data-aos-delay="<?= 400 + ($index * 100) ?>">
-                                        <div
-                                            class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-4 group-hover/item:scale-110 transition-all duration-300 shadow-md">
-                                            <i class="fas <?= htmlspecialchars($service['icon'] ?? 'fa-file-alt') ?> text-white text-sm"></i>
-                                        </div>
-                                        <div
-                                            class="flex-1 bg-gray-50/50 p-4 rounded-lg group-hover/item:bg-gray-50 transition-all duration-300">
-                                            <div class="flex items-center justify-between mb-2">
-                                                <h5 class="font-semibold text-gray-800"><?= htmlspecialchars($service['title'] ?? 'Service Title') ?></h5>
-                                                <div
-                                                    class="w-2 h-2 bg-[#0F2854] rounded-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-                                                </div>
+                                        <div class="flex items-start group/item" data-aos="fade-left-slow"
+                                            data-aos-duration="1200" data-aos-delay="<?= 400 + ($index * 100) ?>">
+                                            <div
+                                                class="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-4 group-hover/item:scale-110 transition-all duration-300 shadow-md">
+                                                <i class="fas <?= htmlspecialchars($service['icon'] ?? 'fa-file-alt') ?> text-white text-sm"></i>
                                             </div>
-                                            <p class="text-gray-600 text-sm"><?= htmlspecialchars($service['description'] ?? 'Service description') ?></p>
+                                            <div
+                                                class="flex-1 bg-gray-50/50 p-4 rounded-lg group-hover/item:bg-gray-50 transition-all duration-300">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <h5 class="font-semibold text-gray-800"><?= htmlspecialchars($service['title'] ?? 'Service Title') ?></h5>
+                                                    <div
+                                                        class="w-2 h-2 bg-[#0F2854] rounded-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
+                                                    </div>
+                                                </div>
+                                                <p class="text-gray-600 text-sm"><?= htmlspecialchars($service['description'] ?? 'Service description') ?></p>
+                                            </div>
                                         </div>
-                                    </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <!-- Fallback content -->
@@ -591,34 +591,34 @@ $stats = [
                 <div class="grid md:grid-cols-3 gap-8">
                     <?php if (!empty($testimonials)): ?>
                         <?php foreach ($testimonials as $index => $test): ?>
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group hover-lift"
-                            data-aos="zoom-slow" data-aos-duration="1400" data-aos-delay="<?= $index * 200 ?>">
-                            <div class="mb-6">
-                                <div class="flex items-center mb-4">
-                                    <div class="flex text-yellow-400 mr-2">
-                                        <?php for ($i = 0; $i < 5; $i++): ?>
-                                            <i class="fas fa-star"></i>
-                                        <?php endfor; ?>
+                            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group hover-lift"
+                                data-aos="zoom-slow" data-aos-duration="1400" data-aos-delay="<?= $index * 200 ?>">
+                                <div class="mb-6">
+                                    <div class="flex items-center mb-4">
+                                        <div class="flex text-yellow-400 mr-2">
+                                            <?php for ($i = 0; $i < 5; $i++): ?>
+                                                <i class="fas fa-star"></i>
+                                            <?php endfor; ?>
+                                        </div>
+                                        <span class="text-sm text-gray-500"><?= htmlspecialchars($test['rating'] ?? '5.0') ?></span>
                                     </div>
-                                    <span class="text-sm text-gray-500"><?= htmlspecialchars($test['rating'] ?? '5.0') ?></span>
+                                    <p class="text-gray-700 italic leading-relaxed" data-aos="fade-up-slow"
+                                        data-aos-duration="1200" data-aos-delay="200">
+                                        "<?= htmlspecialchars($test['text'] ?? 'Excellent service and professional approach.') ?>"
+                                    </p>
                                 </div>
-                                <p class="text-gray-700 italic leading-relaxed" data-aos="fade-up-slow"
-                                    data-aos-duration="1200" data-aos-delay="200">
-                                    "<?= htmlspecialchars($test['text'] ?? 'Excellent service and professional approach.') ?>"
-                                </p>
+                                <div class="flex items-center pt-6 border-t border-gray-100" data-aos="fade-up-slow"
+                                    data-aos-duration="1200" data-aos-delay="300">
+                                    <div
+                                        class="w-12 h-12 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold mr-4 group-hover:scale-110 transition-transform duration-300">
+                                        <?= htmlspecialchars($test['initials'] ?? substr($test['name'] ?? 'C', 0, 1) . substr(explode(' ', $test['name'] ?? 'Client')[1] ?? '', 0, 1)) ?>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800"><?= htmlspecialchars($test['name'] ?? 'Client Name') ?></h4>
+                                        <p class="text-sm text-gray-600"><?= htmlspecialchars($test['position'] ?? 'CEO') ?>, <?= htmlspecialchars($test['company'] ?? 'Company') ?></p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex items-center pt-6 border-t border-gray-100" data-aos="fade-up-slow"
-                                data-aos-duration="1200" data-aos-delay="300">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <?= htmlspecialchars($test['initials'] ?? substr($test['name'] ?? 'C', 0, 1) . substr(explode(' ', $test['name'] ?? 'Client')[1] ?? '', 0, 1)) ?>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800"><?= htmlspecialchars($test['name'] ?? 'Client Name') ?></h4>
-                                    <p class="text-sm text-gray-600"><?= htmlspecialchars($test['position'] ?? 'CEO') ?>, <?= htmlspecialchars($test['company'] ?? 'Company') ?></p>
-                                </div>
-                            </div>
-                        </div>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <!-- Fallback testimonials if no data -->
@@ -751,8 +751,8 @@ $stats = [
                 <div>
                     <h3 class="text-lg font-semibold mb-4 text-white">Quick Links</h3>
                     <ul class="space-y-3">
-                        <li><a href="accueil.html" class="text-gray-300 hover:text-white transition">Home</a></li>
-                        <li><a href="pages/overview.html" class="text-gray-300 hover:text-white transition">Overview</a></li>
+                        <li><a href="accueil.php" class="text-gray-300 hover:text-white transition">Home</a></li>
+                        <li><a href="pages/overview.php" class="text-gray-300 hover:text-white transition">Overview</a></li>
                         <li><a href="pages/team.html" class="text-gray-300 hover:text-white transition">Our Team</a></li>
                         <li><a href="pages/expertise.html" class="text-gray-300 hover:text-white transition">Expertise</a></li>
                     </ul>
@@ -793,15 +793,15 @@ $stats = [
         // Initialize AOS with slow settings
         AOS.init({
             // Configuration for slow effect
-            duration: 1500,        // Default animation duration in ms
-            offset: 80,           // Trigger earlier (80px before element)
+            duration: 1500, // Default animation duration in ms
+            offset: 80, // Trigger earlier (80px before element)
             easing: 'ease-out-cubic', // Smooth animation
-            once: true,            // Animate only once
-            delay: 0,             // Default delay between elements
-            mirror: false,         // Don't animate on scroll back
+            once: true, // Animate only once
+            delay: 0, // Default delay between elements
+            mirror: false, // Don't animate on scroll back
             anchorPlacement: 'top-bottom', // Anchor point for triggering
             startEvent: 'DOMContentLoaded', // Start after DOM loading
-            disable: false,        // Enable animations
+            disable: false, // Enable animations
             animatedClassName: 'aos-animate',
             initClassName: 'aos-init',
             disableMutationObserver: false,
