@@ -1153,7 +1153,7 @@ function isTimeSlotBooked($timeValue, $bookedSlots) {
         </div>
     </div>
 
-   
+
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
