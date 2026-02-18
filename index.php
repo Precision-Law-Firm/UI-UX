@@ -91,6 +91,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
 
       <div class="px-10 py-8">
+
+        <!-- Bouton Admin -->
+        <div class="mb-6 text-center">
+          <a href="admin/index.php"
+             class="inline-block bg-gray-700 text-white py-2 px-6 rounded-lg font-medium hover:bg-gray-800 transition duration-300">
+             Admin
+          </a>
+        </div>
+
         <form method="POST" class="space-y-6">
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>

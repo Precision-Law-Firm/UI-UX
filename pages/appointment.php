@@ -1,837 +1,481 @@
 <?php
 require '../config.php';
+session_start();
 
-// Activer l'affichage des erreurs pour le debug
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// --- Fetch Appointment Hero ---
-$hero = null;
-try {
-    $stmt = $pdo->query("SELECT * FROM appointment_hero ORDER BY id DESC LIMIT 1");
-    $hero = $stmt->fetch();
-} catch (Exception $e) {
-    // Silently fail, will use defaults
+// Simple authentication check
+if (!isset($_SESSION['admin_logged_in'])) {
+    header('Location: login.php');
+    exit;
 }
 
-// --- Fetch Appointment Steps ---
-$steps = [];
-try {
-    $stmt = $pdo->query("SELECT * FROM appointment_steps WHERE is_active = 1 ORDER BY step_number ASC");
-    $steps = $stmt->fetchAll();
-} catch (Exception $e) {
-    // Silently fail
+// Handle form submissions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    // Update Hero Section
+    if (isset($_POST['update_hero'])) {
+        $check = $pdo->query("SELECT COUNT(*) FROM appointment_hero")->fetchColumn();
+        if ($check > 0) {
+            $stmt = $pdo->prepare("UPDATE appointment_hero SET badge_text = ?, title_line1 = ?, title_line2 = ?, description = ?, background_image = ?, phone_number = ? WHERE id = ?");
+            $stmt->execute([
+                $_POST['badge_text'],
+                $_POST['title_line1'],
+                $_POST['title_line2'],
+                $_POST['description'],
+                $_POST['background_image'],
+                $_POST['phone_number'],
+                $_POST['hero_id']
+            ]);
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO appointment_hero (badge_text, title_line1, title_line2, description, background_image, phone_number) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([
+                $_POST['badge_text'],
+                $_POST['title_line1'],
+                $_POST['title_line2'],
+                $_POST['description'],
+                $_POST['background_image'],
+                $_POST['phone_number']
+            ]);
+        }
+        $success = "Hero section updated successfully!";
+    }
+    
+    // Add Step
+    if (isset($_POST['add_step'])) {
+        $stmt = $pdo->prepare("INSERT INTO appointment_steps (step_number, title, description, is_active) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$_POST['step_number'], $_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0]);
+        $success = "Step added successfully!";
+    }
+    
+    // Update Step
+    if (isset($_POST['update_step'])) {
+        $stmt = $pdo->prepare("UPDATE appointment_steps SET step_number = ?, title = ?, description = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([$_POST['step_number'], $_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['step_id']]);
+        $success = "Step updated successfully!";
+    }
+    
+    // Delete Step
+    if (isset($_POST['delete_step'])) {
+        $stmt = $pdo->prepare("DELETE FROM appointment_steps WHERE id = ?");
+        $stmt->execute([$_POST['step_id']]);
+        $success = "Step deleted successfully!";
+    }
+    
+    // Add Feature
+    if (isset($_POST['add_feature'])) {
+        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM appointment_features")->fetchColumn();
+        $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
+        $stmt = $pdo->prepare("INSERT INTO appointment_features (icon, description, sort_order, is_active) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$_POST['icon'], $_POST['description'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
+        $success = "Feature added successfully!";
+    }
+    
+    // Update Feature
+    if (isset($_POST['update_feature'])) {
+        $stmt = $pdo->prepare("UPDATE appointment_features SET icon = ?, description = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([$_POST['icon'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['feature_id']]);
+        $success = "Feature updated successfully!";
+    }
+    
+    // Delete Feature
+    if (isset($_POST['delete_feature'])) {
+        $stmt = $pdo->prepare("DELETE FROM appointment_features WHERE id = ?");
+        $stmt->execute([$_POST['feature_id']]);
+        $success = "Feature deleted successfully!";
+    }
+    
+    // Add Consultation Type
+    if (isset($_POST['add_consultation'])) {
+        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM consultation_types")->fetchColumn();
+        $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
+        $stmt = $pdo->prepare("INSERT INTO consultation_types (value, name, sort_order, is_active) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$_POST['value'], $_POST['name'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
+        $success = "Consultation type added successfully!";
+    }
+    
+    // Update Consultation Type
+    if (isset($_POST['update_consultation'])) {
+        $stmt = $pdo->prepare("UPDATE consultation_types SET value = ?, name = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([$_POST['value'], $_POST['name'], isset($_POST['is_active']) ? 1 : 0, $_POST['consultation_id']]);
+        $success = "Consultation type updated successfully!";
+    }
+    
+    // Delete Consultation Type
+    if (isset($_POST['delete_consultation'])) {
+        $stmt = $pdo->prepare("DELETE FROM consultation_types WHERE id = ?");
+        $stmt->execute([$_POST['consultation_id']]);
+        $success = "Consultation type deleted successfully!";
+    }
+    
+    // Add Attorney
+    if (isset($_POST['add_attorney'])) {
+        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM attorneys")->fetchColumn();
+        $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
+        $stmt = $pdo->prepare("INSERT INTO attorneys (value, name, specialization, sort_order, available, is_active) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([
+            $_POST['value'],
+            $_POST['name'],
+            $_POST['specialization'],
+            $sort_order,
+            isset($_POST['available']) ? 1 : 0,
+            isset($_POST['is_active']) ? 1 : 0
+        ]);
+        $success = "Attorney added successfully!";
+    }
+    
+    // Update Attorney
+    if (isset($_POST['update_attorney'])) {
+        $stmt = $pdo->prepare("UPDATE attorneys SET value = ?, name = ?, specialization = ?, available = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([
+            $_POST['value'],
+            $_POST['name'],
+            $_POST['specialization'],
+            isset($_POST['available']) ? 1 : 0,
+            isset($_POST['is_active']) ? 1 : 0,
+            $_POST['attorney_id']
+        ]);
+        $success = "Attorney updated successfully!";
+    }
+    
+    // Delete Attorney
+    if (isset($_POST['delete_attorney'])) {
+        $stmt = $pdo->prepare("DELETE FROM attorneys WHERE id = ?");
+        $stmt->execute([$_POST['attorney_id']]);
+        $success = "Attorney deleted successfully!";
+    }
+    
+    // Add Time Slot
+    if (isset($_POST['add_timeslot'])) {
+        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM time_slots")->fetchColumn();
+        $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
+        $stmt = $pdo->prepare("INSERT INTO time_slots (time_value, display_time, sort_order, is_active) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$_POST['time_value'], $_POST['display_time'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
+        $success = "Time slot added successfully!";
+    }
+    
+    // Update Time Slot
+    if (isset($_POST['update_timeslot'])) {
+        $stmt = $pdo->prepare("UPDATE time_slots SET time_value = ?, display_time = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([$_POST['time_value'], $_POST['display_time'], isset($_POST['is_active']) ? 1 : 0, $_POST['timeslot_id']]);
+        $success = "Time slot updated successfully!";
+    }
+    
+    // Delete Time Slot
+    if (isset($_POST['delete_timeslot'])) {
+        $stmt = $pdo->prepare("DELETE FROM time_slots WHERE id = ?");
+        $stmt->execute([$_POST['timeslot_id']]);
+        $success = "Time slot deleted successfully!";
+    }
+    
+    // Add Info Card
+    if (isset($_POST['add_infocard'])) {
+        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM appointment_info_cards")->fetchColumn();
+        $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
+        $stmt = $pdo->prepare("INSERT INTO appointment_info_cards (icon, title, description, sort_order, is_active) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$_POST['icon'], $_POST['title'], $_POST['description'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
+        $success = "Info card added successfully!";
+    }
+    
+    // Update Info Card
+    if (isset($_POST['update_infocard'])) {
+        $stmt = $pdo->prepare("UPDATE appointment_info_cards SET icon = ?, title = ?, description = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([$_POST['icon'], $_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['infocard_id']]);
+        $success = "Info card updated successfully!";
+    }
+    
+    // Delete Info Card
+    if (isset($_POST['delete_infocard'])) {
+        $stmt = $pdo->prepare("DELETE FROM appointment_info_cards WHERE id = ?");
+        $stmt->execute([$_POST['infocard_id']]);
+        $success = "Info card deleted successfully!";
+    }
+    
+    // Update Booked Slots (for demo purposes)
+    if (isset($_POST['update_booked_slots'])) {
+        // This would typically be managed by the booking system
+        // For admin, we'll just show a message
+        $success = "Booked slots are managed automatically by the booking system.";
+    }
 }
 
-// --- Fetch Appointment Features ---
-$features = [];
-try {
-    $stmt = $pdo->query("SELECT * FROM appointment_features WHERE is_active = 1 ORDER BY sort_order ASC");
-    $features = $stmt->fetchAll();
-} catch (Exception $e) {
-    // Silently fail
-}
+// Fetch all data
+$hero = $pdo->query("SELECT * FROM appointment_hero ORDER BY id DESC LIMIT 1")->fetch();
+$steps = $pdo->query("SELECT * FROM appointment_steps ORDER BY step_number ASC")->fetchAll();
+$features = $pdo->query("SELECT * FROM appointment_features ORDER BY sort_order ASC")->fetchAll();
+$consultationTypes = $pdo->query("SELECT * FROM consultation_types ORDER BY sort_order ASC")->fetchAll();
+$attorneys = $pdo->query("SELECT * FROM attorneys ORDER BY sort_order ASC")->fetchAll();
+$timeSlots = $pdo->query("SELECT * FROM time_slots ORDER BY sort_order ASC")->fetchAll();
+$infoCards = $pdo->query("SELECT * FROM appointment_info_cards ORDER BY sort_order ASC")->fetchAll();
 
-// --- Fetch Consultation Types ---
-$consultationTypes = [];
-try {
-    $stmt = $pdo->query("SELECT * FROM consultation_types WHERE is_active = 1 ORDER BY sort_order ASC");
-    $consultationTypes = $stmt->fetchAll();
-} catch (Exception $e) {
-    // Silently fail
-}
-
-// --- Fetch Attorneys ---
-$attorneys = [];
-try {
-    $stmt = $pdo->query("SELECT * FROM attorneys WHERE is_active = 1 AND available = 1 ORDER BY sort_order ASC");
-    $attorneys = $stmt->fetchAll();
-} catch (Exception $e) {
-    // Silently fail
-}
-
-// --- Fetch Time Slots ---
-$timeSlots = [];
-try {
-    $stmt = $pdo->query("SELECT * FROM time_slots WHERE is_active = 1 ORDER BY sort_order ASC");
-    $timeSlots = $stmt->fetchAll();
-} catch (Exception $e) {
-    // Silently fail
-}
-
-// --- Fetch Today's booked slots for demo ---
+// For demo, get today's booked slots
+$today = date('Y-m-d');
 $bookedSlots = [];
 try {
-    $today = date('Y-m-d');
     $stmt = $pdo->prepare("SELECT time_slot FROM booked_slots WHERE appointment_date = ?");
     $stmt->execute([$today]);
     $bookedSlots = $stmt->fetchAll(PDO::FETCH_COLUMN);
 } catch (Exception $e) {
-    // For demo, use some default booked slots
-    $bookedSlots = ['10:00', '13:00', '15:00'];
-}
-
-// --- Fetch Info Cards ---
-$infoCards = [];
-try {
-    $stmt = $pdo->query("SELECT * FROM appointment_info_cards WHERE is_active = 1 ORDER BY sort_order ASC");
-    $infoCards = $stmt->fetchAll();
-} catch (Exception $e) {
-    // Silently fail
-}
-
-// DONNÉES PAR DÉFAUT SI RIEN N'EST TROUVÉ
-if (empty($hero)) {
-    $hero = [
-        'badge_text' => 'Book Your Consultation',
-        'title_line1' => 'Expert Legal',
-        'title_line2' => 'Consultation',
-        'description' => 'Schedule a personalized consultation with our experienced attorneys. Your first step towards legal resolution starts here.',
-        'background_image' => 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-        'phone_number' => '214-4607'
-    ];
-}
-
-if (empty($steps)) {
-    $steps = [
-        ['step_number' => 1, 'title' => 'Personal Information', 'description' => 'Provide your contact details so we can reach you for confirmation.'],
-        ['step_number' => 2, 'title' => 'Select Date & Time', 'description' => 'Choose your preferred consultation date and available time slot.'],
-        ['step_number' => 3, 'title' => 'Consultation Details', 'description' => 'Specify the type of consultation and attorney preference.'],
-        ['step_number' => 4, 'title' => 'Confirmation', 'description' => 'Review and submit your appointment. We\'ll confirm within 24 hours.']
-    ];
-}
-
-if (empty($features)) {
-    $features = [
-        ['icon' => 'fa-calendar-check', 'title' => 'Why Book With Us?', 'description' => 'Flexible consultation options (in-person, video, phone)'],
-        ['icon' => 'fa-check-circle', 'title' => 'Experienced Attorneys', 'description' => 'Experienced attorneys in specialized legal fields'],
-        ['icon' => 'fa-check-circle', 'title' => 'Confidential Communication', 'description' => 'Confidential and secure client-attorney communication'],
-        ['icon' => 'fa-check-circle', 'title' => 'Transparent Pricing', 'description' => 'Transparent pricing with no hidden fees'],
-        ['icon' => 'fa-check-circle', 'title' => 'Quick Confirmation', 'description' => '24-hour appointment confirmation guarantee']
-    ];
-}
-
-if (empty($consultationTypes)) {
-    $consultationTypes = [
-        ['value' => 'in-person', 'name' => 'In-person at Office'],
-        ['value' => 'video', 'name' => 'Video Conference'],
-        ['value' => 'phone', 'name' => 'Phone Call']
-    ];
-}
-
-if (empty($attorneys)) {
-    $attorneys = [
-        ['value' => 'general', 'name' => 'Any Available Attorney', 'specialization' => 'General Practice'],
-        ['value' => 'corporate', 'name' => 'Maître Jean Dupont', 'specialization' => 'Corporate Law Specialist'],
-        ['value' => 'family', 'name' => 'Maître Marie Curé', 'specialization' => 'Family Law Specialist'],
-        ['value' => 'property', 'name' => 'Maître Pierre Laurent', 'specialization' => 'Property Law Specialist']
-    ];
-}
-
-if (empty($timeSlots)) {
-    $timeSlots = [
-        ['time_value' => '09:00', 'display_time' => '9:00 AM'],
-        ['time_value' => '10:00', 'display_time' => '10:00 AM'],
-        ['time_value' => '11:00', 'display_time' => '11:00 AM'],
-        ['time_value' => '12:00', 'display_time' => '12:00 PM'],
-        ['time_value' => '13:00', 'display_time' => '1:00 PM'],
-        ['time_value' => '14:00', 'display_time' => '2:00 PM'],
-        ['time_value' => '15:00', 'display_time' => '3:00 PM'],
-        ['time_value' => '16:00', 'display_time' => '4:00 PM']
-    ];
-}
-
-if (empty($infoCards)) {
-    $infoCards = [
-        ['icon' => 'fa-shield-alt', 'title' => 'Confidentiality Guaranteed', 'description' => 'All consultations are protected by attorney-client privilege and strict confidentiality protocols.'],
-        ['icon' => 'fa-clock', 'title' => 'Flexible Scheduling', 'description' => 'We offer appointments during extended hours, including Saturdays, to accommodate your schedule.'],
-        ['icon' => 'fa-file-contract', 'title' => 'No Obligation Consultation', 'description' => 'Initial consultations carry no obligation to retain our services. Get expert advice first.']
-    ];
-}
-
-// Function to check if a time slot is booked
-function isTimeSlotBooked($timeValue, $bookedSlots) {
-    return in_array($timeValue, $bookedSlots);
+    $bookedSlots = ['10:00', '13:00', '15:00']; // Demo data
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment - Precision Law Firm</title>
+    <title>Admin - Appointment | Precision Law Firm</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background: #f3f4f6;
         }
-
-        /* Hero Section avec overlay */
-        .hero-section {
-            background: linear-gradient(rgba(15, 40, 84, 0.85), rgba(28, 77, 141, 0.9)), url('<?= htmlspecialchars($hero['background_image']) ?>');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
-            padding-top: 120px;
-            padding-bottom: 100px;
-        }
-
-        .hero-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-
-        /* Cartes améliorées */
-        .feature-card {
+        
+        .admin-card {
             background: white;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
         }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        .admin-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-
-        .feature-card-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        /* Formulaires améliorés */
-        .form-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(28, 77, 141, 0.15);
-            overflow: hidden;
-            border: 1px solid rgba(28, 77, 141, 0.1);
-        }
-
-        .form-input {
-            transition: all 0.3s;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 14px 16px;
-            font-size: 16px;
-        }
-
-        .form-input:focus {
-            border-color: #1C4D8D;
-            box-shadow: 0 0 0 4px rgba(28, 77, 141, 0.1);
-            transform: translateY(-1px);
-        }
-
-        /* Boutons améliorés */
-        .btn-primary {
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+        .section-header {
+            background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: none;
-            position: relative;
-            overflow: hidden;
-            font-size: 16px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(28, 77, 141, 0.3);
-        }
-
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-primary:hover::after {
-            left: 100%;
-        }
-
-        /* Badges */
-        .badge {
-            display: inline-block;
-            padding: 8px 18px;
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            color: white;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        /* Section spacing améliorée */
-        .section-spacing {
-            padding: 80px 0;
-        }
-
-        /* Timeline pour les étapes */
-        .timeline-step {
-            position: relative;
-            padding-left: 40px;
-            margin-bottom: 30px;
-        }
-
-        .timeline-step::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-        }
-
-        .timeline-step::after {
-            content: '';
-            position: absolute;
-            left: 11px;
-            top: 24px;
-            bottom: -30px;
-            width: 2px;
-            background: #e5e7eb;
-        }
-
-        .timeline-step:last-child::after {
-            display: none;
-        }
-
-        /* Animation lente et douce */
-        .aos-init[data-aos] {
-            transition-duration: 1500ms !important;
-            transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-        }
-
-        [data-aos="fade-up-slow"] {
-            transform: translateY(40px);
-            opacity: 0;
-            transition-property: transform, opacity;
-        }
-
-        [data-aos="fade-up-slow"].aos-animate {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        [data-aos="fade-left-slow"] {
-            transform: translateX(-40px);
-            opacity: 0;
-            transition-property: transform, opacity;
-        }
-
-        [data-aos="fade-left-slow"].aos-animate {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        [data-aos="fade-right-slow"] {
-            transform: translateX(40px);
-            opacity: 0;
-            transition-property: transform, opacity;
-        }
-
-        [data-aos="fade-right-slow"].aos-animate {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        [data-aos="zoom-slow"] {
-            transform: scale(0.9);
-            opacity: 0;
-            transition-property: transform, opacity;
-        }
-
-        [data-aos="zoom-slow"].aos-animate {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        /* Styles pour le chatbox */
-        .chatbox-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-        }
-
-        .chatbox-toggle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem 0.75rem 0 0;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(28, 77, 141, 0.3);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: 3px solid white;
+            transition: all 0.3s ease;
         }
-
-        .chatbox-toggle:hover {
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 15px 40px rgba(28, 77, 141, 0.4);
+        .section-header:hover {
+            opacity: 0.95;
         }
-
-        .chatbox-toggle i {
-            font-size: 24px;
+        .section-header i {
             transition: transform 0.3s ease;
         }
-
-        .chatbox-toggle:hover i {
-            transform: scale(1.2);
+        .section-header.collapsed i {
+            transform: rotate(-90deg);
         }
-
-        .chatbox-window {
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
+        .section-content {
+            transition: all 0.3s ease;
+        }
+        .section-content.collapsed {
             display: none;
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
             border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
         }
-
-        .chatbox-window.active {
-            display: block;
-            transform: translateY(0);
-            opacity: 1;
-            animation: slideInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .chatbox-header {
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            color: white;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .chatbox-header h3 {
-            font-weight: 600;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chatbox-header h3 i {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px;
-            border-radius: 50%;
-        }
-
-        .close-chat {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
-        }
-
-        .close-chat:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .chatbox-body {
-            height: 360px;
-            padding: 20px;
-            overflow-y: auto;
-            background: #f8fafc;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            max-width: 80%;
-        }
-
-        .message.bot {
-            align-self: flex-start;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            margin-left: auto;
-        }
-
-        .message-content {
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .message.bot .message-content {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-bottom-left-radius: 5px;
-            color: #374151;
-        }
-
-        .message.user .message-content {
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            color: white;
-            border-bottom-right-radius: 5px;
-        }
-
-        .message-time {
-            font-size: 11px;
-            color: #9ca3af;
-            margin-top: 4px;
-            margin-left: 12px;
-        }
-
-        .message.user .message-time {
-            text-align: right;
-            margin-right: 12px;
-        }
-
-        .chatbox-footer {
-            padding: 20px;
-            border-top: 1px solid #e5e7eb;
-            background: white;
-        }
-
-        .message-input {
-            display: flex;
-            gap: 10px;
-        }
-
-        .message-input input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 1px solid #e5e7eb;
-            border-radius: 25px;
+        .form-input:focus {
             outline: none;
-            font-size: 14px;
-            transition: border 0.3s;
-        }
-
-        .message-input input:focus {
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
-
-        .send-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            border: none;
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            min-height: 100px;
+        }
+        .form-textarea:focus {
+            outline: none;
+            border-color: #1C4D8D;
+            box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
+        }
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            background-color: white;
+        }
+        .form-select:focus {
+            outline: none;
+            border-color: #1C4D8D;
+            box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
-
-        .send-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(28, 77, 141, 0.3);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-
-        /* Styles pour le calendrier */
-        .date-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        .date-cell {
-            padding: 12px;
-            text-align: center;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            font-size: 16px;
-        }
-
-        .date-cell:hover:not(.disabled):not(.selected) {
-            background: #f3f4f6;
-            border-color: #dbeafe;
-        }
-
-        .date-cell.selected {
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+        .btn-danger {
+            background: #dc2626;
             color: white;
-            transform: scale(1.05);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
         }
-
-        .date-cell.disabled {
-            color: #d1d5db;
-            cursor: not-allowed;
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+        .btn-success {
+            background: #059669;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-success:hover {
+            background: #047857;
+        }
+        .btn-warning {
+            background: #d97706;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-warning:hover {
+            background: #b45309;
+        }
+        .table-row {
+            transition: all 0.3s ease;
+        }
+        .table-row:hover {
             background: #f9fafb;
         }
-
-        .date-cell.today {
-            border: 2px solid #1C4D8D;
-            background: #eff6ff;
-        }
-
-        /* Styles pour les créneaux horaires */
-        .time-slots {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .time-slot {
-            padding: 14px;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .time-slot:hover:not(.booked) {
-            border-color: #1C4D8D;
-            background: #eff6ff;
-            transform: translateY(-2px);
-        }
-
-        .time-slot.selected {
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 5px 15px rgba(28, 77, 141, 0.2);
-        }
-
-        .time-slot.booked {
-            background: #f3f4f6;
-            color: #9ca3af;
-            cursor: not-allowed;
-            text-decoration: line-through;
-        }
-
-        /* Animation pour les messages */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        /* Styles pour le formulaire de rendez-vous */
-        .appointment-form-step {
-            display: none;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .appointment-form-step.active {
-            display: block;
-        }
-
-        .form-progress {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .form-progress::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #e5e7eb;
-            transform: translateY(-50%);
-            z-index: 1;
-        }
-
-        .progress-step {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            border: 3px solid #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: #9ca3af;
-            position: relative;
-            z-index: 2;
-            transition: all 0.3s;
-            font-size: 16px;
-        }
-
-        .progress-step.active {
-            border-color: #1C4D8D;
-            background: #1C4D8D;
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .progress-step.completed {
-            border-color: #10b981;
+        .success-message {
             background: #10b981;
             color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            animation: slideDown 0.5s ease;
         }
-
-        /* Badge de notification sur le chatbox */
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 20px;
-            height: 20px;
-            background: #ef4444;
-            color: white;
-            border-radius: 50%;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        @keyframes slideDown {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Admin badge */
+        .admin-badge {
+            background: #D4AF37;
+            color: #0F2854;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
             font-weight: 600;
-            border: 2px solid white;
-            animation: pulse 2s infinite;
+            margin-left: 1rem;
+        }
+        
+        /* Hover effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-            }
+        /* AOS animations */
+        [data-aos] {
+            transition-duration: 1500ms !important;
         }
 
-        /* Stats counter */
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
+        .preview-box {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
         }
 
-        /* Larger base font size */
-        html {
-            font-size: 16px;
-        }
-
-        @media (min-width: 768px) {
-            html {
-                font-size: 18px;
-            }
+        .booked-slot-badge {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            display: inline-block;
+            margin: 0.25rem;
         }
     </style>
 </head>
 
-<body class="bg-white">
+<body class="bg-gray-50">
 
-    <!-- Navbar - Increased text size -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-4 shadow-sm">
+    <!-- Navbar - EXACT same as accueil admin panel -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-4" data-aos="fade-down-slow"
+        data-aos-duration="1200" data-aos-easing="ease-out-cubic">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="flex justify-between items-center">
+
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8 w-full justify-between">
-                    <!-- Logo -->
-                    <div class="text-[#D4AF37] font-bold text-2xl tracking-tight">
-                        <i class="fas fa-balance-scale mr-2"></i>Precision Law Firm
+
+                    <!-- Logo with Admin Badge -->
+                    <div class="flex items-center">
+                        <div class="text-[#D4AF37] font-bold text-2xl tracking-tight">
+                            Precision Law Firm
+                        </div>
+                        <span class="admin-badge">Admin</span>
                     </div>
 
-                    <!-- Navigation - from text-sm to text-base -->
+                    <!-- Navigation - Points to client pages -->
                     <div class="flex items-center space-x-8">
                         <a href="../accueil.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Home
                         </a>
+
                         <a href="overview.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Overview
                         </a>
+
                         <a href="team.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Our Team
                         </a>
+
                         <a href="expertise.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Expertise
                         </a>
+
                         <a href="jurisprudence.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Jurisprudence
                         </a>
+
                         <a href="courses.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Courses
                         </a>
+
                         <a href="appointment.php"
                             class="text-[#D4AF37] font-medium transition duration-300 text-base tracking-wide">
                             Appointment
@@ -840,16 +484,21 @@ function isTimeSlotBooked($timeValue, $bookedSlots) {
 
                     <!-- Contact Button -->
                     <a href="contact.php"
-                        class="bg-[#0A1F44] text-white px-6 py-3 rounded-full font-medium hover:opacity-90 transition duration-300 hover-lift text-base tracking-wide shadow-sm hover:shadow-md">
+                        class="bg-[#0A1F44] text-white px-6 py-3 rounded-full font-medium
+                     hover:opacity-90 transition duration-300 hover-lift text-base tracking-wide shadow-sm hover:shadow-md">
                         Contact Us
                     </a>
                 </div>
 
                 <!-- Mobile Header -->
                 <div class="md:hidden flex items-center justify-between w-full">
-                    <div class="text-[#D4AF37] font-bold text-xl">
-                        <i class="fas fa-balance-scale mr-2"></i>Precision Law Firm
+                    <div class="flex items-center">
+                        <div class="text-[#D4AF37] font-bold text-xl">
+                            Precision Law Firm
+                        </div>
+                        <span class="admin-badge text-xs ml-2">Admin</span>
                     </div>
+
                     <button id="mobile-menu-button" class="text-gray-700 text-2xl transition duration-300">
                         <i class="fas fa-bars"></i>
                     </button>
@@ -888,272 +537,642 @@ function isTimeSlotBooked($timeValue, $bookedSlots) {
                         Appointment
                     </a>
                     <a href="contact.php"
-                        class="bg-[#0A1F44] text-white px-4 py-3 rounded-md font-medium text-center mt-2 transition duration-300 text-base">
+                        class="bg-[#0A1F44] text-white px-4 py-3 rounded-md font-medium text-center transition duration-300 text-base">
                         Contact Us
+                    </a>
+                    <!-- Admin Logout in mobile -->
+                    <a href="logout.php"
+                        class="bg-red-600 text-white px-4 py-3 rounded-md font-medium text-center mt-4 transition duration-300 text-base">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout (Admin)
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section relative overflow-hidden" data-aos="fade-up-slow" data-aos-duration="1500">
-        <div class="hero-pattern"></div>
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="max-w-4xl mx-auto text-center">
-                <span class="badge mb-6" data-aos="fade-up-slow" data-aos-delay="100">
-                    <i class="fas fa-calendar-alt mr-2"></i><?= htmlspecialchars($hero['badge_text']) ?>
-                </span>
-
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6" data-aos="fade-up-slow" data-aos-delay="200">
-                    <?= htmlspecialchars($hero['title_line1']) ?> <span class="text-[#D4AF37]"><?= htmlspecialchars($hero['title_line2']) ?></span>
-                </h1>
-
-                <p class="text-xl md:text-2xl text-blue-100 mb-10 max-w-2xl mx-auto" data-aos="fade-up-slow" data-aos-delay="300">
-                    <?= htmlspecialchars($hero['description']) ?>
-                </p>
-
-                <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up-slow" data-aos-delay="400">
-                    <a href="#booking-form" class="btn-primary inline-flex items-center justify-center text-lg">
-                        <i class="fas fa-calendar-check mr-3"></i> Book Appointment Now
-                    </a>
-                    <a href="tel:<?= htmlspecialchars($hero['phone_number']) ?>"
-                        class="bg-white text-[#0F2854] px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition duration-300 inline-flex items-center justify-center text-lg">
-                        <i class="fas fa-phone mr-3"></i> Call: <?= htmlspecialchars($hero['phone_number']) ?>
-                    </a>
-                </div>
-            </div>
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
+            <h1 class="text-3xl font-bold text-[#0F2854]">Appointment Page Management</h1>
+            <a href="appointment.php" target="_blank" class="btn-primary inline-flex items-center">
+                <i class="fas fa-external-link-alt mr-2"></i>View Live Page
+            </a>
         </div>
-    </section>
 
-    <!-- Appointment Process - Larger text -->
-    <section class="section-spacing bg-white">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="max-w-3xl mx-auto text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4" data-aos="fade-up-slow">
-                    Simple <span class="text-[#1C4D8D]">4-Step</span> Appointment Process
-                </h2>
-                <p class="text-gray-600 text-xl" data-aos="fade-up-slow" data-aos-delay="100">
-                    Our streamlined process ensures you get the legal assistance you need quickly and efficiently.
-                </p>
+        <!-- Success Message -->
+        <?php if (isset($success)): ?>
+            <div class="success-message" data-aos="fade-up-slow">
+                <i class="fas fa-check-circle mr-2"></i><?= $success ?>
             </div>
+        <?php endif; ?>
 
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-8">
-                    <?php foreach ($steps as $index => $step): ?>
-                    <div class="timeline-step" data-aos="fade-right-slow" data-aos-delay="<?= ($index + 1) * 100 ?>">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-2"><?= $step['step_number'] ?>. <?= htmlspecialchars($step['title']) ?></h3>
-                        <p class="text-gray-600 text-lg"><?= htmlspecialchars($step['description']) ?></p>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-
-                <div class="feature-card" data-aos="zoom-slow" data-aos-delay="500">
-                    <div class="feature-card-icon">
-                        <i class="fas fa-calendar-check text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Why Book With Us?</h3>
-                    <ul class="space-y-4 text-gray-600 text-lg">
-                        <?php foreach ($features as $feature): ?>
-                        <li class="flex items-start">
-                            <i class="fas <?= $feature['icon'] ?> text-green-500 mr-3 mt-1"></i>
-                            <span><?= htmlspecialchars($feature['description']) ?></span>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
+        <!-- Hero Section Management -->
+        <div id="hero-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('hero-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-home mr-2"></i>Hero Section</h2>
+                <span class="text-sm opacity-75">Click to toggle</span>
             </div>
-        </div>
-    </section>
-
-    <!-- Appointment Booking Section - Larger text -->
-    <section class="section-spacing bg-gray-50" id="booking-form">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="max-w-6xl mx-auto">
-                <div class="form-container" data-aos="fade-up-slow" data-aos-duration="1500">
-                    <div class="p-8 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white">
-                        <h2 class="text-3xl md:text-4xl font-bold mb-2">Schedule Your Legal Consultation</h2>
-                        <p class="text-blue-100 text-lg">Complete the form below to book your appointment</p>
-                    </div>
-
-                    <div class="p-8 md:p-10">
-                        <!-- Form Progress Steps -->
-                        <div class="form-progress mb-10">
-                            <div class="progress-step active">1</div>
-                            <div class="progress-step">2</div>
-                            <div class="progress-step">3</div>
-                            <div class="progress-step">4</div>
+            <div id="hero-content" class="section-content p-6">
+                <form method="POST">
+                    <input type="hidden" name="hero_id" value="<?= $hero['id'] ?? '' ?>">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Badge Text</label>
+                            <input type="text" name="badge_text" value="<?= htmlspecialchars($hero['badge_text'] ?? 'Book Your Consultation') ?>" class="form-input">
                         </div>
-
-                        <form id="appointment-form" class="space-y-6" method="POST" action="process-appointment.php">
-                            <!-- Step 1: Personal Info -->
-                            <div class="appointment-form-step active" id="step1">
-                                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Personal Information</h3>
-                                <div class="space-y-6">
-                                    <div class="grid md:grid-cols-2 gap-6">
-                                        <div>
-                                            <label class="block text-gray-700 mb-2 font-medium text-lg">First Name</label>
-                                            <input type="text" name="first_name" required class="form-input w-full text-base"
-                                                placeholder="Enter your first name">
-                                        </div>
-                                        <div>
-                                            <label class="block text-gray-700 mb-2 font-medium text-lg">Last Name</label>
-                                            <input type="text" name="last_name" required class="form-input w-full text-base"
-                                                placeholder="Enter your last name">
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Email Address</label>
-                                        <input type="email" name="email" required class="form-input w-full text-base"
-                                            placeholder="Enter your email">
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Phone Number</label>
-                                        <input type="tel" name="phone" required class="form-input w-full text-base"
-                                            placeholder="Enter your phone number">
-                                    </div>
-                                </div>
-                                <div class="mt-10 flex justify-end">
-                                    <button type="button" onclick="nextStep(2)" class="btn-primary text-lg">
-                                        Next: Choose Date <i class="fas fa-arrow-right ml-2"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Step 2: Date Selection -->
-                            <div class="appointment-form-step" id="step2">
-                                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Select Date</h3>
-                                <div class="date-grid" id="calendar-grid">
-                                    <!-- Date cells will be generated by JavaScript -->
-                                </div>
-                                <div class="mt-10 flex justify-between">
-                                    <button type="button" onclick="prevStep(1)"
-                                        class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium text-lg">
-                                        <i class="fas fa-arrow-left mr-2"></i> Back
-                                    </button>
-                                    <button type="button" onclick="nextStep(3)" class="btn-primary text-lg">
-                                        Next: Choose Time <i class="fas fa-arrow-right ml-2"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Step 3: Time Selection -->
-                            <div class="appointment-form-step" id="step3">
-                                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Select Time Slot</h3>
-                                <div class="time-slots" id="time-slots">
-                                    <!-- Time slots will be generated by JavaScript -->
-                                </div>
-                                <div class="mt-10 flex justify-between">
-                                    <button type="button" onclick="prevStep(2)"
-                                        class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium text-lg">
-                                        <i class="fas fa-arrow-left mr-2"></i> Back
-                                    </button>
-                                    <button type="button" onclick="nextStep(4)" class="btn-primary text-lg">
-                                        Next: Final Details <i class="fas fa-arrow-right ml-2"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Step 4: Final Details -->
-                            <div class="appointment-form-step" id="step4">
-                                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Appointment Details</h3>
-                                <div class="space-y-6">
-                                    <div>
-                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Consultation Type</label>
-                                        <select name="consultation_type" class="form-input w-full text-base" required>
-                                            <option value="">Select Consultation Type</option>
-                                            <?php foreach ($consultationTypes as $type): ?>
-                                            <option value="<?= htmlspecialchars($type['value']) ?>"><?= htmlspecialchars($type['name']) ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Attorney Preference</label>
-                                        <select name="attorney_preference" class="form-input w-full text-base">
-                                            <option value="">Select Attorney</option>
-                                            <?php foreach ($attorneys as $attorney): ?>
-                                            <option value="<?= htmlspecialchars($attorney['value']) ?>"><?= htmlspecialchars($attorney['name']) ?> - <?= htmlspecialchars($attorney['specialization']) ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 mb-2 font-medium text-lg">Case Description (Optional)</label>
-                                        <textarea name="case_description" rows="4" class="form-input w-full text-base"
-                                            placeholder="Brief description of your legal matter"></textarea>
-                                    </div>
-                                    <input type="hidden" name="appointment_date" id="selected-date">
-                                    <input type="hidden" name="appointment_time" id="selected-time">
-                                </div>
-                                <div class="mt-10 flex justify-between">
-                                    <button type="button" onclick="prevStep(3)"
-                                        class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition duration-300 font-medium text-lg">
-                                        <i class="fas fa-arrow-left mr-2"></i> Back
-                                    </button>
-                                    <button type="submit"
-                                        class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-lg hover:opacity-90 transition duration-300 font-bold text-lg">
-                                        <i class="fas fa-calendar-check mr-2"></i> Confirm Appointment
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Additional Info Cards - Larger text -->
-                <div class="grid md:grid-cols-3 gap-8 mt-12">
-                    <?php foreach ($infoCards as $index => $card): ?>
-                    <div class="feature-card" data-aos="fade-up-slow" data-aos-delay="<?= ($index + 1) * 100 ?>">
-                        <div class="feature-card-icon">
-                            <i class="fas <?= htmlspecialchars($card['icon']) ?> text-white text-2xl"></i>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Title Line 1</label>
+                            <input type="text" name="title_line1" value="<?= htmlspecialchars($hero['title_line1'] ?? 'Expert Legal') ?>" class="form-input">
                         </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3"><?= htmlspecialchars($card['title']) ?></h3>
-                        <p class="text-gray-600 text-base"><?= htmlspecialchars($card['description']) ?></p>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Title Line 2</label>
+                            <input type="text" name="title_line2" value="<?= htmlspecialchars($hero['title_line2'] ?? 'Consultation') ?>" class="form-input">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea name="description" rows="2" class="form-textarea"><?= htmlspecialchars($hero['description'] ?? 'Schedule a personalized consultation with our experienced attorneys. Your first step towards legal resolution starts here.') ?></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Background Image URL</label>
+                            <input type="text" name="background_image" value="<?= htmlspecialchars($hero['background_image'] ?? 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') ?>" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                            <input type="text" name="phone_number" value="<?= htmlspecialchars($hero['phone_number'] ?? '214-4607') ?>" class="form-input">
+                        </div>
                     </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Chatbox -->
-    <div class="chatbox-container">
-        <div class="chatbox-toggle" id="chatbox-toggle">
-            <i class="fas fa-comments"></i>
-            <div class="notification-badge">1</div>
-        </div>
-        <div class="chatbox-window" id="chatbox-window">
-            <div class="chatbox-header">
-                <h3><i class="fas fa-robot"></i> Legal Assistant Bot</h3>
-                <button class="close-chat" id="close-chat">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="chatbox-body" id="chatbox-body">
-                <div class="message bot">
-                    <div class="message-content">
-                        Hello! I'm your legal assistant. How can I help you today? You can ask about:
-                        <br><br>
-                        • Appointment booking<br>
-                        • Legal consultation types<br>
-                        • Office hours<br>
-                        • Document requirements<br>
-                        • Or type your question
-                    </div>
-                    <div class="message-time">Just now</div>
-                </div>
-            </div>
-            <div class="chatbox-footer">
-                <div class="message-input">
-                    <input type="text" id="chat-input" placeholder="Type your message here...">
-                    <button class="send-btn" id="send-message">
-                        <i class="fas fa-paper-plane"></i>
+                    <button type="submit" name="update_hero" class="btn-primary mt-4">
+                        <i class="fas fa-save mr-2"></i>Update Hero Section
                     </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Steps Management -->
+        <div id="steps-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('steps-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-stairs mr-2"></i>Appointment Steps</h2>
+                <span class="text-sm opacity-75">Click to toggle</span>
+            </div>
+            <div id="steps-content" class="section-content p-6">
+                <!-- Add New Step -->
+                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Step</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Step Number</label>
+                            <input type="number" name="step_number" placeholder="e.g., 1" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                            <input type="text" name="title" placeholder="Step Title" class="form-input" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea name="description" rows="2" placeholder="Step Description" class="form-textarea" required></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+                        <div class="col-span-2">
+                            <button type="submit" name="add_step" class="btn-success">
+                                <i class="fas fa-plus mr-2"></i>Add Step
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Existing Steps -->
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Step #</th>
+                            <th class="px-4 py-2 text-left">Title</th>
+                            <th class="px-4 py-2 text-left">Description</th>
+                            <th class="px-4 py-2 text-left">Active</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($steps as $step): ?>
+                        <tr class="table-row border-t">
+                            <td class="px-4 py-3">
+                                <form method="POST" class="flex items-center gap-2">
+                                    <input type="hidden" name="step_id" value="<?= $step['id'] ?>">
+                                    <input type="number" name="step_number" value="<?= $step['step_number'] ?>" class="form-input text-sm w-20">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <input type="text" name="title" value="<?= htmlspecialchars($step['title']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <input type="text" name="description" value="<?= htmlspecialchars($step['description']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="is_active" value="1" <?= $step['is_active'] ? 'checked' : '' ?>>
+                                    </label>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                    <button type="submit" name="update_step" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this step?')">
+                                    <input type="hidden" name="step_id" value="<?= $step['id'] ?>">
+                                    <button type="submit" name="delete_step" class="text-red-600 hover:text-red-800" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Features Management -->
+        <div id="features-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('features-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-check-circle mr-2"></i>Why Book With Us Features</h2>
+                <span class="text-sm opacity-75">Click to toggle</span>
+            </div>
+            <div id="features-content" class="section-content p-6">
+                <!-- Add New Feature -->
+                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Feature</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                            <input type="text" name="icon" placeholder="e.g., fa-calendar-check" class="form-input" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <input type="text" name="description" placeholder="Feature Description" class="form-input" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+                        <div class="col-span-2">
+                            <button type="submit" name="add_feature" class="btn-success">
+                                <i class="fas fa-plus mr-2"></i>Add Feature
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Existing Features -->
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Icon</th>
+                            <th class="px-4 py-2 text-left">Description</th>
+                            <th class="px-4 py-2 text-left">Active</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($features as $feature): ?>
+                        <tr class="table-row border-t">
+                            <td class="px-4 py-3">
+                                <form method="POST" class="flex items-center gap-2">
+                                    <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
+                                    <input type="text" name="icon" value="<?= htmlspecialchars($feature['icon']) ?>" class="form-input text-sm w-24">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <input type="text" name="description" value="<?= htmlspecialchars($feature['description']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="is_active" value="1" <?= $feature['is_active'] ? 'checked' : '' ?>>
+                                    </label>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                    <button type="submit" name="update_feature" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this feature?')">
+                                    <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
+                                    <button type="submit" name="delete_feature" class="text-red-600 hover:text-red-800" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Consultation Types Management -->
+        <div id="consultation-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('consultation-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-comments mr-2"></i>Consultation Types</h2>
+                <span class="text-sm opacity-75">Click to toggle</span>
+            </div>
+            <div id="consultation-content" class="section-content p-6">
+                <!-- Add New Consultation Type -->
+                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Consultation Type</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Value (slug)</label>
+                            <input type="text" name="value" placeholder="e.g., in-person" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Display Name</label>
+                            <input type="text" name="name" placeholder="e.g., In-person at Office" class="form-input" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+                        <div class="col-span-2">
+                            <button type="submit" name="add_consultation" class="btn-success">
+                                <i class="fas fa-plus mr-2"></i>Add Consultation Type
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Existing Consultation Types -->
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Value</th>
+                            <th class="px-4 py-2 text-left">Name</th>
+                            <th class="px-4 py-2 text-left">Active</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($consultationTypes as $type): ?>
+                        <tr class="table-row border-t">
+                            <td class="px-4 py-3">
+                                <form method="POST" class="flex items-center gap-2">
+                                    <input type="hidden" name="consultation_id" value="<?= $type['id'] ?>">
+                                    <input type="text" name="value" value="<?= htmlspecialchars($type['value']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <input type="text" name="name" value="<?= htmlspecialchars($type['name']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="is_active" value="1" <?= $type['is_active'] ? 'checked' : '' ?>>
+                                    </label>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                    <button type="submit" name="update_consultation" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this consultation type?')">
+                                    <input type="hidden" name="consultation_id" value="<?= $type['id'] ?>">
+                                    <button type="submit" name="delete_consultation" class="text-red-600 hover:text-red-800" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Attorneys Management -->
+        <div id="attorneys-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('attorneys-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-user-tie mr-2"></i>Attorneys</h2>
+                <span class="text-sm opacity-75">Click to toggle</span>
+            </div>
+            <div id="attorneys-content" class="section-content p-6">
+                <!-- Add New Attorney -->
+                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Attorney</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Value (slug)</label>
+                            <input type="text" name="value" placeholder="e.g., corporate" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                            <input type="text" name="name" placeholder="e.g., Maître Jean Dupont" class="form-input" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
+                            <input type="text" name="specialization" placeholder="e.g., Corporate Law Specialist" class="form-input" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="flex items-center mr-4">
+                                <input type="checkbox" name="available" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Available</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+                        <div class="col-span-2">
+                            <button type="submit" name="add_attorney" class="btn-success">
+                                <i class="fas fa-plus mr-2"></i>Add Attorney
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Existing Attorneys -->
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Value</th>
+                            <th class="px-4 py-2 text-left">Name</th>
+                            <th class="px-4 py-2 text-left">Specialization</th>
+                            <th class="px-4 py-2 text-left">Available</th>
+                            <th class="px-4 py-2 text-left">Active</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($attorneys as $attorney): ?>
+                        <tr class="table-row border-t">
+                            <td class="px-4 py-3">
+                                <form method="POST" class="flex items-center gap-2">
+                                    <input type="hidden" name="attorney_id" value="<?= $attorney['id'] ?>">
+                                    <input type="text" name="value" value="<?= htmlspecialchars($attorney['value']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <input type="text" name="name" value="<?= htmlspecialchars($attorney['name']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <input type="text" name="specialization" value="<?= htmlspecialchars($attorney['specialization']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="available" value="1" <?= $attorney['available'] ? 'checked' : '' ?>>
+                                    </label>
+                            </td>
+                            <td class="px-4 py-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="is_active" value="1" <?= $attorney['is_active'] ? 'checked' : '' ?>>
+                                    </label>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                    <button type="submit" name="update_attorney" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this attorney?')">
+                                    <input type="hidden" name="attorney_id" value="<?= $attorney['id'] ?>">
+                                    <button type="submit" name="delete_attorney" class="text-red-600 hover:text-red-800" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Time Slots Management -->
+        <div id="timeslots-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('timeslots-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-clock mr-2"></i>Time Slots</h2>
+                <span class="text-sm opacity-75">Click to toggle</span>
+            </div>
+            <div id="timeslots-content" class="section-content p-6">
+                <!-- Add New Time Slot -->
+                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Time Slot</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Time Value (24h)</label>
+                            <input type="text" name="time_value" placeholder="e.g., 09:00" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Display Time</label>
+                            <input type="text" name="display_time" placeholder="e.g., 9:00 AM" class="form-input" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+                        <div class="col-span-2">
+                            <button type="submit" name="add_timeslot" class="btn-success">
+                                <i class="fas fa-plus mr-2"></i>Add Time Slot
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Today's Booked Slots Preview -->
+                <div class="preview-box mb-4">
+                    <h4 class="font-semibold text-gray-700 mb-2">Today's Booked Slots (<?= date('Y-m-d') ?>)</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <?php foreach ($bookedSlots as $slot): ?>
+                            <span class="booked-slot-badge"><i class="fas fa-ban mr-1"></i><?= $slot ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Note: Booked slots are managed automatically by the booking system.</p>
                 </div>
+
+                <!-- Existing Time Slots -->
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Time Value</th>
+                            <th class="px-4 py-2 text-left">Display Time</th>
+                            <th class="px-4 py-2 text-left">Active</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($timeSlots as $slot): ?>
+                        <tr class="table-row border-t">
+                            <td class="px-4 py-3">
+                                <form method="POST" class="flex items-center gap-2">
+                                    <input type="hidden" name="timeslot_id" value="<?= $slot['id'] ?>">
+                                    <input type="text" name="time_value" value="<?= htmlspecialchars($slot['time_value']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <input type="text" name="display_time" value="<?= htmlspecialchars($slot['display_time']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="is_active" value="1" <?= $slot['is_active'] ? 'checked' : '' ?>>
+                                    </label>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                    <button type="submit" name="update_timeslot" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this time slot?')">
+                                    <input type="hidden" name="timeslot_id" value="<?= $slot['id'] ?>">
+                                    <button type="submit" name="delete_timeslot" class="text-red-600 hover:text-red-800" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Info Cards Management -->
+        <div id="infocards-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('infocards-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-info-circle mr-2"></i>Additional Info Cards</h2>
+                <span class="text-sm opacity-75">Click to toggle</span>
+            </div>
+            <div id="infocards-content" class="section-content p-6">
+                <!-- Add New Info Card -->
+                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Info Card</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                            <input type="text" name="icon" placeholder="e.g., fa-shield-alt" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                            <input type="text" name="title" placeholder="Card Title" class="form-input" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea name="description" rows="2" placeholder="Card Description" class="form-textarea" required></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+                        <div class="col-span-2">
+                            <button type="submit" name="add_infocard" class="btn-success">
+                                <i class="fas fa-plus mr-2"></i>Add Info Card
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Existing Info Cards -->
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Icon</th>
+                            <th class="px-4 py-2 text-left">Title</th>
+                            <th class="px-4 py-2 text-left">Description</th>
+                            <th class="px-4 py-2 text-left">Active</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($infoCards as $card): ?>
+                        <tr class="table-row border-t">
+                            <td class="px-4 py-3">
+                                <form method="POST" class="flex items-center gap-2">
+                                    <input type="hidden" name="infocard_id" value="<?= $card['id'] ?>">
+                                    <input type="text" name="icon" value="<?= htmlspecialchars($card['icon']) ?>" class="form-input text-sm w-24">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <input type="text" name="title" value="<?= htmlspecialchars($card['title']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <input type="text" name="description" value="<?= htmlspecialchars($card['description']) ?>" class="form-input text-sm">
+                            </td>
+                            <td class="px-4 py-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="is_active" value="1" <?= $card['is_active'] ? 'checked' : '' ?>>
+                                    </label>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                    <button type="submit" name="update_infocard" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this info card?')">
+                                    <input type="hidden" name="infocard_id" value="<?= $card['id'] ?>">
+                                    <button type="submit" name="delete_infocard" class="text-red-600 hover:text-red-800" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Booked Slots Preview (Read-only) -->
+        <div id="booked-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('booked-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-calendar-check mr-2"></i>Today's Booked Slots</h2>
+                <span class="text-sm opacity-75">Click to toggle</span>
+            </div>
+            <div id="booked-content" class="section-content p-6">
+                <form method="POST">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-info-circle text-blue-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-blue-700">
+                                    Booked slots are managed automatically by the booking system. This is a read-only preview of today's booked slots.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-2">
+                        <?php
+                        $allTimes = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+                        foreach ($allTimes as $time):
+                            $isBooked = in_array($time, $bookedSlots);
+                        ?>
+                        <div class="p-3 border rounded-lg <?= $isBooked ? 'bg-red-50 border-red-300' : 'bg-green-50 border-green-300' ?>">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium"><?= $time ?></span>
+                                <?php if ($isBooked): ?>
+                                    <span class="text-red-600 text-sm"><i class="fas fa-times-circle"></i> Booked</span>
+                                <?php else: ?>
+                                    <span class="text-green-600 text-sm"><i class="fas fa-check-circle"></i> Available</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-
+    <!-- Footer -->
+    <footer class="bg-[#0F2854] text-white py-8 mt-12">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24 text-center">
+            <p class="text-gray-300 text-base">© 2024 Precision Law Firm Admin Panel. All rights reserved.</p>
+        </div>
+    </footer>
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -1164,281 +1183,8 @@ function isTimeSlotBooked($timeValue, $bookedSlots) {
             duration: 1500,
             offset: 80,
             easing: 'ease-out-cubic',
-            once: true,
-            delay: 0,
-            mirror: false,
-            anchorPlacement: 'top-bottom',
-            startEvent: 'DOMContentLoaded',
-            disable: false
+            once: true
         });
-
-        // Appointment form functionality
-        let currentStep = 1;
-        let selectedDate = '';
-        let selectedTime = '';
-
-        // Time slots data from PHP
-        const timeSlots = <?= json_encode($timeSlots) ?>;
-        const bookedSlots = <?= json_encode($bookedSlots) ?>;
-
-        function nextStep(step) {
-            // Validate current step before proceeding
-            if (currentStep === 1) {
-                const firstName = document.querySelector('input[name="first_name"]').value;
-                const lastName = document.querySelector('input[name="last_name"]').value;
-                const email = document.querySelector('input[name="email"]').value;
-                const phone = document.querySelector('input[name="phone"]').value;
-
-                if (!firstName || !lastName || !email || !phone) {
-                    alert('Please fill in all required fields');
-                    return;
-                }
-            }
-
-            if (currentStep === 2 && !selectedDate) {
-                alert('Please select a date');
-                return;
-            }
-
-            if (currentStep === 3 && !selectedTime) {
-                alert('Please select a time slot');
-                return;
-            }
-
-            document.getElementById(`step${currentStep}`).classList.remove('active');
-            document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('active');
-            document.querySelectorAll('.progress-step')[currentStep - 1].classList.add('completed');
-
-            currentStep = step;
-            document.getElementById(`step${currentStep}`).classList.add('active');
-            document.querySelectorAll('.progress-step')[currentStep - 1].classList.add('active');
-
-            // Generate calendar for step 2
-            if (step === 2) {
-                generateCalendar();
-            }
-            // Generate time slots for step 3
-            else if (step === 3) {
-                generateTimeSlots();
-            }
-        }
-
-        function prevStep(step) {
-            document.getElementById(`step${currentStep}`).classList.remove('active');
-            document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('active');
-            document.querySelectorAll('.progress-step')[currentStep - 1].classList.remove('completed');
-
-            currentStep = step;
-            document.getElementById(`step${currentStep}`).classList.add('active');
-            document.querySelectorAll('.progress-step')[currentStep - 1].classList.add('active');
-        }
-
-        function generateCalendar() {
-            const calendar = document.getElementById('calendar-grid');
-            calendar.innerHTML = '';
-
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-            // Add day headers
-            days.forEach(day => {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'text-center text-sm font-medium text-gray-500 py-2 text-base';
-                dayHeader.textContent = day;
-                calendar.appendChild(dayHeader);
-            });
-
-            const today = new Date();
-            const currentMonth = today.getMonth();
-            const currentYear = today.getFullYear();
-
-            // Get first day of current month
-            const firstDay = new Date(currentYear, currentMonth, 1);
-            // Get last day of current month
-            const lastDay = new Date(currentYear, currentMonth + 1, 0);
-
-            // Add empty cells for days before first day of month
-            for (let i = 0; i < firstDay.getDay(); i++) {
-                const emptyCell = document.createElement('div');
-                calendar.appendChild(emptyCell);
-            }
-
-            // Add days of the month
-            for (let day = 1; day <= lastDay.getDate(); day++) {
-                const dateCell = document.createElement('div');
-                dateCell.className = 'date-cell text-base';
-                dateCell.textContent = day;
-
-                const cellDate = new Date(currentYear, currentMonth, day);
-                const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
-                // Mark today
-                if (day === today.getDate() && currentMonth === today.getMonth()) {
-                    dateCell.classList.add('today');
-                }
-
-                // Disable past dates
-                if (cellDate < today) {
-                    dateCell.classList.add('disabled');
-                } else {
-                    dateCell.addEventListener('click', () => {
-                        document.querySelectorAll('.date-cell.selected').forEach(cell => {
-                            cell.classList.remove('selected');
-                        });
-                        dateCell.classList.add('selected');
-                        selectedDate = dateString;
-                        document.getElementById('selected-date').value = dateString;
-                    });
-                }
-
-                calendar.appendChild(dateCell);
-            }
-        }
-
-        function generateTimeSlots() {
-            const timeSlotsContainer = document.getElementById('time-slots');
-            timeSlotsContainer.innerHTML = '';
-
-            timeSlots.forEach((slot, index) => {
-                const timeSlot = document.createElement('div');
-                timeSlot.className = 'time-slot text-base';
-                timeSlot.textContent = slot.display_time;
-
-                if (bookedSlots.includes(slot.time_value)) {
-                    timeSlot.classList.add('booked');
-                } else {
-                    timeSlot.addEventListener('click', () => {
-                        document.querySelectorAll('.time-slot.selected').forEach(slot => {
-                            slot.classList.remove('selected');
-                        });
-                        timeSlot.classList.add('selected');
-                        selectedTime = slot.time_value;
-                        document.getElementById('selected-time').value = slot.time_value;
-                    });
-                }
-
-                timeSlotsContainer.appendChild(timeSlot);
-            });
-        }
-
-        // Chatbox functionality
-        const chatboxToggle = document.getElementById('chatbox-toggle');
-        const chatboxWindow = document.getElementById('chatbox-window');
-        const closeChat = document.getElementById('close-chat');
-        const chatInput = document.getElementById('chat-input');
-        const sendMessageBtn = document.getElementById('send-message');
-        const chatboxBody = document.getElementById('chatbox-body');
-
-        chatboxToggle.addEventListener('click', () => {
-            chatboxWindow.classList.toggle('active');
-            document.querySelector('.notification-badge').style.display = 'none';
-        });
-
-        closeChat.addEventListener('click', () => {
-            chatboxWindow.classList.remove('active');
-        });
-
-        sendMessageBtn.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message) return;
-
-            addMessage(message, 'user');
-            chatInput.value = '';
-
-            setTimeout(() => {
-                const botResponse = getBotResponse(message);
-                addMessage(botResponse, 'bot');
-            }, 1000);
-        }
-
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.textContent = text;
-
-            const timeDiv = document.createElement('div');
-            timeDiv.className = 'message-time';
-            const now = new Date();
-            timeDiv.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            messageDiv.appendChild(contentDiv);
-            messageDiv.appendChild(timeDiv);
-            chatboxBody.appendChild(messageDiv);
-
-            chatboxBody.scrollTop = chatboxBody.scrollHeight;
-        }
-
-        function getBotResponse(message) {
-            const lowerMessage = message.toLowerCase();
-
-            if (lowerMessage.includes('appointment') || lowerMessage.includes('book')) {
-                return "You can book an appointment using the form above. Our office hours are Monday-Friday 9AM-5PM and Saturday 9AM-1PM.";
-            } else if (lowerMessage.includes('hour') || lowerMessage.includes('time')) {
-                return "Our office hours are: Monday to Friday: 9:00 AM - 5:00 PM, Saturday: 9:00 AM - 1:00 PM.";
-            } else if (lowerMessage.includes('phone') || lowerMessage.includes('call')) {
-                return "You can call us at <?= $hero['phone_number'] ?> during office hours.";
-            } else if (lowerMessage.includes('email') || lowerMessage.includes('contact')) {
-                return "You can email us at LawfirmPrecision@outlook.com. We typically respond within 24 hours.";
-            } else if (lowerMessage.includes('location') || lowerMessage.includes('address')) {
-                return "We're located at: 7th floor, Astor Court (Block B), Georges Guibert Street, Port Louis.";
-            } else if (lowerMessage.includes('document') || lowerMessage.includes('paper')) {
-                return "For your consultation, please bring any relevant documents related to your case. If it's your first visit, bring identification and any court documents if applicable.";
-            } else if (lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('fee')) {
-                return "Our consultation fees vary based on the type of legal matter. Initial consultation fees will be discussed when you book your appointment.";
-            } else {
-                return "Thank you for your message. For specific legal advice, please book an appointment with one of our attorneys. Is there anything else I can help you with regarding appointments, hours, or general information?";
-            }
-        }
-
-        // Appointment form submission
-        document.getElementById('appointment-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Validate all required fields
-            if (!selectedDate || !selectedTime) {
-                alert('Please select both date and time');
-                return;
-            }
-
-            // You can add AJAX submission here
-            // For now, show success message
-            const formData = new FormData(this);
-            
-            // Simulate successful submission
-            const successHTML = `
-                <div class="text-center py-8">
-                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-check-circle text-green-500 text-4xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Appointment Request Submitted!</h3>
-                    <p class="text-gray-600 text-lg mb-6">
-                        Thank you for scheduling with Precision Law Firm. We will contact you within 24 hours to confirm your appointment.
-                    </p>
-                    <div class="space-y-2 text-gray-700 text-base">
-                        <p><i class="fas fa-envelope text-blue-500 mr-2"></i> Confirmation email sent to your inbox</p>
-                        <p><i class="fas fa-phone text-blue-500 mr-2"></i> You'll receive a confirmation call shortly</p>
-                    </div>
-                    <button onclick="resetForm()" class="btn-primary mt-8 text-lg">
-                        <i class="fas fa-calendar-plus mr-2"></i> Book Another Appointment
-                    </button>
-                </div>
-            `;
-
-            document.querySelector('.form-container').innerHTML = successHTML;
-        });
-
-        function resetForm() {
-            location.reload();
-        }
 
         // Toggle mobile menu
         const mobileButton = document.getElementById('mobile-menu-button');
@@ -1458,37 +1204,26 @@ function isTimeSlotBooked($timeValue, $bookedSlots) {
             });
         }
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
+        // Toggle sections
+        function toggleSection(contentId) {
+            const content = document.getElementById(contentId);
+            const header = content.previousElementSibling;
+            const icon = header.querySelector('i.fa-chevron-down');
+            
+            content.classList.toggle('collapsed');
+            icon.classList.toggle('rotate-[-90deg]');
+        }
 
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
-
-    <!-- Script to load footer component -->
-    <script>
-        fetch("/components/footer.html")
-            .then(res => res.text())
-            .then(data => {
-                document.getElementById("footer").innerHTML = data;
+        // Auto-hide success message after 5 seconds
+        const successMessage = document.querySelector('.success-message');
+        if (successMessage) {
+            setTimeout(() => {
+                successMessage.style.opacity = '0';
                 setTimeout(() => {
-                    AOS.refresh();
-                }, 300);
-            })
-            .catch(error => {
-                console.error('Error loading footer:', error);
-            });
+                    successMessage.remove();
+                }, 500);
+            }, 5000);
+        }
     </script>
 </body>
 

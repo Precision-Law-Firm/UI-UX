@@ -4,178 +4,184 @@ session_start();
 
 // Simple authentication check
 if (!isset($_SESSION['admin_logged_in'])) {
-    header('Location: index.php');
+    header('Location: login.php');
     exit;
 }
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // Update Overview Hero
+    // Update Expertise Hero
     if (isset($_POST['update_hero'])) {
-        // First check if record exists
-        $check = $pdo->query("SELECT COUNT(*) FROM overview_hero")->fetchColumn();
+        $check = $pdo->query("SELECT COUNT(*) FROM expertise_hero")->fetchColumn();
         if ($check > 0) {
-            $stmt = $pdo->prepare("UPDATE overview_hero SET title = ?, background_image = ? WHERE id = ?");
-            $stmt->execute([$_POST['title'], $_POST['background_image'], $_POST['hero_id']]);
+            $stmt = $pdo->prepare("UPDATE expertise_hero SET title = ?, subtitle = ?, background_image = ? WHERE id = ?");
+            $stmt->execute([$_POST['title'], $_POST['subtitle'], $_POST['background_image'], $_POST['hero_id']]);
         } else {
-            $stmt = $pdo->prepare("INSERT INTO overview_hero (title, background_image) VALUES (?, ?)");
-            $stmt->execute([$_POST['title'], $_POST['background_image']]);
+            $stmt = $pdo->prepare("INSERT INTO expertise_hero (title, subtitle, background_image) VALUES (?, ?, ?)");
+            $stmt->execute([$_POST['title'], $_POST['subtitle'], $_POST['background_image']]);
         }
-        $success = "Hero section updated successfully!";
+        $success = "Expertise hero section updated successfully!";
     }
     
-    // Add Overview Description
-    if (isset($_POST['add_description'])) {
-        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM overview_description")->fetchColumn();
+    // Add Category
+    if (isset($_POST['add_category'])) {
+        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM expertise_categories")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        $stmt = $pdo->prepare("INSERT INTO overview_description (paragraph, sort_order) VALUES (?, ?)");
-        $stmt->execute([$_POST['paragraph'], $sort_order]);
-        $success = "Description paragraph added successfully!";
+        $stmt = $pdo->prepare("INSERT INTO expertise_categories (title, description, sort_order, is_active) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$_POST['title'], $_POST['description'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
+        $success = "Category added successfully!";
     }
     
-    // Update Overview Description
-    if (isset($_POST['update_description'])) {
-        $stmt = $pdo->prepare("UPDATE overview_description SET paragraph = ? WHERE id = ?");
-        $stmt->execute([$_POST['paragraph'], $_POST['desc_id']]);
-        $success = "Description paragraph updated successfully!";
+    // Update Category
+    if (isset($_POST['update_category'])) {
+        $stmt = $pdo->prepare("UPDATE expertise_categories SET title = ?, description = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([$_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['category_id']]);
+        $success = "Category updated successfully!";
     }
     
-    // Delete Overview Description
-    if (isset($_POST['delete_description'])) {
-        $stmt = $pdo->prepare("DELETE FROM overview_description WHERE id = ?");
-        $stmt->execute([$_POST['desc_id']]);
-        $success = "Description paragraph deleted successfully!";
+    // Delete Category
+    if (isset($_POST['delete_category'])) {
+        // First delete all practice areas in this category
+        $stmt = $pdo->prepare("DELETE FROM practice_areas_expertise WHERE category_id = ?");
+        $stmt->execute([$_POST['category_id']]);
+        // Then delete the category
+        $stmt = $pdo->prepare("DELETE FROM expertise_categories WHERE id = ?");
+        $stmt->execute([$_POST['category_id']]);
+        $success = "Category and its practice areas deleted successfully!";
     }
     
-    // Update sort order
-    if (isset($_POST['update_sort_order'])) {
+    // Update category sort order
+    if (isset($_POST['update_category_sort'])) {
         $ids = $_POST['sort_ids'] ?? [];
         $orders = $_POST['sort_orders'] ?? [];
         for ($i = 0; $i < count($ids); $i++) {
-            $stmt = $pdo->prepare("UPDATE overview_description SET sort_order = ? WHERE id = ?");
+            $stmt = $pdo->prepare("UPDATE expertise_categories SET sort_order = ? WHERE id = ?");
             $stmt->execute([$orders[$i], $ids[$i]]);
         }
-        $success = "Sort order updated successfully!";
-    }
-    
-    // Add What We Do content
-    if (isset($_POST['add_whatwedo'])) {
-        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM what_we_do WHERE column_number = " . $_POST['column_number'])->fetchColumn();
-        $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        $stmt = $pdo->prepare("INSERT INTO what_we_do (content, column_number, sort_order) VALUES (?, ?, ?)");
-        $stmt->execute([$_POST['content'], $_POST['column_number'], $sort_order]);
-        $success = "What We Do content added successfully!";
-    }
-    
-    // Update What We Do content
-    if (isset($_POST['update_whatwedo'])) {
-        $stmt = $pdo->prepare("UPDATE what_we_do SET content = ? WHERE id = ?");
-        $stmt->execute([$_POST['content'], $_POST['whatwedo_id']]);
-        $success = "What We Do content updated successfully!";
-    }
-    
-    // Delete What We Do content
-    if (isset($_POST['delete_whatwedo'])) {
-        $stmt = $pdo->prepare("DELETE FROM what_we_do WHERE id = ?");
-        $stmt->execute([$_POST['whatwedo_id']]);
-        $success = "What We Do content deleted successfully!";
+        $success = "Category sort order updated successfully!";
     }
     
     // Add Practice Area
     if (isset($_POST['add_practice'])) {
-        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM practice_areas")->fetchColumn();
+        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM practice_areas_expertise WHERE category_id = " . $_POST['category_id'])->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        $stmt = $pdo->prepare("INSERT INTO practice_areas (title, description, icon, sort_order) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $sort_order]);
+        
+        // Convert features array to comma-separated string
+        $features = is_array($_POST['features']) ? implode(',', $_POST['features']) : $_POST['features'];
+        
+        $stmt = $pdo->prepare("INSERT INTO practice_areas_expertise (category_id, title, icon, features, sort_order, is_active) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$_POST['category_id'], $_POST['title'], $_POST['icon'], $features, $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Practice area added successfully!";
     }
     
     // Update Practice Area
     if (isset($_POST['update_practice'])) {
-        $stmt = $pdo->prepare("UPDATE practice_areas SET title = ?, description = ?, icon = ? WHERE id = ?");
-        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $_POST['practice_id']]);
+        $features = is_array($_POST['features']) ? implode(',', $_POST['features']) : $_POST['features'];
+        $stmt = $pdo->prepare("UPDATE practice_areas_expertise SET title = ?, icon = ?, features = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([$_POST['title'], $_POST['icon'], $features, isset($_POST['is_active']) ? 1 : 0, $_POST['practice_id']]);
         $success = "Practice area updated successfully!";
     }
     
     // Delete Practice Area
     if (isset($_POST['delete_practice'])) {
-        $stmt = $pdo->prepare("DELETE FROM practice_areas WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM practice_areas_expertise WHERE id = ?");
         $stmt->execute([$_POST['practice_id']]);
         $success = "Practice area deleted successfully!";
     }
     
-    // Add Approach Content
-    if (isset($_POST['add_approach'])) {
-        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM approach_content")->fetchColumn();
+    // Add Specialized Area
+    if (isset($_POST['add_specialized'])) {
+        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM specialized_areas")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        $stmt = $pdo->prepare("INSERT INTO approach_content (content, sort_order) VALUES (?, ?)");
-        $stmt->execute([$_POST['content'], $sort_order]);
-        $success = "Approach content added successfully!";
+        $stmt = $pdo->prepare("INSERT INTO specialized_areas (title, description, icon, sort_order, is_active) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
+        $success = "Specialized area added successfully!";
     }
     
-    // Update Approach Content
-    if (isset($_POST['update_approach'])) {
-        $stmt = $pdo->prepare("UPDATE approach_content SET content = ? WHERE id = ?");
-        $stmt->execute([$_POST['content'], $_POST['approach_id']]);
-        $success = "Approach content updated successfully!";
+    // Update Specialized Area
+    if (isset($_POST['update_specialized'])) {
+        $stmt = $pdo->prepare("UPDATE specialized_areas SET title = ?, description = ?, icon = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], isset($_POST['is_active']) ? 1 : 0, $_POST['specialized_id']]);
+        $success = "Specialized area updated successfully!";
     }
     
-    // Delete Approach Content
-    if (isset($_POST['delete_approach'])) {
-        $stmt = $pdo->prepare("DELETE FROM approach_content WHERE id = ?");
-        $stmt->execute([$_POST['approach_id']]);
-        $success = "Approach content deleted successfully!";
+    // Delete Specialized Area
+    if (isset($_POST['delete_specialized'])) {
+        $stmt = $pdo->prepare("DELETE FROM specialized_areas WHERE id = ?");
+        $stmt->execute([$_POST['specialized_id']]);
+        $success = "Specialized area deleted successfully!";
     }
     
-    // Add Approach Feature
+    // Add Why Choose Feature
     if (isset($_POST['add_feature'])) {
-        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM approach_features")->fetchColumn();
+        $maxSort = $pdo->query("SELECT MAX(sort_order) FROM why_choose_features")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        $stmt = $pdo->prepare("INSERT INTO approach_features (title, description, icon, sort_order) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $sort_order]);
-        $success = "Approach feature added successfully!";
+        $stmt = $pdo->prepare("INSERT INTO why_choose_features (title, description, icon, sort_order, is_active) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
+        $success = "Feature added successfully!";
     }
     
-    // Update Approach Feature
+    // Update Why Choose Feature
     if (isset($_POST['update_feature'])) {
-        $stmt = $pdo->prepare("UPDATE approach_features SET title = ?, description = ?, icon = ? WHERE id = ?");
-        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $_POST['feature_id']]);
-        $success = "Approach feature updated successfully!";
+        $stmt = $pdo->prepare("UPDATE why_choose_features SET title = ?, description = ?, icon = ?, is_active = ? WHERE id = ?");
+        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], isset($_POST['is_active']) ? 1 : 0, $_POST['feature_id']]);
+        $success = "Feature updated successfully!";
     }
     
-    // Delete Approach Feature
+    // Delete Why Choose Feature
     if (isset($_POST['delete_feature'])) {
-        $stmt = $pdo->prepare("DELETE FROM approach_features WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM why_choose_features WHERE id = ?");
         $stmt->execute([$_POST['feature_id']]);
-        $success = "Approach feature deleted successfully!";
+        $success = "Feature deleted successfully!";
     }
     
-    // Update CTA Section
+    // Update CTA
     if (isset($_POST['update_cta'])) {
-        // First check if record exists
-        $check = $pdo->query("SELECT COUNT(*) FROM cta_section")->fetchColumn();
+        $check = $pdo->query("SELECT COUNT(*) FROM expertise_cta")->fetchColumn();
         if ($check > 0) {
-            $stmt = $pdo->prepare("UPDATE cta_section SET title = ?, description = ?, button_text = ?, button_link = ?, is_active = ? WHERE id = ?");
-            $stmt->execute([$_POST['title'], $_POST['description'], $_POST['button_text'], $_POST['button_link'], isset($_POST['is_active']) ? 1 : 0, $_POST['cta_id']]);
+            $stmt = $pdo->prepare("UPDATE expertise_cta SET title = ?, description = ?, primary_button_text = ?, primary_button_link = ?, secondary_button_text = ?, secondary_button_link = ?, is_active = ? WHERE id = ?");
+            $stmt->execute([
+                $_POST['title'],
+                $_POST['description'],
+                $_POST['primary_button_text'],
+                $_POST['primary_button_link'],
+                $_POST['secondary_button_text'],
+                $_POST['secondary_button_link'],
+                isset($_POST['is_active']) ? 1 : 0,
+                $_POST['cta_id']
+            ]);
         } else {
-            $stmt = $pdo->prepare("INSERT INTO cta_section (title, description, button_text, button_link, is_active) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$_POST['title'], $_POST['description'], $_POST['button_text'], $_POST['button_link'], isset($_POST['is_active']) ? 1 : 0]);
+            $stmt = $pdo->prepare("INSERT INTO expertise_cta (title, description, primary_button_text, primary_button_link, secondary_button_text, secondary_button_link, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([
+                $_POST['title'],
+                $_POST['description'],
+                $_POST['primary_button_text'],
+                $_POST['primary_button_link'],
+                $_POST['secondary_button_text'],
+                $_POST['secondary_button_link'],
+                isset($_POST['is_active']) ? 1 : 0
+            ]);
         }
         $success = "CTA section updated successfully!";
     }
 }
 
 // Fetch all data
-$hero = $pdo->query("SELECT * FROM overview_hero ORDER BY id DESC LIMIT 1")->fetch();
-$descriptions = $pdo->query("SELECT * FROM overview_description ORDER BY sort_order ASC")->fetchAll();
-$whatWeDo = $pdo->query("SELECT * FROM what_we_do ORDER BY column_number, sort_order ASC")->fetchAll();
-$whatWeDoCol1 = array_filter($whatWeDo, function($item) { return $item['column_number'] == 1; });
-$whatWeDoCol2 = array_filter($whatWeDo, function($item) { return $item['column_number'] == 2; });
-$practiceAreas = $pdo->query("SELECT * FROM practice_areas ORDER BY sort_order ASC")->fetchAll();
-$approachContent = $pdo->query("SELECT * FROM approach_content ORDER BY sort_order ASC")->fetchAll();
-$approachFeatures = $pdo->query("SELECT * FROM approach_features ORDER BY sort_order ASC")->fetchAll();
-$cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DESC LIMIT 1")->fetch();
+$hero = $pdo->query("SELECT * FROM expertise_hero ORDER BY id DESC LIMIT 1")->fetch();
+$categories = $pdo->query("SELECT * FROM expertise_categories ORDER BY sort_order ASC")->fetchAll();
+
+// Fetch practice areas for each category
+$practiceAreasByCategory = [];
+foreach ($categories as $category) {
+    $stmt = $pdo->prepare("SELECT * FROM practice_areas_expertise WHERE category_id = ? ORDER BY sort_order ASC");
+    $stmt->execute([$category['id']]);
+    $practiceAreasByCategory[$category['id']] = $stmt->fetchAll();
+}
+
+$specializedAreas = $pdo->query("SELECT * FROM specialized_areas ORDER BY sort_order ASC")->fetchAll();
+$whyChooseFeatures = $pdo->query("SELECT * FROM why_choose_features ORDER BY sort_order ASC")->fetchAll();
+$cta = $pdo->query("SELECT * FROM expertise_cta WHERE is_active = 1 ORDER BY id DESC LIMIT 1")->fetch();
 ?>
 
 <!DOCTYPE html>
@@ -184,7 +190,7 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Overview | Precision Law Firm</title>
+    <title>Admin - Expertise | Precision Law Firm</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -241,6 +247,20 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
             font-size: 1rem;
         }
         .form-input:focus {
+            outline: none;
+            border-color: #1C4D8D;
+            box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
+        }
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            min-height: 100px;
+        }
+        .form-textarea:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
@@ -336,6 +356,12 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
         [data-aos] {
             transition-duration: 1500ms !important;
         }
+
+        .feature-input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 
@@ -366,7 +392,7 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                         </a>
 
                         <a href="overview.php"
-                            class="text-[#D4AF37] font-medium transition duration-300 text-base tracking-wide">
+                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Overview
                         </a>
 
@@ -376,7 +402,7 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                         </a>
 
                         <a href="expertise.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
+                            class="text-[#D4AF37] font-medium transition duration-300 text-base tracking-wide">
                             Expertise
                         </a>
 
@@ -427,7 +453,7 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                         Home
                     </a>
                     <a href="overview.php"
-                        class="text-[#D4AF37] font-medium transition duration-300 text-base py-2">
+                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Overview
                     </a>
                     <a href="team.php"
@@ -435,7 +461,7 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                         Our Team
                     </a>
                     <a href="expertise.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
+                        class="text-[#D4AF37] font-medium transition duration-300 text-base py-2">
                         Expertise
                     </a>
                     <a href="jurisprudence.php"
@@ -464,15 +490,13 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
         </div>
     </nav>
 
-   
-
     <!-- Main Content -->
     <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
         
         <!-- Header -->
         <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
-            <h1 class="text-3xl font-bold text-[#0F2854]">Overview Page Management</h1>
-            <a href="overview.php" target="_blank" class="btn-primary inline-flex items-center">
+            <h1 class="text-3xl font-bold text-[#0F2854]">Expertise Page Management</h1>
+            <a href="expertise.php" target="_blank" class="btn-primary inline-flex items-center">
                 <i class="fas fa-external-link-alt mr-2"></i>View Live Page
             </a>
         </div>
@@ -494,11 +518,15 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                 <form method="POST">
                     <input type="hidden" name="hero_id" value="<?= $hero['id'] ?? '' ?>">
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
+                        <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                            <input type="text" name="title" value="<?= htmlspecialchars($hero['title'] ?? 'OVERVIEW') ?>" class="form-input">
+                            <input type="text" name="title" value="<?= htmlspecialchars($hero['title'] ?? 'OUR EXPERTISE') ?>" class="form-input">
                         </div>
-                        <div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Subtitle</label>
+                            <textarea name="subtitle" rows="2" class="form-textarea"><?= htmlspecialchars($hero['subtitle'] ?? 'Comprehensive legal services across diverse practice areas, combining deep Mauritian legal knowledge with strategic commercial insight.') ?></textarea>
+                        </div>
+                        <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Background Image URL</label>
                             <input type="text" name="background_image" value="<?= htmlspecialchars($hero['background_image'] ?? '../components/img/bg-try.png') ?>" class="form-input">
                         </div>
@@ -510,54 +538,73 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
             </div>
         </div>
 
-        <!-- Description Paragraphs Management -->
-        <div id="description-section" class="admin-card" data-aos="fade-up-slow">
-            <div class="section-header flex justify-between items-center" onclick="toggleSection('description-content')">
-                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-paragraph mr-2"></i>Description Paragraphs</h2>
+        <!-- Categories Management -->
+        <div id="categories-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('categories-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-folder mr-2"></i>Expertise Categories</h2>
                 <span class="text-sm opacity-75">Click to toggle</span>
             </div>
-            <div id="description-content" class="section-content p-6">
-                <!-- Add New Paragraph -->
+            <div id="categories-content" class="section-content p-6">
+                <!-- Add New Category -->
                 <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Paragraph</h3>
-                    <div class="flex gap-4">
-                        <textarea name="paragraph" rows="2" class="form-input flex-1" placeholder="Enter paragraph text..." required></textarea>
-                        <button type="submit" name="add_description" class="btn-success whitespace-nowrap">
-                            <i class="fas fa-plus mr-2"></i>Add Paragraph
-                        </button>
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Category</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" name="title" placeholder="Category Title" class="form-input" required>
+                        <div></div>
+                        <div class="col-span-2">
+                            <textarea name="description" rows="2" placeholder="Category Description" class="form-textarea" required></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+                        <div class="col-span-2">
+                            <button type="submit" name="add_category" class="btn-success">
+                                <i class="fas fa-plus mr-2"></i>Add Category
+                            </button>
+                        </div>
                     </div>
                 </form>
 
-                <!-- Sort Order Form -->
-                <form method="POST" class="mb-4">
+                <!-- Category Sort Order -->
+                <form method="POST" class="mb-6">
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Category Sort Order</h3>
                     <table class="w-full">
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-4 py-2 text-left">Order</th>
-                                <th class="px-4 py-2 text-left">Paragraph</th>
+                                <th class="px-4 py-2 text-left">Category Title</th>
+                                <th class="px-4 py-2 text-left">Status</th>
                                 <th class="px-4 py-2 text-left">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($descriptions as $desc): ?>
+                            <?php foreach ($categories as $cat): ?>
                             <tr class="table-row border-t">
                                 <td class="px-4 py-3">
-                                    <input type="hidden" name="sort_ids[]" value="<?= $desc['id'] ?>">
-                                    <input type="number" name="sort_orders[]" value="<?= $desc['sort_order'] ?>" class="form-input text-sm w-20">
+                                    <input type="hidden" name="sort_ids[]" value="<?= $cat['id'] ?>">
+                                    <input type="number" name="sort_orders[]" value="<?= $cat['sort_order'] ?>" class="form-input text-sm w-20">
                                 </td>
                                 <td class="px-4 py-3">
                                     <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="desc_id" value="<?= $desc['id'] ?>">
-                                        <input type="text" name="paragraph" value="<?= htmlspecialchars($desc['paragraph']) ?>" class="form-input text-sm flex-1">
+                                        <input type="hidden" name="category_id" value="<?= $cat['id'] ?>">
+                                        <input type="text" name="title" value="<?= htmlspecialchars($cat['title']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" name="is_active" value="1" <?= $cat['is_active'] ? 'checked' : '' ?>>
+                                        </label>
                                 </td>
                                 <td class="px-4 py-3 whitespace-nowrap">
-                                        <button type="submit" name="update_description" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
+                                        <button type="submit" name="update_category" class="text-blue-600 hover:text-blue-800 mr-2" title="Save Category">
                                             <i class="fas fa-save"></i>
                                         </button>
                                     </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                                        <input type="hidden" name="desc_id" value="<?= $desc['id'] ?>">
-                                        <button type="submit" name="delete_description" class="text-red-600 hover:text-red-800" title="Delete">
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this category and all its practice areas?')">
+                                        <input type="hidden" name="category_id" value="<?= $cat['id'] ?>">
+                                        <button type="submit" name="delete_category" class="text-red-600 hover:text-red-800" title="Delete Category">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
@@ -566,116 +613,37 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    <button type="submit" name="update_sort_order" class="btn-warning mt-4">
-                        <i class="fas fa-sort mr-2"></i>Update Sort Order
+                    <button type="submit" name="update_category_sort" class="btn-warning mt-4">
+                        <i class="fas fa-sort mr-2"></i>Update Category Sort Order
                     </button>
                 </form>
             </div>
         </div>
 
-        <!-- What We Do Management -->
-        <div id="whatwedo-section" class="admin-card" data-aos="fade-up-slow">
-            <div class="section-header flex justify-between items-center" onclick="toggleSection('whatwedo-content')">
-                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-tasks mr-2"></i>What We Do</h2>
+        <!-- Practice Areas Management (by category) -->
+        <?php foreach ($categories as $category): ?>
+        <div id="practice-<?= $category['id'] ?>" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('practice-content-<?= $category['id'] ?>')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-briefcase mr-2"></i>Practice Areas - <?= htmlspecialchars($category['title']) ?></h2>
                 <span class="text-sm opacity-75">Click to toggle</span>
             </div>
-            <div id="whatwedo-content" class="section-content p-6">
-                <!-- Add New Content -->
-                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Content</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Column</label>
-                            <select name="column_number" class="form-input" required>
-                                <option value="1">Column 1 (Left)</option>
-                                <option value="2">Column 2 (Right)</option>
-                            </select>
-                        </div>
-                        <div></div>
-                        <div class="col-span-2">
-                            <textarea name="content" rows="3" class="form-input" placeholder="Enter content..." required></textarea>
-                        </div>
-                        <div class="col-span-2">
-                            <button type="submit" name="add_whatwedo" class="btn-success">
-                                <i class="fas fa-plus mr-2"></i>Add Content
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <!-- Left Column Content -->
-                <h4 class="font-semibold text-[#0F2854] mb-2">Column 1 (Left)</h4>
-                <table class="w-full mb-6">
-                    <tbody>
-                        <?php foreach ($whatWeDoCol1 as $item): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="whatwedo_id" value="<?= $item['id'] ?>">
-                                    <input type="text" name="content" value="<?= htmlspecialchars($item['content']) ?>" class="form-input text-sm flex-1">
-                                    <button type="submit" name="update_whatwedo" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
-                                        <i class="fas fa-save"></i>
-                                    </button>
-                                </form>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                                    <input type="hidden" name="whatwedo_id" value="<?= $item['id'] ?>">
-                                    <button type="submit" name="delete_whatwedo" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-
-                <!-- Right Column Content -->
-                <h4 class="font-semibold text-[#0F2854] mb-2 mt-4">Column 2 (Right)</h4>
-                <table class="w-full">
-                    <tbody>
-                        <?php foreach ($whatWeDoCol2 as $item): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="whatwedo_id" value="<?= $item['id'] ?>">
-                                    <input type="text" name="content" value="<?= htmlspecialchars($item['content']) ?>" class="form-input text-sm flex-1">
-                                    <button type="submit" name="update_whatwedo" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
-                                        <i class="fas fa-save"></i>
-                                    </button>
-                                </form>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                                    <input type="hidden" name="whatwedo_id" value="<?= $item['id'] ?>">
-                                    <button type="submit" name="delete_whatwedo" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Practice Areas Management -->
-        <div id="practice-section" class="admin-card" data-aos="fade-up-slow">
-            <div class="section-header flex justify-between items-center" onclick="toggleSection('practice-content')">
-                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-briefcase mr-2"></i>Practice Areas</h2>
-                <span class="text-sm opacity-75">Click to toggle</span>
-            </div>
-            <div id="practice-content" class="section-content p-6">
+            <div id="practice-content-<?= $category['id'] ?>" class="section-content p-6">
                 <!-- Add New Practice Area -->
                 <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
                     <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Practice Area</h3>
+                    <input type="hidden" name="category_id" value="<?= $category['id'] ?>">
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" name="title" placeholder="Title" class="form-input" required>
-                        <input type="text" name="icon" placeholder="Font Awesome Icon (e.g., fa-gavel)" class="form-input" required>
+                        <input type="text" name="title" placeholder="Practice Area Title" class="form-input" required>
+                        <input type="text" name="icon" placeholder="Icon (e.g., fa-gavel)" class="form-input" required>
                         <div class="col-span-2">
-                            <textarea name="description" rows="2" placeholder="Description" class="form-input" required></textarea>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Features (one per line or comma-separated)</label>
+                            <textarea name="features" rows="3" class="form-textarea" placeholder="Contract disputes and breach of contract matters&#10;Tort claims and negligence cases&#10;Debt recovery and enforcement proceedings" required></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
                         </div>
                         <div class="col-span-2">
                             <button type="submit" name="add_practice" class="btn-success">
@@ -691,16 +659,105 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                         <tr>
                             <th class="px-4 py-2 text-left">Icon</th>
                             <th class="px-4 py-2 text-left">Title</th>
-                            <th class="px-4 py-2 text-left">Description</th>
+                            <th class="px-4 py-2 text-left">Features</th>
+                            <th class="px-4 py-2 text-left">Active</th>
                             <th class="px-4 py-2 text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($practiceAreas as $area): ?>
+                        <?php if (!empty($practiceAreasByCategory[$category['id']])): ?>
+                            <?php foreach ($practiceAreasByCategory[$category['id']] as $area): ?>
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="practice_id" value="<?= $area['id'] ?>">
+                                        <input type="text" name="icon" value="<?= htmlspecialchars($area['icon']) ?>" class="form-input text-sm w-24">
+                                </td>
+                                <td class="px-4 py-3">
+                                        <input type="text" name="title" value="<?= htmlspecialchars($area['title']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
+                                        <textarea name="features" rows="2" class="form-textarea text-sm"><?= htmlspecialchars($area['features']) ?></textarea>
+                                </td>
+                                <td class="px-4 py-3">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" name="is_active" value="1" <?= $area['is_active'] ? 'checked' : '' ?>>
+                                        </label>
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                        <button type="submit" name="update_practice" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
+                                            <i class="fas fa-save"></i>
+                                        </button>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this practice area?')">
+                                        <input type="hidden" name="practice_id" value="<?= $area['id'] ?>">
+                                        <button type="submit" name="delete_practice" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="px-4 py-8 text-center text-gray-500">
+                                    No practice areas added yet for this category.
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php endforeach; ?>
+
+        <!-- Specialized Areas Management -->
+        <div id="specialized-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('specialized-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-star mr-2"></i>Specialized Practice Areas</h2>
+                <span class="text-sm opacity-75">Click to toggle</span>
+            </div>
+            <div id="specialized-content" class="section-content p-6">
+                <!-- Add New Specialized Area -->
+                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Specialized Area</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" name="title" placeholder="Title" class="form-input" required>
+                        <input type="text" name="icon" placeholder="Icon (e.g., fa-chart-line)" class="form-input" required>
+                        <div class="col-span-2">
+                            <textarea name="description" rows="2" placeholder="Description" class="form-textarea" required></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+                        <div class="col-span-2">
+                            <button type="submit" name="add_specialized" class="btn-success">
+                                <i class="fas fa-plus mr-2"></i>Add Specialized Area
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Existing Specialized Areas -->
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Icon</th>
+                            <th class="px-4 py-2 text-left">Title</th>
+                            <th class="px-4 py-2 text-left">Description</th>
+                            <th class="px-4 py-2 text-left">Active</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($specializedAreas as $area): ?>
                         <tr class="table-row border-t">
                             <td class="px-4 py-3">
                                 <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="practice_id" value="<?= $area['id'] ?>">
+                                    <input type="hidden" name="specialized_id" value="<?= $area['id'] ?>">
                                     <input type="text" name="icon" value="<?= htmlspecialchars($area['icon']) ?>" class="form-input text-sm w-24">
                             </td>
                             <td class="px-4 py-3">
@@ -709,14 +766,19 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                             <td class="px-4 py-3">
                                     <input type="text" name="description" value="<?= htmlspecialchars($area['description']) ?>" class="form-input text-sm">
                             </td>
+                            <td class="px-4 py-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="is_active" value="1" <?= $area['is_active'] ? 'checked' : '' ?>>
+                                    </label>
+                            </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                    <button type="submit" name="update_practice" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
+                                    <button type="submit" name="update_specialized" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
                                 </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                                    <input type="hidden" name="practice_id" value="<?= $area['id'] ?>">
-                                    <button type="submit" name="delete_practice" class="text-red-600 hover:text-red-800" title="Delete">
+                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this specialized area?')">
+                                    <input type="hidden" name="specialized_id" value="<?= $area['id'] ?>">
+                                    <button type="submit" name="delete_specialized" class="text-red-600 hover:text-red-800" title="Delete">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
@@ -728,64 +790,29 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
             </div>
         </div>
 
-        <!-- Approach Content Management -->
-        <div id="approach-section" class="admin-card" data-aos="fade-up-slow">
-            <div class="section-header flex justify-between items-center" onclick="toggleSection('approach-content')">
-                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-lightbulb mr-2"></i>Our Approach</h2>
+        <!-- Why Choose Features Management -->
+        <div id="features-section" class="admin-card" data-aos="fade-up-slow">
+            <div class="section-header flex justify-between items-center" onclick="toggleSection('features-content')">
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-check-circle mr-2"></i>Why Choose Our Expertise</h2>
                 <span class="text-sm opacity-75">Click to toggle</span>
             </div>
-            <div id="approach-content" class="section-content p-6">
-                <!-- Add New Approach Content -->
-                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Approach Paragraph</h3>
-                    <div class="flex gap-4">
-                        <textarea name="content" rows="2" class="form-input flex-1" placeholder="Enter paragraph..." required></textarea>
-                        <button type="submit" name="add_approach" class="btn-success whitespace-nowrap">
-                            <i class="fas fa-plus mr-2"></i>Add Paragraph
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Existing Approach Content -->
-                <table class="w-full mb-8">
-                    <tbody>
-                        <?php foreach ($approachContent as $content): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="approach_id" value="<?= $content['id'] ?>">
-                                    <input type="text" name="content" value="<?= htmlspecialchars($content['content']) ?>" class="form-input text-sm flex-1">
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                    <button type="submit" name="update_approach" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
-                                        <i class="fas fa-save"></i>
-                                    </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                                    <input type="hidden" name="approach_id" value="<?= $content['id'] ?>">
-                                    <button type="submit" name="delete_approach" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-
-                <!-- Approach Features -->
-                <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Approach Features</h3>
-                
+            <div id="features-content" class="section-content p-6">
                 <!-- Add New Feature -->
                 <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
-                    <h4 class="font-medium mb-2">Add New Feature</h4>
-                    <div class="grid grid-cols-3 gap-4">
+                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Feature</h3>
+                    <div class="grid grid-cols-2 gap-4">
                         <input type="text" name="title" placeholder="Title" class="form-input" required>
-                        <input type="text" name="icon" placeholder="Icon (e.g., fa-search)" class="form-input" required>
-                        <div class="col-span-3">
-                            <textarea name="description" rows="2" placeholder="Description" class="form-input" required></textarea>
+                        <input type="text" name="icon" placeholder="Icon (e.g., fa-gem)" class="form-input" required>
+                        <div class="col-span-2">
+                            <textarea name="description" rows="2" placeholder="Description" class="form-textarea" required></textarea>
                         </div>
-                        <div class="col-span-3">
+                        <div class="col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" value="1" checked class="mr-2">
+                                <span class="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+                        <div class="col-span-2">
                             <button type="submit" name="add_feature" class="btn-success">
                                 <i class="fas fa-plus mr-2"></i>Add Feature
                             </button>
@@ -800,11 +827,12 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                             <th class="px-4 py-2 text-left">Icon</th>
                             <th class="px-4 py-2 text-left">Title</th>
                             <th class="px-4 py-2 text-left">Description</th>
+                            <th class="px-4 py-2 text-left">Active</th>
                             <th class="px-4 py-2 text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($approachFeatures as $feature): ?>
+                        <?php foreach ($whyChooseFeatures as $feature): ?>
                         <tr class="table-row border-t">
                             <td class="px-4 py-3">
                                 <form method="POST" class="flex items-center gap-2">
@@ -817,12 +845,17 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                             <td class="px-4 py-3">
                                     <input type="text" name="description" value="<?= htmlspecialchars($feature['description']) ?>" class="form-input text-sm">
                             </td>
+                            <td class="px-4 py-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="is_active" value="1" <?= $feature['is_active'] ? 'checked' : '' ?>>
+                                    </label>
+                            </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_feature" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
                                 </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
+                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this feature?')">
                                     <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
                                     <button type="submit" name="delete_feature" class="text-red-600 hover:text-red-800" title="Delete">
                                         <i class="fas fa-trash"></i>
@@ -848,19 +881,27 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                     <div class="grid grid-cols-2 gap-4">
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                            <input type="text" name="title" value="<?= htmlspecialchars($cta['title'] ?? 'Ready to discuss your legal needs?') ?>" class="form-input">
+                            <input type="text" name="title" value="<?= htmlspecialchars($cta['title'] ?? 'Need Specialized Legal Assistance?') ?>" class="form-input">
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea name="description" rows="2" class="form-input"><?= htmlspecialchars($cta['description'] ?? 'Contact us for strategic legal advice from attorneys with government-level expertise and commercial insight.') ?></textarea>
+                            <textarea name="description" rows="2" class="form-textarea"><?= htmlspecialchars($cta['description'] ?? 'Contact us to discuss how our expertise can help with your specific legal requirements.') ?></textarea>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
-                            <input type="text" name="button_text" value="<?= htmlspecialchars($cta['button_text'] ?? 'Contact Our Team') ?>" class="form-input">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Primary Button Text</label>
+                            <input type="text" name="primary_button_text" value="<?= htmlspecialchars($cta['primary_button_text'] ?? 'Contact Our Team') ?>" class="form-input">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Button Link</label>
-                            <input type="text" name="button_link" value="<?= htmlspecialchars($cta['button_link'] ?? 'contact.php') ?>" class="form-input">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Primary Button Link</label>
+                            <input type="text" name="primary_button_link" value="<?= htmlspecialchars($cta['primary_button_link'] ?? 'contact.php') ?>" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Secondary Button Text</label>
+                            <input type="text" name="secondary_button_text" value="<?= htmlspecialchars($cta['secondary_button_text'] ?? 'Meet Our Experts') ?>" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Secondary Button Link</label>
+                            <input type="text" name="secondary_button_link" value="<?= htmlspecialchars($cta['secondary_button_link'] ?? 'team.php') ?>" class="form-input">
                         </div>
                         <div class="col-span-2">
                             <label class="flex items-center">
@@ -923,22 +964,6 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
             content.classList.toggle('collapsed');
             icon.classList.toggle('rotate-[-90deg]');
         }
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('.scroll-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
 
         // Auto-hide success message after 5 seconds
         const successMessage = document.querySelector('.success-message');
