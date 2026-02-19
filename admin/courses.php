@@ -97,46 +97,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Add Course
     if (isset($_POST['add_course'])) {
+        // Récupération sécurisée des champs pour éviter les warnings
+        $title           = $_POST['title'] ?? '';
+        $description     = $_POST['description'] ?? '';
+        $category        = $_POST['category'] ?? '';
+        $level_id        = !empty($_POST['level_id']) ? $_POST['level_id'] : null;
+        $duration_text   = $_POST['duration_text'] ?? '';
+        $price_rs        = !empty($_POST['price_rs']) ? $_POST['price_rs'] : 0;
+        $instructor_name = $_POST['instructor_name'] ?? '';
+        $start_date      = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
+        $icon            = $_POST['icon'] ?? '';
+        $features        = $_POST['features'] ?? '';
+        $is_active       = isset($_POST['is_active']) ? 1 : 0;
+    
+        // Calcul du prochain sort_order
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM courses")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        $stmt = $pdo->prepare("INSERT INTO courses (title, description, category, level_id, duration_text, price_rs, instructor_name, start_date, icon, features, sort_order, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    
+        // Insertion sécurisée
+        $stmt = $pdo->prepare("
+            INSERT INTO courses 
+            (title, description, category, level_id, duration_text, price_rs, instructor_name, start_date, icon, features, sort_order, is_active) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+    
         $stmt->execute([
-            $_POST['title'],
-            $_POST['description'],
-            $_POST['category'],
-            $_POST['level_id'] ?: null,
-            $_POST['duration_text'],
-            $_POST['price_rs'],
-            $_POST['instructor_name'],
-            $_POST['start_date'],
-            $_POST['icon'],
-            $_POST['features'],
+            $title,
+            $description,
+            $category,
+            $level_id,
+            $duration_text,
+            $price_rs,
+            $instructor_name,
+            $start_date,
+            $icon,
+            $features,
             $sort_order,
-            isset($_POST['is_active']) ? 1 : 0
+            $is_active
         ]);
+    
         $success = "Course added successfully!";
+    
+        // Optionnel : redirection pour éviter double submission
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
     }
+
+    
     
     // Update Course
-    if (isset($_POST['update_course'])) {
-        $stmt = $pdo->prepare("UPDATE courses SET title = ?, description = ?, category = ?, level_id = ?, duration_text = ?, price_rs = ?, instructor_name = ?, start_date = ?, icon = ?, features = ?, featured = ?, is_active = ? WHERE id = ?");
-        $stmt->execute([
-            $_POST['title'],
-            $_POST['description'],
-            $_POST['category'],
-            $_POST['level_id'] ?: null,
-            $_POST['duration_text'],
-            $_POST['price_rs'],
-            $_POST['instructor_name'],
-            $_POST['start_date'],
-            $_POST['icon'],
-            $_POST['features'],
-            isset($_POST['featured']) ? 1 : 0,
-            isset($_POST['is_active']) ? 1 : 0,
-            $_POST['course_id']
-        ]);
-        $success = "Course updated successfully!";
-    }
+if (isset($_POST['update_course'])) {
+    // Sécurisation des champs pour éviter les warnings
+    $title           = $_POST['title'] ?? '';
+    $description     = $_POST['description'] ?? '';
+    $category        = $_POST['category'] ?? '';
+    $level_id        = !empty($_POST['level_id']) ? $_POST['level_id'] : null;
+    $duration_text   = $_POST['duration_text'] ?? '';
+    $price_rs        = !empty($_POST['price_rs']) ? $_POST['price_rs'] : 0;
+    $instructor_name = $_POST['instructor_name'] ?? '';
+    $start_date      = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
+    $icon            = $_POST['icon'] ?? '';
+    $features        = $_POST['features'] ?? '';
+    $featured        = isset($_POST['featured']) ? 1 : 0;
+    $is_active       = isset($_POST['is_active']) ? 1 : 0;
+    $course_id       = $_POST['course_id'] ?? 0;
+
+    // Exécution de la mise à jour
+    $stmt = $pdo->prepare("
+        UPDATE courses 
+        SET title = ?, description = ?, category = ?, level_id = ?, duration_text = ?, price_rs = ?, instructor_name = ?, start_date = ?, icon = ?, features = ?, featured = ?, is_active = ? 
+        WHERE id = ?
+    ");
+    $stmt->execute([
+        $title,
+        $description,
+        $category,
+        $level_id,
+        $duration_text,
+        $price_rs,
+        $instructor_name,
+        $start_date,
+        $icon,
+        $features,
+        $featured,
+        $is_active,
+        $course_id
+    ]);
+
+    $success = "Course updated successfully!";
+
+    // Optionnel : redirection pour éviter double soumission
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
+
     
     // Delete Course
     if (isset($_POST['delete_course'])) {
@@ -1453,6 +1507,8 @@ $colorOptions = [
             </div>
         </div>
     </div>
+
+
 
     <!-- Footer -->
     <footer class="bg-[#0F2854] text-white py-8 mt-12">
