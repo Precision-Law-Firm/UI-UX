@@ -286,7 +286,7 @@ $stats = [
                     <div class="mb-5" data-aos="fade-right" data-aos-delay="100">
                         <span class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/90 text-sm font-medium tracking-wide">
                             <span class="w-2 h-2 bg-[#D4B28C] rounded-full mr-2 animate-pulse"></span>
-                            Legal excellence since 1985
+                            Legal excellence 
                         </span>
                     </div>
 
