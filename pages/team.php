@@ -35,6 +35,40 @@ $cta = $stmt->fetch();
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
+        /* Pour les très petits écrans (moins de 400px) */
+        @media (min-width: 400px) {
+            .xs\:text-sm {
+                font-size: 0.875rem;
+            }
+
+            .xs\:text-base {
+                font-size: 1rem;
+            }
+
+            .xs\:text-3xl {
+                font-size: 1.875rem;
+            }
+
+            .xs\:max-w-\[300px\] {
+                max-width: 300px;
+            }
+        }
+
+        /* Ajustements spécifiques pour mobile */
+        @media (max-width: 640px) {
+            .grid>div:last-child {
+                grid-column: span 1;
+            }
+        }
+
+        /* Pour que le dernier élément ne prenne pas toute la largeur sur très petit */
+        @media (max-width: 480px) {
+            .grid>div {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
@@ -97,94 +131,16 @@ $cta = $stmt->fetch();
 <body class="bg-white">
 
     <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-4" data-aos="fade-down-slow"
-        data-aos-duration="1200" data-aos-easing="ease-out-cubic">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="flex justify-between items-center">
-
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8 w-full justify-between">
-
-                    <!-- Logo -->
-                    <div class="text-[#D4AF37] font-bold text-2xl tracking-tight">
-                        Precision Law Firm
-                    </div>
-
-                    <!-- Navigation - Increased text size -->
-                    <div class="flex items-center space-x-8">
-                        <a href="../accueil.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Home
-                        </a>
-                        <a href="overview.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Overview
-                        </a>
-                        <a href="team.php"
-                            class="text-[#D4AF37] font-medium transition duration-300 text-base tracking-wide">
-                            Our Team
-                        </a>
-                        <a href="expertise.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Expertise
-                        </a>
-                        <a href="jurisprudence.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Jurisprudence
-                        </a>
-                        <a href="courses.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Courses
-                        </a>
-                        <a href="appointment.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Appointment
-                        </a>
-                    </div>
-
-                    <!-- Contact Button -->
-                    <a href="contact.php"
-                        class="bg-[#0A1F44] text-white px-6 py-3 rounded-full font-medium
-                     hover:opacity-90 transition duration-300 hover-lift text-base tracking-wide shadow-sm hover:shadow-md">
-                        Contact Us
-                    </a>
-                </div>
-
-                <!-- Mobile Header -->
-                <div class="md:hidden flex items-center justify-between w-full">
-                    <div class="text-[#D4AF37] font-bold text-xl">
-                        Precision Law Firm
-                    </div>
-                    <button id="mobile-menu-button" class="text-gray-700 text-2xl transition duration-300">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
-                <div class="flex flex-col space-y-4">
-                    <a href="../accueil.php" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">Home</a>
-                    <a href="overview.php" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">Overview</a>
-                    <a href="team.php" class="text-[#D4AF37] font-medium transition duration-300 text-base py-2">Our Team</a>
-                    <a href="expertise.php" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">Expertise</a>
-                    <a href="jurisprudence.php" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">Jurisprudence</a>
-                    <a href="courses.php" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">Courses</a>
-                    <a href="appointment.php" class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">Appointment</a>
-                    <a href="contact.php" class="bg-[#0A1F44] text-white px-4 py-3 rounded-md font-medium text-center mt-2 transition duration-300 text-base">Contact Us</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php include "../includes/navbar.php"; ?>
 
     <!-- Team Header - Larger text -->
     <div class="relative overflow-hidden py-24 text-center min-h-[500px] md:min-h-[550px] flex items-center">
         <!-- Background Image with Overlay -->
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0">
-                <img src="<?= htmlspecialchars($hero['background_image'] ?? '../components/img/bg-try.png') ?>" 
-                     alt="Precision Law Firm Team"
-                     class="w-full h-full object-cover object-center">
+                <img src="<?= htmlspecialchars($hero['background_image'] ?? '../components/img/bg-try.png') ?>"
+                    alt="Precision Law Firm Team"
+                    class="w-full h-full object-cover object-center">
                 <div class="absolute inset-0 bg-gradient-to-r from-[#0F2854]/60 to-[#1C4D8D]/40"></div>
             </div>
         </div>
@@ -195,8 +151,8 @@ $cta = $stmt->fetch();
                     <span>Our</span>
                     <span class="text-blue-100">Team</span>
                 </h1>
-                <div class="w-32 h-1 bg-gradient-to-r from-white to-blue-100 mx-auto mb-8" 
-                     data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                <div class="w-32 h-1 bg-gradient-to-r from-white to-blue-100 mx-auto mb-8"
+                    data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                 </div>
                 <p class="text-white text-xl md:text-2xl" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
                     <?= htmlspecialchars($hero['subtitle'] ?? 'Strategic legal professionals combining government expertise with commercial insight') ?>
@@ -205,149 +161,149 @@ $cta = $stmt->fetch();
         </div>
     </div>
 
-    <!-- Attorney at Law - Larger text -->
-    <div class="container mx-auto px-6 py-20">
+    <!-- Attorney at Law Section -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16" data-aos="fade-up-slow" data-aos-duration="1400">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+            <div class="text-center mb-12 md:mb-16" data-aos="fade-up-slow" data-aos-duration="1400">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                     <span class="text-[#0F2854]">Attorney at Law</span>
                 </h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto"></div>
+                <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto"></div>
             </div>
 
-            <!-- Founder's Card - Larger text -->
+            <!-- Founder's Card - Responsive -->
             <?php if (!empty($founder)): ?>
-            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-gray-100 hover-lift transition-all duration-300" 
-                 data-aos="zoom-slow" data-aos-duration="1400">
-                <div class="flex flex-col md:flex-row items-center p-10">
-                    <!-- Photo/Icon Area - Larger -->
-                    <div class="mb-8 md:mb-0 md:mr-10">
-                        <?php if (!empty($founder['photo_url'])): ?>
-                            <img src="<?= htmlspecialchars($founder['photo_url']) ?>" 
-                                 alt="<?= htmlspecialchars($founder['name']) ?>"
-                                 class="w-40 h-40 rounded-full object-cover border-4 border-white shadow-lg">
-                        <?php else: ?>
-                            <div class="w-40 h-40 rounded-full bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] flex items-center justify-center text-white">
-                                <div class="text-4xl font-bold"><?= htmlspecialchars($founder['initials'] ?? 'JC') ?></div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Info Area - Larger text -->
-                    <div class="text-center md:text-left">
-                        <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2"><?= htmlspecialchars($founder['name']) ?></h3>
-                        <p class="text-[#1C4D8D] text-lg font-medium mb-3"><?= htmlspecialchars($founder['title']) ?></p>
-                        <?php if (!empty($founder['former_position'])): ?>
-                        <p class="text-gray-600 text-base mb-4"><?= htmlspecialchars($founder['former_position']) ?></p>
-                        <?php endif; ?>
-
-                        <div class="flex justify-center md:justify-start space-x-8">
-                            <?php if (!empty($founder['experience_years'])): ?>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-[#0F2854]"><?= htmlspecialchars($founder['experience_years']) ?>+</div>
-                                <div class="text-gray-500 text-sm">Years Experience</div>
-                            </div>
-                            <?php endif; ?>
-                            <?php if (!empty($founder['cases_handled'])): ?>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-[#0F2854]"><?= htmlspecialchars($founder['cases_handled']) ?>+</div>
-                                <div class="text-gray-500 text-sm">Cases Handled</div>
-                            </div>
+                <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-gray-100 hover-lift transition-all duration-300"
+                    data-aos="zoom-slow" data-aos-duration="1400">
+                    <div class="flex flex-col md:flex-row items-center p-6 sm:p-8 md:p-10">
+                        <!-- Photo/Icon Area -->
+                        <div class="mb-6 md:mb-0 md:mr-8 lg:mr-10">
+                            <?php if (!empty($founder['photo_url'])): ?>
+                                <img src="<?= htmlspecialchars($founder['photo_url']) ?>"
+                                    alt="<?= htmlspecialchars($founder['name']) ?>"
+                                    class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full object-cover border-4 border-white shadow-lg">
+                            <?php else: ?>
+                                <div class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] flex items-center justify-center text-white">
+                                    <div class="text-3xl sm:text-4xl font-bold"><?= htmlspecialchars($founder['initials'] ?? 'JC') ?></div>
+                                </div>
                             <?php endif; ?>
                         </div>
-                        
-                        <?php if (!empty($founder['bio'])): ?>
-                        <p class="text-gray-600 text-base mt-6 max-w-lg"><?= htmlspecialchars($founder['bio']) ?></p>
-                        <?php endif; ?>
+
+                        <!-- Info Area -->
+                        <div class="text-center md:text-left">
+                            <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2"><?= htmlspecialchars($founder['name']) ?></h3>
+                            <p class="text-[#1C4D8D] text-base sm:text-lg font-medium mb-3"><?= htmlspecialchars($founder['title']) ?></p>
+                            <?php if (!empty($founder['former_position'])): ?>
+                                <p class="text-gray-600 text-sm sm:text-base mb-4"><?= htmlspecialchars($founder['former_position']) ?></p>
+                            <?php endif; ?>
+
+                            <div class="flex justify-center md:justify-start space-x-6 sm:space-x-8">
+                                <?php if (!empty($founder['experience_years'])): ?>
+                                    <div class="text-center">
+                                        <div class="text-xl sm:text-2xl font-bold text-[#0F2854]"><?= htmlspecialchars($founder['experience_years']) ?>+</div>
+                                        <div class="text-gray-500 text-xs sm:text-sm">Years Experience</div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (!empty($founder['cases_handled'])): ?>
+                                    <div class="text-center">
+                                        <div class="text-xl sm:text-2xl font-bold text-[#0F2854]"><?= htmlspecialchars($founder['cases_handled']) ?>+</div>
+                                        <div class="text-gray-500 text-xs sm:text-sm">Cases Handled</div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+                            <?php if (!empty($founder['bio'])): ?>
+                                <p class="text-gray-600 text-sm sm:text-base mt-5 md:mt-6 max-w-lg text-justify"><?= htmlspecialchars($founder['bio']) ?></p>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php else: ?>
-            <!-- Fallback if no founder in database -->
-            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-gray-100 hover-lift transition-all duration-300" data-aos="zoom-slow" data-aos-duration="1400">
-                <div class="flex flex-col md:flex-row items-center p-10">
-                    <div class="mb-8 md:mb-0 md:mr-10">
-                        <div class="w-40 h-40 rounded-full bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] flex items-center justify-center text-white">
-                            <div class="text-4xl font-bold">JC</div>
-                        </div>
-                    </div>
-                    <div class="text-center md:text-left">
-                        <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Me Jelend Chowrimootoo</h3>
-                        <p class="text-[#1C4D8D] text-lg font-medium mb-3">Founder & Managing Director</p>
-                        <p class="text-gray-600 text-base mb-4">Former Senior State Attorney, Attorney General's Office</p>
-                        <div class="flex justify-center md:justify-start space-x-8">
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-[#0F2854]">10+</div>
-                                <div class="text-gray-500 text-sm">Years Experience</div>
+                <!-- Fallback if no founder in database -->
+                <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-gray-100 hover-lift transition-all duration-300" data-aos="zoom-slow" data-aos-duration="1400">
+                    <div class="flex flex-col md:flex-row items-center p-6 sm:p-8 md:p-10">
+                        <div class="mb-6 md:mb-0 md:mr-8 lg:mr-10">
+                            <div class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] flex items-center justify-center text-white">
+                                <div class="text-3xl sm:text-4xl font-bold">JC</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-[#0F2854]">500+</div>
-                                <div class="text-gray-500 text-sm">Cases Handled</div>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2">Me Jelend Chowrimootoo</h3>
+                            <p class="text-[#1C4D8D] text-base sm:text-lg font-medium mb-3">Founder & Managing Director</p>
+                            <p class="text-gray-600 text-sm sm:text-base mb-4">Former Senior State Attorney, Attorney General's Office</p>
+                            <div class="flex justify-center md:justify-start space-x-6 sm:space-x-8">
+                                <div class="text-center">
+                                    <div class="text-xl sm:text-2xl font-bold text-[#0F2854]">10+</div>
+                                    <div class="text-gray-500 text-xs sm:text-sm">Years Experience</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-xl sm:text-2xl font-bold text-[#0F2854]">500+</div>
+                                    <div class="text-gray-500 text-xs sm:text-sm">Cases Handled</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <?php endif; ?>
         </div>
     </div>
 
-    <!-- Legal Team Members - Larger text -->
-    <div class="bg-gradient-to-b from-white to-gray-50 py-20">
-        <div class="container mx-auto px-6">
+    <!-- Legal Team Members Section -->
+    <div class="bg-gradient-to-b from-white to-gray-50 py-16 md:py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16" data-aos="fade-up-slow" data-aos-duration="1400">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                <div class="text-center mb-12 md:mb-16" data-aos="fade-up-slow" data-aos-duration="1400">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                         <span class="text-[#0F2854]">Our Legal Team</span>
                     </h2>
-                    <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Meet our team of dedicated legal professionals, each bringing specialized expertise to serve your needs.</p>
+                    <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-5 md:mb-6"></div>
+                    <p class="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto px-4">Meet our team of dedicated legal professionals, each bringing specialized expertise to serve your needs.</p>
                 </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     <?php if (!empty($teamMembers)): ?>
                         <?php foreach ($teamMembers as $index => $member): ?>
-                        <div class="bg-white p-8 rounded-xl border border-gray-200 hover-lift transition-all duration-300"
-                             data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="<?= ($index % 3) * 100 ?>">
-                            <div class="flex flex-col items-center text-center">
-                                <?php if (!empty($member['photo_url'])): ?>
-                                    <img src="<?= htmlspecialchars($member['photo_url']) ?>" 
-                                         alt="<?= htmlspecialchars($member['name']) ?>"
-                                         class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg mb-4">
-                                <?php else: ?>
-                                    <div class="w-24 h-24 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mb-4 text-white font-bold text-2xl">
-                                        <?= htmlspecialchars($member['initials'] ?? substr($member['name'], 0, 1) . substr(explode(' ', $member['name'])[1] ?? '', 0, 1)) ?>
-                                    </div>
-                                <?php endif; ?>
-                                <h4 class="text-xl font-bold text-gray-800 mb-2"><?= htmlspecialchars($member['name']) ?></h4>
-                                <p class="text-[#1C4D8D] text-base font-medium mb-3"><?= htmlspecialchars($member['position']) ?></p>
-                                <?php if (!empty($member['bio'])): ?>
-                                <p class="text-gray-500 text-sm"><?= htmlspecialchars(substr($member['bio'], 0, 100)) ?>...</p>
-                                <?php endif; ?>
+                            <div class="bg-white p-6 sm:p-8 rounded-xl border border-gray-200 hover-lift transition-all duration-300"
+                                data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="<?= ($index % 3) * 100 ?>">
+                                <div class="flex flex-col items-center text-center">
+                                    <?php if (!empty($member['photo_url'])): ?>
+                                        <img src="<?= htmlspecialchars($member['photo_url']) ?>"
+                                            alt="<?= htmlspecialchars($member['name']) ?>"
+                                            class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white shadow-lg mb-4">
+                                    <?php else: ?>
+                                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mb-4 text-white font-bold text-xl sm:text-2xl">
+                                            <?= htmlspecialchars($member['initials'] ?? substr($member['name'], 0, 1) . substr(explode(' ', $member['name'])[1] ?? '', 0, 1)) ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-2"><?= htmlspecialchars($member['name']) ?></h4>
+                                    <p class="text-[#1C4D8D] text-sm sm:text-base font-medium mb-3"><?= htmlspecialchars($member['position']) ?></p>
+                                    <?php if (!empty($member['bio'])): ?>
+                                        <p class="text-gray-500 text-xs sm:text-sm text-justify"><?= htmlspecialchars(substr($member['bio'], 0, 100)) ?>...</p>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                        </div>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <!-- Fallback team members -->
-                        <div class="bg-white p-8 rounded-xl border border-gray-200 hover-lift transition-all duration-300" data-aos="fade-up-slow" data-aos-duration="1400">
+                        <div class="bg-white p-6 sm:p-8 rounded-xl border border-gray-200 hover-lift transition-all duration-300" data-aos="fade-up-slow" data-aos-duration="1400">
                             <div class="flex flex-col items-center text-center">
-                                <div class="w-24 h-24 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mb-4 text-white font-bold text-2xl">LA</div>
-                                <h4 class="text-xl font-bold text-gray-800 mb-2">Lorem Amet</h4>
-                                <p class="text-[#1C4D8D] text-base font-medium mb-3">Senior Associate</p>
+                                <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mb-4 text-white font-bold text-xl sm:text-2xl">LA</div>
+                                <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">Lorem Amet</h4>
+                                <p class="text-[#1C4D8D] text-sm sm:text-base font-medium mb-3">Senior Associate</p>
                             </div>
                         </div>
-                        <div class="bg-white p-8 rounded-xl border border-gray-200 hover-lift transition-all duration-300" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                        <div class="bg-white p-6 sm:p-8 rounded-xl border border-gray-200 hover-lift transition-all duration-300" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                             <div class="flex flex-col items-center text-center">
-                                <div class="w-24 h-24 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mb-4 text-white font-bold text-2xl">CD</div>
-                                <h4 class="text-xl font-bold text-gray-800 mb-2">Consectetur Dolor</h4>
-                                <p class="text-[#1C4D8D] text-base font-medium mb-3">Legal Counsel</p>
+                                <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mb-4 text-white font-bold text-xl sm:text-2xl">CD</div>
+                                <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">Consectetur Dolor</h4>
+                                <p class="text-[#1C4D8D] text-sm sm:text-base font-medium mb-3">Legal Counsel</p>
                             </div>
                         </div>
-                        <div class="bg-white p-8 rounded-xl border border-gray-200 hover-lift transition-all duration-300" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
+                        <div class="bg-white p-6 sm:p-8 rounded-xl border border-gray-200 hover-lift transition-all duration-300" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
                             <div class="flex flex-col items-center text-center">
-                                <div class="w-24 h-24 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mb-4 text-white font-bold text-2xl">SI</div>
-                                <h4 class="text-xl font-bold text-gray-800 mb-2">Sit Ipsum</h4>
-                                <p class="text-[#1C4D8D] text-base font-medium mb-3">Associate Attorney</p>
+                                <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center mb-4 text-white font-bold text-xl sm:text-2xl">SI</div>
+                                <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">Sit Ipsum</h4>
+                                <p class="text-[#1C4D8D] text-sm sm:text-base font-medium mb-3">Associate Attorney</p>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -356,36 +312,79 @@ $cta = $stmt->fetch();
         </div>
     </div>
 
-    <!-- Team Stats - Larger text -->
-    <div class="container mx-auto px-6 py-20">
+
+    <!-- Team Stats Section - VRAIMENT responsive -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
         <div class="max-w-6xl mx-auto">
-            <div class="bg-gradient-to-br from-blue-50 to-gray-50 rounded-xl p-10 border border-blue-100 hover-lift transition-all duration-300"
-                 data-aos="fade-up-slow" data-aos-duration="1600">
-                <div class="grid md:grid-cols-3 gap-10">
+            <div class="bg-gradient-to-br from-blue-50 to-gray-50 rounded-xl p-5 sm:p-6 md:p-8 lg:p-10 border border-blue-100 transition-all duration-300"
+                data-aos="fade-up-slow" data-aos-duration="1600">
+
+                <!-- Grid complètement responsive -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-5 md:gap-6 lg:gap-8">
+
                     <?php if (!empty($teamStats)): ?>
                         <?php foreach ($teamStats as $index => $stat): ?>
-                        <div class="text-center" data-aos="fade-up-slow" data-aos-duration="1200" data-aos-delay="<?= $index * 100 ?>">
-                            <div class="text-5xl font-bold mb-3 text-[#0F2854]"><?= htmlspecialchars($stat['title']) ?></div>
-                            <p class="text-[#1C4D8D] text-lg font-medium mb-2"><?= htmlspecialchars($stat['stat_text']) ?></p>
-                            <p class="text-gray-500 text-base"><?= htmlspecialchars($stat['description']) ?></p>
-                        </div>
+                            <!-- Stat Card -->
+                            <div class="text-center px-2 sm:px-0 <?= $index >= 2 ? 'sm:col-span-2 lg:col-span-1' : '' ?>"
+                                data-aos="fade-up-slow" data-aos-duration="1200" data-aos-delay="<?= $index * 100 ?>">
+
+                                <!-- Title - taille progressive -->
+                                <div class="text-2xl xs:text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 text-[#0F2854] leading-tight">
+                                    <?= htmlspecialchars($stat['title']) ?>
+                                </div>
+
+                                <!-- Stat text - taille progressive -->
+                                <p class="text-[#1C4D8D] text-sm xs:text-base sm:text-sm md:text-base lg:text-lg font-medium mb-1 px-2">
+                                    <?= htmlspecialchars($stat['stat_text']) ?>
+                                </p>
+
+                                <!-- Description - taille progressive -->
+                                <p class="text-gray-500 text-xs xs:text-sm sm:text-xs md:text-sm lg:text-base max-w-[250px] xs:max-w-[300px] sm:max-w-none mx-auto">
+                                    <?= htmlspecialchars($stat['description']) ?>
+                                </p>
+                            </div>
                         <?php endforeach; ?>
+
                     <?php else: ?>
-                        <!-- Fallback stats -->
-                        <div class="text-center" data-aos="fade-up-slow" data-aos-duration="1200">
-                            <div class="text-5xl font-bold mb-3 text-[#0F2854]">Government</div>
-                            <p class="text-[#1C4D8D] text-lg font-medium mb-2">Former Senior State Attorney Experience</p>
-                            <p class="text-gray-500 text-base">Direct experience representing the State of Mauritius</p>
+                        <!-- Fallback stats avec gestion spéciale pour mobile -->
+
+                        <!-- Stat 1 - Government -->
+                        <div class="text-center px-2 sm:px-0" data-aos="fade-up-slow" data-aos-duration="1200">
+                            <div class="text-2xl xs:text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 text-[#0F2854] leading-tight">
+                                Government
+                            </div>
+                            <p class="text-[#1C4D8D] text-sm xs:text-base sm:text-sm md:text-base lg:text-lg font-medium mb-1 px-2">
+                                Former Senior State Attorney Experience
+                            </p>
+                            <p class="text-gray-500 text-xs xs:text-sm sm:text-xs md:text-sm lg:text-base max-w-[250px] xs:max-w-[300px] sm:max-w-none mx-auto">
+                                Direct experience representing the State of Mauritius
+                            </p>
                         </div>
-                        <div class="text-center" data-aos="fade-up-slow" data-aos-duration="1200" data-aos-delay="100">
-                            <div class="text-5xl font-bold mb-3 text-[#0F2854]">Strategic</div>
-                            <p class="text-[#1C4D8D] text-lg font-medium mb-2">Commercial Legal Insight</p>
-                            <p class="text-gray-500 text-base">Practical solutions aligned with business objectives</p>
+
+                        <!-- Stat 2 - Strategic -->
+                        <div class="text-center px-2 sm:px-0" data-aos="fade-up-slow" data-aos-duration="1200" data-aos-delay="100">
+                            <div class="text-2xl xs:text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 text-[#0F2854] leading-tight">
+                                Strategic
+                            </div>
+                            <p class="text-[#1C4D8D] text-sm xs:text-base sm:text-sm md:text-base lg:text-lg font-medium mb-1 px-2">
+                                Commercial Legal Insight
+                            </p>
+                            <p class="text-gray-500 text-xs xs:text-sm sm:text-xs md:text-sm lg:text-base max-w-[250px] xs:max-w-[300px] sm:max-w-none mx-auto">
+                                Practical solutions aligned with business objectives
+                            </p>
                         </div>
-                        <div class="text-center" data-aos="fade-up-slow" data-aos-duration="1200" data-aos-delay="200">
-                            <div class="text-5xl font-bold mb-3 text-[#0F2854]">Versatile</div>
-                            <p class="text-[#1C4D8D] text-lg font-medium mb-2">Multi-Practice Expertise</p>
-                            <p class="text-gray-500 text-base">Comprehensive legal services across diverse areas</p>
+
+                        <!-- Stat 3 - Versatile (sur toute la largeur sur mobile) -->
+                        <div class="text-center px-2 sm:px-0 sm:col-span-2 lg:col-span-1" data-aos="fade-up-slow" data-aos-duration="1200" data-aos-delay="200">
+                            <div class="text-2xl xs:text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 text-[#0F2854] leading-tight">
+                                Versatile
+                            </div>
+                            <p class="text-[#1C4D8D] text-sm xs:text-base sm:text-sm md:text-base lg:text-lg font-medium mb-1 px-2">
+                                Multi-Practice Expertise
+                            </p>
+                            <p class="text-gray-500 text-xs xs:text-sm sm:text-xs md:text-sm lg:text-base max-w-[250px] xs:max-w-[300px] sm:max-w-none mx-auto">
+                                Comprehensive legal services across diverse areas
+                            </p>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -393,138 +392,47 @@ $cta = $stmt->fetch();
         </div>
     </div>
 
-    <!-- CTA Section - Larger text -->
-    <div class="container mx-auto px-6 py-16">
+
+    <!-- CTA Section -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div class="max-w-4xl mx-auto text-center">
             <?php if (!empty($cta)): ?>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6" data-aos="fade-up-slow" data-aos-duration="1400">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-6" data-aos="fade-up-slow" data-aos-duration="1400">
                     <?= htmlspecialchars($cta['title']) ?>
                 </h2>
-                <p class="text-gray-600 text-lg mb-10 max-w-2xl mx-auto" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                <p class="text-gray-600 text-sm sm:text-base md:text-lg mb-6 md:mb-10 max-w-2xl mx-auto px-4 text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                     <?= htmlspecialchars($cta['description']) ?>
                 </p>
-                <a href="<?= htmlspecialchars($cta['button_link']) ?>" 
-                   class="inline-flex items-center bg-[#1C4D8D] text-white px-8 py-4 rounded-lg hover:bg-[#0F2854] transition-all duration-300 hover-lift text-lg"
-                   data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
-                    <span class="mr-3"><?= htmlspecialchars($cta['button_text']) ?></span>
-                    <i class="fas fa-arrow-right"></i>
+                <a href="<?= htmlspecialchars($cta['button_link']) ?>"
+                    class="inline-flex items-center bg-[#1C4D8D] text-white px-6 md:px-8 py-3 md:py-4 rounded-lg hover:bg-[#0F2854] transition-all duration-300 hover-lift text-sm sm:text-base md:text-lg"
+                    data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
+                    <span class="mr-2 md:mr-3"><?= htmlspecialchars($cta['button_text']) ?></span>
+                    <i class="fas fa-arrow-right text-sm md:text-base"></i>
                 </a>
             <?php else: ?>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6" data-aos="fade-up-slow" data-aos-duration="1400">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-6" data-aos="fade-up-slow" data-aos-duration="1400">
                     Work With Our Team
                 </h2>
-                <p class="text-gray-600 text-lg mb-10 max-w-2xl mx-auto" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                <p class="text-gray-600 text-sm sm:text-base md:text-lg mb-6 md:mb-10 max-w-2xl mx-auto px-4 text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                     Benefit from legal counsel backed by government-level experience and strategic commercial insight.
                 </p>
-                <a href="contact.php" 
-                   class="inline-flex items-center bg-[#1C4D8D] text-white px-8 py-4 rounded-lg hover:bg-[#0F2854] transition-all duration-300 hover-lift text-lg"
-                   data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
-                    <span class="mr-3">Contact Our Team</span>
-                    <i class="fas fa-arrow-right"></i>
+                <a href="contact.php"
+                    class="inline-flex items-center bg-[#1C4D8D] text-white px-6 md:px-8 py-3 md:py-4 rounded-lg hover:bg-[#0F2854] transition-all duration-300 hover-lift text-sm sm:text-base md:text-lg"
+                    data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
+                    <span class="mr-2 md:mr-3">Contact Our Team</span>
+                    <i class="fas fa-arrow-right text-sm md:text-base"></i>
                 </a>
             <?php endif; ?>
         </div>
     </div>
 
     <!-- Footer - Larger text -->
-    <footer class="bg-[#0F2854] text-white py-16">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="grid md:grid-cols-4 gap-10">
-                <!-- Logo and description -->
-                <div class="md:col-span-2">
-                    <div class="text-3xl font-bold mb-4">
-                        <span class="text-white">Precision</span>
-                        <span class="text-blue-300">Law Firm</span>
-                    </div>
-                    <p class="text-gray-300 text-base mb-6 max-w-md">
-                        A premier Mauritian law firm founded by former Senior State Attorney, combining government
-                        litigation expertise with strategic private practice.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#"
-                            class="w-12 h-12 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                            <i class="fab fa-linkedin-in text-lg"></i>
-                        </a>
-                        <a href="#"
-                            class="w-12 h-12 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                            <i class="fas fa-phone text-lg"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="text-xl font-semibold mb-4 text-white">Quick Links</h3>
-                    <ul class="space-y-3">
-                        <li><a href="../accueil.php" class="text-gray-300 hover:text-white transition text-base">Home</a></li>
-                        <li><a href="overview.php" class="text-gray-300 hover:text-white transition text-base">Overview</a></li>
-                        <li><a href="team.php" class="text-gray-300 hover:text-white transition text-base">Our Team</a></li>
-                        <li><a href="expertise.php" class="text-gray-300 hover:text-white transition text-base">Expertise</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact Info -->
-                <div>
-                    <h3 class="text-xl font-semibold mb-4 text-white">Contact Us</h3>
-                    <ul class="space-y-3 text-gray-300">
-                        <li class="flex items-start text-base">
-                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300"></i>
-                            <span>7th floor, Astor Court<br>Georges Guibert Street, Port Louis</span>
-                        </li>
-                        <li class="flex items-center text-base">
-                            <i class="fas fa-phone mr-3 text-blue-300"></i>
-                            <span>+230 214 4607</span>
-                        </li>
-                        <li class="flex items-center text-base">
-                            <i class="fas fa-envelope mr-3 text-blue-300"></i>
-                            <span>LawfirmPrecision@outlook.com</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Copyright -->
-            <div class="border-t border-blue-800 mt-10 pt-8 text-center text-gray-400 text-base">
-                <p>© 2024 Precision Law Firm. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <?php include "../includes/footer.php"; ?>
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-    <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1500,
-            offset: 80,
-            easing: 'ease-out-cubic',
-            once: true,
-            delay: 0,
-            mirror: false,
-            anchorPlacement: 'top-bottom'
-        });
-
-        // Toggle mobile menu
-        const mobileButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        if (mobileButton && mobileMenu) {
-            mobileButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-
-                // Change burger icon
-                const icon = mobileButton.querySelector('i');
-                if (icon.classList.contains('fa-bars')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            });
-        }
-    </script>
+    <script src="../js/script.js"></script>
 </body>
 
 </html>
