@@ -5,22 +5,13 @@ require '../config.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Debug - Vérifions les tables existantes
-try {
-    $tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
-    echo "<!-- Tables dans la DB : " . implode(', ', $tables) . " -->";
-} catch (Exception $e) {
-    echo "<!-- Erreur SHOW TABLES: " . $e->getMessage() . " -->";
-}
-
 // --- Fetch Courses Hero ---
 $hero = null;
 try {
     $stmt = $pdo->query("SELECT * FROM courses_hero ORDER BY id DESC LIMIT 1");
     $hero = $stmt->fetch();
-    echo "<!-- Hero query exécutée, résultat: " . ($hero ? 'trouvé' : 'non trouvé') . " -->";
 } catch (Exception $e) {
-    echo "<!-- Erreur Hero: " . $e->getMessage() . " -->";
+    // Silently fail
 }
 
 // --- Fetch Course Benefits ---
@@ -28,9 +19,7 @@ $benefits = [];
 try {
     $stmt = $pdo->query("SELECT * FROM course_benefits WHERE is_active = 1 ORDER BY sort_order ASC");
     $benefits = $stmt->fetchAll();
-    echo "<!-- Benefits query: " . count($benefits) . " résultats -->";
 } catch (Exception $e) {
-    echo "<!-- Erreur Benefits: " . $e->getMessage() . " -->";
 }
 
 // --- Fetch Course Levels ---
@@ -42,9 +31,7 @@ try {
     foreach ($levels as $level) {
         $levelsById[$level['id']] = $level;
     }
-    echo "<!-- Levels query: " . count($levels) . " résultats -->";
 } catch (Exception $e) {
-    echo "<!-- Erreur Levels: " . $e->getMessage() . " -->";
 }
 
 // --- Fetch Courses ---
@@ -52,9 +39,7 @@ $courses = [];
 try {
     $stmt = $pdo->query("SELECT * FROM courses WHERE is_active = 1 ORDER BY sort_order ASC, featured DESC");
     $courses = $stmt->fetchAll();
-    echo "<!-- Courses query: " . count($courses) . " résultats -->";
 } catch (Exception $e) {
-    echo "<!-- Erreur Courses: " . $e->getMessage() . " -->";
 }
 
 // --- Fetch Course Modules ---
@@ -62,9 +47,7 @@ $modules = [];
 try {
     $stmt = $pdo->query("SELECT * FROM course_modules WHERE is_active = 1 ORDER BY sort_order ASC");
     $modules = $stmt->fetchAll();
-    echo "<!-- Modules query: " . count($modules) . " résultats -->";
 } catch (Exception $e) {
-    echo "<!-- Erreur Modules: " . $e->getMessage() . " -->";
 }
 
 // --- Fetch Course Features ---
@@ -72,9 +55,7 @@ $features = [];
 try {
     $stmt = $pdo->query("SELECT * FROM course_features WHERE is_active = 1 ORDER BY sort_order ASC");
     $features = $stmt->fetchAll();
-    echo "<!-- Features query: " . count($features) . " résultats -->";
 } catch (Exception $e) {
-    echo "<!-- Erreur Features: " . $e->getMessage() . " -->";
 }
 
 // --- Fetch Course Stats ---
@@ -82,9 +63,7 @@ $stats = [];
 try {
     $stmt = $pdo->query("SELECT * FROM course_stats ORDER BY sort_order ASC");
     $stats = $stmt->fetchAll();
-    echo "<!-- Stats query: " . count($stats) . " résultats -->";
 } catch (Exception $e) {
-    echo "<!-- Erreur Stats: " . $e->getMessage() . " -->";
 }
 
 // --- Fetch Instructors ---
@@ -92,9 +71,7 @@ $instructors = [];
 try {
     $stmt = $pdo->query("SELECT * FROM instructors WHERE is_active = 1 ORDER BY sort_order ASC");
     $instructors = $stmt->fetchAll();
-    echo "<!-- Instructors query: " . count($instructors) . " résultats -->";
 } catch (Exception $e) {
-    echo "<!-- Erreur Instructors: " . $e->getMessage() . " -->";
 }
 
 // --- Fetch Student Testimonials ---
@@ -102,9 +79,7 @@ $testimonials = [];
 try {
     $stmt = $pdo->query("SELECT * FROM student_testimonials WHERE is_active = 1 ORDER BY sort_order ASC");
     $testimonials = $stmt->fetchAll();
-    echo "<!-- Testimonials query: " . count($testimonials) . " résultats -->";
 } catch (Exception $e) {
-    echo "<!-- Erreur Testimonials: " . $e->getMessage() . " -->";
 }
 
 // DONNÉES PAR DÉFAUT SI RIEN N'EST TROUVÉ
@@ -271,7 +246,8 @@ if (empty($testimonials)) {
 }
 
 // Function to get color classes
-function getColorClasses($color) {
+function getColorClasses($color)
+{
     $colors = [
         'blue' => ['bg' => 'bg-blue-50', 'text' => 'text-[#1C4D8D]', 'border' => 'border-[#1C4D8D]', 'light' => 'bg-blue-100', 'hover' => 'hover:bg-blue-50'],
         'purple' => ['bg' => 'bg-purple-50', 'text' => 'text-purple-700', 'border' => 'border-purple-700', 'light' => 'bg-purple-100', 'hover' => 'hover:bg-purple-50'],
@@ -283,7 +259,8 @@ function getColorClasses($color) {
 }
 
 // Function to get level color
-function getLevelColor($levelId, $levelsById) {
+function getLevelColor($levelId, $levelsById)
+{
     if (isset($levelsById[$levelId])) {
         return $levelsById[$levelId]['color'] ?? 'blue';
     }
@@ -292,6 +269,7 @@ function getLevelColor($levelId, $levelsById) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -428,6 +406,7 @@ function getLevelColor($levelId, $levelsById) {
                 opacity: 0;
                 transform: scale(0.9);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
@@ -435,8 +414,13 @@ function getLevelColor($levelId, $levelsById) {
         }
 
         @keyframes shine {
-            0% { left: -100%; }
-            100% { left: 200%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 200%;
+            }
         }
 
         .group-hover\:animate-shine {
@@ -448,6 +432,7 @@ function getLevelColor($levelId, $levelsById) {
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -456,6 +441,34 @@ function getLevelColor($levelId, $levelsById) {
 
         .animate-fade-in {
             animation: fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Text justification */
+        p,
+        .description-text,
+        .testimonial-text,
+        .course-description {
+            text-align: justify;
+        }
+
+        /* Keep titles left-aligned */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .title,
+        .heading {
+            text-align: left;
+        }
+
+        /* Center specific titles */
+        .text-center h1,
+        .text-center h2,
+        .text-center h3,
+        .text-center h4 {
+            text-align: center;
         }
 
         html {
@@ -469,45 +482,11 @@ function getLevelColor($levelId, $levelsById) {
         }
     </style>
 </head>
+
 <body class="bg-white">
 
-    <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-4">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="flex justify-between items-center">
-                <div class="text-[#D4AF37] font-bold text-2xl tracking-tight">
-                    Precision Law Firm
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="../accueil.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base">Home</a>
-                    <a href="overview.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base">Overview</a>
-                    <a href="team.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base">Our Team</a>
-                    <a href="expertise.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base">Expertise</a>
-                    <a href="jurisprudence.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base">Jurisprudence</a>
-                    <a href="courses.php" class="text-[#D4AF37] font-medium text-base">Courses</a>
-                    <a href="appointment.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base">Appointment</a>
-                    <a href="contact.php" class="bg-[#0A1F44] text-white px-6 py-3 rounded-full font-medium text-base">Contact Us</a>
-                </div>
-                <button id="mobile-menu-button" class="md:hidden text-gray-700 text-2xl">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
-        <div class="flex flex-col space-y-4 px-6">
-            <a href="../accueil.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base py-2">Home</a>
-            <a href="overview.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base py-2">Overview</a>
-            <a href="team.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base py-2">Our Team</a>
-            <a href="expertise.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base py-2">Expertise</a>
-            <a href="jurisprudence.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base py-2">Jurisprudence</a>
-            <a href="courses.php" class="text-[#D4AF37] font-medium text-base py-2">Courses</a>
-            <a href="appointment.php" class="text-gray-700 font-medium hover:text-[#D4AF37] text-base py-2">Appointment</a>
-            <a href="contact.php" class="bg-[#0A1F44] text-white px-4 py-3 rounded-md font-medium text-center text-base">Contact Us</a>
-        </div>
-    </div>
+    <!-- Navbar - Correction du chemin -->
+    <?php include "../includes/navbar.php"; ?>
 
     <!-- Hero Section -->
     <section class="relative bg-cover bg-center py-28 md:py-36"
@@ -520,7 +499,7 @@ function getLevelColor($levelId, $levelsById) {
                     <span class="text-[#8FB8FF] block"><?= htmlspecialchars($hero['title_line2']) ?></span>
                 </h1>
                 <div class="w-24 h-1 bg-gradient-to-r from-[#8FB8FF] to-white mx-auto mb-8"></div>
-                <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto">
+                <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto text-justify">
                     <?= htmlspecialchars($hero['subtitle']) ?>
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -549,21 +528,21 @@ function getLevelColor($levelId, $levelsById) {
                         </h2>
                         <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854]"></div>
                     </div>
-                    <p class="text-xl text-gray-600 mt-4 md:mt-0 max-w-xl">
+                    <p class="text-xl text-gray-600 mt-4 md:mt-0 max-w-xl text-justify">
                         Practical legal education taught by practicing attorneys with real-world experience.
                     </p>
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8">
                     <?php foreach ($benefits as $index => $benefit): ?>
-                    <div class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-xl border border-gray-100 hover-lift course-card"
-                        data-aos="zoom-slow" data-aos-delay="<?= $index * 200 ?>">
-                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center mb-6">
-                            <i class="fas <?= $benefit['icon'] ?> text-white text-2xl"></i>
+                        <div class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-xl border border-gray-100 hover-lift course-card"
+                            data-aos="zoom-slow" data-aos-delay="<?= $index * 200 ?>">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center mb-6">
+                                <i class="fas <?= $benefit['icon'] ?> text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4"><?= htmlspecialchars($benefit['title']) ?></h3>
+                            <p class="text-gray-600 text-lg text-justify"><?= htmlspecialchars($benefit['description']) ?></p>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4"><?= htmlspecialchars($benefit['title']) ?></h3>
-                        <p class="text-gray-600 text-lg"><?= htmlspecialchars($benefit['description']) ?></p>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -580,7 +559,7 @@ function getLevelColor($levelId, $levelsById) {
                         <span class="text-[#1C4D8D]">& Workshops</span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
                         Choose from our specialized courses designed to complement your academic studies with practical expertise.
                     </p>
                 </div>
@@ -591,54 +570,54 @@ function getLevelColor($levelId, $levelsById) {
                         All Courses
                     </button>
                     <?php foreach ($levels as $level): ?>
-                    <button class="tab-button px-8 py-3 rounded-full font-medium bg-white border border-gray-200 text-base" 
+                        <button class="tab-button px-8 py-3 rounded-full font-medium bg-white border border-gray-200 text-base"
                             onclick="filterCourses('<?= $level['slug'] ?>')">
-                        <?= $level['name'] ?> Level
-                    </button>
+                            <?= $level['name'] ?> Level
+                        </button>
                     <?php endforeach; ?>
                 </div>
 
                 <!-- Courses Grid -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <?php foreach ($courses as $index => $course): 
+                    <?php foreach ($courses as $index => $course):
                         $levelColor = getLevelColor($course['level_id'] ?? 1, $levelsById);
                         $colors = getColorClasses($levelColor);
                     ?>
-                    <div class="course-card bg-white rounded-xl border border-gray-200 p-8 hover-lift"
-                        data-aos="zoom-slow" data-aos-delay="<?= ($index % 3) * 100 ?>" 
-                        data-category="<?= $course['category'] ?? 'beginner' ?>">
-                        <div class="mb-4">
-                            <?php if (isset($course['level_id']) && isset($levelsById[$course['level_id']])): ?>
-                            <span class="<?= $colors['light'] ?> <?= $colors['text'] ?> px-3 py-1 rounded-full text-sm font-medium">
-                                <?= $levelsById[$course['level_id']]['name'] ?>
-                            </span>
-                            <?php endif; ?>
-                            <span class="text-gray-500 text-base ml-3">
-                                <i class="far fa-clock mr-1"></i> <?= $course['duration_text'] ?? '8 weeks' ?>
-                            </span>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-3"><?= htmlspecialchars($course['title']) ?></h3>
-                        <p class="text-gray-600 text-lg mb-4"><?= htmlspecialchars($course['description']) ?></p>
-                        <div class="mb-4">
-                            <div class="flex items-center text-gray-700 text-base mb-2">
-                                <i class="fas fa-user-graduate mr-2 <?= $colors['text'] ?>"></i>
-                                <span>Instructor: <?= htmlspecialchars($course['instructor_name'] ?? 'TBD') ?></span>
+                        <div class="course-card bg-white rounded-xl border border-gray-200 p-8 hover-lift"
+                            data-aos="zoom-slow" data-aos-delay="<?= ($index % 3) * 100 ?>"
+                            data-category="<?= $course['category'] ?? 'beginner' ?>">
+                            <div class="mb-4">
+                                <?php if (isset($course['level_id']) && isset($levelsById[$course['level_id']])): ?>
+                                    <span class="<?= $colors['light'] ?> <?= $colors['text'] ?> px-3 py-1 rounded-full text-sm font-medium">
+                                        <?= $levelsById[$course['level_id']]['name'] ?>
+                                    </span>
+                                <?php endif; ?>
+                                <span class="text-gray-500 text-base ml-3">
+                                    <i class="far fa-clock mr-1"></i> <?= $course['duration_text'] ?? '8 weeks' ?>
+                                </span>
                             </div>
-                            <?php if (!empty($course['start_date'])): ?>
-                            <div class="flex items-center text-gray-700 text-base">
-                                <i class="fas fa-calendar-alt mr-2 <?= $colors['text'] ?>"></i>
-                                <span>Starts: <?= date('F j, Y', strtotime($course['start_date'])) ?></span>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3"><?= htmlspecialchars($course['title']) ?></h3>
+                            <p class="text-gray-600 text-lg mb-4 text-justify"><?= htmlspecialchars($course['description']) ?></p>
+                            <div class="mb-4">
+                                <div class="flex items-center text-gray-700 text-base mb-2">
+                                    <i class="fas fa-user-graduate mr-2 <?= $colors['text'] ?>"></i>
+                                    <span>Instructor: <?= htmlspecialchars($course['instructor_name'] ?? 'TBD') ?></span>
+                                </div>
+                                <?php if (!empty($course['start_date'])): ?>
+                                    <div class="flex items-center text-gray-700 text-base">
+                                        <i class="fas fa-calendar-alt mr-2 <?= $colors['text'] ?>"></i>
+                                        <span>Starts: <?= date('F j, Y', strtotime($course['start_date'])) ?></span>
+                                    </div>
+                                <?php endif; ?>
                             </div>
-                            <?php endif; ?>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                                <div class="text-2xl font-bold text-[#0F2854]">Rs <?= number_format($course['price_rs'] ?? 0, 0) ?></div>
+                                <a href="#enroll" data-course-id="<?= $course['id'] ?? $index ?>" data-course-title="<?= htmlspecialchars($course['title']) ?>"
+                                    class="btn-primary text-white px-6 py-3 rounded-lg font-medium text-base hover-lift select-course">
+                                    Enroll Now <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-between mt-6 pt-4 border-t">
-                            <div class="text-2xl font-bold text-[#0F2854]">Rs <?= number_format($course['price_rs'] ?? 0, 0) ?></div>
-                            <a href="#enroll" data-course-id="<?= $course['id'] ?? $index ?>" data-course-title="<?= htmlspecialchars($course['title']) ?>"
-                               class="btn-primary text-white px-6 py-3 rounded-lg font-medium text-base hover-lift select-course">
-                                Enroll Now <i class="fas fa-arrow-right ml-1"></i>
-                            </a>
-                        </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
 
@@ -663,7 +642,7 @@ function getLevelColor($levelId, $levelsById) {
                         <span class="text-[#1C4D8D]">Structure</span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
                         Our courses are designed with a balanced mix of theory and practical application.
                     </p>
                 </div>
@@ -674,10 +653,10 @@ function getLevelColor($levelId, $levelsById) {
                         <h3 class="text-3xl font-bold text-gray-800 mb-6">What You'll Learn</h3>
                         <div class="space-y-4">
                             <?php foreach ($modules as $module): ?>
-                            <div class="module-item">
-                                <h4 class="font-semibold text-gray-800 text-xl mb-1"><?= htmlspecialchars($module['title']) ?></h4>
-                                <p class="text-gray-600 text-base"><?= htmlspecialchars($module['description']) ?></p>
-                            </div>
+                                <div class="module-item">
+                                    <h4 class="font-semibold text-gray-800 text-xl mb-1"><?= htmlspecialchars($module['title']) ?></h4>
+                                    <p class="text-gray-600 text-base text-justify"><?= htmlspecialchars($module['description']) ?></p>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -688,18 +667,18 @@ function getLevelColor($levelId, $levelsById) {
                         <div class="bg-gradient-to-br from-blue-50 to-white rounded-xl p-8 border border-blue-100">
                             <div class="grid grid-cols-2 gap-4 mb-6">
                                 <?php foreach ($stats as $stat): ?>
-                                <div class="text-center">
-                                    <div class="text-3xl font-bold text-[#1C4D8D]"><?= htmlspecialchars($stat['value']) ?></div>
-                                    <div class="text-base text-gray-600"><?= htmlspecialchars($stat['label']) ?></div>
-                                </div>
+                                    <div class="text-center">
+                                        <div class="text-3xl font-bold text-[#1C4D8D]"><?= htmlspecialchars($stat['value']) ?></div>
+                                        <div class="text-base text-gray-600"><?= htmlspecialchars($stat['label']) ?></div>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                             <ul class="space-y-3">
                                 <?php foreach ($features as $feature): ?>
-                                <li class="flex items-center text-base">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i>
-                                    <span class="text-gray-700"><?= htmlspecialchars($feature['feature']) ?></span>
-                                </li>
+                                    <li class="flex items-center text-base">
+                                        <i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i>
+                                        <span class="text-gray-700 text-justify"><?= htmlspecialchars($feature['feature']) ?></span>
+                                    </li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -719,31 +698,31 @@ function getLevelColor($levelId, $levelsById) {
                         <span class="text-[#1C4D8D]">Instructors</span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
                         Learn from experienced legal practitioners who bring real-world expertise to the classroom.
                     </p>
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8">
-                    <?php foreach ($instructors as $index => $instructor): 
+                    <?php foreach ($instructors as $index => $instructor):
                         $colors = getColorClasses($instructor['icon_color'] ?? 'blue');
                         $specialties = explode(',', $instructor['specialties'] ?? '');
                     ?>
-                    <div class="instructor-card bg-white rounded-xl p-8 text-center" data-aos="zoom-slow" data-aos-delay="<?= $index * 200 ?>">
-                        <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                            <div class="w-full h-full <?= $colors['bg'] ?> flex items-center justify-center">
-                                <i class="fas fa-user-tie text-4xl <?= $colors['text'] ?>"></i>
+                        <div class="instructor-card bg-white rounded-xl p-8 text-center" data-aos="zoom-slow" data-aos-delay="<?= $index * 200 ?>">
+                            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                                <div class="w-full h-full <?= $colors['bg'] ?> flex items-center justify-center">
+                                    <i class="fas fa-user-tie text-4xl <?= $colors['text'] ?>"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-1"><?= htmlspecialchars($instructor['name']) ?></h3>
+                            <p class="<?= $colors['text'] ?> text-base font-medium mb-3"><?= htmlspecialchars($instructor['title']) ?></p>
+                            <p class="text-gray-600 text-base mb-4 text-justify"><?= htmlspecialchars($instructor['bio']) ?></p>
+                            <div class="flex justify-center space-x-2">
+                                <?php foreach ($specialties as $specialty): ?>
+                                    <span class="<?= $colors['bg'] ?> <?= $colors['text'] ?> px-3 py-1 rounded-full text-sm"><?= htmlspecialchars(trim($specialty)) ?></span>
+                                <?php endforeach; ?>
                             </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-1"><?= htmlspecialchars($instructor['name']) ?></h3>
-                        <p class="<?= $colors['text'] ?> text-base font-medium mb-3"><?= htmlspecialchars($instructor['title']) ?></p>
-                        <p class="text-gray-600 text-base mb-4"><?= htmlspecialchars($instructor['bio']) ?></p>
-                        <div class="flex justify-center space-x-2">
-                            <?php foreach ($specialties as $specialty): ?>
-                            <span class="<?= $colors['bg'] ?> <?= $colors['text'] ?> px-3 py-1 rounded-full text-sm"><?= htmlspecialchars(trim($specialty)) ?></span>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -760,41 +739,41 @@ function getLevelColor($levelId, $levelsById) {
                         <span class="text-[#1C4D8D]">Testimonials</span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
                         Hear from students who have transformed their legal education through our programs.
                     </p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8">
-                    <?php foreach ($testimonials as $index => $testimonial): 
+                    <?php foreach ($testimonials as $index => $testimonial):
                         $colors = getColorClasses($testimonial['icon_color'] ?? 'blue');
                     ?>
-                    <div class="testimonial-card bg-gradient-to-br from-gray-50 to-white rounded-xl p-8"
-                        data-aos="<?= $index % 2 == 0 ? 'fade-right-slow' : 'fade-left-slow' ?>" data-aos-delay="<?= $index * 200 ?>">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-full <?= $colors['bg'] ?> flex items-center justify-center mr-4">
-                                <i class="fas fa-user <?= $colors['text'] ?> text-xl"></i>
+                        <div class="testimonial-card bg-gradient-to-br from-gray-50 to-white rounded-xl p-8"
+                            data-aos="<?= $index % 2 == 0 ? 'fade-right-slow' : 'fade-left-slow' ?>" data-aos-delay="<?= $index * 200 ?>">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full <?= $colors['bg'] ?> flex items-center justify-center mr-4">
+                                    <i class="fas fa-user <?= $colors['text'] ?> text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 text-lg"><?= htmlspecialchars($testimonial['student_name']) ?></h4>
+                                    <p class="text-base text-gray-500"><?= htmlspecialchars($testimonial['student_year']) ?></p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-lg"><?= htmlspecialchars($testimonial['student_name']) ?></h4>
-                                <p class="text-base text-gray-500"><?= htmlspecialchars($testimonial['student_year']) ?></p>
+                            <p class="text-gray-600 text-lg italic mb-4 text-justify">
+                                "<?= htmlspecialchars($testimonial['content']) ?>"
+                            </p>
+                            <div class="flex text-yellow-400">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <?php if ($i <= floor($testimonial['rating'])): ?>
+                                        <i class="fas fa-star"></i>
+                                    <?php elseif ($i - 0.5 == $testimonial['rating']): ?>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    <?php else: ?>
+                                        <i class="far fa-star"></i>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
                             </div>
                         </div>
-                        <p class="text-gray-600 text-lg italic mb-4">
-                            "<?= htmlspecialchars($testimonial['content']) ?>"
-                        </p>
-                        <div class="flex text-yellow-400">
-                            <?php for ($i = 1; $i <= 5; $i++): ?>
-                                <?php if ($i <= floor($testimonial['rating'])): ?>
-                                    <i class="fas fa-star"></i>
-                                <?php elseif ($i - 0.5 == $testimonial['rating']): ?>
-                                    <i class="fas fa-star-half-alt"></i>
-                                <?php else: ?>
-                                    <i class="far fa-star"></i>
-                                <?php endif; ?>
-                            <?php endfor; ?>
-                        </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -817,7 +796,7 @@ function getLevelColor($levelId, $levelsById) {
                         </span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                    <p class="text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed text-justify">
                         Take the next step in your legal education journey. Limited seats available for each course.
                     </p>
                     <div class="mt-8 flex flex-wrap items-center justify-center gap-6">
@@ -835,6 +814,9 @@ function getLevelColor($levelId, $levelsById) {
                     </div>
                 </div>
 
+
+                <!-- Enrollment Form -->
+
                 <!-- Enrollment Form -->
                 <div class="bg-white rounded-3xl shadow-2xl p-10 md:p-16 border border-gray-100 relative overflow-hidden" data-aos="zoom-slow">
                     <div class="absolute -top-3 -right-3 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] text-white px-6 py-2 rounded-full font-semibold text-base transform rotate-3 shadow-lg z-20">
@@ -846,13 +828,12 @@ function getLevelColor($levelId, $levelsById) {
                             <i class="fas fa-graduation-cap text-3xl text-[#1C4D8D]"></i>
                         </div>
                         <h3 class="text-3xl font-bold text-gray-800 mb-3">Begin Your Legal Journey</h3>
-                        <p class="text-gray-600 text-lg max-w-lg mx-auto">Complete the form below and our team will guide you through the enrollment process.</p>
+                        <p class="text-gray-600 text-lg max-w-lg mx-auto text-justify">Complete the form below and our team will guide you through the enrollment process.</p>
                     </div>
 
-                    <form id="enrollment-form" class="space-y-8" method="POST" action="enroll.php">
-                        <input type="hidden" name="course_id" id="selected-course-id" value="">
-
+                    <form id="enrollment-form" class="space-y-8" method="POST" action="enroll.php" x-data="courseSelector()">
                         <div class="relative">
+                            <!-- Stepper -->
                             <div class="flex justify-between items-center mb-8">
                                 <div class="flex-1 flex flex-col items-center">
                                     <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center text-white font-bold shadow-lg text-base">1</div>
@@ -872,6 +853,7 @@ function getLevelColor($levelId, $levelsById) {
                         </div>
 
                         <div class="space-y-6">
+                            <!-- Personal Info -->
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="group">
                                     <label class="block text-gray-700 font-semibold mb-3 flex items-center text-lg">
@@ -908,6 +890,7 @@ function getLevelColor($levelId, $levelsById) {
                                 </div>
                             </div>
 
+                            <!-- Phone & Course -->
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="group">
                                     <label class="block text-gray-700 font-semibold mb-3 flex items-center text-lg">
@@ -926,21 +909,20 @@ function getLevelColor($levelId, $levelsById) {
                                     </div>
                                 </div>
 
-                                <div class="group" x-data="courseSelector()">
+                                <div class="group">
                                     <label class="block text-gray-700 font-semibold mb-3 flex items-center text-lg">
                                         <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center mr-3">
                                             <i class="fas fa-book-open text-[#1C4D8D] text-sm"></i>
                                         </div>
                                         Select Course *
                                     </label>
-
                                     <div class="relative">
                                         <select name="course_id" id="course-select" required class="hidden" x-ref="select">
                                             <option value="">Choose your course</option>
                                             <?php foreach ($courses as $course): ?>
-                                            <option value="<?= $course['id'] ?>" data-title="<?= htmlspecialchars($course['title']) ?>">
-                                                <?= htmlspecialchars($course['title']) ?> - Rs <?= number_format($course['price_rs'], 0) ?>
-                                            </option>
+                                                <option value="<?= $course['id'] ?>" data-title="<?= htmlspecialchars($course['title']) ?>">
+                                                    <?= htmlspecialchars($course['title']) ?> - Rs <?= number_format($course['price_rs'], 0) ?>
+                                                </option>
                                             <?php endforeach; ?>
                                         </select>
 
@@ -970,14 +952,7 @@ function getLevelColor($levelId, $levelsById) {
                                             </div>
                                         </button>
 
-                                        <div x-show="open" x-transition:enter="transition ease-out duration-300"
-                                            x-transition:enter-start="opacity-0 scale-95 translate-y-2"
-                                            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                                            x-transition:leave="transition ease-in duration-200"
-                                            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                                            x-transition:leave-end="opacity-0 scale-95 translate-y-2"
-                                            class="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-2xl overflow-hidden">
-
+                                        <div x-show="open" x-transition class="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-2xl overflow-hidden">
                                             <div class="p-4 border-b border-gray-100">
                                                 <div class="relative">
                                                     <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -990,41 +965,41 @@ function getLevelColor($levelId, $levelsById) {
                                             </div>
 
                                             <div class="py-2 max-h-80 overflow-y-auto custom-scrollbar">
-                                                <?php foreach ($courses as $course): 
+                                                <?php foreach ($courses as $course):
                                                     $colors = getColorClasses(getLevelColor($course['level_id'] ?? 1, $levelsById));
                                                 ?>
-                                                <button type="button"
-                                                    @click="selectCourse(<?= $course['id'] ?>, '<?= htmlspecialchars(addslashes($course['title'])) ?>')"
-                                                    x-show="!search || '<?= htmlspecialchars(addslashes($course['title'])) ?>'.toLowerCase().includes(search.toLowerCase())"
-                                                    :class="selected === <?= $course['id'] ?> ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
-                                                    class="w-full px-6 py-4 text-left transition-all duration-300 flex items-center gap-4 hover:pl-8 group/option">
+                                                    <button type="button"
+                                                        @click="selectCourse(<?= $course['id'] ?>, '<?= htmlspecialchars(addslashes($course['title'])) ?>')"
+                                                        x-show="!search || '<?= htmlspecialchars(addslashes($course['title'])) ?>'.toLowerCase().includes(search.toLowerCase())"
+                                                        :class="selected === <?= $course['id'] ?> ? 'bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white' : 'text-gray-700 hover:bg-blue-50'"
+                                                        class="w-full px-6 py-4 text-left transition-all duration-300 flex items-center gap-4 hover:pl-8 group/option">
 
-                                                    <div :class="selected === <?= $course['id'] ?> ? 'bg-white/20' : '<?= $colors['bg'] ?>'"
-                                                        class="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300">
-                                                        <i class="fas <?= $course['icon'] ?? 'fa-balance-scale' ?>"
-                                                            :class="selected === <?= $course['id'] ?> ? 'text-white' : '<?= $colors['text'] ?>'"></i>
-                                                    </div>
-
-                                                    <div class="flex-1">
-                                                        <div class="font-semibold text-base"><?= htmlspecialchars($course['title']) ?></div>
-                                                        <div class="text-sm opacity-75 flex items-center gap-2 mt-1"
-                                                            :class="selected === <?= $course['id'] ?> ? 'text-white/90' : 'text-gray-500'">
-                                                            <span><i class="far fa-clock mr-1"></i><?= $course['duration_text'] ?></span>
-                                                            <?php if (isset($course['level_id']) && isset($levelsById[$course['level_id']])): ?>
-                                                            <span class="h-1 w-1 rounded-full bg-current opacity-50"></span>
-                                                            <span><i class="fas fa-user-graduate mr-1"></i><?= $levelsById[$course['level_id']]['name'] ?></span>
-                                                            <?php endif; ?>
+                                                        <div :class="selected === <?= $course['id'] ?> ? 'bg-white/20' : '<?= $colors['bg'] ?>'"
+                                                            class="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300">
+                                                            <i class="fas <?= $course['icon'] ?? 'fa-balance-scale' ?>"
+                                                                :class="selected === <?= $course['id'] ?> ? 'text-white' : '<?= $colors['text'] ?>'"></i>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="text-right">
-                                                        <div class="font-bold" :class="selected === <?= $course['id'] ?> ? 'text-white' : 'text-[#0F2854]'">
-                                                            Rs <?= number_format($course['price_rs'], 0) ?>
+                                                        <div class="flex-1">
+                                                            <div class="font-semibold text-base"><?= htmlspecialchars($course['title']) ?></div>
+                                                            <div class="text-sm opacity-75 flex items-center gap-2 mt-1"
+                                                                :class="selected === <?= $course['id'] ?> ? 'text-white/90' : 'text-gray-500'">
+                                                                <span><i class="far fa-clock mr-1"></i><?= $course['duration_text'] ?></span>
+                                                                <?php if (isset($course['level_id']) && isset($levelsById[$course['level_id']])): ?>
+                                                                    <span class="h-1 w-1 rounded-full bg-current opacity-50"></span>
+                                                                    <span><i class="fas fa-user-graduate mr-1"></i><?= $levelsById[$course['level_id']]['name'] ?></span>
+                                                                <?php endif; ?>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <i x-show="selected === <?= $course['id'] ?>" class="fas fa-check text-white ml-4"></i>
-                                                </button>
+                                                        <div class="text-right">
+                                                            <div class="font-bold" :class="selected === <?= $course['id'] ?> ? 'text-white' : 'text-[#0F2854]'">
+                                                                Rs <?= number_format($course['price_rs'], 0) ?>
+                                                            </div>
+                                                        </div>
+
+                                                        <i x-show="selected === <?= $course['id'] ?>" class="fas fa-check text-white ml-4"></i>
+                                                    </button>
                                                 <?php endforeach; ?>
                                             </div>
                                         </div>
@@ -1032,6 +1007,7 @@ function getLevelColor($levelId, $levelsById) {
                                 </div>
                             </div>
 
+                            <!-- Educational Background -->
                             <div class="group">
                                 <label class="block text-gray-700 font-semibold mb-3 flex items-center text-lg">
                                     <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center mr-3">
@@ -1052,6 +1028,7 @@ function getLevelColor($levelId, $levelsById) {
                                 </div>
                             </div>
 
+                            <!-- Additional Info -->
                             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
                                 <div class="flex items-start">
                                     <div class="flex-shrink-0">
@@ -1061,7 +1038,7 @@ function getLevelColor($levelId, $levelsById) {
                                     </div>
                                     <div>
                                         <h4 class="font-semibold text-gray-800 text-lg mb-2">Additional Information</h4>
-                                        <p class="text-gray-600 text-base mb-3">
+                                        <p class="text-gray-600 text-base mb-3 text-justify">
                                             Please include any specific questions or requirements you may have.
                                         </p>
                                         <textarea name="additional_info" id="additional-info"
@@ -1072,6 +1049,7 @@ function getLevelColor($levelId, $levelsById) {
                             </div>
                         </div>
 
+                        <!-- Submit -->
                         <div class="pt-8 border-t border-gray-100">
                             <button type="submit"
                                 class="relative w-full btn-primary text-white py-5 rounded-2xl font-semibold text-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 group overflow-hidden">
@@ -1113,7 +1091,7 @@ function getLevelColor($levelId, $levelsById) {
                             </div>
                             <div class="ml-6">
                                 <h4 class="text-2xl font-bold text-green-800 mb-2">Enrollment Request Submitted!</h4>
-                                <p class="text-green-700 text-lg mb-4">Thank you for your interest. We'll contact you shortly.</p>
+                                <p class="text-green-700 text-lg mb-4 text-justify">Thank you for your interest. We'll contact you shortly.</p>
                                 <div class="flex items-center text-green-600 text-base">
                                     <i class="fas fa-envelope-open-text mr-2"></i>
                                     <span>Confirmation email sent</span>
@@ -1127,6 +1105,7 @@ function getLevelColor($levelId, $levelsById) {
                     </div>
                 </div>
 
+
                 <!-- Support Info -->
                 <div class="text-center mt-10">
                     <div class="inline-flex items-center text-gray-600 text-base">
@@ -1135,8 +1114,8 @@ function getLevelColor($levelId, $levelsById) {
                         </div>
                         <div class="text-left">
                             <p class="text-base">Need help with enrollment?</p>
-                            <a href="mailto:admissions@precisionlaw.mu" class="font-semibold text-[#1C4D8D] hover:text-[#0F2854] text-base">
-                                admissions@precisionlaw.mu
+                            <a href="mailto:contact@precisionlawfirm.net" class="font-semibold text-[#1C4D8D] hover:text-[#0F2854] text-base">
+                                contact@precisionlawfirm.net
                             </a>
                         </div>
                     </div>
@@ -1145,89 +1124,24 @@ function getLevelColor($levelId, $levelsById) {
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-[#0F2854] text-white py-16">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="grid md:grid-cols-4 gap-10">
-                <div class="md:col-span-2">
-                    <div class="text-3xl font-bold mb-4">
-                        <span class="text-white">Precision</span>
-                        <span class="text-blue-300">Law Firm</span>
-                    </div>
-                    <p class="text-gray-300 text-base mb-6 max-w-md">
-                        A premier Mauritian law firm founded by former Senior State Attorney, combining government
-                        litigation expertise with strategic private practice.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-12 h-12 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                            <i class="fab fa-linkedin-in text-lg"></i>
-                        </a>
-                        <a href="#" class="w-12 h-12 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                            <i class="fab fa-twitter text-lg"></i>
-                        </a>
-                        <a href="#" class="w-12 h-12 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                            <i class="fas fa-envelope text-lg"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="text-xl font-semibold mb-4 text-white">Quick Links</h3>
-                    <ul class="space-y-3">
-                        <li><a href="../accueil.php" class="text-gray-300 hover:text-white transition text-base">Home</a></li>
-                        <li><a href="overview.php" class="text-gray-300 hover:text-white transition text-base">Overview</a></li>
-                        <li><a href="team.php" class="text-gray-300 hover:text-white transition text-base">Our Team</a></li>
-                        <li><a href="expertise.php" class="text-gray-300 hover:text-white transition text-base">Expertise</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="text-xl font-semibold mb-4 text-white">Contact Us</h3>
-                    <ul class="space-y-3 text-gray-300">
-                        <li class="flex items-start text-base">
-                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300"></i>
-                            <span>7th floor, Astor Court<br>Georges Guibert Street, Port Louis</span>
-                        </li>
-                        <li class="flex items-center text-base">
-                            <i class="fas fa-phone mr-3 text-blue-300"></i>
-                            <span>+230 214 4607</span>
-                        </li>
-                        <li class="flex items-center text-base">
-                            <i class="fas fa-envelope mr-3 text-blue-300"></i>
-                            <span>LawfirmPrecision@outlook.com</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="border-t border-blue-800 mt-10 pt-8 text-center text-gray-400">
-                <p class="text-base">© 2024 Precision Law Firm. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer - Correction du chemin -->
+    <?php include "../includes/footer.php"; ?>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1500, offset: 80, once: true });
-
-        // Mobile menu toggle
-        const mobileButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileButton && mobileMenu) {
-            mobileButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                const icon = mobileButton.querySelector('i');
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-times');
-            });
-        }
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 50
+        });
 
         // Course filtering
         function filterCourses(category) {
             const courses = document.querySelectorAll('.course-card');
             const tabs = document.querySelectorAll('.tab-button');
-            
+
             tabs.forEach(tab => {
                 tab.classList.remove('active');
                 if (category === 'all' && tab.textContent.includes('All')) tab.classList.add('active');
@@ -1243,63 +1157,109 @@ function getLevelColor($levelId, $levelsById) {
             });
         }
 
-        // Alpine.js course selector
+        // --- Alpine.js Course Selector ---
         function courseSelector() {
             return {
                 open: false,
-                selected: '',
-                selectedTitle: '',
                 search: '',
-                
+                selected: null,
+                selectedTitle: '',
                 selectCourse(id, title) {
                     this.selected = id;
                     this.selectedTitle = title;
+                    this.$refs.select.value = id; // met à jour le <select> caché
                     this.open = false;
                     this.search = '';
-                    this.$refs.select.value = id;
-                    document.getElementById('selected-course-id').value = id;
+                    // met à jour l'input caché pour le formulaire
+                    const selectedCourseInput = document.getElementById('selected-course-id');
+                    if (selectedCourseInput) selectedCourseInput.value = id;
                 }
             }
         }
 
-        // Character counter
-        document.getElementById('student-background')?.addEventListener('input', function(e) {
-            document.getElementById('char-count').textContent = e.target.value.length;
-        });
+        // --- Character counter for textarea ---
+        const backgroundTextarea = document.getElementById('student-background');
+        const charCount = document.getElementById('char-count');
+        if (backgroundTextarea) {
+            backgroundTextarea.addEventListener('input', () => {
+                let length = backgroundTextarea.value.length;
+                if (length > 500) {
+                    backgroundTextarea.value = backgroundTextarea.value.substring(0, 500);
+                    length = 500;
+                }
+                charCount.textContent = length;
+            });
+        }
 
-        // Form submission
+        // --- Form Submission ---
         document.getElementById('enrollment-form')?.addEventListener('submit', function(e) {
             e.preventDefault();
-            if (!document.getElementById('selected-course-id').value) {
+
+            const courseSelect = document.getElementById('course-select');
+            if (!courseSelect.value) {
                 alert('Please select a course');
                 return;
             }
 
             const submitBtn = this.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<div class="flex items-center justify-center gap-3"><div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div><span>Processing...</span></div>';
+            submitBtn.innerHTML = `
+        <div class="flex items-center justify-center gap-3">
+            <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <span>Processing...</span>
+        </div>
+    `;
 
-            setTimeout(() => {
-                document.getElementById('application-id').textContent = Math.floor(1000 + Math.random() * 9000);
-                document.getElementById('enrollment-success').classList.remove('hidden');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span class="relative z-10 flex items-center justify-center gap-3"><span>Submit Enrollment Request</span><i class="fas fa-paper-plane"></i></span>';
-                this.reset();
-                document.getElementById('selected-course-id').value = '';
-                document.getElementById('char-count').textContent = '0';
-            }, 2000);
+            // Envoi via fetch vers enroll.php
+            const formData = new FormData(this);
+            fetch('enroll.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('application-id').textContent = data.applicationCode.slice(4);
+                        document.getElementById('enrollment-success').classList.remove('hidden');
+                        this.reset();
+                        courseSelect.value = '';
+                        if (document.getElementById('selected-course-id')) {
+                            document.getElementById('selected-course-id').value = '';
+                        }
+                        charCount.textContent = '0';
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(() => {
+                    alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `
+            <span class="relative z-10 flex items-center justify-center gap-3">
+                <span>Submit Enrollment Request</span>
+                <i class="fas fa-paper-plane"></i>
+            </span>
+        `;
+                });
         });
 
-        // Smooth scrolling
+        // --- Smooth scrolling for anchors ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 if (this.getAttribute('href') !== '#') {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
-                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             });
         });
     </script>
 </body>
+
 </html>

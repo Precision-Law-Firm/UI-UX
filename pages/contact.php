@@ -240,6 +240,7 @@ foreach ($officeHours as $index => $hour) {
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -308,9 +309,11 @@ foreach ($officeHours as $index => $hour) {
             0% {
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
             }
+
             70% {
                 box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
             }
@@ -367,117 +370,8 @@ foreach ($officeHours as $index => $hour) {
 
 <body class="bg-white">
 
-    <!-- Navbar - Increased text size -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-4" data-aos="fade-down-slow"
-        data-aos-duration="1200" data-aos-easing="ease-out-cubic">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="flex justify-between items-center">
-
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8 w-full justify-between">
-
-                    <!-- Logo -->
-                    <div class="text-[#D4AF37] font-bold text-2xl tracking-tight">
-                        Precision Law Firm
-                    </div>
-
-                    <!-- Navigation - from text-sm to text-base -->
-                    <div class="flex items-center space-x-8">
-                        <a href="../accueil.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Home
-                        </a>
-
-                        <a href="overview.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Overview
-                        </a>
-
-                        <a href="team.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Our Team
-                        </a>
-
-                        <a href="expertise.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Expertise
-                        </a>
-
-                        <a href="jurisprudence.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Jurisprudence
-                        </a>
-
-                        <a href="courses.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Courses
-                        </a>
-
-                        <a href="appointment.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Appointment
-                        </a>
-                    </div>
-
-                    <!-- Contact Button - active state -->
-                    <a href="contact.php"
-                        class="bg-[#0A1F44] text-white px-6 py-3 rounded-full font-medium
-                     hover:opacity-90 transition duration-300 hover-lift text-base tracking-wide shadow-sm hover:shadow-md">
-                        Contact Us
-                    </a>
-                </div>
-
-                <!-- Mobile Header -->
-                <div class="md:hidden flex items-center justify-between w-full">
-                    <div class="text-[#D4AF37] font-bold text-xl">
-                        Precision Law Firm
-                    </div>
-
-                    <button id="mobile-menu-button" class="text-gray-700 text-2xl transition duration-300">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
-                <div class="flex flex-col space-y-4">
-                    <a href="../accueil.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Home
-                    </a>
-                    <a href="overview.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Overview
-                    </a>
-                    <a href="team.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Our Team
-                    </a>
-                    <a href="expertise.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Expertise
-                    </a>
-                    <a href="jurisprudence.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Jurisprudence
-                    </a>
-                    <a href="courses.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Courses
-                    </a>
-                    <a href="appointment.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Appointment
-                    </a>
-                    <a href="contact.php"
-                        class="bg-[#0A1F44] text-white px-4 py-3 rounded-md font-medium text-center mt-2 transition duration-300 text-base">
-                        Contact Us
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <!-- Navbar -->
+    <?php include "../includes/navbar.php"; ?>
 
     <!-- Header Section - Larger text -->
     <div class="pt-24 pb-16 text-center" data-aos="fade-up-slow">
@@ -499,57 +393,57 @@ foreach ($officeHours as $index => $hour) {
             <div class="max-w-6xl mx-auto">
                 <div class="grid md:grid-cols-3 gap-8">
                     <?php foreach ($contactCards as $index => $card): ?>
-                    <div class="bg-white rounded-xl p-10 shadow-sm hover-lift transition-all duration-300" data-aos="zoom-slow" data-aos-delay="<?= ($index + 1) * 100 ?>">
-                        <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
-                            <i class="fas <?= htmlspecialchars($card['icon']) ?> text-2xl text-[#1C4D8D]"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4"><?= htmlspecialchars($card['title']) ?></h3>
-                        
-                        <?php if (!empty($card['content'])): ?>
-                        <p class="text-gray-600 text-lg mb-4">
-                            <?= nl2br(htmlspecialchars($card['content'])) ?>
-                        </p>
-                        <?php endif; ?>
-                        
-                        <?php if (!empty($card['additional_info'])): ?>
-                        <div class="space-y-3 text-gray-600 text-lg">
-                            <?php 
-                            $infoLines = explode(',', $card['additional_info']);
-                            foreach ($infoLines as $line): 
-                            ?>
-                            <div class="flex items-center">
-                                <i class="fas fa-check-circle text-[#1C4D8D] mr-3"></i>
-                                <span><?= htmlspecialchars(trim($line)) ?></span>
+                        <div class="bg-white rounded-xl p-10 shadow-sm hover-lift transition-all duration-300" data-aos="zoom-slow" data-aos-delay="<?= ($index + 1) * 100 ?>">
+                            <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
+                                <i class="fas <?= htmlspecialchars($card['icon']) ?> text-2xl text-[#1C4D8D]"></i>
                             </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php endif; ?>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4"><?= htmlspecialchars($card['title']) ?></h3>
 
-                        <?php if (!empty($card['action_text'])): ?>
-                        <div class="mt-6">
-                            <a href="<?= htmlspecialchars($card['action_link']) ?>" class="text-[#1C4D8D] font-medium hover:underline flex items-center text-lg">
-                                <i class="fas fa-directions mr-2"></i>
-                                <?= htmlspecialchars($card['action_text']) ?>
-                            </a>
+                            <?php if (!empty($card['content'])): ?>
+                                <p class="text-gray-600 text-lg mb-4">
+                                    <?= nl2br(htmlspecialchars($card['content'])) ?>
+                                </p>
+                            <?php endif; ?>
+
+                            <?php if (!empty($card['additional_info'])): ?>
+                                <div class="space-y-3 text-gray-600 text-lg">
+                                    <?php
+                                    $infoLines = explode(',', $card['additional_info']);
+                                    foreach ($infoLines as $line):
+                                    ?>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-check-circle text-[#1C4D8D] mr-3"></i>
+                                            <span><?= htmlspecialchars(trim($line)) ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($card['action_text'])): ?>
+                                <div class="mt-6">
+                                    <a href="<?= htmlspecialchars($card['action_link']) ?>" class="text-[#1C4D8D] font-medium hover:underline flex items-center text-lg">
+                                        <i class="fas fa-directions mr-2"></i>
+                                        <?= htmlspecialchars($card['action_text']) ?>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                        <?php endif; ?>
-                    </div>
                     <?php endforeach; ?>
                 </div>
 
                 <!-- Social Links -->
                 <?php if (!empty($socialLinks)): ?>
-                <div class="mt-12 text-center">
-                    <p class="text-gray-600 text-lg mb-4">Connect with us on social media</p>
-                    <div class="flex justify-center space-x-4">
-                        <?php foreach ($socialLinks as $link): ?>
-                        <a href="<?= htmlspecialchars($link['url']) ?>" 
-                           class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center hover:bg-[#1C4D8D] hover:text-white transition-all duration-300 text-[#1C4D8D] hover-lift">
-                            <i class="fab <?= htmlspecialchars($link['icon']) ?> text-xl"></i>
-                        </a>
-                        <?php endforeach; ?>
+                    <div class="mt-12 text-center">
+                        <p class="text-gray-600 text-lg mb-4">Connect with us on social media</p>
+                        <div class="flex justify-center space-x-4">
+                            <?php foreach ($socialLinks as $link): ?>
+                                <a href="<?= htmlspecialchars($link['url']) ?>"
+                                    class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center hover:bg-[#1C4D8D] hover:text-white transition-all duration-300 text-[#1C4D8D] hover-lift">
+                                    <i class="fab <?= htmlspecialchars($link['icon']) ?> text-xl"></i>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                </div>
                 <?php endif; ?>
             </div>
         </div>
@@ -610,7 +504,7 @@ foreach ($officeHours as $index => $hour) {
                                     class="w-full px-4 py-4 border border-gray-300 rounded-xl focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300 modern-select text-base">
                                     <option value="">Select a position</option>
                                     <?php foreach ($careerPositions as $position): ?>
-                                    <option value="<?= htmlspecialchars($position['value']) ?>"><?= htmlspecialchars($position['title']) ?></option>
+                                        <option value="<?= htmlspecialchars($position['value']) ?>"><?= htmlspecialchars($position['title']) ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -659,19 +553,13 @@ foreach ($officeHours as $index => $hour) {
                     </form>
 
                     <!-- Form Success Message -->
-                    <div id="form-success" class="hidden mt-8 p-8 bg-green-50 border border-green-200 rounded-2xl animate-fade-in">
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <div class="w-14 h-14 bg-green-500 rounded-xl flex items-center justify-center">
-                                    <i class="fas fa-check text-white text-2xl"></i>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-2xl font-bold text-green-800 mb-1">Application Submitted Successfully!</h4>
-                                <p class="text-green-700 text-lg">Thank you for your interest in joining our team. We'll review your application and get back to you within 5-7 business days.</p>
-                            </div>
+                    <?php if (!empty($_SESSION['career_success'])): ?>
+                        <div class="mt-8 p-6 bg-green-50 border border-green-200 rounded-2xl text-green-800 text-lg flex items-center gap-3 animate-fade-in" id="form-success">
+                            <i class="fas fa-check-circle text-green-500 text-2xl"></i>
+                            <?= htmlspecialchars($_SESSION['career_success']) ?>
                         </div>
-                    </div>
+                    <?php unset($_SESSION['career_success']);
+                    endif; ?>
                 </div>
             </div>
         </div>
@@ -720,72 +608,13 @@ foreach ($officeHours as $index => $hour) {
     </div>
 
     <!-- Footer -->
-    <footer class="bg-[#0F2854] text-white py-16 mt-20">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="grid md:grid-cols-4 gap-10">
-                <!-- Logo and description -->
-                <div class="md:col-span-2">
-                    <div class="text-3xl font-bold mb-4">
-                        <span class="text-white">Precision</span>
-                        <span class="text-blue-300">Law Firm</span>
-                    </div>
-                    <p class="text-gray-300 text-base mb-6 max-w-md">
-                        A forward-thinking legal practice combining commercial insight with legal excellence.
-                    </p>
-                    <div class="flex space-x-4">
-                        <?php foreach ($socialLinks as $link): ?>
-                        <a href="<?= htmlspecialchars($link['url']) ?>"
-                            class="w-12 h-12 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                            <i class="fab <?= htmlspecialchars($link['icon']) ?> text-lg"></i>
-                        </a>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="text-xl font-semibold mb-4 text-white">Quick Links</h3>
-                    <ul class="space-y-3">
-                        <li><a href="../accueil.php" class="text-gray-300 hover:text-white transition text-base">Home</a></li>
-                        <li><a href="overview.php" class="text-gray-300 hover:text-white transition text-base">Overview</a></li>
-                        <li><a href="team.php" class="text-gray-300 hover:text-white transition text-base">Our Team</a></li>
-                        <li><a href="expertise.php" class="text-gray-300 hover:text-white transition text-base">Expertise</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact Info -->
-                <div>
-                    <h3 class="text-xl font-semibold mb-4 text-white">Contact Us</h3>
-                    <ul class="space-y-3 text-gray-300">
-                        <li class="flex items-start text-base">
-                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300"></i>
-                            <span>7th floor, Astor Court<br>Georges Guibert Street, Port Louis</span>
-                        </li>
-                        <li class="flex items-center text-base">
-                            <i class="fas fa-phone mr-3 text-blue-300"></i>
-                            <span>214-4607</span>
-                        </li>
-                        <li class="flex items-center text-base">
-                            <i class="fas fa-envelope mr-3 text-blue-300"></i>
-                            <span>LawfirmPrecision@outlook.com</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Copyright -->
-            <div class="border-t border-blue-800 mt-10 pt-8 text-center text-gray-400">
-                <p class="text-base">© 2024 Precision Law Firm. All rights reserved.</p>
-                <p class="mt-2 text-base">Strategic legal attorneys with commercial foresight</p>
-            </div>
-        </div>
-    </footer>
+    <?php include "../includes/footer.php" ?>
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
     <script>
-        // Initialize AOS
+        // --- Initialize AOS ---
         AOS.init({
             duration: 1500,
             offset: 80,
@@ -796,7 +625,7 @@ foreach ($officeHours as $index => $hour) {
             anchorPlacement: 'top-bottom'
         });
 
-        // Chatbox functionality
+        // --- Chatbox functionality ---
         const chatboxToggle = document.getElementById('chatbox-toggle');
         const chatboxWindow = document.getElementById('chatbox-window');
         const closeChat = document.getElementById('close-chat');
@@ -804,7 +633,6 @@ foreach ($officeHours as $index => $hour) {
         const sendMessageBtn = document.getElementById('send-message');
         const chatboxBody = document.getElementById('chatbox-body');
 
-        // Chat responses from PHP
         const chatResponses = <?= json_encode($chatResponses) ?>;
 
         function openChatbox() {
@@ -813,39 +641,24 @@ foreach ($officeHours as $index => $hour) {
             if (badge) badge.style.display = 'none';
         }
 
-        if (chatboxToggle) {
-            chatboxToggle.addEventListener('click', openChatbox);
-        }
-
-        if (closeChat) {
-            closeChat.addEventListener('click', () => {
-                chatboxWindow.classList.remove('active');
-            });
-        }
-
-        if (sendMessageBtn) {
-            sendMessageBtn.addEventListener('click', sendMessage);
-        }
-
-        if (chatInput) {
-            chatInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') sendMessage();
-            });
-        }
+        if (chatboxToggle) chatboxToggle.addEventListener('click', openChatbox);
+        if (closeChat) closeChat.addEventListener('click', () => chatboxWindow.classList.remove('active'));
+        if (sendMessageBtn) sendMessageBtn.addEventListener('click', sendMessage);
+        if (chatInput) chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
 
         function sendMessage() {
             const message = chatInput.value.trim();
             if (!message) return;
 
-            // Add user message
             addMessage(message, 'user');
             chatInput.value = '';
 
-            // Simulate bot response
             setTimeout(() => {
                 const botResponse = getBotResponse(message);
                 addMessage(botResponse, 'bot');
-            }, 1000);
+            }, 800);
         }
 
         function addMessage(text, sender) {
@@ -859,124 +672,107 @@ foreach ($officeHours as $index => $hour) {
             const timeDiv = document.createElement('div');
             timeDiv.className = 'message-time';
             const now = new Date();
-            timeDiv.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            timeDiv.textContent = now.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
 
             messageDiv.appendChild(contentDiv);
             messageDiv.appendChild(timeDiv);
             chatboxBody.appendChild(messageDiv);
-
             chatboxBody.scrollTop = chatboxBody.scrollHeight;
         }
 
         function getBotResponse(message) {
-            const lowerMessage = message.toLowerCase();
-            
-            // Check each keyword in chatResponses
-            for (const response of chatResponses) {
-                if (lowerMessage.includes(response.keyword)) {
-                    return response.response;
-                }
+            const lower = message.toLowerCase();
+            for (const r of chatResponses) {
+                if (lower.includes(r.keyword)) return r.response;
             }
-            
-            // Default response
-            return "Thank you for your message. For specific inquiries, please contact us directly via phone or email. How else can I assist you?";
+            return "Thank you for your message. For specific inquiries, please contact us directly via phone or email.";
         }
 
-        // Career form submission
+        // --- Career Form AJAX Submission ---
         const careerForm = document.getElementById('career-form');
         if (careerForm) {
             careerForm.addEventListener('submit', function(e) {
                 e.preventDefault();
 
-                // Validate file
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+
                 const resumeFile = document.getElementById('resume-file').files[0];
                 if (!resumeFile) {
                     alert('Please upload your resume/CV');
                     return;
                 }
 
-                // Show loading state
-                const submitBtn = this.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
                 submitBtn.disabled = true;
 
-                // Simulate AJAX submission
-                setTimeout(() => {
-                    // Show success message
-                    const successMsg = document.getElementById('form-success');
-                    successMsg.classList.remove('hidden');
-                    
-                    // Reset form
-                    this.reset();
-                    document.getElementById('file-name').classList.add('hidden');
-                    
-                    // Reset button
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                    
-                    // Scroll to success message
-                    successMsg.scrollIntoView({ behavior: 'smooth' });
+                const formData = new FormData(this);
 
-                    // Hide success message after 8 seconds
-                    setTimeout(() => {
-                        successMsg.classList.add('hidden');
-                    }, 8000);
-                }, 2000);
+                fetch('process-career.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Candidature envoyée !');
+                            this.reset();
+                            document.getElementById('file-name').classList.add('hidden');
+                        } else {
+                            alert('Erreur : ' + (data.message || 'Veuillez réessayer'));
+                        }
+                    })
+                    .catch(() => alert('Erreur réseau'))
+                    .finally(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    });
             });
         }
 
-        // File upload preview
-        const resumeFile = document.getElementById('resume-file');
-        if (resumeFile) {
-            resumeFile.addEventListener('change', function(e) {
-                const file = e.target.files[0];
+        // --- File upload preview ---
+        const resumeInput = document.getElementById('resume-file');
+        if (resumeInput) {
+            resumeInput.addEventListener('change', function() {
+                const file = this.files[0];
                 if (file) {
-                    const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
-                    if (fileSizeMB > 5) {
+                    const sizeMB = file.size / (1024 * 1024);
+                    if (sizeMB > 5) {
                         alert('File size must be less than 5MB');
                         this.value = '';
                         document.getElementById('file-name').classList.add('hidden');
                     } else {
-                        const fileNameDiv = document.getElementById('file-name');
-                        fileNameDiv.querySelector('span').textContent = file.name;
-                        fileNameDiv.classList.remove('hidden');
+                        const nameDiv = document.getElementById('file-name');
+                        nameDiv.querySelector('span').textContent = file.name;
+                        nameDiv.classList.remove('hidden');
                     }
                 }
             });
         }
 
-        // Toggle mobile menu
-        const mobileButton = document.getElementById('mobile-menu-button');
+        // --- Mobile menu toggle ---
+        const mobileBtn = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-
-        if (mobileButton && mobileMenu) {
-            mobileButton.addEventListener('click', () => {
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
-
-                // Change burger icon
-                const icon = mobileButton.querySelector('i');
-                if (icon.classList.contains('fa-bars')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
+                const icon = mobileBtn.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
             });
         }
 
-        // Smooth scroll for anchor links
+        // --- Smooth scroll ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
                     window.scrollTo({
-                        top: targetElement.offsetTop - 100,
+                        top: target.offsetTop - 100,
                         behavior: 'smooth'
                     });
                 }

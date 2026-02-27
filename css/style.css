@@ -1,0 +1,14 @@
+/* Steps */
+.appointment-form-step { display: none; }
+.appointment-form-step.active { display: block; }
+
+/* Buttons */
+button { border-radius: 4px; }
+.btn-primary { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; }
+.btn-primary:hover { background-color: #45a049; }
+.btn-secondary { background-color: #f1f1f1; color: #333; padding: 10px 20px; border: none; }
+.btn-secondary:hover { background-color: #ddd; }
+
+/* Calendar */
+#calendar-grid button { width: 40px; height: 40px; }
+#time-slots button { width: 80px; }

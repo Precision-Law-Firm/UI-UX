@@ -1,4 +1,5 @@
 <?php require 'config.php';
+
 // --- Hero ---
 $stmt = $pdo->query("SELECT * FROM hero ORDER BY id DESC LIMIT 1");
 $hero = $stmt->fetch();
@@ -44,6 +45,7 @@ $stats = [
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
+        /* Menu panels transitions */
         #mobile-menu-panel,
         #small-menu-panel,
         #tablet-menu-panel,
@@ -91,7 +93,6 @@ $stats = [
         /* 5rem = 80px exactly */
         .section-mt-5rem {
             margin-top: 5rem;
-            /* 80px */
         }
 
         /* AOS animations slow effect */
@@ -193,22 +194,34 @@ $stats = [
                 font-size: 18px;
             }
         }
+
+        /* Correction pour l'image hero */
+        .hero-image {
+            max-height: 450px;
+            object-fit: contain;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-image {
+                max-height: 550px;
+            }
+        }
     </style>
 </head>
 
 <body class="bg-white">
 
-<!-- Navbar -->
-<?php include "includes/navbar.php"; ?>
+    <!-- Navbar -->
+    <?php include "includes/navbar.php"; ?>
 
     <!-- Main Section -->
     <section class="relative overflow-hidden min-h-[550px] md:min-h-[650px] flex items-center py-8 md:py-10">
-        <!-- Fond principal - Élégant et raffiné (sans bleu) -->
+        <!-- Fond principal -->
         <div class="absolute inset-0 bg-gradient-to-br from-[#1A1F2C] via-[#2A2F3C] to-[#1E2432]"></div>
 
         <!-- Texture subtile de papier / lin -->
         <div class="absolute inset-0 opacity-5 mix-blend-overlay"
-            style="background-image: url('data:image/svg+xml,%3Csvg width=" 60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" %3E%3Cg fill="none" fill-rule="evenodd" %3E%3Cg fill="%23ffffff" fill-opacity="0.15" %3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z" /%3E%3C/g%3E%3C/g%3E%3C/svg%3E'); background-repeat: repeat;">
+            style="background-image: url('data:image/svg+xml,%3Csvg width=\" 60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.15\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E'); background-repeat: repeat;">
         </div>
 
         <!-- Overlay dégradé doux -->
@@ -241,13 +254,10 @@ $stats = [
 
         <!-- Content -->
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <!-- Search Bar - Style glass transparent amélioré avec bouton intégré -->
+            <!-- Search Bar -->
             <div class="max-w-2xl mx-auto mb-8 md:mb-10" data-aos="fade-down" data-aos-duration="800">
                 <div class="relative group">
-                    <!-- Effet de glow au hover -->
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-[#1C4D8D] to-[#D4B28C] rounded-full opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
-
-                    <!-- Barre de recherche glass -->
                     <div class="relative flex items-center bg-white/10 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl hover:border-white/30 transition-all duration-300">
                         <div class="pl-5 pr-3">
                             <i class="fas fa-search text-white/60 text-sm"></i>
@@ -255,13 +265,8 @@ $stats = [
                         <input type="text"
                             placeholder="Search for legal expertise, cases, or information..."
                             class="w-full py-3.5 pr-3 outline-none text-white placeholder-white/50 text-sm bg-transparent">
-
-                        <!-- Bouton Search élégant et intégré -->
                         <button class="relative mr-2 group/btn">
-                            <!-- Fond du bouton avec dégradé subtil -->
                             <div class="absolute inset-0 bg-gradient-to-r from-[#1C4D8D] to-[#2A5A9E] rounded-full opacity-90 group-hover/btn:opacity-100 transition-opacity duration-300 blur-[2px] group-hover/btn:blur-[3px]"></div>
-
-                            <!-- Contenu du bouton -->
                             <div class="relative flex items-center gap-2 bg-gradient-to-r from-[#1C4D8D] to-[#2A5A9E] text-white px-5 py-2.5 rounded-full text-sm font-medium
                                    hover:from-[#0F2854] hover:to-[#1C4D8D] transition-all duration-300 shadow-lg
                                    border border-white/20 hover:border-white/40">
@@ -270,8 +275,6 @@ $stats = [
                             </div>
                         </button>
                     </div>
-
-                    <!-- Hint text subtil -->
                     <div class="absolute -bottom-5 left-5 text-[10px] text-white/30">
                         Press Enter to search
                     </div>
@@ -282,28 +285,24 @@ $stats = [
             <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-14 max-w-6xl mx-auto">
                 <!-- Texte à gauche -->
                 <div class="flex-1 text-center lg:text-left">
-                    <!-- Badge/Statut -->
                     <div class="mb-5" data-aos="fade-right" data-aos-delay="100">
                         <span class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/90 text-sm font-medium tracking-wide">
                             <span class="w-2 h-2 bg-[#D4B28C] rounded-full mr-2 animate-pulse"></span>
-                            Legal excellence 
+                            Legal excellence
                         </span>
                     </div>
 
-                    <!-- Titre -->
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-5"
                         data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
                         <span class="text-white"><?= htmlspecialchars($hero['title'] ?? 'Strategic legal attorneys') ?></span>
                         <span class="text-[#1C4D8D]"> <?= htmlspecialchars($hero['subtitle'] ?? 'with commercial foresight') ?></span>
                     </h1>
 
-                    <!-- Description justifiée sur toutes les tailles -->
                     <p class="text-lg sm:text-xl text-white/80 max-w-xl mb-7 text-justify leading-relaxed"
                         data-aos="fade-right" data-aos-delay="300">
                         <?= htmlspecialchars($hero['description'] ?? 'We help businesses resolve disputes, secure deals, and navigate risk through clear thinking, agile action, and strategic precision.') ?>
                     </p>
 
-                    <!-- Statistiques mises à jour -->
                     <div class="flex flex-wrap justify-center lg:justify-start gap-7 sm:gap-9 mb-7" data-aos="fade-right" data-aos-delay="400">
                         <div class="text-center lg:text-left">
                             <div class="text-2xl font-bold text-[#E5D3B0]">8+</div>
@@ -315,43 +314,35 @@ $stats = [
                         </div>
                     </div>
 
-                    <!-- CTA -->
                     <div data-aos="fade-right" data-aos-delay="500">
                         <a href="pages/overview.php"
                             class="inline-flex items-center gap-4 group relative">
                             <span class="relative z-10 bg-[#1C4D8D] text-white px-8 py-3 rounded-full font-semibold text-base
-               hover:bg-[#0F2854] transition-all duration-300 shadow-lg hover:shadow-xl
-               group-hover:pr-12">
+                                   hover:bg-[#0F2854] transition-all duration-300 shadow-lg hover:shadow-xl
+                                   group-hover:pr-12">
                                 <?= htmlspecialchars($hero['button_label'] ?? 'Discover our expertise') ?>
                             </span>
                             <span class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/30
-               flex items-center justify-center text-white
-               group-hover:bg-white group-hover:text-[#1C4D8D] 
-               transition-all duration-300 -ml-4 group-hover:ml-2">
+                                   flex items-center justify-center text-white
+                                   group-hover:bg-white group-hover:text-[#1C4D8D] 
+                                   transition-all duration-300 -ml-4 group-hover:ml-2">
                                 <i class="fas fa-arrow-right text-sm"></i>
                             </span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Image à droite (horse.png) - Plus grande et transparente -->
+                <!-- Image à droite -->
                 <?php if ($hero && !empty($hero['image_url'])): ?>
                     <div class="flex-1 relative max-w-xl lg:max-w-2xl" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="300">
                         <div class="relative z-10">
                             <img src="<?= htmlspecialchars($hero['image_url']) ?>"
-                                alt="Hero Image - Horse"
-                                class="w-full h-auto object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-700 
-                                    max-h-[450px] lg:max-h-[550px] opacity-80 hover:opacity-100">
+                                alt="Hero Image"
+                                class="w-full h-auto object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-700 hero-image opacity-80 hover:opacity-100">
                         </div>
-
-                        <!-- Effet de glow plus prononcé autour de l'image -->
                         <div class="absolute inset-0 bg-gradient-to-r from-[#D4B28C]/30 to-transparent rounded-full blur-3xl -z-10"></div>
-
-                        <!-- Éléments décoratifs autour de l'image adaptés à la taille -->
                         <div class="absolute -top-8 -right-8 w-32 h-32 border border-[#D4B28C]/30 rounded-full"></div>
                         <div class="absolute -bottom-8 -left-8 w-48 h-48 border border-[#E5D3B0]/20 rounded-full"></div>
-
-                        <!-- Effet de lumière supplémentaire -->
                         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#D4B28C]/5 rounded-full blur-2xl"></div>
                     </div>
                 <?php endif; ?>
@@ -359,243 +350,209 @@ $stats = [
         </div>
     </section>
 
-    <!-- About Us Section - Design responsive avec motif de fond -->
+    <!-- About Us Section -->
     <section class="section bg-white py-16 md:py-20 lg:py-24 relative overflow-hidden">
-        <!-- Motif géométrique élégant en arrière-plan (très subtil) -->
         <div class="absolute inset-0 opacity-[0.02] pointer-events-none">
-            <!-- Lignes diagonales -->
             <div class="absolute inset-0" style="background-image: repeating-linear-gradient(45deg, #1C4D8D 0px, #1C4D8D 1px, transparent 1px, transparent 30px);"></div>
-            <!-- Points discrets -->
             <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20px 20px, #0F2854 1px, transparent 1px); background-size: 40px 40px;"></div>
-        </div>
+            <div class="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-[#1C4D8D]/[0.02] to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-[#0F2854]/[0.02] to-transparent pointer-events-none"></div>
+            <div class="absolute top-20 right-20 w-64 h-64 bg-[#1C4D8D]/[0.01] rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-20 left-20 w-80 h-80 bg-[#0F2854]/[0.01] rounded-full blur-3xl pointer-events-none"></div>
 
-        <!-- Dégradé lumineux très subtil -->
-        <div class="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-[#1C4D8D]/[0.02] to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-[#0F2854]/[0.02] to-transparent pointer-events-none"></div>
-
-        <!-- Éléments décoratifs très légers -->
-        <div class="absolute top-20 right-20 w-64 h-64 bg-[#1C4D8D]/[0.01] rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-20 left-20 w-80 h-80 bg-[#0F2854]/[0.01] rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="max-w-6xl mx-auto">
-                <!-- Section title - responsive -->
-                <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-16 gap-4"
-                    data-aos="fade-up" data-aos-duration="1400">
-                    <div>
-                        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold">
-                            <span class="text-[#0F2854]">About</span>
-                            <span class="text-[#1C4D8D]">Us</span>
-                        </h2>
-                        <div class="w-20 sm:w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mt-3"></div>
-                    </div>
-                    <p class="text-base sm:text-lg lg:text-xl text-gray-600 max-w-xl text-left md:text-right">
-                        A Mauritian law firm founded by former Senior State Attorney, combining government expertise
-                        with private practice excellence.
-                    </p>
-                </div>
-
-                <!-- Main content - responsive grid -->
-                <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16">
-                    <!-- Main text - About Us content -->
-                    <div class="space-y-6 lg:space-y-8" data-aos="fade-right" data-aos-duration="1500">
-                        <!-- Title with accent -->
-                        <div class="relative pt-1">
-                            <div class="absolute -left-3 lg:-left-4 top-1 w-1 h-full bg-gradient-to-b from-[#1C4D8D] to-[#0F2854] rounded-full">
-                            </div>
-                            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F2854] pl-4 lg:pl-6">
-                                From Attorney General's Office to Strategic Private Practice
-                            </h3>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="max-w-6xl mx-auto">
+                    <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-16 gap-4"
+                        data-aos="fade-up" data-aos-duration="1400">
+                        <div>
+                            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold">
+                                <span class="text-[#0F2854]">About</span>
+                                <span class="text-[#1C4D8D]">Us</span>
+                            </h2>
+                            <div class="w-20 sm:w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mt-3"></div>
                         </div>
-
-                        <!-- Text content with cards - TEXTE JUSTIFIÉ -->
-                        <div class="space-y-4 lg:space-y-6">
-                            <?php if (!empty($about_us)): ?>
-                                <?php foreach ($about_us as $index => $section): ?>
-                                    <div class="bg-white p-6 sm:p-8 rounded-xl border border-gray-200/80 transition-all duration-300 relative group"
-                                        data-aos="fade-right" data-aos-duration="1400" data-aos-delay="<?= $index * 100 ?>">
-                                        <!-- Accent bar subtle -->
-                                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#1C4D8D] to-[#0F2854] rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                        <p class="text-gray-700 text-base sm:text-lg leading-relaxed text-justify"><?= htmlspecialchars($section['content']) ?></p>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <!-- Fallback content if no data -->
-                                <div class="bg-white p-6 sm:p-8 rounded-xl border border-gray-200/80 transition-all duration-300 relative group">
-                                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#1C4D8D] to-[#0F2854] rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                    <p class="text-gray-700 text-base sm:text-lg leading-relaxed text-justify">
-                                        Precision Law Firm was founded by <strong class="text-[#0F2854]">Mr. Jelend
-                                            Chowrimootoo</strong>, Attorney-at-Law and former <strong class="text-[#0F2854]">Senior State
-                                            Attorney</strong> at the Attorney General's Office of Mauritius. His career spans both distinguished public service and private legal practice.
-                                    </p>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-
-                        <!-- Statistics badge - responsive -->
-                        <div class="pt-2 lg:pt-4">
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 bg-gradient-to-r from-[#0F2854]/[0.02] to-[#1C4D8D]/[0.02] p-5 sm:p-6 lg:p-8 rounded-2xl border border-gray-200/80 transition-all duration-300 w-full relative overflow-hidden group"
-                                data-aos="fade-up" data-aos-duration="1200" data-aos-delay="500">
-                                <!-- Effet de lumière au hover -->
-                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-
-                                <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto relative">
-                                    <div class="relative flex-shrink-0">
-                                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] rounded-full flex items-center justify-center shadow-md">
-                                            <i class="fas fa-gavel text-white text-base sm:text-xl"></i>
-                                        </div>
-                                        <div class="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-full border-2 border-[#0F2854] flex items-center justify-center">
-                                            <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#0F2854] rounded-full"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="text-xl sm:text-2xl lg:text-4xl font-bold text-[#0F2854]">Multi-Specialist</div>
-                                        <div class="text-sm sm:text-base lg:text-lg text-gray-600">Civil, Commercial & Regulatory Law</div>
-                                    </div>
-                                </div>
-
-                                <div class="hidden sm:block h-12 w-px bg-gradient-to-b from-transparent via-gray-300 to-transparent"></div>
-
-                                <div class="w-full sm:w-auto relative">
-                                    <div class="text-xs sm:text-sm font-semibold text-[#0F2854] uppercase tracking-wider mb-2">
-                                        Expertise Areas
-                                    </div>
-                                    <div class="flex flex-wrap gap-2">
-                                        <?php if (!empty($expertise)): ?>
-                                            <?php foreach (array_slice($expertise, 0, 3) as $area): ?>
-                                                <span class="px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700 transition-all duration-300">
-                                                    <?= htmlspecialchars($area['name']) ?>
-                                                </span>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <span class="px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700 transition-all duration-300">Civil Law</span>
-                                            <span class="px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700 transition-all duration-300">Commercial Law</span>
-                                            <span class="px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700 transition-all duration-300">Regulatory Law</span>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="text-base sm:text-lg lg:text-xl text-gray-600 max-w-xl text-left md:text-right">
+                            A Mauritian law firm founded by former Senior State Attorney, combining government expertise
+                            with private practice excellence.
+                        </p>
                     </div>
 
-                    <!-- Card/Box - Public Service Experience - SANS BOX SHADOW AU HOVER -->
-                    <div class="relative group mt-8 lg:mt-0" data-aos="fade-left" data-aos-duration="1500" data-aos-delay="200">
-                        <!-- Main card - sans shadow et sans effet au hover -->
-                        <div class="relative bg-white p-6 sm:p-8 lg:p-10 rounded-2xl border border-gray-200/80 transition-none">
-                            <!-- Card header with icon -->
-                            <div class="mb-6 lg:mb-8">
-                                <div class="flex items-start gap-3 sm:gap-4 mb-4">
-                                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
-                                        <i class="fas fa-university text-white text-base sm:text-xl"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h4 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#0F2854]">Public Service
-                                            Experience</h4>
-                                        <div class="w-16 sm:w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-full mt-2">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Citation avec texte justifié -->
-                                <div class="relative">
-                                    <span class="absolute -left-1 top-0 text-3xl sm:text-4xl lg:text-5xl text-[#0F2854]/10 font-serif">"</span>
-                                    <p class="text-gray-700 text-sm sm:text-base lg:text-lg pl-4 sm:pl-6 text-justify">
-                                        As Senior State Attorney at the Attorney General's Office,
-                                        Mr. Chowrimootoo represented the <strong class="text-[#0F2854]">State of Mauritius</strong> in a wide range
-                                        of matters.
-                                    </p>
-                                </div>
+                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16">
+                        <!-- Main text -->
+                        <div class="space-y-6 lg:space-y-8" data-aos="fade-right" data-aos-duration="1500">
+                            <div class="relative pt-1">
+                                <div class="absolute -left-3 lg:-left-4 top-1 w-1 h-full bg-gradient-to-b from-[#1C4D8D] to-[#0F2854] rounded-full"></div>
+                                <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F2854] pl-4 lg:pl-6">
+                                    From Attorney General's Office to Strategic Private Practice
+                                </h3>
                             </div>
 
-                            <!-- Key points - TEXTE JUSTIFIÉ avec responsive -->
-                            <div class="space-y-4 lg:space-y-5">
-                                <?php if (!empty($public_service)): ?>
-                                    <?php foreach ($public_service as $index => $service): ?>
-                                        <div class="flex items-start group/item" data-aos="fade-left"
-                                            data-aos-duration="1200" data-aos-delay="<?= 400 + ($index * 100) ?>">
-                                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-md">
-                                                <i class="fas <?= htmlspecialchars($service['icon'] ?? 'fa-file-alt') ?> text-white text-xs sm:text-base"></i>
-                                            </div>
-                                            <div class="flex-1 bg-white p-3 sm:p-4 lg:p-5 rounded-lg border border-gray-100">
-                                                <h5 class="font-semibold text-gray-800 text-base sm:text-lg mb-1"><?= htmlspecialchars($service['title'] ?? 'Service Title') ?></h5>
-                                                <p class="text-gray-600 text-xs sm:text-sm lg:text-base text-justify"><?= htmlspecialchars($service['description'] ?? 'Service description') ?></p>
-                                            </div>
+                            <div class="space-y-4 lg:space-y-6">
+                                <?php if (!empty($about_us)): ?>
+                                    <?php foreach ($about_us as $index => $section): ?>
+                                        <div class="bg-white p-6 sm:p-8 rounded-xl border border-gray-200/80 transition-all duration-300 relative group"
+                                            data-aos="fade-right" data-aos-duration="1400" data-aos-delay="<?= $index * 100 ?>">
+                                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#1C4D8D] to-[#0F2854] rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            <p class="text-gray-700 text-base sm:text-lg leading-relaxed text-justify"><?= htmlspecialchars($section['content']) ?></p>
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <!-- Fallback content avec responsive -->
-                                    <div class="flex items-start group/item">
-                                        <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-md">
-                                            <i class="fas fa-file-alt text-white text-xs sm:text-base"></i>
-                                        </div>
-                                        <div class="flex-1 bg-white p-3 sm:p-4 lg:p-5 rounded-lg border border-gray-100">
-                                            <h5 class="font-semibold text-gray-800 text-base sm:text-lg mb-1">Government Representation</h5>
-                                            <p class="text-gray-600 text-xs sm:text-sm lg:text-base text-justify">Civil, commercial, constitutional & administrative litigation before Supreme Court, Intermediate Court, and tribunals</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start group/item">
-                                        <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-md">
-                                            <i class="fas fa-balance-scale text-white text-xs sm:text-base"></i>
-                                        </div>
-                                        <div class="flex-1 bg-white p-3 sm:p-4 lg:p-5 rounded-lg border border-gray-100">
-                                            <h5 class="font-semibold text-gray-800 text-base sm:text-lg mb-1">Legal Advisory</h5>
-                                            <p class="text-gray-600 text-xs sm:text-sm lg:text-base text-justify">Provided legal opinions and advice to government ministries and departments on complex legal matters</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start group/item">
-                                        <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-md">
-                                            <i class="fas fa-gavel text-white text-xs sm:text-base"></i>
-                                        </div>
-                                        <div class="flex-1 bg-white p-3 sm:p-4 lg:p-5 rounded-lg border border-gray-100">
-                                            <h5 class="font-semibold text-gray-800 text-base sm:text-lg mb-1">Prosecution Experience</h5>
-                                            <p class="text-gray-600 text-xs sm:text-sm lg:text-base text-justify">Handled sensitive prosecutions and appeals on behalf of the State</p>
-                                        </div>
+                                    <div class="bg-white p-6 sm:p-8 rounded-xl border border-gray-200/80 transition-all duration-300 relative group">
+                                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#1C4D8D] to-[#0F2854] rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                        <p class="text-gray-700 text-base sm:text-lg leading-relaxed text-justify">
+                                            Precision Law Firm was founded by <strong class="text-[#0F2854]">Mr. Jelend
+                                                Chowrimootoo</strong>, Attorney-at-Law and former <strong class="text-[#0F2854]">Senior State
+                                                Attorney</strong> at the Attorney General's Office of Mauritius. His career spans both distinguished public service and private legal practice.
+                                        </p>
                                     </div>
                                 <?php endif; ?>
                             </div>
 
-                            <!-- Enhanced Button - responsive -->
-                            <div class="mt-8 lg:mt-10 pt-6 lg:pt-8 border-t border-gray-200/80 relative" data-aos="fade-up"
-                                data-aos-duration="1200" data-aos-delay="700">
-                                <!-- Arrow line decoration -->
-                                <div class="absolute left-0 right-0 top-0 flex justify-center">
-                                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#1C4D8D] to-transparent"></div>
+                            <div class="pt-2 lg:pt-4">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 bg-gradient-to-r from-[#0F2854]/[0.02] to-[#1C4D8D]/[0.02] p-5 sm:p-6 lg:p-8 rounded-2xl border border-gray-200/80 transition-all duration-300 w-full relative overflow-hidden group"
+                                    data-aos="fade-up" data-aos-duration="1200" data-aos-delay="500">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                                    <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto relative">
+                                        <div class="relative flex-shrink-0">
+                                            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] rounded-full flex items-center justify-center shadow-md">
+                                                <i class="fas fa-gavel text-white text-base sm:text-xl"></i>
+                                            </div>
+                                            <div class="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-full border-2 border-[#0F2854] flex items-center justify-center">
+                                                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#0F2854] rounded-full"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="text-xl sm:text-2xl lg:text-4xl font-bold text-[#0F2854]">Multi-Specialist</div>
+                                            <div class="text-sm sm:text-base lg:text-lg text-gray-600">Civil, Commercial & Regulatory Law</div>
+                                        </div>
+                                    </div>
+                                    <div class="hidden sm:block h-12 w-px bg-gradient-to-b from-transparent via-gray-300 to-transparent"></div>
+                                    <div class="w-full sm:w-auto relative">
+                                        <div class="text-xs sm:text-sm font-semibold text-[#0F2854] uppercase tracking-wider mb-2">
+                                            Expertise Areas
+                                        </div>
+                                        <div class="flex flex-wrap gap-2">
+                                            <?php if (!empty($expertise)): ?>
+                                                <?php foreach (array_slice($expertise, 0, 3) as $area): ?>
+                                                    <span class="px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700 transition-all duration-300">
+                                                        <?= htmlspecialchars($area['name']) ?>
+                                                    </span>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <span class="px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700">Civil Law</span>
+                                                <span class="px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700">Commercial Law</span>
+                                                <span class="px-3 py-1.5 sm:px-4 sm:py-2 bg-white border border-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700">Regulatory Law</span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Public Service Experience Card -->
+                        <div class="relative group mt-8 lg:mt-0" data-aos="fade-left" data-aos-duration="1500" data-aos-delay="200">
+                            <div class="relative bg-white p-6 sm:p-8 lg:p-10 rounded-2xl border border-gray-200/80">
+                                <div class="mb-6 lg:mb-8">
+                                    <div class="flex items-start gap-3 sm:gap-4 mb-4">
+                                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
+                                            <i class="fas fa-university text-white text-base sm:text-xl"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#0F2854]">Public Service Experience</h4>
+                                            <div class="w-16 sm:w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-full mt-2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="relative">
+                                        <span class="absolute -left-1 top-0 text-3xl sm:text-4xl lg:text-5xl text-[#0F2854]/10 font-serif">"</span>
+                                        <p class="text-gray-700 text-sm sm:text-base lg:text-lg pl-4 sm:pl-6 text-justify">
+                                            As Senior State Attorney at the Attorney General's Office,
+                                            Mr. Chowrimootoo represented the <strong class="text-[#0F2854]">State of Mauritius</strong> in a wide range
+                                            of matters.
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <a href="pages/team.php"
-                                    class="group/btn inline-flex flex-col sm:flex-row items-start sm:items-center justify-between w-full bg-white p-4 sm:p-5 rounded-xl border border-gray-200/80 transition-all duration-300 gap-4 sm:gap-0">
-                                    <div class="flex items-center w-full sm:w-auto">
-                                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-lg flex items-center justify-center mr-3 sm:mr-4 shadow-md flex-shrink-0">
-                                            <i class="fas fa-user-tie text-white text-sm sm:text-lg"></i>
+                                <div class="space-y-4 lg:space-y-5">
+                                    <?php if (!empty($public_service)): ?>
+                                        <?php foreach ($public_service as $index => $service): ?>
+                                            <div class="flex items-start group/item" data-aos="fade-left"
+                                                data-aos-duration="1200" data-aos-delay="<?= 400 + ($index * 100) ?>">
+                                                <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-md">
+                                                    <i class="fas <?= htmlspecialchars($service['icon'] ?? 'fa-file-alt') ?> text-white text-xs sm:text-base"></i>
+                                                </div>
+                                                <div class="flex-1 bg-white p-3 sm:p-4 lg:p-5 rounded-lg border border-gray-100">
+                                                    <h5 class="font-semibold text-gray-800 text-base sm:text-lg mb-1"><?= htmlspecialchars($service['title'] ?? 'Service Title') ?></h5>
+                                                    <p class="text-gray-600 text-xs sm:text-sm lg:text-base text-justify"><?= htmlspecialchars($service['description'] ?? 'Service description') ?></p>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="flex items-start group/item">
+                                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-md">
+                                                <i class="fas fa-file-alt text-white text-xs sm:text-base"></i>
+                                            </div>
+                                            <div class="flex-1 bg-white p-3 sm:p-4 lg:p-5 rounded-lg border border-gray-100">
+                                                <h5 class="font-semibold text-gray-800 text-base sm:text-lg mb-1">Government Representation</h5>
+                                                <p class="text-gray-600 text-xs sm:text-sm lg:text-base text-justify">Civil, commercial, constitutional & administrative litigation before Supreme Court, Intermediate Court, and tribunals</p>
+                                            </div>
                                         </div>
-                                        <div class="min-w-0 flex-1">
-                                            <div class="text-[#0F2854] font-bold text-base sm:text-lg lg:text-xl truncate">View Founder's Profile</div>
-                                            <div class="text-gray-600 text-xs sm:text-sm lg:text-base truncate">Comprehensive background & achievements</div>
+                                        <div class="flex items-start group/item">
+                                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-md">
+                                                <i class="fas fa-balance-scale text-white text-xs sm:text-base"></i>
+                                            </div>
+                                            <div class="flex-1 bg-white p-3 sm:p-4 lg:p-5 rounded-lg border border-gray-100">
+                                                <h5 class="font-semibold text-gray-800 text-base sm:text-lg mb-1">Legal Advisory</h5>
+                                                <p class="text-gray-600 text-xs sm:text-sm lg:text-base text-justify">Provided legal opinions and advice to government ministries and departments on complex legal matters</p>
+                                            </div>
                                         </div>
+                                        <div class="flex items-start group/item">
+                                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-md">
+                                                <i class="fas fa-gavel text-white text-xs sm:text-base"></i>
+                                            </div>
+                                            <div class="flex-1 bg-white p-3 sm:p-4 lg:p-5 rounded-lg border border-gray-100">
+                                                <h5 class="font-semibold text-gray-800 text-base sm:text-lg mb-1">Prosecution Experience</h5>
+                                                <p class="text-gray-600 text-xs sm:text-sm lg:text-base text-justify">Handled sensitive prosecutions and appeals on behalf of the State</p>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="mt-8 lg:mt-10 pt-6 lg:pt-8 border-t border-gray-200/80 relative" data-aos="fade-up"
+                                    data-aos-duration="1200" data-aos-delay="700">
+                                    <div class="absolute left-0 right-0 top-0 flex justify-center">
+                                        <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#1C4D8D] to-transparent"></div>
                                     </div>
-                                    <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white rounded-full flex items-center justify-center group-hover/btn:translate-x-2 transition-transform duration-300 shadow-md flex-shrink-0 self-end sm:self-center">
-                                        <i class="fas fa-arrow-right text-sm sm:text-base lg:text-lg"></i>
-                                    </div>
-                                </a>
+                                    <a href="pages/team.php"
+                                        class="group/btn inline-flex flex-col sm:flex-row items-start sm:items-center justify-between w-full bg-white p-4 sm:p-5 rounded-xl border border-gray-200/80 transition-all duration-300 gap-4 sm:gap-0">
+                                        <div class="flex items-center w-full sm:w-auto">
+                                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] rounded-lg flex items-center justify-center mr-3 sm:mr-4 shadow-md flex-shrink-0">
+                                                <i class="fas fa-user-tie text-white text-sm sm:text-lg"></i>
+                                            </div>
+                                            <div class="min-w-0 flex-1">
+                                                <div class="text-[#0F2854] font-bold text-base sm:text-lg lg:text-xl truncate">View Founder's Profile</div>
+                                                <div class="text-gray-600 text-xs sm:text-sm lg:text-base truncate">Comprehensive background & achievements</div>
+                                            </div>
+                                        </div>
+                                        <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] text-white rounded-full flex items-center justify-center group-hover/btn:translate-x-2 transition-transform duration-300 shadow-md flex-shrink-0 self-end sm:self-center">
+                                            <i class="fas fa-arrow-right text-sm sm:text-base lg:text-lg"></i>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
-
-    <!-- Testimonials Section - Design responsive avec textes justifiés -->
+    <!-- Testimonials Section -->
     <section class="py-16 md:py-20 lg:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
-        <!-- Motif subtil en arrière-plan (optionnel pour cohérence) -->
         <div class="absolute inset-0 opacity-[0.01] pointer-events-none">
             <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20px 20px, #1C4D8D 1px, transparent 1px); background-size: 40px 40px;"></div>
         </div>
 
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="max-w-6xl mx-auto">
-                <!-- Section title - responsive -->
                 <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-16 gap-4"
                     data-aos="fade-up" data-aos-duration="1400">
                     <div>
@@ -610,14 +567,12 @@ $stats = [
                     </p>
                 </div>
 
-                <!-- Testimonials grid - responsive -->
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                     <?php if (!empty($testimonials)): ?>
                         <?php foreach ($testimonials as $index => $test): ?>
                             <div class="bg-white p-6 sm:p-8 lg:p-10 rounded-xl border border-gray-100 hover:border-[#1C4D8D]/20 transition-all duration-300 group"
                                 data-aos="fade-up" data-aos-duration="1400" data-aos-delay="<?= $index * 200 ?>">
                                 <div class="mb-4 lg:mb-6">
-                                    <!-- Rating responsive -->
                                     <div class="flex items-center mb-3 lg:mb-4">
                                         <div class="flex text-yellow-400 mr-2 text-base sm:text-lg lg:text-xl">
                                             <?php for ($i = 0; $i < 5; $i++): ?>
@@ -626,14 +581,10 @@ $stats = [
                                         </div>
                                         <span class="text-xs sm:text-sm text-gray-500"><?= htmlspecialchars($test['rating'] ?? '5.0') ?></span>
                                     </div>
-
-                                    <!-- Testimonial text justifié -->
                                     <p class="text-gray-700 text-sm sm:text-base lg:text-lg italic leading-relaxed text-justify">
                                         "<?= htmlspecialchars($test['text'] ?? 'Excellent service and professional approach.') ?>"
                                     </p>
                                 </div>
-
-                                <!-- Client info responsive -->
                                 <div class="flex items-center pt-4 lg:pt-6 border-t border-gray-100">
                                     <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base lg:text-xl mr-3 sm:mr-4 flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
                                         <?= htmlspecialchars($test['initials'] ?? substr($test['name'] ?? 'C', 0, 1) . substr(explode(' ', $test['name'] ?? 'Client')[1] ?? '', 0, 1)) ?>
@@ -646,7 +597,6 @@ $stats = [
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <!-- Fallback testimonials avec responsive -->
                         <div class="bg-white p-6 sm:p-8 lg:p-10 rounded-xl border border-gray-100 hover:border-[#1C4D8D]/20 transition-all duration-300 group"
                             data-aos="fade-up" data-aos-duration="1400">
                             <div class="mb-4 lg:mb-6">
@@ -668,7 +618,6 @@ $stats = [
                                 </div>
                             </div>
                         </div>
-
                         <div class="bg-white p-6 sm:p-8 lg:p-10 rounded-xl border border-gray-100 hover:border-[#1C4D8D]/20 transition-all duration-300 group"
                             data-aos="fade-up" data-aos-duration="1400" data-aos-delay="200">
                             <div class="mb-4 lg:mb-6">
@@ -690,7 +639,6 @@ $stats = [
                                 </div>
                             </div>
                         </div>
-
                         <div class="bg-white p-6 sm:p-8 lg:p-10 rounded-xl border border-gray-100 hover:border-[#1C4D8D]/20 transition-all duration-300 group"
                             data-aos="fade-up" data-aos-duration="1400" data-aos-delay="400">
                             <div class="mb-4 lg:mb-6">
@@ -715,7 +663,6 @@ $stats = [
                     <?php endif; ?>
                 </div>
 
-                <!-- Stats bar - responsive avec texte justifié -->
                 <div class="mt-12 lg:mt-16 bg-gradient-to-br from-blue-50 to-gray-50 rounded-xl p-6 sm:p-8 lg:p-10 border border-blue-100 transition-all duration-300"
                     data-aos="fade-up" data-aos-duration="1600" data-aos-delay="300">
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -734,7 +681,6 @@ $stats = [
                     </div>
                 </div>
 
-                <!-- CTA button responsive -->
                 <div class="mt-10 lg:mt-12 text-center" data-aos="fade-up" data-aos-duration="1400" data-aos-delay="700">
                     <a href="pages/testimonials.php"
                         class="inline-flex items-center group bg-white border border-gray-200 hover:border-[#1C4D8D]/30 rounded-full transition-all duration-300">
@@ -748,41 +694,37 @@ $stats = [
         </div>
     </section>
 
-    <!--  Quarterly -->
+    <!-- Quarterly Newsletter Section -->
     <section class="py-16 bg-white section-mt-5rem">
         <div class="container mx-auto px-6 md:px-12 lg:px-24">
             <div class="flex flex-col md:flex-row items-center gap-8 max-w-5xl mx-auto" data-aos="fade-up-slow"
                 data-aos-duration="1500">
-                <!-- Left side: Minimal image/icon - larger -->
+                <!-- Left side: Icon -->
                 <div class="md:w-2/5 flex justify-center" data-aos="zoom-slow" data-aos-duration="1400"
                     data-aos-delay="200">
                     <div
-                        class="w-56 h-56 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center hover-lift transition-all duration-300">
-                        <i class="fas fa-envelope text-7xl text-[#1C4D8D]"></i>
+                        class="w-48 h-48 sm:w-56 sm:h-56 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center hover-lift transition-all duration-300">
+                        <i class="fas fa-envelope text-6xl sm:text-7xl text-[#1C4D8D]"></i>
                     </div>
                 </div>
 
                 <!-- Right side: Content -->
-                <div class="md:w-3/5" data-aos="fade-left-slow" data-aos-duration="1400" data-aos-delay="300">
-                    <h2 class="text-4xl font-bold mb-4">
-                        <span class="text-[#0F2854]">Quarterly</span>
+                <div class="md:w-3/5 text-center md:text-left" data-aos="fade-left-slow" data-aos-duration="1400" data-aos-delay="300">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+                        <span class="text-[#0F2854]">Quarterly Newsletter</span>
                     </h2>
 
-                    <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mb-6" data-aos="fade-right-slow"
-                        data-aos-duration="1200" data-aos-delay="400"></div>
+                    <div class="w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mb-6 mx-auto md:mx-0"></div>
 
-                    <p class="text-gray-600 text-lg mb-6" data-aos="fade-up-slow" data-aos-duration="1200" data-aos-delay="500">
-                        Get legal insights and business updates.
+                    <p class="text-gray-600 text-base sm:text-lg mb-6">
+                        Get legal insights and business updates delivered to your inbox every quarter.
                     </p>
 
-                    <!-- Simple form - larger -->
                     <form action="subscribe.php" method="POST" class="flex flex-col sm:flex-row gap-3">
                         <input type="email" name="email" placeholder="Enter your email" required
-                            class="flex-1 px-5 py-4 rounded-lg border border-gray-300 focus:border-[#1C4D8D] focus:ring-1 focus:ring-[#1C4D8D] outline-none transition-all duration-300 text-base"
-                            data-aos="fade-up-slow" data-aos-duration="1200" data-aos-delay="600">
+                            class="flex-1 px-4 sm:px-5 py-3 sm:py-4 rounded-lg border border-gray-300 focus:border-[#1C4D8D] focus:ring-1 focus:ring-[#1C4D8D] outline-none transition-all duration-300 text-sm sm:text-base">
                         <button type="submit"
-                            class="bg-[#1C4D8D] text-white px-8 py-4 rounded-lg hover:bg-[#0F2854] transition-all duration-300 font-medium whitespace-nowrap hover-lift text-base"
-                            data-aos="fade-up-slow" data-aos-duration="1200" data-aos-delay="700">
+                            class="bg-[#1C4D8D] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-[#0F2854] transition-all duration-300 font-medium whitespace-nowrap hover-lift text-sm sm:text-base">
                             Subscribe
                         </button>
                     </form>
@@ -792,17 +734,19 @@ $stats = [
     </section>
 
     <!-- FOOTER -->
-   <?php include "includes/footer.php"; ?>
+    <?php include "includes/footer.php"; ?>
 
-    <!-- AOS JS -->
+    <!-- Scripts -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    
-    <!-- JS -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 50
+        });
+    </script>
     <script src="js/script.js"></script>
-
-   
-
-
 </body>
 
 </html>
