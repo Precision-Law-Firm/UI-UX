@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     // Update Hero Section
     if (isset($_POST['update_hero'])) {
         $check = $pdo->query("SELECT COUNT(*) FROM courses_hero")->fetchColumn();
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $success = "Hero section updated successfully!";
     }
-    
+
     // Add Benefit
     if (isset($_POST['add_benefit'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM course_benefits")->fetchColumn();
@@ -51,21 +51,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['icon'], $_POST['title'], $_POST['description'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Benefit added successfully!";
     }
-    
+
     // Update Benefit
     if (isset($_POST['update_benefit'])) {
         $stmt = $pdo->prepare("UPDATE course_benefits SET icon = ?, title = ?, description = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['icon'], $_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['benefit_id']]);
         $success = "Benefit updated successfully!";
     }
-    
+
     // Delete Benefit
     if (isset($_POST['delete_benefit'])) {
         $stmt = $pdo->prepare("DELETE FROM course_benefits WHERE id = ?");
         $stmt->execute([$_POST['benefit_id']]);
         $success = "Benefit deleted successfully!";
     }
-    
+
     // Add Level
     if (isset($_POST['add_level'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM course_levels")->fetchColumn();
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['name'], $slug, $_POST['color'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Level added successfully!";
     }
-    
+
     // Update Level
     if (isset($_POST['update_level'])) {
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $_POST['name'])));
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['name'], $slug, $_POST['color'], isset($_POST['is_active']) ? 1 : 0, $_POST['level_id']]);
         $success = "Level updated successfully!";
     }
-    
+
     // Delete Level
     if (isset($_POST['delete_level'])) {
         // First update courses with this level
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['level_id']]);
         $success = "Level deleted successfully!";
     }
-    
+
     // Add Course
     if (isset($_POST['add_course'])) {
         // Récupération sécurisée des champs pour éviter les warnings
@@ -109,18 +109,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $icon            = $_POST['icon'] ?? '';
         $features        = $_POST['features'] ?? '';
         $is_active       = isset($_POST['is_active']) ? 1 : 0;
-    
+
         // Calcul du prochain sort_order
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM courses")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-    
+
         // Insertion sécurisée
         $stmt = $pdo->prepare("
             INSERT INTO courses 
             (title, description, category, level_id, duration_text, price_rs, instructor_name, start_date, icon, features, sort_order, is_active) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
-    
+
         $stmt->execute([
             $title,
             $description,
@@ -135,70 +135,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sort_order,
             $is_active
         ]);
-    
+
         $success = "Course added successfully!";
-    
+
         // Optionnel : redirection pour éviter double submission
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
 
-    
-    
-    // Update Course
-if (isset($_POST['update_course'])) {
-    // Sécurisation des champs pour éviter les warnings
-    $title           = $_POST['title'] ?? '';
-    $description     = $_POST['description'] ?? '';
-    $category        = $_POST['category'] ?? '';
-    $level_id        = !empty($_POST['level_id']) ? $_POST['level_id'] : null;
-    $duration_text   = $_POST['duration_text'] ?? '';
-    $price_rs        = !empty($_POST['price_rs']) ? $_POST['price_rs'] : 0;
-    $instructor_name = $_POST['instructor_name'] ?? '';
-    $start_date      = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
-    $icon            = $_POST['icon'] ?? '';
-    $features        = $_POST['features'] ?? '';
-    $featured        = isset($_POST['featured']) ? 1 : 0;
-    $is_active       = isset($_POST['is_active']) ? 1 : 0;
-    $course_id       = $_POST['course_id'] ?? 0;
 
-    // Exécution de la mise à jour
-    $stmt = $pdo->prepare("
+
+    // Update Course
+    if (isset($_POST['update_course'])) {
+        // Sécurisation des champs pour éviter les warnings
+        $title           = $_POST['title'] ?? '';
+        $description     = $_POST['description'] ?? '';
+        $category        = $_POST['category'] ?? '';
+        $level_id        = !empty($_POST['level_id']) ? $_POST['level_id'] : null;
+        $duration_text   = $_POST['duration_text'] ?? '';
+        $price_rs        = !empty($_POST['price_rs']) ? $_POST['price_rs'] : 0;
+        $instructor_name = $_POST['instructor_name'] ?? '';
+        $start_date      = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
+        $icon            = $_POST['icon'] ?? '';
+        $features        = $_POST['features'] ?? '';
+        $featured        = isset($_POST['featured']) ? 1 : 0;
+        $is_active       = isset($_POST['is_active']) ? 1 : 0;
+        $course_id       = $_POST['course_id'] ?? 0;
+
+        // Exécution de la mise à jour
+        $stmt = $pdo->prepare("
         UPDATE courses 
         SET title = ?, description = ?, category = ?, level_id = ?, duration_text = ?, price_rs = ?, instructor_name = ?, start_date = ?, icon = ?, features = ?, featured = ?, is_active = ? 
         WHERE id = ?
     ");
-    $stmt->execute([
-        $title,
-        $description,
-        $category,
-        $level_id,
-        $duration_text,
-        $price_rs,
-        $instructor_name,
-        $start_date,
-        $icon,
-        $features,
-        $featured,
-        $is_active,
-        $course_id
-    ]);
+        $stmt->execute([
+            $title,
+            $description,
+            $category,
+            $level_id,
+            $duration_text,
+            $price_rs,
+            $instructor_name,
+            $start_date,
+            $icon,
+            $features,
+            $featured,
+            $is_active,
+            $course_id
+        ]);
 
-    $success = "Course updated successfully!";
+        $success = "Course updated successfully!";
 
-    // Optionnel : redirection pour éviter double soumission
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
-}
+        // Optionnel : redirection pour éviter double soumission
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    }
 
-    
+
     // Delete Course
     if (isset($_POST['delete_course'])) {
         $stmt = $pdo->prepare("DELETE FROM courses WHERE id = ?");
         $stmt->execute([$_POST['course_id']]);
         $success = "Course deleted successfully!";
     }
-    
+
     // Add Module
     if (isset($_POST['add_module'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM course_modules")->fetchColumn();
@@ -207,21 +207,21 @@ if (isset($_POST['update_course'])) {
         $stmt->execute([$_POST['title'], $_POST['description'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Module added successfully!";
     }
-    
+
     // Update Module
     if (isset($_POST['update_module'])) {
         $stmt = $pdo->prepare("UPDATE course_modules SET title = ?, description = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['module_id']]);
         $success = "Module updated successfully!";
     }
-    
+
     // Delete Module
     if (isset($_POST['delete_module'])) {
         $stmt = $pdo->prepare("DELETE FROM course_modules WHERE id = ?");
         $stmt->execute([$_POST['module_id']]);
         $success = "Module deleted successfully!";
     }
-    
+
     // Add Feature
     if (isset($_POST['add_feature'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM course_features")->fetchColumn();
@@ -230,21 +230,21 @@ if (isset($_POST['update_course'])) {
         $stmt->execute([$_POST['feature'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Feature added successfully!";
     }
-    
+
     // Update Feature
     if (isset($_POST['update_feature'])) {
         $stmt = $pdo->prepare("UPDATE course_features SET feature = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['feature'], isset($_POST['is_active']) ? 1 : 0, $_POST['feature_id']]);
         $success = "Feature updated successfully!";
     }
-    
+
     // Delete Feature
     if (isset($_POST['delete_feature'])) {
         $stmt = $pdo->prepare("DELETE FROM course_features WHERE id = ?");
         $stmt->execute([$_POST['feature_id']]);
         $success = "Feature deleted successfully!";
     }
-    
+
     // Add Stat
     if (isset($_POST['add_stat'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM course_stats")->fetchColumn();
@@ -253,21 +253,21 @@ if (isset($_POST['update_course'])) {
         $stmt->execute([$_POST['label'], $_POST['value'], $sort_order]);
         $success = "Stat added successfully!";
     }
-    
+
     // Update Stat
     if (isset($_POST['update_stat'])) {
         $stmt = $pdo->prepare("UPDATE course_stats SET label = ?, value = ? WHERE id = ?");
         $stmt->execute([$_POST['label'], $_POST['value'], $_POST['stat_id']]);
         $success = "Stat updated successfully!";
     }
-    
+
     // Delete Stat
     if (isset($_POST['delete_stat'])) {
         $stmt = $pdo->prepare("DELETE FROM course_stats WHERE id = ?");
         $stmt->execute([$_POST['stat_id']]);
         $success = "Stat deleted successfully!";
     }
-    
+
     // Add Instructor
     if (isset($_POST['add_instructor'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM instructors")->fetchColumn();
@@ -284,7 +284,7 @@ if (isset($_POST['update_course'])) {
         ]);
         $success = "Instructor added successfully!";
     }
-    
+
     // Update Instructor
     if (isset($_POST['update_instructor'])) {
         $stmt = $pdo->prepare("UPDATE instructors SET name = ?, title = ?, bio = ?, icon_color = ?, specialties = ?, is_active = ? WHERE id = ?");
@@ -299,14 +299,14 @@ if (isset($_POST['update_course'])) {
         ]);
         $success = "Instructor updated successfully!";
     }
-    
+
     // Delete Instructor
     if (isset($_POST['delete_instructor'])) {
         $stmt = $pdo->prepare("DELETE FROM instructors WHERE id = ?");
         $stmt->execute([$_POST['instructor_id']]);
         $success = "Instructor deleted successfully!";
     }
-    
+
     // Add Testimonial
     if (isset($_POST['add_testimonial'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM student_testimonials")->fetchColumn();
@@ -323,7 +323,7 @@ if (isset($_POST['update_course'])) {
         ]);
         $success = "Testimonial added successfully!";
     }
-    
+
     // Update Testimonial
     if (isset($_POST['update_testimonial'])) {
         $stmt = $pdo->prepare("UPDATE student_testimonials SET student_name = ?, student_year = ?, content = ?, rating = ?, icon_color = ?, is_active = ? WHERE id = ?");
@@ -338,14 +338,14 @@ if (isset($_POST['update_course'])) {
         ]);
         $success = "Testimonial updated successfully!";
     }
-    
+
     // Delete Testimonial
     if (isset($_POST['delete_testimonial'])) {
         $stmt = $pdo->prepare("DELETE FROM student_testimonials WHERE id = ?");
         $stmt->execute([$_POST['testimonial_id']]);
         $success = "Testimonial deleted successfully!";
     }
-    
+
     // Update sort order for benefits
     if (isset($_POST['update_benefit_sort'])) {
         $ids = $_POST['sort_ids'] ?? [];
@@ -356,7 +356,7 @@ if (isset($_POST['update_course'])) {
         }
         $success = "Benefit sort order updated successfully!";
     }
-    
+
     // Update sort order for courses
     if (isset($_POST['update_course_sort'])) {
         $ids = $_POST['sort_ids'] ?? [];
@@ -367,7 +367,7 @@ if (isset($_POST['update_course'])) {
         }
         $success = "Course sort order updated successfully!";
     }
-    
+
     // Update sort order for modules
     if (isset($_POST['update_module_sort'])) {
         $ids = $_POST['sort_ids'] ?? [];
@@ -421,7 +421,7 @@ $colorOptions = [
             font-family: 'Inter', sans-serif;
             background: #f3f4f6;
         }
-        
+
         .admin-card {
             background: white;
             border-radius: 1rem;
@@ -429,9 +429,11 @@ $colorOptions = [
             transition: all 0.3s ease;
             margin-bottom: 2rem;
         }
+
         .admin-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+
         .section-header {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -440,21 +442,27 @@ $colorOptions = [
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .section-header:hover {
             opacity: 0.95;
         }
+
         .section-header i {
             transition: transform 0.3s ease;
         }
+
         .section-header.collapsed i {
             transform: rotate(-90deg);
         }
+
         .section-content {
             transition: all 0.3s ease;
         }
+
         .section-content.collapsed {
             display: none;
         }
+
         .form-input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -463,11 +471,13 @@ $colorOptions = [
             transition: all 0.3s ease;
             font-size: 1rem;
         }
+
         .form-input:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .form-textarea {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -477,11 +487,13 @@ $colorOptions = [
             font-size: 1rem;
             min-height: 100px;
         }
+
         .form-textarea:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .form-select {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -491,11 +503,13 @@ $colorOptions = [
             font-size: 1rem;
             background-color: white;
         }
+
         .form-select:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -504,10 +518,12 @@ $colorOptions = [
             font-weight: 500;
             transition: all 0.3s ease;
         }
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
         .btn-danger {
             background: #dc2626;
             color: white;
@@ -515,9 +531,11 @@ $colorOptions = [
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-danger:hover {
             background: #b91c1c;
         }
+
         .btn-success {
             background: #059669;
             color: white;
@@ -525,9 +543,11 @@ $colorOptions = [
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-success:hover {
             background: #047857;
         }
+
         .btn-warning {
             background: #d97706;
             color: white;
@@ -535,15 +555,19 @@ $colorOptions = [
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-warning:hover {
             background: #b45309;
         }
+
         .table-row {
             transition: all 0.3s ease;
         }
+
         .table-row:hover {
             background: #f9fafb;
         }
+
         .success-message {
             background: #10b981;
             color: white;
@@ -552,17 +576,19 @@ $colorOptions = [
             margin-bottom: 1rem;
             animation: slideDown 0.5s ease;
         }
+
         @keyframes slideDown {
             from {
                 transform: translateY(-10px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
             }
         }
-        
+
         /* Admin badge */
         .admin-badge {
             background: #D4AF37;
@@ -573,11 +599,12 @@ $colorOptions = [
             font-weight: 600;
             margin-left: 1rem;
         }
-        
+
         /* Hover effects */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .hover-lift:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
@@ -611,7 +638,7 @@ $colorOptions = [
 
                     <!-- Navigation - Points to client pages -->
                     <div class="flex items-center space-x-8">
-                        <a href="../accueil.php"
+                        <a href="../index.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Home
                         </a>
@@ -673,7 +700,7 @@ $colorOptions = [
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
                 <div class="flex flex-col space-y-4">
-                    <a href="../accueil.php"
+                    <a href="../index.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Home
                     </a>
@@ -717,7 +744,7 @@ $colorOptions = [
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
-        
+
         <!-- Header -->
         <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
             <h1 class="text-3xl font-bold text-[#0F2854]">Courses Page Management</h1>
@@ -829,47 +856,47 @@ $colorOptions = [
                         </thead>
                         <tbody>
                             <?php foreach ($benefits as $benefit): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <input type="hidden" name="sort_ids[]" value="<?= $benefit['id'] ?>">
-                                    <input type="number" name="sort_orders[]" value="<?= $benefit['sort_order'] ?>" class="form-input text-sm w-20">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="benefit_id" value="<?= $benefit['id'] ?>">
-                                        <input type="text" name="icon" value="<?= htmlspecialchars($benefit['icon']) ?>" class="form-input text-sm w-24">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <input type="hidden" name="sort_ids[]" value="<?= $benefit['id'] ?>">
+                                        <input type="number" name="sort_orders[]" value="<?= $benefit['sort_order'] ?>" class="form-input text-sm w-20">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="benefit_id" value="<?= $benefit['id'] ?>">
+                                            <input type="text" name="icon" value="<?= htmlspecialchars($benefit['icon']) ?>" class="form-input text-sm w-24">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="title" value="<?= htmlspecialchars($benefit['title']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="description" value="<?= htmlspecialchars($benefit['description']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <label class="flex items-center">
                                             <input type="checkbox" name="is_active" value="1" <?= $benefit['is_active'] ? 'checked' : '' ?>>
                                         </label>
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_benefit" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this benefit?')">
-                                        <input type="hidden" name="benefit_id" value="<?= $benefit['id'] ?>">
-                                        <button type="submit" name="delete_benefit" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <button type="submit" name="update_benefit_sort" class="btn-warning mt-4">
-                        <i class="fas fa-sort mr-2"></i>Update Benefit Sort Order
+                </form>
+                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this benefit?')">
+                    <input type="hidden" name="benefit_id" value="<?= $benefit['id'] ?>">
+                    <button type="submit" name="delete_benefit" class="text-red-600 hover:text-red-800" title="Delete">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
+                </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+            </table>
+            <button type="submit" name="update_benefit_sort" class="btn-warning mt-4">
+                <i class="fas fa-sort mr-2"></i>Update Benefit Sort Order
+            </button>
+            </form>
             </div>
         </div>
 
@@ -917,40 +944,40 @@ $colorOptions = [
                     </thead>
                     <tbody>
                         <?php foreach ($levels as $level): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="level_id" value="<?= $level['id'] ?>">
-                                    <input type="text" name="name" value="<?= htmlspecialchars($level['name']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="level_id" value="<?= $level['id'] ?>">
+                                        <input type="text" name="name" value="<?= htmlspecialchars($level['name']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <span class="text-sm text-gray-600"><?= htmlspecialchars($level['slug']) ?></span>
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <select name="color" class="form-input text-sm">
                                         <?php foreach ($colorOptions as $value => $label): ?>
                                             <option value="<?= $value ?>" <?= $level['color'] == $value ? 'selected' : '' ?>><?= $label ?></option>
                                         <?php endforeach; ?>
                                     </select>
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $level['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_level" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this level? Courses with this level will be unassigned.')">
-                                    <input type="hidden" name="level_id" value="<?= $level['id'] ?>">
-                                    <button type="submit" name="delete_level" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this level? Courses with this level will be unassigned.')">
+                                        <input type="hidden" name="level_id" value="<?= $level['id'] ?>">
+                                        <button type="submit" name="delete_level" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1040,60 +1067,60 @@ $colorOptions = [
                         </thead>
                         <tbody>
                             <?php foreach ($courses as $course): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <input type="hidden" name="sort_ids[]" value="<?= $course['id'] ?>">
-                                    <input type="number" name="sort_orders[]" value="<?= $course['sort_order'] ?>" class="form-input text-sm w-20">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
-                                        <input type="text" name="title" value="<?= htmlspecialchars($course['title']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <input type="hidden" name="sort_ids[]" value="<?= $course['id'] ?>">
+                                        <input type="number" name="sort_orders[]" value="<?= $course['sort_order'] ?>" class="form-input text-sm w-20">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
+                                            <input type="text" name="title" value="<?= htmlspecialchars($course['title']) ?>" class="form-input text-sm">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="category" value="<?= htmlspecialchars($course['category'] ?? '') ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <select name="level_id" class="form-input text-sm">
                                             <option value="">None</option>
                                             <?php foreach ($levels as $level): ?>
                                                 <option value="<?= $level['id'] ?>" <?= ($course['level_id'] ?? '') == $level['id'] ? 'selected' : '' ?>><?= htmlspecialchars($level['name']) ?></option>
                                             <?php endforeach; ?>
                                         </select>
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="number" name="price_rs" value="<?= $course['price_rs'] ?>" class="form-input text-sm w-24">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <label class="flex items-center">
                                             <input type="checkbox" name="featured" value="1" <?= ($course['featured'] ?? 0) ? 'checked' : '' ?>>
                                         </label>
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <label class="flex items-center">
                                             <input type="checkbox" name="is_active" value="1" <?= $course['is_active'] ? 'checked' : '' ?>>
                                         </label>
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_course" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this course?')">
-                                        <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
-                                        <button type="submit" name="delete_course" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <button type="submit" name="update_course_sort" class="btn-warning mt-4">
-                        <i class="fas fa-sort mr-2"></i>Update Course Sort Order
+                </form>
+                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this course?')">
+                    <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
+                    <button type="submit" name="delete_course" class="text-red-600 hover:text-red-800" title="Delete">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
+                </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+            </table>
+            <button type="submit" name="update_course_sort" class="btn-warning mt-4">
+                <i class="fas fa-sort mr-2"></i>Update Course Sort Order
+            </button>
+            </form>
             </div>
         </div>
 
@@ -1143,44 +1170,44 @@ $colorOptions = [
                         </thead>
                         <tbody>
                             <?php foreach ($modules as $module): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <input type="hidden" name="sort_ids[]" value="<?= $module['id'] ?>">
-                                    <input type="number" name="sort_orders[]" value="<?= $module['sort_order'] ?>" class="form-input text-sm w-20">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
-                                        <input type="text" name="title" value="<?= htmlspecialchars($module['title']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <input type="hidden" name="sort_ids[]" value="<?= $module['id'] ?>">
+                                        <input type="number" name="sort_orders[]" value="<?= $module['sort_order'] ?>" class="form-input text-sm w-20">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
+                                            <input type="text" name="title" value="<?= htmlspecialchars($module['title']) ?>" class="form-input text-sm">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="description" value="<?= htmlspecialchars($module['description']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <label class="flex items-center">
                                             <input type="checkbox" name="is_active" value="1" <?= $module['is_active'] ? 'checked' : '' ?>>
                                         </label>
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_module" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this module?')">
-                                        <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
-                                        <button type="submit" name="delete_module" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <button type="submit" name="update_module_sort" class="btn-warning mt-4">
-                        <i class="fas fa-sort mr-2"></i>Update Module Sort Order
+                </form>
+                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this module?')">
+                    <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
+                    <button type="submit" name="delete_module" class="text-red-600 hover:text-red-800" title="Delete">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
+                </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+            </table>
+            <button type="submit" name="update_module_sort" class="btn-warning mt-4">
+                <i class="fas fa-sort mr-2"></i>Update Module Sort Order
+            </button>
+            </form>
             </div>
         </div>
 
@@ -1223,30 +1250,30 @@ $colorOptions = [
                     </thead>
                     <tbody>
                         <?php foreach ($features as $feature): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
-                                    <input type="text" name="feature" value="<?= htmlspecialchars($feature['feature']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
+                                        <input type="text" name="feature" value="<?= htmlspecialchars($feature['feature']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $feature['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_feature" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this feature?')">
-                                    <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
-                                    <button type="submit" name="delete_feature" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this feature?')">
+                                        <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
+                                        <button type="submit" name="delete_feature" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1285,28 +1312,28 @@ $colorOptions = [
                     </thead>
                     <tbody>
                         <?php foreach ($stats as $stat): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
-                                    <input type="text" name="label" value="<?= htmlspecialchars($stat['label']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
+                                        <input type="text" name="label" value="<?= htmlspecialchars($stat['label']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="value" value="<?= htmlspecialchars($stat['value']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_stat" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this stat?')">
-                                    <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
-                                    <button type="submit" name="delete_stat" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this stat?')">
+                                        <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
+                                        <button type="submit" name="delete_stat" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1370,40 +1397,40 @@ $colorOptions = [
                     </thead>
                     <tbody>
                         <?php foreach ($instructors as $instructor): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="instructor_id" value="<?= $instructor['id'] ?>">
-                                    <input type="text" name="name" value="<?= htmlspecialchars($instructor['name']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="instructor_id" value="<?= $instructor['id'] ?>">
+                                        <input type="text" name="name" value="<?= htmlspecialchars($instructor['name']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="title" value="<?= htmlspecialchars($instructor['title']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <select name="icon_color" class="form-input text-sm">
                                         <?php foreach ($colorOptions as $value => $label): ?>
                                             <option value="<?= $value ?>" <?= $instructor['icon_color'] == $value ? 'selected' : '' ?>><?= $label ?></option>
                                         <?php endforeach; ?>
                                     </select>
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $instructor['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_instructor" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this instructor?')">
-                                    <input type="hidden" name="instructor_id" value="<?= $instructor['id'] ?>">
-                                    <button type="submit" name="delete_instructor" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this instructor?')">
+                                        <input type="hidden" name="instructor_id" value="<?= $instructor['id'] ?>">
+                                        <button type="submit" name="delete_instructor" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1464,43 +1491,43 @@ $colorOptions = [
                     </thead>
                     <tbody>
                         <?php foreach ($testimonials as $testimonial): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="testimonial_id" value="<?= $testimonial['id'] ?>">
-                                    <input type="text" name="student_name" value="<?= htmlspecialchars($testimonial['student_name']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="testimonial_id" value="<?= $testimonial['id'] ?>">
+                                        <input type="text" name="student_name" value="<?= htmlspecialchars($testimonial['student_name']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="student_year" value="<?= htmlspecialchars($testimonial['student_year']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="number" name="rating" value="<?= $testimonial['rating'] ?>" step="0.5" min="1" max="5" class="form-input text-sm w-20">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <select name="icon_color" class="form-input text-sm">
                                         <?php foreach ($colorOptions as $value => $label): ?>
                                             <option value="<?= $value ?>" <?= $testimonial['icon_color'] == $value ? 'selected' : '' ?>><?= $label ?></option>
                                         <?php endforeach; ?>
                                     </select>
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $testimonial['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_testimonial" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this testimonial?')">
-                                    <input type="hidden" name="testimonial_id" value="<?= $testimonial['id'] ?>">
-                                    <button type="submit" name="delete_testimonial" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this testimonial?')">
+                                        <input type="hidden" name="testimonial_id" value="<?= $testimonial['id'] ?>">
+                                        <button type="submit" name="delete_testimonial" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1552,7 +1579,7 @@ $colorOptions = [
             const content = document.getElementById(contentId);
             const header = content.previousElementSibling;
             const icon = header.querySelector('i.fa-chevron-down');
-            
+
             content.classList.toggle('collapsed');
             icon.classList.toggle('rotate-[-90deg]');
         }

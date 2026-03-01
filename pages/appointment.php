@@ -154,24 +154,6 @@ function isTimeSlotBooked($timeValue, $bookedSlots)
 {
     return in_array($timeValue, $bookedSlots);
 }
-
-// Récupérer les créneaux déjà réservés
-$stmt = $pdo->query("SELECT time_slot FROM booked_slots");
-$bookedSlots = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-// Récupérer tous les créneaux complets par date
-$stmt = $pdo->query("SELECT appointment_date, COUNT(*) as total_slots FROM booked_slots GROUP BY appointment_date");
-$datesWithBookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$blockedDates = [];
-foreach ($datesWithBookings as $row) {
-    // ici on suppose qu'un jour est complet si le nombre de slots >= nombre total de créneaux disponibles
-    if ($row['total_slots'] >= count($timeSlots)) {
-        $blockedDates[] = $row['appointment_date'];
-    }
-}
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -1095,6 +1077,7 @@ foreach ($datesWithBookings as $row) {
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
+    
     <script>
         // Initialize AOS
         AOS.init({
@@ -1167,24 +1150,16 @@ foreach ($datesWithBookings as $row) {
         }
 
 
-
         function generateDatePicker() {
             const dateInput = document.getElementById('appointment-date');
             const today = new Date().toISOString().split('T')[0];
             dateInput.min = today; // bloque les dates passées
 
             dateInput.addEventListener('change', () => {
-                if (blockedDates.includes(dateInput.value)) {
-                    alert("This date is fully booked. Please choose another date.");
-                    dateInput.value = '';
-                    selectedDate = '';
-                    return;
-                }
                 selectedDate = dateInput.value;
-                document.getElementById('selected-date').value = selectedDate;
+                document.getElementById('selected-date').value = selectedDate; // hidden input
             });
         }
-
 
         function generateTimeSlots() {
             const container = document.getElementById('time-slots');
@@ -1202,14 +1177,13 @@ foreach ($datesWithBookings as $row) {
                         document.querySelectorAll('.time-slot.selected').forEach(el => el.classList.remove('selected'));
                         div.classList.add('selected');
                         selectedTime = slot.time_value;
-                        document.getElementById('selected-time').value = selectedTime;
+                        document.getElementById('selected-time').value = selectedTime; // hidden input
                     });
                 }
 
                 container.appendChild(div);
             });
         }
-
 
         // AJAX submit
         const appointmentForm = document.getElementById('appointment-form');
@@ -1332,6 +1306,9 @@ foreach ($datesWithBookings as $row) {
             });
         });
     </script>
+
+
+
 
 </body>
 

@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     // Update Hero Section
     if (isset($_POST['update_hero'])) {
         $check = $pdo->query("SELECT COUNT(*) FROM jurisprudence_hero")->fetchColumn();
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $success = "Hero section updated successfully!";
     }
-    
+
     // Add Statistic
     if (isset($_POST['add_stat'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM jurisprudence_stats")->fetchColumn();
@@ -32,34 +32,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['value'], $_POST['suffix'], $_POST['label'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Statistic added successfully!";
     }
-    
+
     // Update Statistic
     if (isset($_POST['update_stat'])) {
         $stmt = $pdo->prepare("UPDATE jurisprudence_stats SET value = ?, suffix = ?, label = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['value'], $_POST['suffix'], $_POST['label'], isset($_POST['is_active']) ? 1 : 0, $_POST['stat_id']]);
         $success = "Statistic updated successfully!";
     }
-    
+
     // Delete Statistic
     if (isset($_POST['delete_stat'])) {
         $stmt = $pdo->prepare("DELETE FROM jurisprudence_stats WHERE id = ?");
         $stmt->execute([$_POST['stat_id']]);
         $success = "Statistic deleted successfully!";
     }
-    
+
     // Add Category
     if (isset($_POST['add_category'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM jurisprudence_categories")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        
+
         // Generate slug from name
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $_POST['name'])));
-        
+
         $stmt = $pdo->prepare("INSERT INTO jurisprudence_categories (name, slug, icon, color, sort_order, is_active) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->execute([$_POST['name'], $slug, $_POST['icon'], $_POST['color'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Category added successfully!";
     }
-    
+
     // Update Category
     if (isset($_POST['update_category'])) {
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $_POST['name'])));
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['name'], $slug, $_POST['icon'], $_POST['color'], isset($_POST['is_active']) ? 1 : 0, $_POST['category_id']]);
         $success = "Category updated successfully!";
     }
-    
+
     // Delete Category
     if (isset($_POST['delete_category'])) {
         // First update cases in this category to remove category_id
@@ -78,17 +78,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['category_id']]);
         $success = "Category deleted successfully!";
     }
-    
+
     // Add Case
     if (isset($_POST['add_case'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM jurisprudence_cases")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        
+
         $stmt = $pdo->prepare("INSERT INTO jurisprudence_cases (
             title, summary, category_id, year, court, case_number, lead_attorney, 
             key_issues, outcome, impact, duration_months, featured, icon_color, sort_order, is_active
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        
+
         $stmt->execute([
             $_POST['title'],
             $_POST['summary'],
@@ -108,14 +108,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Case added successfully!";
     }
-    
+
     // Update Case
     if (isset($_POST['update_case'])) {
         $stmt = $pdo->prepare("UPDATE jurisprudence_cases SET 
             title = ?, summary = ?, category_id = ?, year = ?, court = ?, case_number = ?, 
             lead_attorney = ?, key_issues = ?, outcome = ?, impact = ?, duration_months = ?, 
             featured = ?, icon_color = ?, is_active = ? WHERE id = ?");
-        
+
         $stmt->execute([
             $_POST['title'],
             $_POST['summary'],
@@ -135,38 +135,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Case updated successfully!";
     }
-    
+
     // Delete Case
     if (isset($_POST['delete_case'])) {
         $stmt = $pdo->prepare("DELETE FROM jurisprudence_cases WHERE id = ?");
         $stmt->execute([$_POST['case_id']]);
         $success = "Case deleted successfully!";
     }
-    
+
     // Add Timeline Item
     if (isset($_POST['add_timeline'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM jurisprudence_timeline")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        
+
         $stmt = $pdo->prepare("INSERT INTO jurisprudence_timeline (year, title, description, icon, color, sort_order, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$_POST['year'], $_POST['title'], $_POST['description'], $_POST['icon'], $_POST['color'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Timeline item added successfully!";
     }
-    
+
     // Update Timeline Item
     if (isset($_POST['update_timeline'])) {
         $stmt = $pdo->prepare("UPDATE jurisprudence_timeline SET year = ?, title = ?, description = ?, icon = ?, color = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['year'], $_POST['title'], $_POST['description'], $_POST['icon'], $_POST['color'], isset($_POST['is_active']) ? 1 : 0, $_POST['timeline_id']]);
         $success = "Timeline item updated successfully!";
     }
-    
+
     // Delete Timeline Item
     if (isset($_POST['delete_timeline'])) {
         $stmt = $pdo->prepare("DELETE FROM jurisprudence_timeline WHERE id = ?");
         $stmt->execute([$_POST['timeline_id']]);
         $success = "Timeline item deleted successfully!";
     }
-    
+
     // Update CTA Section
     if (isset($_POST['update_cta'])) {
         $check = $pdo->query("SELECT COUNT(*) FROM jurisprudence_cta")->fetchColumn();
@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $success = "CTA section updated successfully!";
     }
-    
+
     // Update sort order for categories
     if (isset($_POST['update_category_sort'])) {
         $ids = $_POST['sort_ids'] ?? [];
@@ -207,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $success = "Category sort order updated successfully!";
     }
-    
+
     // Update sort order for cases
     if (isset($_POST['update_case_sort'])) {
         $ids = $_POST['sort_ids'] ?? [];
@@ -218,7 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $success = "Case sort order updated successfully!";
     }
-    
+
     // Update sort order for timeline
     if (isset($_POST['update_timeline_sort'])) {
         $ids = $_POST['sort_ids'] ?? [];
@@ -272,7 +272,7 @@ $colorOptions = [
             font-family: 'Inter', sans-serif;
             background: #f3f4f6;
         }
-        
+
         .admin-card {
             background: white;
             border-radius: 1rem;
@@ -280,9 +280,11 @@ $colorOptions = [
             transition: all 0.3s ease;
             margin-bottom: 2rem;
         }
+
         .admin-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+
         .section-header {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -291,21 +293,27 @@ $colorOptions = [
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .section-header:hover {
             opacity: 0.95;
         }
+
         .section-header i {
             transition: transform 0.3s ease;
         }
+
         .section-header.collapsed i {
             transform: rotate(-90deg);
         }
+
         .section-content {
             transition: all 0.3s ease;
         }
+
         .section-content.collapsed {
             display: none;
         }
+
         .form-input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -314,11 +322,13 @@ $colorOptions = [
             transition: all 0.3s ease;
             font-size: 1rem;
         }
+
         .form-input:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .form-textarea {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -328,11 +338,13 @@ $colorOptions = [
             font-size: 1rem;
             min-height: 100px;
         }
+
         .form-textarea:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .form-select {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -342,11 +354,13 @@ $colorOptions = [
             font-size: 1rem;
             background-color: white;
         }
+
         .form-select:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -355,10 +369,12 @@ $colorOptions = [
             font-weight: 500;
             transition: all 0.3s ease;
         }
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
         .btn-danger {
             background: #dc2626;
             color: white;
@@ -366,9 +382,11 @@ $colorOptions = [
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-danger:hover {
             background: #b91c1c;
         }
+
         .btn-success {
             background: #059669;
             color: white;
@@ -376,9 +394,11 @@ $colorOptions = [
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-success:hover {
             background: #047857;
         }
+
         .btn-warning {
             background: #d97706;
             color: white;
@@ -386,15 +406,19 @@ $colorOptions = [
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-warning:hover {
             background: #b45309;
         }
+
         .table-row {
             transition: all 0.3s ease;
         }
+
         .table-row:hover {
             background: #f9fafb;
         }
+
         .success-message {
             background: #10b981;
             color: white;
@@ -403,17 +427,19 @@ $colorOptions = [
             margin-bottom: 1rem;
             animation: slideDown 0.5s ease;
         }
+
         @keyframes slideDown {
             from {
                 transform: translateY(-10px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
             }
         }
-        
+
         /* Admin badge */
         .admin-badge {
             background: #D4AF37;
@@ -424,11 +450,12 @@ $colorOptions = [
             font-weight: 600;
             margin-left: 1rem;
         }
-        
+
         /* Hover effects */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .hover-lift:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
@@ -462,7 +489,7 @@ $colorOptions = [
 
                     <!-- Navigation - Points to client pages -->
                     <div class="flex items-center space-x-8">
-                        <a href="../accueil.php"
+                        <a href="../index.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Home
                         </a>
@@ -524,7 +551,7 @@ $colorOptions = [
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
                 <div class="flex flex-col space-y-4">
-                    <a href="../accueil.php"
+                    <a href="../index.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Home
                     </a>
@@ -568,7 +595,7 @@ $colorOptions = [
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
-        
+
         <!-- Header -->
         <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
             <h1 class="text-3xl font-bold text-[#0F2854]">Jurisprudence Page Management</h1>
@@ -659,36 +686,36 @@ $colorOptions = [
                     </thead>
                     <tbody>
                         <?php foreach ($stats as $stat): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
-                                    <input type="text" name="value" value="<?= htmlspecialchars($stat['value']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
+                                        <input type="text" name="value" value="<?= htmlspecialchars($stat['value']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="suffix" value="<?= htmlspecialchars($stat['suffix']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="label" value="<?= htmlspecialchars($stat['label']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $stat['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_stat" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this statistic?')">
-                                    <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
-                                    <button type="submit" name="delete_stat" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this statistic?')">
+                                        <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
+                                        <button type="submit" name="delete_stat" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -747,54 +774,54 @@ $colorOptions = [
                         </thead>
                         <tbody>
                             <?php foreach ($categories as $cat): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <input type="hidden" name="sort_ids[]" value="<?= $cat['id'] ?>">
-                                    <input type="number" name="sort_orders[]" value="<?= $cat['sort_order'] ?>" class="form-input text-sm w-20">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="category_id" value="<?= $cat['id'] ?>">
-                                        <input type="text" name="name" value="<?= htmlspecialchars($cat['name']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <input type="hidden" name="sort_ids[]" value="<?= $cat['id'] ?>">
+                                        <input type="number" name="sort_orders[]" value="<?= $cat['sort_order'] ?>" class="form-input text-sm w-20">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="category_id" value="<?= $cat['id'] ?>">
+                                            <input type="text" name="name" value="<?= htmlspecialchars($cat['name']) ?>" class="form-input text-sm">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <span class="text-sm text-gray-600"><?= htmlspecialchars($cat['slug']) ?></span>
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="icon" value="<?= htmlspecialchars($cat['icon']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <select name="color" class="form-input text-sm">
                                             <?php foreach ($colorOptions as $value => $label): ?>
                                                 <option value="<?= $value ?>" <?= $cat['color'] == $value ? 'selected' : '' ?>><?= $label ?></option>
                                             <?php endforeach; ?>
                                         </select>
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <label class="flex items-center">
                                             <input type="checkbox" name="is_active" value="1" <?= $cat['is_active'] ? 'checked' : '' ?>>
                                         </label>
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_category" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this category? Cases in this category will be uncategorized.')">
-                                        <input type="hidden" name="category_id" value="<?= $cat['id'] ?>">
-                                        <button type="submit" name="delete_category" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <button type="submit" name="update_category_sort" class="btn-warning mt-4">
-                        <i class="fas fa-sort mr-2"></i>Update Category Sort Order
+                </form>
+                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this category? Cases in this category will be uncategorized.')">
+                    <input type="hidden" name="category_id" value="<?= $cat['id'] ?>">
+                    <button type="submit" name="delete_category" class="text-red-600 hover:text-red-800" title="Delete">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
+                </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+            </table>
+            <button type="submit" name="update_category_sort" class="btn-warning mt-4">
+                <i class="fas fa-sort mr-2"></i>Update Category Sort Order
+            </button>
+            </form>
             </div>
         </div>
 
@@ -889,57 +916,57 @@ $colorOptions = [
                         </thead>
                         <tbody>
                             <?php foreach ($cases as $case): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <input type="hidden" name="sort_ids[]" value="<?= $case['id'] ?>">
-                                    <input type="number" name="sort_orders[]" value="<?= $case['sort_order'] ?>" class="form-input text-sm w-20">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="case_id" value="<?= $case['id'] ?>">
-                                        <input type="text" name="title" value="<?= htmlspecialchars($case['title']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <input type="hidden" name="sort_ids[]" value="<?= $case['id'] ?>">
+                                        <input type="number" name="sort_orders[]" value="<?= $case['sort_order'] ?>" class="form-input text-sm w-20">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="case_id" value="<?= $case['id'] ?>">
+                                            <input type="text" name="title" value="<?= htmlspecialchars($case['title']) ?>" class="form-input text-sm">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <select name="category_id" class="form-input text-sm">
                                             <option value="">None</option>
                                             <?php foreach ($categories as $cat): ?>
                                                 <option value="<?= $cat['id'] ?>" <?= $case['category_id'] == $cat['id'] ? 'selected' : '' ?>><?= htmlspecialchars($cat['name']) ?></option>
                                             <?php endforeach; ?>
                                         </select>
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="year" value="<?= htmlspecialchars($case['year']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <label class="flex items-center">
                                             <input type="checkbox" name="featured" value="1" <?= $case['featured'] ? 'checked' : '' ?>>
                                         </label>
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <label class="flex items-center">
                                             <input type="checkbox" name="is_active" value="1" <?= $case['is_active'] ? 'checked' : '' ?>>
                                         </label>
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_case" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this case?')">
-                                        <input type="hidden" name="case_id" value="<?= $case['id'] ?>">
-                                        <button type="submit" name="delete_case" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <button type="submit" name="update_case_sort" class="btn-warning mt-4">
-                        <i class="fas fa-sort mr-2"></i>Update Case Sort Order
+                </form>
+                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this case?')">
+                    <input type="hidden" name="case_id" value="<?= $case['id'] ?>">
+                    <button type="submit" name="delete_case" class="text-red-600 hover:text-red-800" title="Delete">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
+                </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+            </table>
+            <button type="submit" name="update_case_sort" class="btn-warning mt-4">
+                <i class="fas fa-sort mr-2"></i>Update Case Sort Order
+            </button>
+            </form>
             </div>
         </div>
 
@@ -996,54 +1023,54 @@ $colorOptions = [
                         </thead>
                         <tbody>
                             <?php foreach ($timeline as $item): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <input type="hidden" name="sort_ids[]" value="<?= $item['id'] ?>">
-                                    <input type="number" name="sort_orders[]" value="<?= $item['sort_order'] ?>" class="form-input text-sm w-20">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="timeline_id" value="<?= $item['id'] ?>">
-                                        <input type="text" name="year" value="<?= htmlspecialchars($item['year']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <input type="hidden" name="sort_ids[]" value="<?= $item['id'] ?>">
+                                        <input type="number" name="sort_orders[]" value="<?= $item['sort_order'] ?>" class="form-input text-sm w-20">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="timeline_id" value="<?= $item['id'] ?>">
+                                            <input type="text" name="year" value="<?= htmlspecialchars($item['year']) ?>" class="form-input text-sm">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="title" value="<?= htmlspecialchars($item['title']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="icon" value="<?= htmlspecialchars($item['icon'] ?? 'fa-star') ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <select name="color" class="form-input text-sm">
                                             <?php foreach ($colorOptions as $value => $label): ?>
                                                 <option value="<?= $value ?>" <?= ($item['color'] ?? 'blue') == $value ? 'selected' : '' ?>><?= $label ?></option>
                                             <?php endforeach; ?>
                                         </select>
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <label class="flex items-center">
                                             <input type="checkbox" name="is_active" value="1" <?= $item['is_active'] ? 'checked' : '' ?>>
                                         </label>
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_timeline" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this timeline item?')">
-                                        <input type="hidden" name="timeline_id" value="<?= $item['id'] ?>">
-                                        <button type="submit" name="delete_timeline" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <button type="submit" name="update_timeline_sort" class="btn-warning mt-4">
-                        <i class="fas fa-sort mr-2"></i>Update Timeline Sort Order
+                </form>
+                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this timeline item?')">
+                    <input type="hidden" name="timeline_id" value="<?= $item['id'] ?>">
+                    <button type="submit" name="delete_timeline" class="text-red-600 hover:text-red-800" title="Delete">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
+                </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+            </table>
+            <button type="submit" name="update_timeline_sort" class="btn-warning mt-4">
+                <i class="fas fa-sort mr-2"></i>Update Timeline Sort Order
+            </button>
+            </form>
             </div>
         </div>
 
@@ -1138,7 +1165,7 @@ $colorOptions = [
             const content = document.getElementById(contentId);
             const header = content.previousElementSibling;
             const icon = header.querySelector('i.fa-chevron-down');
-            
+
             content.classList.toggle('collapsed');
             icon.classList.toggle('rotate-[-90deg]');
         }

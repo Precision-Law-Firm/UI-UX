@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 // Handle form submissions (same as before)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     // Update Hero
     if (isset($_POST['update_hero'])) {
         $stmt = $pdo->prepare("UPDATE hero SET title = ?, subtitle = ?, description = ?, button_label = ?, button_link = ?, image_url = ? WHERE id = ?");
@@ -25,70 +25,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Hero section updated successfully!";
     }
-    
+
     // Add About Us
     if (isset($_POST['add_about'])) {
         $stmt = $pdo->prepare("INSERT INTO about_us (content) VALUES (?)");
         $stmt->execute([$_POST['content']]);
         $success = "About Us section added successfully!";
     }
-    
+
     // Update About Us
     if (isset($_POST['update_about'])) {
         $stmt = $pdo->prepare("UPDATE about_us SET content = ? WHERE id = ?");
         $stmt->execute([$_POST['content'], $_POST['about_id']]);
         $success = "About Us section updated successfully!";
     }
-    
+
     // Delete About Us
     if (isset($_POST['delete_about'])) {
         $stmt = $pdo->prepare("DELETE FROM about_us WHERE id = ?");
         $stmt->execute([$_POST['about_id']]);
         $success = "About Us section deleted successfully!";
     }
-    
+
     // Add Expertise Area
     if (isset($_POST['add_expertise'])) {
         $stmt = $pdo->prepare("INSERT INTO expertise_areas (name, description) VALUES (?, ?)");
         $stmt->execute([$_POST['name'], $_POST['description']]);
         $success = "Expertise area added successfully!";
     }
-    
+
     // Update Expertise Area
     if (isset($_POST['update_expertise'])) {
         $stmt = $pdo->prepare("UPDATE expertise_areas SET name = ?, description = ? WHERE id = ?");
         $stmt->execute([$_POST['name'], $_POST['description'], $_POST['expertise_id']]);
         $success = "Expertise area updated successfully!";
     }
-    
+
     // Delete Expertise Area
     if (isset($_POST['delete_expertise'])) {
         $stmt = $pdo->prepare("DELETE FROM expertise_areas WHERE id = ?");
         $stmt->execute([$_POST['expertise_id']]);
         $success = "Expertise area deleted successfully!";
     }
-    
+
     // Add Public Service Experience
     if (isset($_POST['add_service'])) {
         $stmt = $pdo->prepare("INSERT INTO public_service (title, description, icon) VALUES (?, ?, ?)");
         $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon']]);
         $success = "Public service experience added successfully!";
     }
-    
+
     // Update Public Service Experience
     if (isset($_POST['update_service'])) {
         $stmt = $pdo->prepare("UPDATE public_service SET title = ?, description = ?, icon = ? WHERE id = ?");
         $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $_POST['service_id']]);
         $success = "Public service experience updated successfully!";
     }
-    
+
     // Delete Public Service Experience
     if (isset($_POST['delete_service'])) {
         $stmt = $pdo->prepare("DELETE FROM public_service WHERE id = ?");
         $stmt->execute([$_POST['service_id']]);
         $success = "Public service experience deleted successfully!";
     }
-    
+
     // Add Testimonial
     if (isset($_POST['add_testimonial'])) {
         $stmt = $pdo->prepare("INSERT INTO testimonials (name, position, company, text, rating, initials) VALUES (?, ?, ?, ?, ?, ?)");
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Testimonial added successfully!";
     }
-    
+
     // Update Testimonial
     if (isset($_POST['update_testimonial'])) {
         $stmt = $pdo->prepare("UPDATE testimonials SET name = ?, position = ?, company = ?, text = ?, rating = ?, initials = ? WHERE id = ?");
@@ -117,14 +117,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Testimonial updated successfully!";
     }
-    
+
     // Delete Testimonial
     if (isset($_POST['delete_testimonial'])) {
         $stmt = $pdo->prepare("DELETE FROM testimonials WHERE id = ?");
         $stmt->execute([$_POST['testimonial_id']]);
         $success = "Testimonial deleted successfully!";
     }
-    
+
     // Update Stats
     if (isset($_POST['update_stats'])) {
         // You could save these to a database table if needed
@@ -160,7 +160,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             font-family: 'Inter', sans-serif;
             background: #f3f4f6;
         }
-        
+
         /* Style for button arrow */
         .btn-hover:hover .arrow-icon {
             transform: translateX(5px);
@@ -171,7 +171,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             height: 1px;
             background: linear-gradient(90deg, transparent, #1C4D8D, transparent);
         }
-        
+
         .admin-card {
             background: white;
             border-radius: 1rem;
@@ -179,9 +179,11 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             transition: all 0.3s ease;
             margin-bottom: 2rem;
         }
+
         .admin-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+
         .section-header {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -190,21 +192,27 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .section-header:hover {
             opacity: 0.95;
         }
+
         .section-header i {
             transition: transform 0.3s ease;
         }
+
         .section-header.collapsed i {
             transform: rotate(-90deg);
         }
+
         .section-content {
             transition: all 0.3s ease;
         }
+
         .section-content.collapsed {
             display: none;
         }
+
         .form-input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -213,11 +221,13 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             transition: all 0.3s ease;
             font-size: 1rem;
         }
+
         .form-input:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -226,10 +236,12 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             font-weight: 500;
             transition: all 0.3s ease;
         }
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
         .btn-danger {
             background: #dc2626;
             color: white;
@@ -237,9 +249,11 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-danger:hover {
             background: #b91c1c;
         }
+
         .btn-success {
             background: #059669;
             color: white;
@@ -247,9 +261,11 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-success:hover {
             background: #047857;
         }
+
         .btn-warning {
             background: #d97706;
             color: white;
@@ -257,15 +273,19 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-warning:hover {
             background: #b45309;
         }
+
         .table-row {
             transition: all 0.3s ease;
         }
+
         .table-row:hover {
             background: #f9fafb;
         }
+
         .success-message {
             background: #10b981;
             color: white;
@@ -274,17 +294,19 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             margin-bottom: 1rem;
             animation: slideDown 0.5s ease;
         }
+
         @keyframes slideDown {
             from {
                 transform: translateY(-10px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
             }
         }
-        
+
         /* Admin badge */
         .admin-badge {
             background: #D4AF37;
@@ -295,11 +317,12 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             font-weight: 600;
             margin-left: 1rem;
         }
-        
+
         /* Hover effects */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .hover-lift:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
@@ -367,7 +390,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
 
                     <!-- Navigation - EXACT same links -->
                     <div class="flex items-center space-x-8">
-                        <a href="accueil.php"
+                        <a href="index.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Home
                         </a>
@@ -404,7 +427,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                     </div>
 
                     <!-- Contact Button - points to client contact page -->
-                    <a href="contact.html"
+                    <a href="contact.php"
                         class="bg-[#0A1F44] text-white px-6 py-3 rounded-full font-medium
                      hover:opacity-90 transition duration-300 hover-lift text-base tracking-wide shadow-sm hover:shadow-md">
                         Contact Us
@@ -429,7 +452,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             <!-- Mobile Menu - EXACT same links with admin logout added at bottom -->
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
                 <div class="flex flex-col space-y-4">
-                    <a href="accueil.php"
+                    <a href="index.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Home
                     </a>
@@ -464,7 +487,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                         Appointment
                     </a>
 
-                    <a href="contact.html"
+                    <a href="contact.php"
                         class="bg-[#0A1F44] text-white px-4 py-3 rounded-md font-medium text-center transition duration-300 text-base">
                         Contact Us
                     </a>
@@ -479,15 +502,15 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
         </div>
     </nav>
 
-    
+
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
-        
+
         <!-- Header with View Site Button -->
         <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
             <h1 class="text-3xl font-bold text-[#0F2854]">Content Management Dashboard</h1>
-            <a href="../accueil.php" target="_blank" class="btn-primary inline-flex items-center">
+            <a href="../index.php" target="_blank" class="btn-primary inline-flex items-center">
                 <i class="fas fa-external-link-alt mr-2"></i>View Live Site
             </a>
         </div>
@@ -570,25 +593,25 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                         </thead>
                         <tbody>
                             <?php foreach ($about_us as $about): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="about_id" value="<?= $about['id'] ?>">
-                                        <input type="text" name="content" value="<?= htmlspecialchars($about['content']) ?>" class="form-input text-sm flex-1">
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="about_id" value="<?= $about['id'] ?>">
+                                            <input type="text" name="content" value="<?= htmlspecialchars($about['content']) ?>" class="form-input text-sm flex-1">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_about" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this section?')">
-                                        <input type="hidden" name="about_id" value="<?= $about['id'] ?>">
-                                        <button type="submit" name="delete_about" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                        </form>
+                                        <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this section?')">
+                                            <input type="hidden" name="about_id" value="<?= $about['id'] ?>">
+                                            <button type="submit" name="delete_about" class="text-red-600 hover:text-red-800" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -629,28 +652,28 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                         </thead>
                         <tbody>
                             <?php foreach ($expertise as $exp): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="expertise_id" value="<?= $exp['id'] ?>">
-                                        <input type="text" name="name" value="<?= htmlspecialchars($exp['name']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="expertise_id" value="<?= $exp['id'] ?>">
+                                            <input type="text" name="name" value="<?= htmlspecialchars($exp['name']) ?>" class="form-input text-sm">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="description" value="<?= htmlspecialchars($exp['description'] ?? '') ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_expertise" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this expertise area?')">
-                                        <input type="hidden" name="expertise_id" value="<?= $exp['id'] ?>">
-                                        <button type="submit" name="delete_expertise" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                        </form>
+                                        <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this expertise area?')">
+                                            <input type="hidden" name="expertise_id" value="<?= $exp['id'] ?>">
+                                            <button type="submit" name="delete_expertise" class="text-red-600 hover:text-red-800" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -693,31 +716,31 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                         </thead>
                         <tbody>
                             <?php foreach ($public_service as $service): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="service_id" value="<?= $service['id'] ?>">
-                                        <input type="text" name="icon" value="<?= htmlspecialchars($service['icon'] ?? 'fa-file-alt') ?>" class="form-input text-sm w-24">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="service_id" value="<?= $service['id'] ?>">
+                                            <input type="text" name="icon" value="<?= htmlspecialchars($service['icon'] ?? 'fa-file-alt') ?>" class="form-input text-sm w-24">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="title" value="<?= htmlspecialchars($service['title']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="description" value="<?= htmlspecialchars($service['description']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_service" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this service?')">
-                                        <input type="hidden" name="service_id" value="<?= $service['id'] ?>">
-                                        <button type="submit" name="delete_service" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                        </form>
+                                        <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this service?')">
+                                            <input type="hidden" name="service_id" value="<?= $service['id'] ?>">
+                                            <button type="submit" name="delete_service" class="text-red-600 hover:text-red-800" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -766,36 +789,36 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                         </thead>
                         <tbody>
                             <?php foreach ($testimonials as $test): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="testimonial_id" value="<?= $test['id'] ?>">
-                                        <input type="text" name="name" value="<?= htmlspecialchars($test['name']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="testimonial_id" value="<?= $test['id'] ?>">
+                                            <input type="text" name="name" value="<?= htmlspecialchars($test['name']) ?>" class="form-input text-sm">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="company" value="<?= htmlspecialchars($test['company']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="rating" value="<?= htmlspecialchars($test['rating'] ?? '5.0') ?>" class="form-input text-sm w-20">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="text" value="<?= htmlspecialchars($test['text']) ?>" class="form-input text-sm">
                                         <input type="hidden" name="position" value="<?= htmlspecialchars($test['position'] ?? '') ?>">
                                         <input type="hidden" name="initials" value="<?= htmlspecialchars($test['initials'] ?? '') ?>">
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_testimonial" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this testimonial?')">
-                                        <input type="hidden" name="testimonial_id" value="<?= $test['id'] ?>">
-                                        <button type="submit" name="delete_testimonial" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                        </form>
+                                        <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this testimonial?')">
+                                            <input type="hidden" name="testimonial_id" value="<?= $test['id'] ?>">
+                                            <button type="submit" name="delete_testimonial" class="text-red-600 hover:text-red-800" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -875,7 +898,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             const content = document.getElementById(contentId);
             const header = content.previousElementSibling;
             const icon = header.querySelector('i.fa-chevron-down');
-            
+
             content.classList.toggle('collapsed');
             icon.classList.toggle('rotate-[-90deg]');
         }
@@ -886,7 +909,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
-                
+
                 if (targetElement) {
                     targetElement.scrollIntoView({
                         behavior: 'smooth',

@@ -29,6 +29,7 @@ $whyChooseFeatures = $stmt->fetchAll();
 $stmt = $pdo->query("SELECT * FROM expertise_cta WHERE is_active = 1 ORDER BY id DESC LIMIT 1");
 $cta = $stmt->fetch();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,93 +42,10 @@ $cta = $stmt->fetch();
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- AOS CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .slow-transition {
-            transition: all 0.3s ease;
-        }
-
-        .expertise-icon {
-            transition: transform 0.3s ease;
-        }
-
-        .expertise-card:hover .expertise-icon {
-            transform: scale(1.1);
-        }
-
-        /* Custom AOS animations */
-        [data-aos="fade-up-slow"] {
-            transform: translateY(40px);
-            opacity: 0;
-            transition-property: transform, opacity;
-        }
-
-        [data-aos="fade-up-slow"].aos-animate {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        [data-aos="fade-right-slow"] {
-            transform: translateX(40px);
-            opacity: 0;
-            transition-property: transform, opacity;
-        }
-
-        [data-aos="fade-right-slow"].aos-animate {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        [data-aos="fade-left-slow"] {
-            transform: translateX(-40px);
-            opacity: 0;
-            transition-property: transform, opacity;
-        }
-
-        [data-aos="fade-left-slow"].aos-animate {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        /* Larger base font size */
-        html {
-            font-size: 16px;
-        }
-
-        @media (min-width: 768px) {
-            html {
-                font-size: 18px;
-            }
-        }
-    </style>
+     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="bg-white">
-
     <!-- Navbar  -->
     <?php include "../includes/navbar.php"; ?>
 
@@ -172,7 +90,7 @@ $cta = $stmt->fetch();
                             <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F2854]"><?= htmlspecialchars($category['title']) ?></h2>
                         </div>
                         <div class="md:w-2/3">
-                            <p class="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed text-justify">
+                            <p class="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed ">
                                 <?= htmlspecialchars($category['description']) ?>
                             </p>
                         </div>
@@ -201,7 +119,7 @@ $cta = $stmt->fetch();
                                         ?>
                                             <li class="flex items-start">
                                                 <i class="fas fa-check text-[#1C4D8D] text-xs sm:text-sm mt-1 mr-2 flex-shrink-0"></i>
-                                                <span class="text-sm sm:text-base text-justify"><?= htmlspecialchars(trim($feature)) ?></span>
+                                                <span class="text-sm sm:text-base "><?= htmlspecialchars(trim($feature)) ?></span>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -215,9 +133,9 @@ $cta = $stmt->fetch();
                                 </div>
                                 <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3">Civil & Commercial Litigation</h3>
                                 <ul class="space-y-2 text-gray-600">
-                                    <li class="flex items-start"><i class="fas fa-check text-[#1C4D8D] text-xs sm:text-sm mt-1 mr-2 flex-shrink-0"></i><span class="text-sm sm:text-base text-justify">Contract disputes and breach of contract matters</span></li>
-                                    <li class="flex items-start"><i class="fas fa-check text-[#1C4D8D] text-xs sm:text-sm mt-1 mr-2 flex-shrink-0"></i><span class="text-sm sm:text-base text-justify">Tort claims and negligence cases</span></li>
-                                    <li class="flex items-start"><i class="fas fa-check text-[#1C4D8D] text-xs sm:text-sm mt-1 mr-2 flex-shrink-0"></i><span class="text-sm sm:text-base text-justify">Debt recovery and enforcement proceedings</span></li>
+                                    <li class="flex items-start"><i class="fas fa-check text-[#1C4D8D] text-xs sm:text-sm mt-1 mr-2 flex-shrink-0"></i><span class="text-sm sm:text-base ">Contract disputes and breach of contract matters</span></li>
+                                    <li class="flex items-start"><i class="fas fa-check text-[#1C4D8D] text-xs sm:text-sm mt-1 mr-2 flex-shrink-0"></i><span class="text-sm sm:text-base ">Tort claims and negligence cases</span></li>
+                                    <li class="flex items-start"><i class="fas fa-check text-[#1C4D8D] text-xs sm:text-sm mt-1 mr-2 flex-shrink-0"></i><span class="text-sm sm:text-base ">Debt recovery and enforcement proceedings</span></li>
                                 </ul>
                             </div>
                         <?php endif; ?>
@@ -233,7 +151,7 @@ $cta = $stmt->fetch();
                     <div class="text-center mb-12 md:mb-16">
                         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F2854] mb-3 md:mb-4">Specialized Practice Areas</h2>
                         <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-4 md:mb-6"></div>
-                        <p class="text-gray-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto px-4 text-justify">
+                        <p class="text-gray-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto px-4 ">
                             Focused expertise in key legal domains requiring specialized knowledge
                         </p>
                     </div>
@@ -253,7 +171,7 @@ $cta = $stmt->fetch();
                                 <h4 class="font-bold text-gray-800 text-lg md:text-xl mb-2 md:mb-3"><?= htmlspecialchars($area['title']) ?></h4>
 
                                 <!-- Description -->
-                                <p class="text-gray-600 text-sm md:text-base text-justify"><?= htmlspecialchars($area['description']) ?></p>
+                                <p class="text-gray-600 text-sm md:text-base "><?= htmlspecialchars($area['description']) ?></p>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -288,7 +206,7 @@ $cta = $stmt->fetch();
                                 <h4 class="font-bold text-gray-800 text-lg md:text-xl mb-2 md:mb-3"><?= htmlspecialchars($feature['title']) ?></h4>
 
                                 <!-- Description -->
-                                <p class="text-gray-600 text-sm md:text-base text-justify"><?= htmlspecialchars($feature['description']) ?></p>
+                                <p class="text-gray-600 text-sm md:text-base "><?= htmlspecialchars($feature['description']) ?></p>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -309,7 +227,7 @@ $cta = $stmt->fetch();
                     </h2>
 
                     <!-- Description -->
-                    <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto px-4 text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                    <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto px-4 " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                         <?= htmlspecialchars($cta['description']) ?>
                     </p>
 
@@ -337,7 +255,7 @@ $cta = $stmt->fetch();
                     <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 md:mb-6" data-aos="fade-up-slow" data-aos-duration="1400">
                         Need Specialized Legal Assistance?
                     </h2>
-                    <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto px-4 text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                    <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto px-4 " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                         Contact us to discuss how our expertise can help with your specific legal requirements.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4">
@@ -364,9 +282,7 @@ $cta = $stmt->fetch();
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-    <script src="../js/script.js">
-    </script>
+    <script src="../js/script.js"></script>
 </body>
 
 </html>

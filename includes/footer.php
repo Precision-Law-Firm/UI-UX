@@ -1,10 +1,10 @@
 <!-- Footer - Design responsive -->
 <footer class="bg-[#0F2854] text-white py-12 sm:py-16 mt-16 sm:mt-20">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-24">
-        
+
         <!-- Grid responsive : 1 colonne sur mobile, 2 sur tablette, 4 sur desktop -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-            
+
             <!-- Logo and description - occupe 2 colonnes sur desktop -->
             <div class="sm:col-span-2 lg:col-span-2 text-center sm:text-left">
                 <div class="text-2xl sm:text-3xl font-bold mb-4">
@@ -30,13 +30,13 @@
             <div class="text-center sm:text-left">
                 <h3 class="text-lg sm:text-xl font-semibold mb-4 text-white">Quick Links</h3>
                 <ul class="space-y-2 sm:space-y-3">
-                    <li><a href="accueil.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Home</a></li>
-                    <li><a href="pages/overview.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Overview</a></li>
-                    <li><a href="pages/team.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Our Team</a></li>
-                    <li><a href="pages/expertise.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Expertise</a></li>
-                    <li><a href="pages/jurisprudence.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Jurisprudence</a></li>
-                    <li><a href="pages/courses.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Courses</a></li>
-                    <li><a href="pages/appointment.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Appointment</a></li>
+                    <li><a href="/plf/index.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Home</a></li>
+                    <li><a href="/plf/pages/overview.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Overview</a></li>
+                    <li><a href="/plf/pages/team.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Our Team</a></li>
+                    <li><a href="/plf/pages/expertise.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Expertise</a></li>
+                    <li><a href="/plf/pages/jurisprudence.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Jurisprudence</a></li>
+                    <li><a href="/plf/pages/courses.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Courses</a></li>
+                    <li><a href="/plf/pages/appointment.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Appointment</a></li>
                 </ul>
             </div>
 

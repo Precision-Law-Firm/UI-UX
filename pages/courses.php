@@ -499,7 +499,7 @@ function getLevelColor($levelId, $levelsById)
                     <span class="text-[#8FB8FF] block"><?= htmlspecialchars($hero['title_line2']) ?></span>
                 </h1>
                 <div class="w-24 h-1 bg-gradient-to-r from-[#8FB8FF] to-white mx-auto mb-8"></div>
-                <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto text-justify">
+                <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto ">
                     <?= htmlspecialchars($hero['subtitle']) ?>
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -528,7 +528,7 @@ function getLevelColor($levelId, $levelsById)
                         </h2>
                         <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854]"></div>
                     </div>
-                    <p class="text-xl text-gray-600 mt-4 md:mt-0 max-w-xl text-justify">
+                    <p class="text-xl text-gray-600 mt-4 md:mt-0 max-w-xl ">
                         Practical legal education taught by practicing attorneys with real-world experience.
                     </p>
                 </div>
@@ -541,7 +541,7 @@ function getLevelColor($levelId, $levelsById)
                                 <i class="fas <?= $benefit['icon'] ?> text-white text-2xl"></i>
                             </div>
                             <h3 class="text-2xl font-bold text-gray-800 mb-4"><?= htmlspecialchars($benefit['title']) ?></h3>
-                            <p class="text-gray-600 text-lg text-justify"><?= htmlspecialchars($benefit['description']) ?></p>
+                            <p class="text-gray-600 text-lg "><?= htmlspecialchars($benefit['description']) ?></p>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -559,7 +559,7 @@ function getLevelColor($levelId, $levelsById)
                         <span class="text-[#1C4D8D]">& Workshops</span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto ">
                         Choose from our specialized courses designed to complement your academic studies with practical expertise.
                     </p>
                 </div>
@@ -597,7 +597,7 @@ function getLevelColor($levelId, $levelsById)
                                 </span>
                             </div>
                             <h3 class="text-2xl font-bold text-gray-800 mb-3"><?= htmlspecialchars($course['title']) ?></h3>
-                            <p class="text-gray-600 text-lg mb-4 text-justify"><?= htmlspecialchars($course['description']) ?></p>
+                            <p class="text-gray-600 text-lg mb-4 "><?= htmlspecialchars($course['description']) ?></p>
                             <div class="mb-4">
                                 <div class="flex items-center text-gray-700 text-base mb-2">
                                     <i class="fas fa-user-graduate mr-2 <?= $colors['text'] ?>"></i>
@@ -621,13 +621,6 @@ function getLevelColor($levelId, $levelsById)
                     <?php endforeach; ?>
                 </div>
 
-                <!-- View All Courses -->
-                <div class="text-center mt-12" data-aos="fade-up-slow">
-                    <a href="#all-courses" class="inline-flex items-center text-[#1C4D8D] font-medium hover:text-[#0F2854] transition duration-300 text-lg">
-                        View All Courses
-                        <i class="fas fa-chevron-right ml-2"></i>
-                    </a>
-                </div>
             </div>
         </div>
     </section>
@@ -642,7 +635,7 @@ function getLevelColor($levelId, $levelsById)
                         <span class="text-[#1C4D8D]">Structure</span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto ">
                         Our courses are designed with a balanced mix of theory and practical application.
                     </p>
                 </div>
@@ -655,7 +648,7 @@ function getLevelColor($levelId, $levelsById)
                             <?php foreach ($modules as $module): ?>
                                 <div class="module-item">
                                     <h4 class="font-semibold text-gray-800 text-xl mb-1"><?= htmlspecialchars($module['title']) ?></h4>
-                                    <p class="text-gray-600 text-base text-justify"><?= htmlspecialchars($module['description']) ?></p>
+                                    <p class="text-gray-600 text-base "><?= htmlspecialchars($module['description']) ?></p>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -677,7 +670,7 @@ function getLevelColor($levelId, $levelsById)
                                 <?php foreach ($features as $feature): ?>
                                     <li class="flex items-center text-base">
                                         <i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i>
-                                        <span class="text-gray-700 text-justify"><?= htmlspecialchars($feature['feature']) ?></span>
+                                        <span class="text-gray-700 "><?= htmlspecialchars($feature['feature']) ?></span>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -698,7 +691,7 @@ function getLevelColor($levelId, $levelsById)
                         <span class="text-[#1C4D8D]">Instructors</span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto ">
                         Learn from experienced legal practitioners who bring real-world expertise to the classroom.
                     </p>
                 </div>
@@ -716,7 +709,7 @@ function getLevelColor($levelId, $levelsById)
                             </div>
                             <h3 class="text-2xl font-bold text-gray-800 mb-1"><?= htmlspecialchars($instructor['name']) ?></h3>
                             <p class="<?= $colors['text'] ?> text-base font-medium mb-3"><?= htmlspecialchars($instructor['title']) ?></p>
-                            <p class="text-gray-600 text-base mb-4 text-justify"><?= htmlspecialchars($instructor['bio']) ?></p>
+                            <p class="text-gray-600 text-base mb-4 "><?= htmlspecialchars($instructor['bio']) ?></p>
                             <div class="flex justify-center space-x-2">
                                 <?php foreach ($specialties as $specialty): ?>
                                     <span class="<?= $colors['bg'] ?> <?= $colors['text'] ?> px-3 py-1 rounded-full text-sm"><?= htmlspecialchars(trim($specialty)) ?></span>
@@ -739,7 +732,7 @@ function getLevelColor($levelId, $levelsById)
                         <span class="text-[#1C4D8D]">Testimonials</span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto text-justify">
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto ">
                         Hear from students who have transformed their legal education through our programs.
                     </p>
                 </div>
@@ -759,7 +752,7 @@ function getLevelColor($levelId, $levelsById)
                                     <p class="text-base text-gray-500"><?= htmlspecialchars($testimonial['student_year']) ?></p>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-lg italic mb-4 text-justify">
+                            <p class="text-gray-600 text-lg italic mb-4 ">
                                 "<?= htmlspecialchars($testimonial['content']) ?>"
                             </p>
                             <div class="flex text-yellow-400">
@@ -796,7 +789,7 @@ function getLevelColor($levelId, $levelsById)
                         </span>
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
-                    <p class="text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed text-justify">
+                    <p class="text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed ">
                         Take the next step in your legal education journey. Limited seats available for each course.
                     </p>
                     <div class="mt-8 flex flex-wrap items-center justify-center gap-6">
@@ -815,7 +808,7 @@ function getLevelColor($levelId, $levelsById)
                 </div>
 
 
-                <!-- Enrollment Form -->
+                
 
                 <!-- Enrollment Form -->
                 <div class="bg-white rounded-3xl shadow-2xl p-10 md:p-16 border border-gray-100 relative overflow-hidden" data-aos="zoom-slow">
@@ -828,7 +821,7 @@ function getLevelColor($levelId, $levelsById)
                             <i class="fas fa-graduation-cap text-3xl text-[#1C4D8D]"></i>
                         </div>
                         <h3 class="text-3xl font-bold text-gray-800 mb-3">Begin Your Legal Journey</h3>
-                        <p class="text-gray-600 text-lg max-w-lg mx-auto text-justify">Complete the form below and our team will guide you through the enrollment process.</p>
+                        <p class="text-gray-600 text-lg max-w-lg mx-auto ">Complete the form below and our team will guide you through the enrollment process.</p>
                     </div>
 
                     <form id="enrollment-form" class="space-y-8" method="POST" action="enroll.php" x-data="courseSelector()">
@@ -1038,7 +1031,7 @@ function getLevelColor($levelId, $levelsById)
                                     </div>
                                     <div>
                                         <h4 class="font-semibold text-gray-800 text-lg mb-2">Additional Information</h4>
-                                        <p class="text-gray-600 text-base mb-3 text-justify">
+                                        <p class="text-gray-600 text-base mb-3 ">
                                             Please include any specific questions or requirements you may have.
                                         </p>
                                         <textarea name="additional_info" id="additional-info"
@@ -1091,7 +1084,7 @@ function getLevelColor($levelId, $levelsById)
                             </div>
                             <div class="ml-6">
                                 <h4 class="text-2xl font-bold text-green-800 mb-2">Enrollment Request Submitted!</h4>
-                                <p class="text-green-700 text-lg mb-4 text-justify">Thank you for your interest. We'll contact you shortly.</p>
+                                <p class="text-green-700 text-lg mb-4 ">Thank you for your interest. We'll contact you shortly.</p>
                                 <div class="flex items-center text-green-600 text-base">
                                     <i class="fas fa-envelope-open-text mr-2"></i>
                                     <span>Confirmation email sent</span>

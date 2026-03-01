@@ -8,9 +8,13 @@ if (!isset($_SESSION['admin_logged_in'])) {
     exit;
 }
 
+// Récupérer toutes les demandes de rendez-vous
+$stmt = $pdo->query("SELECT * FROM appointments ORDER BY created_at DESC");
+$appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     // Update Hero Section
     if (isset($_POST['update_hero'])) {
         $check = $pdo->query("SELECT COUNT(*) FROM appointment_hero")->fetchColumn();
@@ -38,28 +42,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $success = "Hero section updated successfully!";
     }
-    
+
     // Add Step
     if (isset($_POST['add_step'])) {
         $stmt = $pdo->prepare("INSERT INTO appointment_steps (step_number, title, description, is_active) VALUES (?, ?, ?, ?)");
         $stmt->execute([$_POST['step_number'], $_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0]);
         $success = "Step added successfully!";
     }
-    
+
     // Update Step
     if (isset($_POST['update_step'])) {
         $stmt = $pdo->prepare("UPDATE appointment_steps SET step_number = ?, title = ?, description = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['step_number'], $_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['step_id']]);
         $success = "Step updated successfully!";
     }
-    
+
     // Delete Step
     if (isset($_POST['delete_step'])) {
         $stmt = $pdo->prepare("DELETE FROM appointment_steps WHERE id = ?");
         $stmt->execute([$_POST['step_id']]);
         $success = "Step deleted successfully!";
     }
-    
+
     // Add Feature
     if (isset($_POST['add_feature'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM appointment_features")->fetchColumn();
@@ -68,21 +72,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['icon'], $_POST['description'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Feature added successfully!";
     }
-    
+
     // Update Feature
     if (isset($_POST['update_feature'])) {
         $stmt = $pdo->prepare("UPDATE appointment_features SET icon = ?, description = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['icon'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['feature_id']]);
         $success = "Feature updated successfully!";
     }
-    
+
     // Delete Feature
     if (isset($_POST['delete_feature'])) {
         $stmt = $pdo->prepare("DELETE FROM appointment_features WHERE id = ?");
         $stmt->execute([$_POST['feature_id']]);
         $success = "Feature deleted successfully!";
     }
-    
+
     // Add Consultation Type
     if (isset($_POST['add_consultation'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM consultation_types")->fetchColumn();
@@ -91,21 +95,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['value'], $_POST['name'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Consultation type added successfully!";
     }
-    
+
     // Update Consultation Type
     if (isset($_POST['update_consultation'])) {
         $stmt = $pdo->prepare("UPDATE consultation_types SET value = ?, name = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['value'], $_POST['name'], isset($_POST['is_active']) ? 1 : 0, $_POST['consultation_id']]);
         $success = "Consultation type updated successfully!";
     }
-    
+
     // Delete Consultation Type
     if (isset($_POST['delete_consultation'])) {
         $stmt = $pdo->prepare("DELETE FROM consultation_types WHERE id = ?");
         $stmt->execute([$_POST['consultation_id']]);
         $success = "Consultation type deleted successfully!";
     }
-    
+
     // Add Attorney
     if (isset($_POST['add_attorney'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM attorneys")->fetchColumn();
@@ -121,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Attorney added successfully!";
     }
-    
+
     // Update Attorney
     if (isset($_POST['update_attorney'])) {
         $stmt = $pdo->prepare("UPDATE attorneys SET value = ?, name = ?, specialization = ?, available = ?, is_active = ? WHERE id = ?");
@@ -135,14 +139,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Attorney updated successfully!";
     }
-    
+
     // Delete Attorney
     if (isset($_POST['delete_attorney'])) {
         $stmt = $pdo->prepare("DELETE FROM attorneys WHERE id = ?");
         $stmt->execute([$_POST['attorney_id']]);
         $success = "Attorney deleted successfully!";
     }
-    
+
     // Add Time Slot
     if (isset($_POST['add_timeslot'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM time_slots")->fetchColumn();
@@ -151,21 +155,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['time_value'], $_POST['display_time'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Time slot added successfully!";
     }
-    
+
     // Update Time Slot
     if (isset($_POST['update_timeslot'])) {
         $stmt = $pdo->prepare("UPDATE time_slots SET time_value = ?, display_time = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['time_value'], $_POST['display_time'], isset($_POST['is_active']) ? 1 : 0, $_POST['timeslot_id']]);
         $success = "Time slot updated successfully!";
     }
-    
+
     // Delete Time Slot
     if (isset($_POST['delete_timeslot'])) {
         $stmt = $pdo->prepare("DELETE FROM time_slots WHERE id = ?");
         $stmt->execute([$_POST['timeslot_id']]);
         $success = "Time slot deleted successfully!";
     }
-    
+
     // Add Info Card
     if (isset($_POST['add_infocard'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM appointment_info_cards")->fetchColumn();
@@ -174,21 +178,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$_POST['icon'], $_POST['title'], $_POST['description'], $sort_order, isset($_POST['is_active']) ? 1 : 0]);
         $success = "Info card added successfully!";
     }
-    
+
     // Update Info Card
     if (isset($_POST['update_infocard'])) {
         $stmt = $pdo->prepare("UPDATE appointment_info_cards SET icon = ?, title = ?, description = ?, is_active = ? WHERE id = ?");
         $stmt->execute([$_POST['icon'], $_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['infocard_id']]);
         $success = "Info card updated successfully!";
     }
-    
+
     // Delete Info Card
     if (isset($_POST['delete_infocard'])) {
         $stmt = $pdo->prepare("DELETE FROM appointment_info_cards WHERE id = ?");
         $stmt->execute([$_POST['infocard_id']]);
         $success = "Info card deleted successfully!";
     }
-    
+
     // Update Booked Slots (for demo purposes)
     if (isset($_POST['update_booked_slots'])) {
         // This would typically be managed by the booking system
@@ -238,7 +242,7 @@ try {
             font-family: 'Inter', sans-serif;
             background: #f3f4f6;
         }
-        
+
         .admin-card {
             background: white;
             border-radius: 1rem;
@@ -246,9 +250,11 @@ try {
             transition: all 0.3s ease;
             margin-bottom: 2rem;
         }
+
         .admin-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+
         .section-header {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -257,21 +263,27 @@ try {
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .section-header:hover {
             opacity: 0.95;
         }
+
         .section-header i {
             transition: transform 0.3s ease;
         }
+
         .section-header.collapsed i {
             transform: rotate(-90deg);
         }
+
         .section-content {
             transition: all 0.3s ease;
         }
+
         .section-content.collapsed {
             display: none;
         }
+
         .form-input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -280,11 +292,13 @@ try {
             transition: all 0.3s ease;
             font-size: 1rem;
         }
+
         .form-input:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .form-textarea {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -294,11 +308,13 @@ try {
             font-size: 1rem;
             min-height: 100px;
         }
+
         .form-textarea:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .form-select {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -308,11 +324,13 @@ try {
             font-size: 1rem;
             background-color: white;
         }
+
         .form-select:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -321,10 +339,12 @@ try {
             font-weight: 500;
             transition: all 0.3s ease;
         }
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
         .btn-danger {
             background: #dc2626;
             color: white;
@@ -332,9 +352,11 @@ try {
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-danger:hover {
             background: #b91c1c;
         }
+
         .btn-success {
             background: #059669;
             color: white;
@@ -342,9 +364,11 @@ try {
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-success:hover {
             background: #047857;
         }
+
         .btn-warning {
             background: #d97706;
             color: white;
@@ -352,15 +376,19 @@ try {
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-warning:hover {
             background: #b45309;
         }
+
         .table-row {
             transition: all 0.3s ease;
         }
+
         .table-row:hover {
             background: #f9fafb;
         }
+
         .success-message {
             background: #10b981;
             color: white;
@@ -369,17 +397,19 @@ try {
             margin-bottom: 1rem;
             animation: slideDown 0.5s ease;
         }
+
         @keyframes slideDown {
             from {
                 transform: translateY(-10px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
             }
         }
-        
+
         /* Admin badge */
         .admin-badge {
             background: #D4AF37;
@@ -390,11 +420,12 @@ try {
             font-weight: 600;
             margin-left: 1rem;
         }
-        
+
         /* Hover effects */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .hover-lift:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
@@ -446,7 +477,7 @@ try {
 
                     <!-- Navigation - Points to client pages -->
                     <div class="flex items-center space-x-8">
-                        <a href="../accueil.php"
+                        <a href="index.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Home
                         </a>
@@ -508,7 +539,7 @@ try {
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
                 <div class="flex flex-col space-y-4">
-                    <a href="../accueil.php"
+                    <a href="index.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Home
                     </a>
@@ -552,7 +583,7 @@ try {
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
-        
+
         <!-- Header -->
         <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
             <h1 class="text-3xl font-bold text-[#0F2854]">Appointment Page Management</h1>
@@ -567,6 +598,8 @@ try {
                 <i class="fas fa-check-circle mr-2"></i><?= $success ?>
             </div>
         <?php endif; ?>
+
+
 
         <!-- Hero Section Management -->
         <div id="hero-section" class="admin-card" data-aos="fade-up-slow">
@@ -609,6 +642,74 @@ try {
                 </form>
             </div>
         </div>
+
+        <!-- Appointment request -->
+        <div class="admin-section p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-2xl font-bold mb-6">Appointment Requests</h2>
+
+            <?php if (!empty($appointments)): ?>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border border-gray-200 text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="p-3 border">#</th>
+                                <th class="p-3 border">Name</th>
+                                <th class="p-3 border">Email</th>
+                                <th class="p-3 border">Phone</th>
+                                <th class="p-3 border">Date</th>
+                                <th class="p-3 border">Time</th>
+                                <th class="p-3 border">Type</th>
+                                <th class="p-3 border">Attorney</th>
+                                <th class="p-3 border">Status</th>
+                                <th class="p-3 border">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($appointments as $index => $appt): ?>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="p-3 border"><?= $index + 1 ?></td>
+                                    <td class="p-3 border font-semibold">
+                                        <?= htmlspecialchars($appt['first_name'] . ' ' . $appt['last_name']) ?>
+                                    </td>
+                                    <td class="p-3 border"><?= htmlspecialchars($appt['email']) ?></td>
+                                    <td class="p-3 border"><?= htmlspecialchars($appt['phone']) ?></td>
+                                    <td class="p-3 border"><?= htmlspecialchars($appt['appointment_date']) ?></td>
+                                    <td class="p-3 border"><?= htmlspecialchars($appt['appointment_time']) ?></td>
+                                    <td class="p-3 border"><?= htmlspecialchars($appt['consultation_type']) ?></td>
+                                    <td class="p-3 border"><?= htmlspecialchars($appt['attorney_preference'] ?? '-') ?></td>
+
+                                    <!-- STATUS SELECT -->
+                                    <td class="p-3 border">
+                                        <select
+                                            class="appointment-status border rounded px-2 py-1"
+                                            data-id="<?= $appt['id'] ?>">
+                                            <option value="pending" <?= $appt['status'] == 'pending' ? 'selected' : '' ?>>Pending</option>
+                                            <option value="confirmed" <?= $appt['status'] == 'confirmed' ? 'selected' : '' ?>>Confirmed</option>
+                                            <option value="completed" <?= $appt['status'] == 'completed' ? 'selected' : '' ?>>Completed</option>
+                                            <option value="canceled" <?= $appt['status'] == 'canceled' ? 'selected' : '' ?>>Canceled</option>
+                                        </select>
+                                    </td>
+
+                                    <td class="p-3 border">
+                                        <form method="POST" action="delete-appointment.php"
+                                            onsubmit="return confirm('Are you sure?');">
+                                            <input type="hidden" name="appointment_id" value="<?= $appt['id'] ?>">
+                                            <button type="submit"
+                                                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <p>No appointment requests found.</p>
+            <?php endif; ?>
+        </div>
+
 
         <!-- Steps Management -->
         <div id="steps-section" class="admin-card" data-aos="fade-up-slow">
@@ -660,36 +761,36 @@ try {
                     </thead>
                     <tbody>
                         <?php foreach ($steps as $step): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="step_id" value="<?= $step['id'] ?>">
-                                    <input type="number" name="step_number" value="<?= $step['step_number'] ?>" class="form-input text-sm w-20">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="step_id" value="<?= $step['id'] ?>">
+                                        <input type="number" name="step_number" value="<?= $step['step_number'] ?>" class="form-input text-sm w-20">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="title" value="<?= htmlspecialchars($step['title']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="description" value="<?= htmlspecialchars($step['description']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $step['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_step" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this step?')">
-                                    <input type="hidden" name="step_id" value="<?= $step['id'] ?>">
-                                    <button type="submit" name="delete_step" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this step?')">
+                                        <input type="hidden" name="step_id" value="<?= $step['id'] ?>">
+                                        <button type="submit" name="delete_step" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -741,33 +842,33 @@ try {
                     </thead>
                     <tbody>
                         <?php foreach ($features as $feature): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
-                                    <input type="text" name="icon" value="<?= htmlspecialchars($feature['icon']) ?>" class="form-input text-sm w-24">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
+                                        <input type="text" name="icon" value="<?= htmlspecialchars($feature['icon']) ?>" class="form-input text-sm w-24">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="description" value="<?= htmlspecialchars($feature['description']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $feature['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_feature" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this feature?')">
-                                    <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
-                                    <button type="submit" name="delete_feature" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this feature?')">
+                                        <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
+                                        <button type="submit" name="delete_feature" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -819,33 +920,33 @@ try {
                     </thead>
                     <tbody>
                         <?php foreach ($consultationTypes as $type): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="consultation_id" value="<?= $type['id'] ?>">
-                                    <input type="text" name="value" value="<?= htmlspecialchars($type['value']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="consultation_id" value="<?= $type['id'] ?>">
+                                        <input type="text" name="value" value="<?= htmlspecialchars($type['value']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="name" value="<?= htmlspecialchars($type['name']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $type['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_consultation" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this consultation type?')">
-                                    <input type="hidden" name="consultation_id" value="<?= $type['id'] ?>">
-                                    <button type="submit" name="delete_consultation" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this consultation type?')">
+                                        <input type="hidden" name="consultation_id" value="<?= $type['id'] ?>">
+                                        <button type="submit" name="delete_consultation" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -907,41 +1008,41 @@ try {
                     </thead>
                     <tbody>
                         <?php foreach ($attorneys as $attorney): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="attorney_id" value="<?= $attorney['id'] ?>">
-                                    <input type="text" name="value" value="<?= htmlspecialchars($attorney['value']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="attorney_id" value="<?= $attorney['id'] ?>">
+                                        <input type="text" name="value" value="<?= htmlspecialchars($attorney['value']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="name" value="<?= htmlspecialchars($attorney['name']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="specialization" value="<?= htmlspecialchars($attorney['specialization']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="available" value="1" <?= $attorney['available'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $attorney['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_attorney" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this attorney?')">
-                                    <input type="hidden" name="attorney_id" value="<?= $attorney['id'] ?>">
-                                    <button type="submit" name="delete_attorney" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this attorney?')">
+                                        <input type="hidden" name="attorney_id" value="<?= $attorney['id'] ?>">
+                                        <button type="submit" name="delete_attorney" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1004,33 +1105,33 @@ try {
                     </thead>
                     <tbody>
                         <?php foreach ($timeSlots as $slot): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="timeslot_id" value="<?= $slot['id'] ?>">
-                                    <input type="text" name="time_value" value="<?= htmlspecialchars($slot['time_value']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="timeslot_id" value="<?= $slot['id'] ?>">
+                                        <input type="text" name="time_value" value="<?= htmlspecialchars($slot['time_value']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="display_time" value="<?= htmlspecialchars($slot['display_time']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $slot['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_timeslot" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this time slot?')">
-                                    <input type="hidden" name="timeslot_id" value="<?= $slot['id'] ?>">
-                                    <button type="submit" name="delete_timeslot" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this time slot?')">
+                                        <input type="hidden" name="timeslot_id" value="<?= $slot['id'] ?>">
+                                        <button type="submit" name="delete_timeslot" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1087,36 +1188,36 @@ try {
                     </thead>
                     <tbody>
                         <?php foreach ($infoCards as $card): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="infocard_id" value="<?= $card['id'] ?>">
-                                    <input type="text" name="icon" value="<?= htmlspecialchars($card['icon']) ?>" class="form-input text-sm w-24">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="infocard_id" value="<?= $card['id'] ?>">
+                                        <input type="text" name="icon" value="<?= htmlspecialchars($card['icon']) ?>" class="form-input text-sm w-24">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="title" value="<?= htmlspecialchars($card['title']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="description" value="<?= htmlspecialchars($card['description']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $card['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_infocard" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this info card?')">
-                                    <input type="hidden" name="infocard_id" value="<?= $card['id'] ?>">
-                                    <button type="submit" name="delete_infocard" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this info card?')">
+                                        <input type="hidden" name="infocard_id" value="<?= $card['id'] ?>">
+                                        <button type="submit" name="delete_infocard" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1150,16 +1251,16 @@ try {
                         foreach ($allTimes as $time):
                             $isBooked = in_array($time, $bookedSlots);
                         ?>
-                        <div class="p-3 border rounded-lg <?= $isBooked ? 'bg-red-50 border-red-300' : 'bg-green-50 border-green-300' ?>">
-                            <div class="flex items-center justify-between">
-                                <span class="font-medium"><?= $time ?></span>
-                                <?php if ($isBooked): ?>
-                                    <span class="text-red-600 text-sm"><i class="fas fa-times-circle"></i> Booked</span>
-                                <?php else: ?>
-                                    <span class="text-green-600 text-sm"><i class="fas fa-check-circle"></i> Available</span>
-                                <?php endif; ?>
+                            <div class="p-3 border rounded-lg <?= $isBooked ? 'bg-red-50 border-red-300' : 'bg-green-50 border-green-300' ?>">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium"><?= $time ?></span>
+                                    <?php if ($isBooked): ?>
+                                        <span class="text-red-600 text-sm"><i class="fas fa-times-circle"></i> Booked</span>
+                                    <?php else: ?>
+                                        <span class="text-green-600 text-sm"><i class="fas fa-check-circle"></i> Available</span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                        </div>
                         <?php endforeach; ?>
                     </div>
                 </form>
@@ -1209,7 +1310,7 @@ try {
             const content = document.getElementById(contentId);
             const header = content.previousElementSibling;
             const icon = header.querySelector('i.fa-chevron-down');
-            
+
             content.classList.toggle('collapsed');
             icon.classList.toggle('rotate-[-90deg]');
         }
@@ -1224,6 +1325,38 @@ try {
                 }, 500);
             }, 5000);
         }
+    </script>
+
+    <script>
+        document.querySelectorAll('.appointment-status').forEach(select => {
+            select.addEventListener('change', function() {
+
+                const id = this.dataset.id;
+                const status = this.value;
+
+                fetch('update-appointment-status.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'id=' + id + '&status=' + status
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.style.border = "2px solid green";
+                            setTimeout(() => {
+                                this.style.border = "";
+                            }, 800);
+                        } else {
+                            alert('Update failed');
+                        }
+                    })
+                    .catch(() => {
+                        alert('Server error');
+                    });
+            });
+        });
     </script>
 </body>
 

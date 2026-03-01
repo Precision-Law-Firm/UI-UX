@@ -146,10 +146,10 @@ $cta = $stmt->fetch();
         <!-- Content -->
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 z-10 relative">
             <div class="max-w-4xl">
-            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white" data-aos="fade-up-slow" data-aos-duration="1400">
-                <span class="text-blue-100 mb-1">OVERVIEW</span>
-            </h1>
-                <div class="text-white text-base sm:text-lg md:text-xl leading-relaxed space-y-4 text-justify">
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white" data-aos="fade-up-slow" data-aos-duration="1400">
+                    <span class="text-blue-100 mb-1">OVERVIEW</span>
+                </h1>
+                <div class="text-white text-base sm:text-lg md:text-xl leading-relaxed space-y-4 ">
                     <?php if (!empty($descriptions)): ?>
                         <?php foreach ($descriptions as $index => $desc): ?>
                             <p class="opacity-95" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="<?= 200 + ($index * 100) ?>">
@@ -177,7 +177,7 @@ $cta = $stmt->fetch();
                     <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F2854] mb-6">What we do</h2>
                     <div class="grid md:grid-cols-2 gap-12">
                         <!-- Left Column -->
-                        <div class="space-y-4 text-justify">
+                        <div class="space-y-4 ">
                             <?php if (!empty($whatWeDoCol1)): ?>
                                 <?php foreach ($whatWeDoCol1 as $index => $item): ?>
                                     <p class="text-gray-700 text-base sm:text-lg leading-relaxed" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="<?= $index * 100 ?>">
@@ -195,7 +195,7 @@ $cta = $stmt->fetch();
                         </div>
 
                         <!-- Right Column -->
-                        <div class="space-y-4 text-justify">
+                        <div class="space-y-4 ">
                             <?php if (!empty($whatWeDoCol2)): ?>
                                 <?php foreach ($whatWeDoCol2 as $index => $item): ?>
                                     <p class="text-gray-700 text-base sm:text-lg leading-relaxed" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="<?= 200 + ($index * 100) ?>">
@@ -271,7 +271,7 @@ $cta = $stmt->fetch();
                     <!-- Left column - Approach content -->
                     <div data-aos="fade-right-slow" data-aos-duration="1500">
                         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F2854] mb-6">Our approach</h2>
-                        <div class="space-y-4 text-justify">
+                        <div class="space-y-4 ">
                             <?php if (!empty($approachContent)): ?>
                                 <?php foreach ($approachContent as $content): ?>
                                     <p class="text-gray-700 text-base sm:text-lg leading-relaxed"><?= $content['content'] ?></p>
@@ -350,7 +350,7 @@ $cta = $stmt->fetch();
                     <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4" data-aos="fade-up-slow" data-aos-duration="1400">
                         <?= htmlspecialchars($cta['title']) ?>
                     </h2>
-                    <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                    <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                         <?= htmlspecialchars($cta['description']) ?>
                     </p>
                     <a href="<?= htmlspecialchars($cta['button_link']) ?>"
@@ -363,7 +363,7 @@ $cta = $stmt->fetch();
                     <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4" data-aos="fade-up-slow" data-aos-duration="1400">
                         Ready to discuss your legal needs?
                     </h2>
-                    <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                    <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                         Contact us for strategic legal advice from attorneys with government-level expertise and commercial insight.
                     </p>
                     <a href="contact.php"

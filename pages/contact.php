@@ -159,86 +159,185 @@ foreach ($officeHours as $index => $hour) {
             font-family: 'Inter', sans-serif;
         }
 
-        /* Animation lente et douce */
-        .aos-init[data-aos] {
-            transition-duration: 1500ms !important;
-            transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        /* Title Badge - Version sans retour à la ligne */
+        .chatbox-title-badge {
+            position: absolute;
+            bottom: 85px;
+            right: 20px;
+            background: white;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(28, 77, 141, 0.15);
+            padding: 10px 20px 10px 15px;
+            display: inline-flex;
+            /* Changé de flex à inline-flex */
+            align-items: center;
+            gap: 10px;
+            animation: slideInLeft 0.5s ease;
+            border: 1px solid rgba(28, 77, 141, 0.1);
+            z-index: 999;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            white-space: nowrap;
+            /* Empêche le retour à la ligne */
         }
 
-        /* Custom animations */
-        [data-aos="fade-up-slow"] {
-            transform: translateY(40px);
-            opacity: 0;
-            transition-property: transform, opacity;
+        .title-content {
+            display: inline-flex;
+            /* Changé de flex à inline-flex */
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            /* Empêche le retour à la ligne */
         }
 
-        [data-aos="fade-up-slow"].aos-animate {
-            transform: translateY(0);
-            opacity: 1;
+        .title-content i {
+            font-size: 18px;
+            color: #1C4D8D;
+            background: rgba(28, 77, 141, 0.1);
+            padding: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            /* Empêche l'icône de rétrécir */
         }
 
-        [data-aos="zoom-slow"] {
-            transform: scale(0.9);
-            opacity: 0;
-            transition-property: transform, opacity;
+        .title-content span {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1C4D8D;
+            white-space: nowrap;
+            /* Empêche le retour à la ligne */
+            overflow: hidden;
+            text-overflow: ellipsis;
+           
         }
 
-        [data-aos="zoom-slow"].aos-animate {
-            transform: scale(1);
-            opacity: 1;
+        .title-arrow {
+            width: 24px;
+            height: 24px;
+            background: #F8FAFC;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #1C4D8D;
+            flex-shrink: 0;
+            animation: bounceArrow 2s infinite;
         }
 
-        /* Chatbox styles */
+       
+        .chatbox-title-badge.premium {
+            background: linear-gradient(135deg, #1C4D8D, #2A6BBF);
+            border: none;
+            box-shadow: 0 10px 25px rgba(28, 77, 141, 0.3);
+        }
+
+        .chatbox-title-badge.premium .title-content i {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .chatbox-title-badge.premium .title-content span {
+            color: white;
+        }
+
+        .chatbox-title-badge.premium .title-arrow {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* Chatbox Container */
         .chatbox-container {
             position: fixed;
             bottom: 30px;
             right: 30px;
             z-index: 1000;
+            font-family: 'Inter', sans-serif;
         }
 
+        /* Toggle Button */
         .chatbox-toggle {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #1C4D8D 0%, #2A6BBF 100%);
             border-radius: 50%;
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
-            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(28, 77, 141, 0.3);
+            box-shadow: 0 10px 25px rgba(28, 77, 141, 0.3);
             transition: all 0.3s ease;
-            border: 3px solid white;
+            position: relative;
         }
 
         .chatbox-toggle:hover {
             transform: scale(1.1);
-            box-shadow: 0 15px 40px rgba(28, 77, 141, 0.4);
+            box-shadow: 0 15px 30px rgba(28, 77, 141, 0.4);
         }
 
+        .chatbox-toggle i {
+            color: white;
+            font-size: 28px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Chat Window */
         .chatbox-window {
             position: absolute;
-            bottom: 70px;
+            bottom: 85px;
             right: 0;
-            width: 350px;
-            height: 500px;
+            width: 380px;
+            height: 600px;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             display: none;
-            border: 1px solid #e5e7eb;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .chatbox-window.active {
-            display: block;
-            animation: slideInUp 0.4s ease-out;
+            display: flex;
+            animation: slideIn 0.3s ease;
         }
 
-        @keyframes slideInUp {
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
 
             to {
@@ -247,122 +346,374 @@ foreach ($officeHours as $index => $hour) {
             }
         }
 
+        /* Header */
         .chatbox-header {
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            background: linear-gradient(135deg, #1C4D8D 0%, #2A6BBF 100%);
             color: white;
             padding: 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
         }
 
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title i {
+            font-size: 28px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            border-radius: 12px;
+        }
+
+        .header-title h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .online-status {
+            font-size: 12px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .online-status::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .close-chat {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-chat:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Body */
         .chatbox-body {
-            height: 360px;
+            flex: 1;
             padding: 20px;
             overflow-y: auto;
-            background: #f8fafc;
+            background: #F8FAFC;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
+        /* Messages */
         .message {
-            margin-bottom: 15px;
-            max-width: 80%;
+            display: flex;
+            gap: 10px;
+            max-width: 85%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .message.bot .message-avatar {
+            background: linear-gradient(135deg, #1C4D8D 20%, #2A6BBF 100%);
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #E2E8F0;
+            color: #1C4D8D;
+        }
+
+        .message-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
         }
 
         .message.bot .message-content {
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 18px;
-            padding: 12px 16px;
-            font-size: 14px;
-            line-height: 1.5;
+            border: 1px solid #E2E8F0;
+            border-top-left-radius: 4px;
+            color: #1E293B;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         .message.user .message-content {
-            background: linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%);
+            background: linear-gradient(135deg, #1C4D8D 0%, #2A6BBF 100%);
             color: white;
-            border-radius: 18px;
-            padding: 12px 16px;
-            font-size: 14px;
-            line-height: 1.5;
-            margin-left: auto;
+            border-top-right-radius: 4px;
         }
 
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 20px;
-            height: 20px;
-            background: #ef4444;
-            color: white;
-            border-radius: 50%;
+        .message-time {
+            font-size: 11px;
+            color: #94A3B8;
+            margin-left: 5px;
+        }
+
+        .message.user .message-time {
+            text-align: right;
+        }
+
+        /* Quick Questions */
+        .quick-questions {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .quick-questions-title {
+            font-size: 13px;
+            color: #64748B;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .question-btn {
+            padding: 10px;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
             font-size: 12px;
+            color: #1C4D8D;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .question-btn:hover {
+            background: #1C4D8D;
+            color: white;
+            border-color: #1C4D8D;
+            transform: translateY(-2px);
+        }
+
+        .question-btn i {
+            font-size: 14px;
+        }
+
+        /* Footer - CORRIGÉ */
+        .chatbox-footer {
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid #E2E8F0;
+            flex-shrink: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .typing-indicator {
+            display: none;
+            margin-bottom: 10px;
+            height: 20px;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #94A3B8;
+            border-radius: 50%;
+            animation: typing 1s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Message Input - CORRIGÉ */
+        .message-input {
+            display: flex;
+            gap: 10px;
+            background: #F8FAFC;
+            border-radius: 25px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .message-input input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px 15px;
+            font-size: 14px;
+            outline: none;
+            min-width: 0;
+            /* Important pour que le flex fonctionne correctement */
+            width: 100%;
+        }
+
+        .message-input input:focus {
+            outline: none;
+        }
+
+        .message-input input::placeholder {
+            color: #94A3B8;
+            font-size: 14px;
+        }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1C4D8D 0%, #2A6BBF 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            border: 2px solid white;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-            }
-
-            70% {
-                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-            }
-        }
-
-        /* Form styles */
-        .modern-select {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%231C4D8D' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 0.75rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
-            padding-right: 2.5rem;
-            cursor: pointer;
             transition: all 0.3s ease;
-            appearance: none;
+            flex-shrink: 0;
+            /* Empêche le bouton de rétrécir */
         }
 
-        .file-upload-area {
-            border: 2px dashed #e5e7eb;
-            border-radius: 12px;
-            padding: 40px 20px;
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(28, 77, 141, 0.4);
+        }
+
+        .footer-note {
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #94A3B8;
         }
 
-        .file-upload-area:hover {
-            border-color: #1C4D8D;
-            background: #f8fafc;
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .chatbox-container {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .chatbox-window {
+                width: calc(100vw - 30px);
+                height: 80vh;
+                bottom: 75px;
+                right: 0;
+            }
+
+            .questions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .message-input input {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
         }
 
-        /* Hover lift effect */
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Larger base font size */
-        html {
-            font-size: 16px;
-        }
-
-        @media (min-width: 768px) {
-            html {
-                font-size: 18px;
+        @media (max-width: 380px) {
+            .chatbox-window {
+                width: calc(100vw - 20px);
+                height: 85vh;
             }
         }
     </style>
@@ -387,32 +738,33 @@ foreach ($officeHours as $index => $hour) {
         </div>
     </div>
 
-    <!-- Contact Information Section - Larger text -->
-    <section class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
+    <!-- Contact Information Section - 2 columns responsive -->
+    <section class="py-16 md:py-20 lg:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24">
             <div class="max-w-6xl mx-auto">
-                <div class="grid md:grid-cols-3 gap-8">
+                <!-- Grille : 1 colonne sur mobile, 2 colonnes à partir de md -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     <?php foreach ($contactCards as $index => $card): ?>
-                        <div class="bg-white rounded-xl p-10 shadow-sm hover-lift transition-all duration-300" data-aos="zoom-slow" data-aos-delay="<?= ($index + 1) * 100 ?>">
-                            <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
-                                <i class="fas <?= htmlspecialchars($card['icon']) ?> text-2xl text-[#1C4D8D]"></i>
+                        <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300" data-aos="zoom-slow" data-aos-delay="<?= ($index + 1) * 100 ?>">
+                            <div class="w-12 h-12 sm:w-14 md:w-16 bg-blue-50 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
+                                <i class="fas <?= htmlspecialchars($card['icon']) ?> text-xl sm:text-2xl md:text-2xl text-[#1C4D8D]"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-4"><?= htmlspecialchars($card['title']) ?></h3>
+                            <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4"><?= htmlspecialchars($card['title']) ?></h3>
 
                             <?php if (!empty($card['content'])): ?>
-                                <p class="text-gray-600 text-lg mb-4">
+                                <p class="text-gray-600 text-base sm:text-lg mb-3 sm:mb-4">
                                     <?= nl2br(htmlspecialchars($card['content'])) ?>
                                 </p>
                             <?php endif; ?>
 
                             <?php if (!empty($card['additional_info'])): ?>
-                                <div class="space-y-3 text-gray-600 text-lg">
+                                <div class="space-y-2 sm:space-y-3 text-gray-600 text-sm sm:text-lg">
                                     <?php
                                     $infoLines = explode(',', $card['additional_info']);
                                     foreach ($infoLines as $line):
                                     ?>
                                         <div class="flex items-center">
-                                            <i class="fas fa-check-circle text-[#1C4D8D] mr-3"></i>
+                                            <i class="fas fa-check-circle text-[#1C4D8D] mr-2 sm:mr-3"></i>
                                             <span><?= htmlspecialchars(trim($line)) ?></span>
                                         </div>
                                     <?php endforeach; ?>
@@ -420,8 +772,8 @@ foreach ($officeHours as $index => $hour) {
                             <?php endif; ?>
 
                             <?php if (!empty($card['action_text'])): ?>
-                                <div class="mt-6">
-                                    <a href="<?= htmlspecialchars($card['action_link']) ?>" class="text-[#1C4D8D] font-medium hover:underline flex items-center text-lg">
+                                <div class="mt-4 sm:mt-6 max-width-fit">
+                                    <a href="<?= htmlspecialchars($card['action_link']) ?>" class="text-[#1C4D8D] font-medium hover:underline flex items-center text-sm sm:text-lg">
                                         <i class="fas fa-directions mr-2"></i>
                                         <?= htmlspecialchars($card['action_text']) ?>
                                     </a>
@@ -433,13 +785,13 @@ foreach ($officeHours as $index => $hour) {
 
                 <!-- Social Links -->
                 <?php if (!empty($socialLinks)): ?>
-                    <div class="mt-12 text-center">
-                        <p class="text-gray-600 text-lg mb-4">Connect with us on social media</p>
-                        <div class="flex justify-center space-x-4">
+                    <div class="mt-8 sm:mt-12 text-center">
+                        <p class="text-gray-600 text-base sm:text-lg mb-3 sm:mb-4">Connect with us on social media</p>
+                        <div class="flex justify-center flex-wrap gap-3 sm:gap-4">
                             <?php foreach ($socialLinks as $link): ?>
                                 <a href="<?= htmlspecialchars($link['url']) ?>"
-                                    class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center hover:bg-[#1C4D8D] hover:text-white transition-all duration-300 text-[#1C4D8D] hover-lift">
-                                    <i class="fab <?= htmlspecialchars($link['icon']) ?> text-xl"></i>
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 rounded-full flex items-center justify-center hover:bg-[#1C4D8D] hover:text-white transition-all duration-300 text-[#1C4D8D] transform hover:-translate-y-1">
+                                    <i class="fab <?= htmlspecialchars($link['icon']) ?> text-base sm:text-xl"></i>
                                 </a>
                             <?php endforeach; ?>
                         </div>
@@ -567,41 +919,94 @@ foreach ($officeHours as $index => $hour) {
 
     <!-- Chatbox -->
     <div class="chatbox-container">
-        <div class="mb-2 text-right mr-4">
-            <span class="bg-[#1C4D8D] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-md">
-                Live Support
-            </span>
+
+        <!-- Title Badge -->
+        <div class="chatbox-title-badge">
+            <div class="title-content">
+                <i class="fas fa-scale-balanced"></i>
+                <span>Law Bot</span>
+            </div>
+            <div class="title-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
         </div>
+
         <div class="chatbox-toggle" id="chatbox-toggle">
             <i class="fas fa-comments"></i>
-            <div class="notification-badge">1</div>
+            <div class="notification-badge">3</div>
         </div>
+
         <div class="chatbox-window" id="chatbox-window">
             <div class="chatbox-header">
-                <h3><i class="fas fa-robot mr-2"></i> Legal Assistant Bot</h3>
+                <div class="header-title">
+                    <i class="fas fa-scale-balanced"></i>
+                    <div>
+                        <h3>Legal Assistant</h3>
+                        <span class="online-status">● Online</span>
+                    </div>
+                </div>
                 <button class="close-chat" id="close-chat">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+
             <div class="chatbox-body" id="chatbox-body">
                 <div class="message bot">
-                    <div class="message-content">
-                        Hello! I'm your legal assistant. How can I help you today? You can ask about:
-                        <br><br>
-                        • Contact information<br>
-                        • Office hours<br>
-                        • Career opportunities<br>
-                        • Or type your question
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
                     </div>
-                    <div class="message-time">Just now</div>
+                    <div class="message-wrapper">
+                        <div class="message-content">
+                            👋 Hello! I'm your legal assistant. How can I help you today?
+                        </div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+
+                <!-- Quick Questions -->
+                <div class="quick-questions" id="quickQuestions">
+                    <p class="quick-questions-title">📋 Suggested questions:</p>
+                    <div class="questions-grid">
+                        <button class="question-btn" data-question="appointment">
+                            <i class="fas fa-calendar-check"></i>
+                            Book appointment
+                        </button>
+                        <button class="question-btn" data-question="hours">
+                            <i class="fas fa-clock"></i>
+                            Office hours
+                        </button>
+                        <button class="question-btn" data-question="phone">
+                            <i class="fas fa-phone"></i>
+                            Phone number
+                        </button>
+                        <button class="question-btn" data-question="email">
+                            <i class="fas fa-envelope"></i>
+                            Email us
+                        </button>
+                        <button class="question-btn" data-question="location">
+                            <i class="fas fa-location-dot"></i>
+                            Our location
+                        </button>
+                        <button class="question-btn" data-question="career">
+                            <i class="fas fa-briefcase"></i>
+                            Careers
+                        </button>
+                    </div>
                 </div>
             </div>
+
             <div class="chatbox-footer">
+                <div class="typing-indicator" id="typingIndicator">
+                    <span></span><span></span><span></span>
+                </div>
                 <div class="message-input">
-                    <input type="text" id="chat-input" placeholder="Type your message here...">
+                    <input type="text" id="chat-input" placeholder="Type your message here..." autocomplete="off">
                     <button class="send-btn" id="send-message">
                         <i class="fas fa-paper-plane"></i>
                     </button>
+                </div>
+                <div class="footer-note">
+                    <i class="fas fa-shield-alt"></i> Secure & confidential
                 </div>
             </div>
         </div>
@@ -612,173 +1017,10 @@ foreach ($officeHours as $index => $hour) {
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/chatbox.js"></script>
 
-    <script>
-        // --- Initialize AOS ---
-        AOS.init({
-            duration: 1500,
-            offset: 80,
-            easing: 'ease-out-cubic',
-            once: true,
-            delay: 0,
-            mirror: false,
-            anchorPlacement: 'top-bottom'
-        });
 
-        // --- Chatbox functionality ---
-        const chatboxToggle = document.getElementById('chatbox-toggle');
-        const chatboxWindow = document.getElementById('chatbox-window');
-        const closeChat = document.getElementById('close-chat');
-        const chatInput = document.getElementById('chat-input');
-        const sendMessageBtn = document.getElementById('send-message');
-        const chatboxBody = document.getElementById('chatbox-body');
-
-        const chatResponses = <?= json_encode($chatResponses) ?>;
-
-        function openChatbox() {
-            chatboxWindow.classList.add('active');
-            const badge = document.querySelector('.notification-badge');
-            if (badge) badge.style.display = 'none';
-        }
-
-        if (chatboxToggle) chatboxToggle.addEventListener('click', openChatbox);
-        if (closeChat) closeChat.addEventListener('click', () => chatboxWindow.classList.remove('active'));
-        if (sendMessageBtn) sendMessageBtn.addEventListener('click', sendMessage);
-        if (chatInput) chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-
-        function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message) return;
-
-            addMessage(message, 'user');
-            chatInput.value = '';
-
-            setTimeout(() => {
-                const botResponse = getBotResponse(message);
-                addMessage(botResponse, 'bot');
-            }, 800);
-        }
-
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.textContent = text;
-
-            const timeDiv = document.createElement('div');
-            timeDiv.className = 'message-time';
-            const now = new Date();
-            timeDiv.textContent = now.toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-
-            messageDiv.appendChild(contentDiv);
-            messageDiv.appendChild(timeDiv);
-            chatboxBody.appendChild(messageDiv);
-            chatboxBody.scrollTop = chatboxBody.scrollHeight;
-        }
-
-        function getBotResponse(message) {
-            const lower = message.toLowerCase();
-            for (const r of chatResponses) {
-                if (lower.includes(r.keyword)) return r.response;
-            }
-            return "Thank you for your message. For specific inquiries, please contact us directly via phone or email.";
-        }
-
-        // --- Career Form AJAX Submission ---
-        const careerForm = document.getElementById('career-form');
-        if (careerForm) {
-            careerForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const submitBtn = this.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-
-                const resumeFile = document.getElementById('resume-file').files[0];
-                if (!resumeFile) {
-                    alert('Please upload your resume/CV');
-                    return;
-                }
-
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
-                submitBtn.disabled = true;
-
-                const formData = new FormData(this);
-
-                fetch('process-career.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Candidature envoyée !');
-                            this.reset();
-                            document.getElementById('file-name').classList.add('hidden');
-                        } else {
-                            alert('Erreur : ' + (data.message || 'Veuillez réessayer'));
-                        }
-                    })
-                    .catch(() => alert('Erreur réseau'))
-                    .finally(() => {
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                    });
-            });
-        }
-
-        // --- File upload preview ---
-        const resumeInput = document.getElementById('resume-file');
-        if (resumeInput) {
-            resumeInput.addEventListener('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    const sizeMB = file.size / (1024 * 1024);
-                    if (sizeMB > 5) {
-                        alert('File size must be less than 5MB');
-                        this.value = '';
-                        document.getElementById('file-name').classList.add('hidden');
-                    } else {
-                        const nameDiv = document.getElementById('file-name');
-                        nameDiv.querySelector('span').textContent = file.name;
-                        nameDiv.classList.remove('hidden');
-                    }
-                }
-            });
-        }
-
-        // --- Mobile menu toggle ---
-        const mobileBtn = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileBtn && mobileMenu) {
-            mobileBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                const icon = mobileBtn.querySelector('i');
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-times');
-            });
-        }
-
-        // --- Smooth scroll ---
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

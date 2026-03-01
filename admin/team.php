@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     // Update Team Hero
     if (isset($_POST['update_hero'])) {
         $check = $pdo->query("SELECT COUNT(*) FROM team_hero")->fetchColumn();
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $success = "Team hero section updated successfully!";
     }
-    
+
     // Update Founder
     if (isset($_POST['update_founder'])) {
         $check = $pdo->query("SELECT COUNT(*) FROM founder")->fetchColumn();
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $success = "Founder information updated successfully!";
     }
-    
+
     // Add Team Member
     if (isset($_POST['add_member'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM team_members")->fetchColumn();
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Team member added successfully!";
     }
-    
+
     // Update Team Member
     if (isset($_POST['update_member'])) {
         $stmt = $pdo->prepare("UPDATE team_members SET name = ?, position = ?, bio = ?, photo_url = ?, initials = ?, is_active = ? WHERE id = ?");
@@ -89,14 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Team member updated successfully!";
     }
-    
+
     // Delete Team Member
     if (isset($_POST['delete_member'])) {
         $stmt = $pdo->prepare("DELETE FROM team_members WHERE id = ?");
         $stmt->execute([$_POST['member_id']]);
         $success = "Team member deleted successfully!";
     }
-    
+
     // Update sort order
     if (isset($_POST['update_sort_order'])) {
         $ids = $_POST['sort_ids'] ?? [];
@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $success = "Sort order updated successfully!";
     }
-    
+
     // Add Team Stat
     if (isset($_POST['add_stat'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM team_stats")->fetchColumn();
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Team stat added successfully!";
     }
-    
+
     // Update Team Stat
     if (isset($_POST['update_stat'])) {
         $stmt = $pdo->prepare("UPDATE team_stats SET title = ?, stat_text = ?, description = ?, is_active = ? WHERE id = ?");
@@ -135,14 +135,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $success = "Team stat updated successfully!";
     }
-    
+
     // Delete Team Stat
     if (isset($_POST['delete_stat'])) {
         $stmt = $pdo->prepare("DELETE FROM team_stats WHERE id = ?");
         $stmt->execute([$_POST['stat_id']]);
         $success = "Team stat deleted successfully!";
     }
-    
+
     // Update CTA
     if (isset($_POST['update_cta'])) {
         $check = $pdo->query("SELECT COUNT(*) FROM team_cta")->fetchColumn();
@@ -198,7 +198,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             font-family: 'Inter', sans-serif;
             background: #f3f4f6;
         }
-        
+
         .admin-card {
             background: white;
             border-radius: 1rem;
@@ -206,9 +206,11 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             transition: all 0.3s ease;
             margin-bottom: 2rem;
         }
+
         .admin-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+
         .section-header {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -217,21 +219,27 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .section-header:hover {
             opacity: 0.95;
         }
+
         .section-header i {
             transition: transform 0.3s ease;
         }
+
         .section-header.collapsed i {
             transform: rotate(-90deg);
         }
+
         .section-content {
             transition: all 0.3s ease;
         }
+
         .section-content.collapsed {
             display: none;
         }
+
         .form-input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -240,11 +248,13 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             transition: all 0.3s ease;
             font-size: 1rem;
         }
+
         .form-input:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .form-textarea {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -254,11 +264,13 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             font-size: 1rem;
             min-height: 100px;
         }
+
         .form-textarea:focus {
             outline: none;
             border-color: #1C4D8D;
             box-shadow: 0 0 0 3px rgba(28, 77, 141, 0.1);
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #0F2854 0%, #1C4D8D 100%);
             color: white;
@@ -267,10 +279,12 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             font-weight: 500;
             transition: all 0.3s ease;
         }
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
         .btn-danger {
             background: #dc2626;
             color: white;
@@ -278,9 +292,11 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-danger:hover {
             background: #b91c1c;
         }
+
         .btn-success {
             background: #059669;
             color: white;
@@ -288,9 +304,11 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-success:hover {
             background: #047857;
         }
+
         .btn-warning {
             background: #d97706;
             color: white;
@@ -298,15 +316,19 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
+
         .btn-warning:hover {
             background: #b45309;
         }
+
         .table-row {
             transition: all 0.3s ease;
         }
+
         .table-row:hover {
             background: #f9fafb;
         }
+
         .success-message {
             background: #10b981;
             color: white;
@@ -315,17 +337,19 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             margin-bottom: 1rem;
             animation: slideDown 0.5s ease;
         }
+
         @keyframes slideDown {
             from {
                 transform: translateY(-10px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
             }
         }
-        
+
         /* Admin badge */
         .admin-badge {
             background: #D4AF37;
@@ -336,11 +360,12 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             font-weight: 600;
             margin-left: 1rem;
         }
-        
+
         /* Hover effects */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .hover-lift:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
@@ -374,7 +399,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
 
                     <!-- Navigation - Points to client pages -->
                     <div class="flex items-center space-x-8">
-                        <a href="../accueil.php"
+                        <a href="../index.php"
                             class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
                             Home
                         </a>
@@ -436,7 +461,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
                 <div class="flex flex-col space-y-4">
-                    <a href="../accueil.php"
+                    <a href="../index.php"
                         class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
                         Home
                     </a>
@@ -480,7 +505,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
-        
+
         <!-- Header -->
         <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
             <h1 class="text-3xl font-bold text-[#0F2854]">Team Page Management</h1>
@@ -625,47 +650,47 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
                         </thead>
                         <tbody>
                             <?php foreach ($teamMembers as $member): ?>
-                            <tr class="table-row border-t">
-                                <td class="px-4 py-3">
-                                    <input type="hidden" name="sort_ids[]" value="<?= $member['id'] ?>">
-                                    <input type="number" name="sort_orders[]" value="<?= $member['sort_order'] ?>" class="form-input text-sm w-20">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <form method="POST" class="flex items-center gap-2">
-                                        <input type="hidden" name="member_id" value="<?= $member['id'] ?>">
-                                        <input type="text" name="name" value="<?= htmlspecialchars($member['name']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                <tr class="table-row border-t">
+                                    <td class="px-4 py-3">
+                                        <input type="hidden" name="sort_ids[]" value="<?= $member['id'] ?>">
+                                        <input type="number" name="sort_orders[]" value="<?= $member['sort_order'] ?>" class="form-input text-sm w-20">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <form method="POST" class="flex items-center gap-2">
+                                            <input type="hidden" name="member_id" value="<?= $member['id'] ?>">
+                                            <input type="text" name="name" value="<?= htmlspecialchars($member['name']) ?>" class="form-input text-sm">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="position" value="<?= htmlspecialchars($member['position']) ?>" class="form-input text-sm">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <input type="text" name="initials" value="<?= htmlspecialchars($member['initials'] ?? '') ?>" class="form-input text-sm w-20">
-                                </td>
-                                <td class="px-4 py-3">
+                                    </td>
+                                    <td class="px-4 py-3">
                                         <label class="flex items-center">
                                             <input type="checkbox" name="is_active" value="1" <?= $member['is_active'] ? 'checked' : '' ?>>
                                         </label>
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
                                         <button type="submit" name="update_member" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                                    </form>
-                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this team member?')">
-                                        <input type="hidden" name="member_id" value="<?= $member['id'] ?>">
-                                        <button type="submit" name="delete_member" class="text-red-600 hover:text-red-800" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <button type="submit" name="update_sort_order" class="btn-warning mt-4">
-                        <i class="fas fa-sort mr-2"></i>Update Sort Order
+                </form>
+                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this team member?')">
+                    <input type="hidden" name="member_id" value="<?= $member['id'] ?>">
+                    <button type="submit" name="delete_member" class="text-red-600 hover:text-red-800" title="Delete">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </form>
+                </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+            </table>
+            <button type="submit" name="update_sort_order" class="btn-warning mt-4">
+                <i class="fas fa-sort mr-2"></i>Update Sort Order
+            </button>
+            </form>
             </div>
         </div>
 
@@ -712,36 +737,36 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
                     </thead>
                     <tbody>
                         <?php foreach ($teamStats as $stat): ?>
-                        <tr class="table-row border-t">
-                            <td class="px-4 py-3">
-                                <form method="POST" class="flex items-center gap-2">
-                                    <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
-                                    <input type="text" name="title" value="<?= htmlspecialchars($stat['title']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                            <tr class="table-row border-t">
+                                <td class="px-4 py-3">
+                                    <form method="POST" class="flex items-center gap-2">
+                                        <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
+                                        <input type="text" name="title" value="<?= htmlspecialchars($stat['title']) ?>" class="form-input text-sm">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="stat_text" value="<?= htmlspecialchars($stat['stat_text']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <input type="text" name="description" value="<?= htmlspecialchars($stat['description']) ?>" class="form-input text-sm">
-                            </td>
-                            <td class="px-4 py-3">
+                                </td>
+                                <td class="px-4 py-3">
                                     <label class="flex items-center">
                                         <input type="checkbox" name="is_active" value="1" <?= $stat['is_active'] ? 'checked' : '' ?>>
                                     </label>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
                                     <button type="submit" name="update_stat" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                         <i class="fas fa-save"></i>
                                     </button>
-                                </form>
-                                <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this statistic?')">
-                                    <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
-                                    <button type="submit" name="delete_stat" class="text-red-600 hover:text-red-800" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this statistic?')">
+                                        <input type="hidden" name="stat_id" value="<?= $stat['id'] ?>">
+                                        <button type="submit" name="delete_stat" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -831,7 +856,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
             const content = document.getElementById(contentId);
             const header = content.previousElementSibling;
             const icon = header.querySelector('i.fa-chevron-down');
-            
+
             content.classList.toggle('collapsed');
             icon.classList.toggle('rotate-[-90deg]');
         }

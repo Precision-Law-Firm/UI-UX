@@ -12,3 +12,149 @@ button { border-radius: 4px; }
 /* Calendar */
 #calendar-grid button { width: 40px; height: 40px; }
 #time-slots button { width: 80px; }
+
+
+/* accueil */
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.slow-transition {
+    transition: all 0.3s ease;
+}
+
+.expertise-icon {
+    transition: transform 0.3s ease;
+}
+
+.expertise-card:hover .expertise-icon {
+    transform: scale(1.1);
+}
+
+/* Custom AOS animations */
+[data-aos="fade-up-slow"] {
+    transform: translateY(40px);
+    opacity: 0;
+    transition-property: transform, opacity;
+}
+
+[data-aos="fade-up-slow"].aos-animate {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+[data-aos="fade-right-slow"] {
+    transform: translateX(40px);
+    opacity: 0;
+    transition-property: transform, opacity;
+}
+
+[data-aos="fade-right-slow"].aos-animate {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+[data-aos="fade-left-slow"] {
+    transform: translateX(-40px);
+    opacity: 0;
+    transition-property: transform, opacity;
+}
+
+[data-aos="fade-left-slow"].aos-animate {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Larger base font size */
+html {
+    font-size: 16px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+
+/* About us  */
+/* About Us Section – Fond décoratif visible */
+.section {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cercles flous */
+.section::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    left: -100px;
+    background: radial-gradient(circle, rgba(28,77,141,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.section::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    bottom: -150px;
+    right: -150px;
+    background: radial-gradient(circle, rgba(15,40,84,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Lignes diagonales */
+.section > .container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(28,77,141,0.05) 0px,
+        rgba(28,77,141,0.05) 2px,
+        transparent 2px,
+        transparent 30px
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Forcer le contenu au-dessus des motifs */
+.section > .container {
+    position: relative;
+    z-index: 1;
+}
+
+
+

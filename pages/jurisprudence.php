@@ -243,20 +243,20 @@ function getColorClasses($color)
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-4xl mx-auto text-center">
                 <!-- Badge -->
-                <span class="inline-flex items-center bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm sm:text-base mb-6" 
-                      data-aos="fade-up-slow" data-aos-duration="1400">
+                <span class="inline-flex items-center bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm sm:text-base mb-6"
+                    data-aos="fade-up-slow" data-aos-duration="1400">
                     <i class="fas fa-gavel mr-2"></i><?= htmlspecialchars($hero['badge_text'] ?? 'Landmark Cases') ?>
                 </span>
 
                 <!-- Title -->
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6" 
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6"
                     data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
                     <?= htmlspecialchars($hero['title'] ?? 'Our Jurisprudence') ?>
                 </h1>
 
                 <!-- Description justifiée -->
-                <p class="text-base sm:text-lg md:text-xl text-gray-200 mb-8 md:mb-10 max-w-2xl mx-auto text-justify px-4" 
-                   data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="300">
+                <p class="text-base sm:text-lg md:text-xl text-gray-200 mb-8 md:mb-10 max-w-2xl mx-auto  px-4"
+                    data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="300">
                     <?= htmlspecialchars($hero['subtitle'] ?? 'Discover landmark cases and significant legal precedents handled by our firm. Each case represents our commitment to excellence in legal strategy and advocacy.') ?>
                 </p>
 
@@ -371,10 +371,10 @@ function getColorClasses($color)
                                 }
                             }
                         ?>
-                            <div class="case-card bg-white rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 reveal" 
-                                 data-category="<?= $categorySlug ?>" 
-                                 data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="<?= $index * 100 ?>">
-                                
+                            <div class="case-card bg-white rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 reveal"
+                                data-category="<?= $categorySlug ?>"
+                                data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="<?= $index * 100 ?>">
+
                                 <div class="flex flex-col lg:flex-row gap-6 md:gap-8">
                                     <!-- Left Column - Case Info -->
                                     <div class="lg:w-1/3">
@@ -393,14 +393,15 @@ function getColorClasses($color)
                                                 </div>
                                                 <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-2"><?= htmlspecialchars($case['title']) ?></h3>
                                                 <div class="flex flex-wrap gap-1 sm:gap-2">
-                                                    <?php if (!empty($case['category_name'])): 
+                                                    <?php if (!empty($case['category_name'])):
                                                         $catNames = explode(',', $case['category_name']);
                                                         foreach ($catNames as $catName): ?>
                                                             <span class="text-xs <?= $colors['light'] ?> <?= $colors['text'] ?> px-2 sm:px-3 py-1 rounded-full"><?= htmlspecialchars(trim($catName)) ?></span>
-                                                    <?php endforeach; endif; ?>
+                                                    <?php endforeach;
+                                                    endif; ?>
                                                 </div>
                                             </div>
-                                            
+
                                             <!-- Case Details -->
                                             <div class="text-xs sm:text-sm text-gray-600">
                                                 <?php if ($case['case_number']): ?>
@@ -420,10 +421,10 @@ function getColorClasses($color)
                                     <!-- Right Column - Case Details -->
                                     <div class="lg:w-2/3">
                                         <h4 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-4"><?= htmlspecialchars($case['title']) ?></h4>
-                                        
+
                                         <div class="space-y-3 md:space-y-4 text-gray-700 text-sm sm:text-base">
                                             <!-- Summary justifié -->
-                                            <p class="text-justify">
+                                            <p class="">
                                                 <?= htmlspecialchars($case['summary']) ?>
                                             </p>
 
@@ -440,7 +441,7 @@ function getColorClasses($color)
                                                             <?php foreach ($issues as $issue): ?>
                                                                 <li class="flex items-start">
                                                                     <i class="fas fa-check-circle <?= $colors['text'] ?> text-xs mt-1 mr-2 flex-shrink-0"></i>
-                                                                    <span class="text-justify"><?= htmlspecialchars(trim($issue)) ?></span>
+                                                                    <span class=""><?= htmlspecialchars(trim($issue)) ?></span>
                                                                 </li>
                                                             <?php endforeach; ?>
                                                         </ul>
@@ -457,7 +458,7 @@ function getColorClasses($color)
                                                                 <?php foreach ($outcomes as $outcome): ?>
                                                                     <li class="flex items-start">
                                                                         <i class="fas fa-check text-green-600 text-xs mt-1 mr-2 flex-shrink-0"></i>
-                                                                        <span class="text-justify"><?= htmlspecialchars(trim($outcome)) ?></span>
+                                                                        <span class=""><?= htmlspecialchars(trim($outcome)) ?></span>
                                                                     </li>
                                                                 <?php endforeach; ?>
                                                             </ul>
@@ -513,7 +514,7 @@ function getColorClasses($color)
                                 </div>
                                 <div class="lg:w-2/3">
                                     <h4 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-4">Redefining Banking Liability</h4>
-                                    <p class="text-sm sm:text-base text-gray-700 mb-3 md:mb-4 text-justify">This landmark case established new standards for bank liability in unauthorized digital transactions. Our firm successfully argued for expanded consumer protection in the rapidly evolving digital banking landscape.</p>
+                                    <p class="text-sm sm:text-base text-gray-700 mb-3 md:mb-4 ">This landmark case established new standards for bank liability in unauthorized digital transactions. Our firm successfully argued for expanded consumer protection in the rapidly evolving digital banking landscape.</p>
                                     <div class="flex flex-wrap items-center justify-between pt-3 md:pt-4 border-t border-gray-200 gap-2">
                                         <span class="text-xs sm:text-sm font-medium text-[#1C4D8D]"><i class="fas fa-star mr-1"></i>Landmark Precedent</span>
                                         <a href="#" class="text-[#1C4D8D] font-medium hover:opacity-80 transition text-xs sm:text-sm">Read Full Case Study <i class="fas fa-arrow-right ml-1 text-xs"></i></a>
@@ -566,7 +567,7 @@ function getColorClasses($color)
                                                     <i class="fas fa-calendar-alt mr-1"></i><?= $item['year'] ?>
                                                 </div>
                                                 <h3 class="text-lg font-bold text-gray-800 mb-2"><?= htmlspecialchars($item['title']) ?></h3>
-                                                <p class="text-sm text-gray-600 text-justify"><?= htmlspecialchars($item['description']) ?></p>
+                                                <p class="text-sm text-gray-600 "><?= htmlspecialchars($item['description']) ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -580,7 +581,7 @@ function getColorClasses($color)
                                                     <i class="fas fa-calendar-alt mr-1"></i><?= $item['year'] ?>
                                                 </div>
                                                 <h3 class="text-xl font-bold text-gray-800 mb-2"><?= htmlspecialchars($item['title']) ?></h3>
-                                                <p class="text-sm text-gray-600 text-justify"><?= htmlspecialchars($item['description']) ?></p>
+                                                <p class="text-sm text-gray-600 "><?= htmlspecialchars($item['description']) ?></p>
                                             </div>
                                         </div>
 
@@ -623,7 +624,7 @@ function getColorClasses($color)
                                                     <i class="fas fa-calendar-alt mr-1"></i><?= $item['year'] ?>
                                                 </div>
                                                 <h3 class="text-lg font-bold text-gray-800 mb-2"><?= $item['title'] ?></h3>
-                                                <p class="text-sm text-gray-600 text-justify"><?= $item['desc'] ?></p>
+                                                <p class="text-sm text-gray-600 "><?= $item['desc'] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -635,7 +636,7 @@ function getColorClasses($color)
                                                     <i class="fas fa-calendar-alt mr-1"></i><?= $item['year'] ?>
                                                 </div>
                                                 <h3 class="text-xl font-bold text-gray-800 mb-2"><?= $item['title'] ?></h3>
-                                                <p class="text-sm text-gray-600 text-justify"><?= $item['desc'] ?></p>
+                                                <p class="text-sm text-gray-600 "><?= $item['desc'] ?></p>
                                             </div>
                                         </div>
                                         <div class="w-2/12 flex justify-center">
@@ -671,7 +672,7 @@ function getColorClasses($color)
                         <?= htmlspecialchars($cta['title']) ?>
                     </h2>
                     <!-- Description justifiée -->
-                    <p class="text-blue-100 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-8 lg:mb-10 max-w-2xl mx-auto px-4 text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                    <p class="text-blue-100 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-8 lg:mb-10 max-w-2xl mx-auto px-4 " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                         <?= htmlspecialchars($cta['description']) ?>
                     </p>
                     <!-- Buttons -->
@@ -692,7 +693,7 @@ function getColorClasses($color)
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6" data-aos="fade-up-slow" data-aos-duration="1400">
                         Ready to Build Your Case Strategy?
                     </h2>
-                    <p class="text-blue-100 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-8 lg:mb-10 max-w-2xl mx-auto px-4 text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                    <p class="text-blue-100 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-8 lg:mb-10 max-w-2xl mx-auto px-4 " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                         Our proven track record in landmark cases demonstrates our ability to develop winning strategies for complex legal challenges.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">

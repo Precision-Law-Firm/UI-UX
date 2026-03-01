@@ -213,7 +213,7 @@ $cta = $stmt->fetch();
                             </div>
 
                             <?php if (!empty($founder['bio'])): ?>
-                                <p class="text-gray-600 text-sm sm:text-base mt-5 md:mt-6 max-w-lg text-justify"><?= htmlspecialchars($founder['bio']) ?></p>
+                                <p class="text-gray-600 text-sm sm:text-base mt-5 md:mt-6 max-w-lg "><?= htmlspecialchars($founder['bio']) ?></p>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -278,7 +278,7 @@ $cta = $stmt->fetch();
                                     <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-2"><?= htmlspecialchars($member['name']) ?></h4>
                                     <p class="text-[#1C4D8D] text-sm sm:text-base font-medium mb-3"><?= htmlspecialchars($member['position']) ?></p>
                                     <?php if (!empty($member['bio'])): ?>
-                                        <p class="text-gray-500 text-xs sm:text-sm text-justify"><?= htmlspecialchars(substr($member['bio'], 0, 100)) ?>...</p>
+                                        <p class="text-gray-500 text-xs sm:text-sm "><?= htmlspecialchars(substr($member['bio'], 0, 100)) ?>...</p>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -400,7 +400,7 @@ $cta = $stmt->fetch();
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-6" data-aos="fade-up-slow" data-aos-duration="1400">
                     <?= htmlspecialchars($cta['title']) ?>
                 </h2>
-                <p class="text-gray-600 text-sm sm:text-base md:text-lg mb-6 md:mb-10 max-w-2xl mx-auto px-4 text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                <p class="text-gray-600 text-sm sm:text-base md:text-lg mb-6 md:mb-10 max-w-2xl mx-auto px-4 " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                     <?= htmlspecialchars($cta['description']) ?>
                 </p>
                 <a href="<?= htmlspecialchars($cta['button_link']) ?>"
@@ -413,7 +413,7 @@ $cta = $stmt->fetch();
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-6" data-aos="fade-up-slow" data-aos-duration="1400">
                     Work With Our Team
                 </h2>
-                <p class="text-gray-600 text-sm sm:text-base md:text-lg mb-6 md:mb-10 max-w-2xl mx-auto px-4 text-justify" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
+                <p class="text-gray-600 text-sm sm:text-base md:text-lg mb-6 md:mb-10 max-w-2xl mx-auto px-4 " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                     Benefit from legal counsel backed by government-level experience and strategic commercial insight.
                 </p>
                 <a href="contact.php"

@@ -15,3 +15,4 @@
     debounceDelay: 50,
     throttleDelay: 99
 });
+

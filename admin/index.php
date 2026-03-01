@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config.php'; // Connexion PDO
+require_once '../config.php';
 
 $error = '';
 
@@ -14,10 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$login, $login]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($admin && $password === $admin['password']) {
+        if ($admin && password_verify($password, $admin['password'])) {
             // Login réussi
+            session_regenerate_id(true); 
             $_SESSION['admin_logged_in'] = true;
             $_SESSION['admin_name'] = $admin['name'];
+
             header('Location: accueil.php');
             exit;
         } else {
@@ -28,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -42,7 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h2 class="text-2xl font-bold mb-6 text-center">Admin Login</h2>
 
     <?php if ($error): ?>
-        <div class="bg-red-100 text-red-700 p-3 rounded mb-4 text-center"><?php echo $error; ?></div>
+        <div class="bg-red-100 text-red-700 p-3 rounded mb-4 text-center">
+            <?php echo htmlspecialchars($error); ?>
+        </div>
     <?php endif; ?>
 
     <form method="post" action="">
