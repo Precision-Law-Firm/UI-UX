@@ -442,29 +442,21 @@ $stats = [
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <!-- Default testimonials if empty -->
-                        <div class="bg-white p-6 sm:p-8 lg:p-10 rounded-xl border border-gray-100 hover:border-[#1C4D8D]/20 transition-all duration-300 group" data-aos="fade-up" data-aos-duration="1400">
-                            <div class="mb-4 lg:mb-6">
-                                <div class="flex items-center mb-3 lg:mb-4 text-base sm:text-lg lg:text-xl">
-                                    <div class="flex text-yellow-400 mr-2">
-                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                    </div>
-                                    <span class="text-xs sm:text-sm text-gray-500">5.0</span>
+                        <!-- No testimonials message -->
+                        <div class="col-span-full flex justify-center items-center py-16 lg:py-20">
+                            <div class="text-center">
+                                <div class="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                                    <i class="fas fa-comment-slash text-gray-400 text-3xl sm:text-4xl lg:text-5xl"></i>
                                 </div>
-                                <p class="text-gray-700 text-sm sm:text-base lg:text-lg italic leading-relaxed">
-                                    "Precision Law Firm provided exceptional guidance through our company's acquisition. Their commercial insight was invaluable."
+                                <h3 class="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-700 mb-2">No Testimonials Yet</h3>
+                                <p class="text-sm sm:text-base text-gray-500 max-w-md mx-auto">
+                                    There are no testimonials available at the moment. Please check back later or contact us to share your experience.
                                 </p>
-                            </div>
-                            <div class="flex items-center pt-4 lg:pt-6 border-t border-gray-100">
-                                <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base lg:text-xl mr-3 sm:mr-4 flex-shrink-0">MS</div>
-                                <div class="min-w-0 flex-1">
-                                    <h4 class="font-semibold text-gray-800 text-sm sm:text-base lg:text-lg truncate">Michael Sullivan</h4>
-                                    <p class="text-xs sm:text-sm text-gray-600 truncate">CEO, TechCorp Solutions</p>
-                                </div>
                             </div>
                         </div>
                     <?php endif; ?>
                 </div>
+
                 <!-- Stats Section -->
                 <div class="mt-12 lg:mt-16 bg-gradient-to-br from-blue-50 to-gray-50 rounded-xl p-6 sm:p-8 lg:p-10 border border-blue-100 transition-all duration-300" data-aos="fade-up" data-aos-duration="1600" data-aos-delay="300">
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">

@@ -371,138 +371,8 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
 
 <body class="bg-gray-50">
 
-    <!-- Navbar - EXACT copy from client site with admin badge added -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 py-4" data-aos="fade-down-slow"
-        data-aos-duration="1200" data-aos-easing="ease-out-cubic">
-        <div class="container mx-auto px-6 md:px-12 lg:px-24">
-            <div class="flex justify-between items-center">
 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8 w-full justify-between">
-
-                    <!-- Logo with Admin Badge -->
-                    <div class="flex items-center">
-                        <div class="text-[#D4AF37] font-bold text-2xl tracking-tight">
-                            Precision Law Firm
-                        </div>
-                        <span class="admin-badge">Admin</span>
-                    </div>
-
-                    <!-- Navigation - EXACT same links -->
-                    <div class="flex items-center space-x-8">
-                        <a href="index.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Home
-                        </a>
-
-                        <a href="overview.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Overview
-                        </a>
-
-                        <a href="team.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Our Team
-                        </a>
-
-                        <a href="expertise.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Expertise
-                        </a>
-
-                        <a href="jurisprudence.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Jurisprudence
-                        </a>
-
-                        <a href="courses.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Courses
-                        </a>
-
-                        <a href="appointment.php"
-                            class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base tracking-wide">
-                            Appointment
-                        </a>
-                    </div>
-
-                    <!-- Contact Button - points to client contact page -->
-                    <a href="contact.php"
-                        class="bg-[#0A1F44] text-white px-6 py-3 rounded-full font-medium
-                     hover:opacity-90 transition duration-300 hover-lift text-base tracking-wide shadow-sm hover:shadow-md">
-                        Contact Us
-                    </a>
-                </div>
-
-                <!-- Mobile Header -->
-                <div class="md:hidden flex items-center justify-between w-full">
-                    <div class="flex items-center">
-                        <div class="text-[#D4AF37] font-bold text-xl">
-                            Precision Law Firm
-                        </div>
-                        <span class="admin-badge text-xs ml-2">Admin</span>
-                    </div>
-
-                    <button id="mobile-menu-button" class="text-gray-700 text-2xl transition duration-300">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Menu - EXACT same links with admin logout added at bottom -->
-            <div id="mobile-menu" class="hidden md:hidden py-4 border-t mt-3">
-                <div class="flex flex-col space-y-4">
-                    <a href="index.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Home
-                    </a>
-
-                    <a href="overview.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Overview
-                    </a>
-
-                    <a href="team.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Our Team
-                    </a>
-
-                    <a href="expertise.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Expertise
-                    </a>
-
-                    <a href="jurisprudence.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Jurisprudence
-                    </a>
-
-                    <a href="courses.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Courses
-                    </a>
-
-                    <a href="appointment.php"
-                        class="text-gray-700 font-medium hover:text-[#D4AF37] transition duration-300 text-base py-2">
-                        Appointment
-                    </a>
-
-                    <a href="contact.php"
-                        class="bg-[#0A1F44] text-white px-4 py-3 rounded-md font-medium text-center transition duration-300 text-base">
-                        Contact Us
-                    </a>
-
-                    <!-- Admin Logout button (only visible in mobile) -->
-                    <a href="logout.php"
-                        class="bg-red-600 text-white px-4 py-3 rounded-md font-medium text-center mt-4 transition duration-300 text-base">
-                        <i class="fas fa-sign-out-alt mr-2"></i>Logout (Admin)
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
+    <?php include "navbar.php"; ?>
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
@@ -525,7 +395,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
         <!-- Hero Section Management -->
         <div id="hero-section" class="admin-card" data-aos="fade-up-slow">
             <div class="section-header flex justify-between items-center" onclick="toggleSection('hero-content')">
-                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-home mr-2"></i>Hero Section</h2>
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-home mr-2"></i>Intro Section</h2>
                 <span class="text-sm opacity-75">Click to toggle</span>
             </div>
             <div id="hero-content" class="section-content p-6">
@@ -543,18 +413,6 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                             <textarea name="description" rows="3" class="form-input"><?= htmlspecialchars($hero['description'] ?? 'We help businesses resolve disputes, secure deals, and navigate risk through clear thinking, agile action, and strategic precision.') ?></textarea>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Button Label</label>
-                            <input type="text" name="button_label" value="<?= htmlspecialchars($hero['button_label'] ?? 'Discover') ?>" class="form-input">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Button Link</label>
-                            <input type="text" name="button_link" value="<?= htmlspecialchars($hero['button_link'] ?? 'pages/expertise.php') ?>" class="form-input">
-                        </div>
-                        <div class="col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-                            <input type="text" name="image_url" value="<?= htmlspecialchars($hero['image_url'] ?? '') ?>" class="form-input" placeholder="Path to hero image">
                         </div>
                     </div>
                     <button type="submit" name="update_hero" class="btn-primary">
@@ -619,68 +477,6 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
             </div>
         </div>
 
-        <!-- Expertise Areas Management -->
-        <div id="expertise-section" class="admin-card" data-aos="fade-up-slow">
-            <div class="section-header flex justify-between items-center" onclick="toggleSection('expertise-content')">
-                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-briefcase mr-2"></i>Expertise Areas</h2>
-                <span class="text-sm opacity-75">Click to toggle</span>
-            </div>
-            <div id="expertise-content" class="section-content p-6">
-                <!-- Add New Expertise Area -->
-                <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Expertise Area</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" name="name" placeholder="Expertise Name (e.g., Civil Law)" class="form-input" required>
-                        <input type="text" name="description" placeholder="Brief Description" class="form-input" required>
-                        <div class="col-span-2">
-                            <button type="submit" name="add_expertise" class="btn-success">
-                                <i class="fas fa-plus mr-2"></i>Add Expertise
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <!-- Existing Expertise Areas -->
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-4 py-2 text-left">Name</th>
-                                <th class="px-4 py-2 text-left">Description</th>
-                                <th class="px-4 py-2 text-left">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($expertise as $exp): ?>
-                                <tr class="table-row border-t">
-                                    <td class="px-4 py-3">
-                                        <form method="POST" class="flex items-center gap-2">
-                                            <input type="hidden" name="expertise_id" value="<?= $exp['id'] ?>">
-                                            <input type="text" name="name" value="<?= htmlspecialchars($exp['name']) ?>" class="form-input text-sm">
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <input type="text" name="description" value="<?= htmlspecialchars($exp['description'] ?? '') ?>" class="form-input text-sm">
-                                    </td>
-                                    <td class="px-4 py-3 whitespace-nowrap">
-                                        <button type="submit" name="update_expertise" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
-                                            <i class="fas fa-save"></i>
-                                        </button>
-                                        </form>
-                                        <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this expertise area?')">
-                                            <input type="hidden" name="expertise_id" value="<?= $exp['id'] ?>">
-                                            <button type="submit" name="delete_expertise" class="text-red-600 hover:text-red-800" title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
         <!-- Public Service Experience Management -->
         <div id="service-section" class="admin-card" data-aos="fade-up-slow">
             <div class="section-header flex justify-between items-center" onclick="toggleSection('service-content')">
@@ -691,11 +487,10 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                 <!-- Add New Service -->
                 <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
                     <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Service Experience</h3>
-                    <div class="grid grid-cols-3 gap-4">
+                    <div class="grid grid-cols-2 gap-4">
                         <input type="text" name="title" placeholder="Title (e.g., Government Representation)" class="form-input" required>
                         <input type="text" name="description" placeholder="Description" class="form-input" required>
-                        <input type="text" name="icon" placeholder="Font Awesome Icon (e.g., fa-file-alt)" class="form-input" required>
-                        <div class="col-span-3">
+                        <div class="col-span-2">
                             <button type="submit" name="add_service" class="btn-success">
                                 <i class="fas fa-plus mr-2"></i>Add Service
                             </button>
@@ -708,7 +503,6 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                     <table class="w-full">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-4 py-2 text-left">Icon</th>
                                 <th class="px-4 py-2 text-left">Title</th>
                                 <th class="px-4 py-2 text-left">Description</th>
                                 <th class="px-4 py-2 text-left">Actions</th>
@@ -720,10 +514,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                                     <td class="px-4 py-3">
                                         <form method="POST" class="flex items-center gap-2">
                                             <input type="hidden" name="service_id" value="<?= $service['id'] ?>">
-                                            <input type="text" name="icon" value="<?= htmlspecialchars($service['icon'] ?? 'fa-file-alt') ?>" class="form-input text-sm w-24">
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <input type="text" name="title" value="<?= htmlspecialchars($service['title']) ?>" class="form-input text-sm">
+                                            <input type="text" name="title" value="<?= htmlspecialchars($service['title']) ?>" class="form-input text-sm">
                                     </td>
                                     <td class="px-4 py-3">
                                         <input type="text" name="description" value="<?= htmlspecialchars($service['description']) ?>" class="form-input text-sm">
@@ -747,7 +538,6 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
                 </div>
             </div>
         </div>
-
         <!-- Testimonials Management -->
         <div id="testimonials-section" class="admin-card" data-aos="fade-up-slow">
             <div class="section-header flex justify-between items-center" onclick="toggleSection('testimonials-content')">
