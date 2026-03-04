@@ -208,7 +208,7 @@ foreach ($officeHours as $index => $hour) {
             /* Empêche le retour à la ligne */
             overflow: hidden;
             text-overflow: ellipsis;
-           
+
         }
 
         .title-arrow {
@@ -225,7 +225,7 @@ foreach ($officeHours as $index => $hour) {
             animation: bounceArrow 2s infinite;
         }
 
-       
+
         .chatbox-title-badge.premium {
             background: linear-gradient(135deg, #1C4D8D, #2A6BBF);
             border: none;
@@ -784,19 +784,44 @@ foreach ($officeHours as $index => $hour) {
                 </div>
 
                 <!-- Social Links -->
-                <?php if (!empty($socialLinks)): ?>
+                <?php
+                $activeSocialLinks = array_filter($socialLinks, function ($link) {
+                    return !empty($link['is_active']);
+                });
+                ?>
+
+                <?php if (!empty($activeSocialLinks)): ?>
                     <div class="mt-8 sm:mt-12 text-center">
-                        <p class="text-gray-600 text-base sm:text-lg mb-3 sm:mb-4">Connect with us on social media</p>
+                        <p class="text-gray-600 text-base sm:text-lg mb-3 sm:mb-4">
+                            Connect with us on social media
+                        </p>
+
                         <div class="flex justify-center flex-wrap gap-3 sm:gap-4">
-                            <?php foreach ($socialLinks as $link): ?>
-                                <a href="<?= htmlspecialchars($link['url']) ?>"
+                            <?php foreach ($activeSocialLinks as $link): ?>
+
+                                <?php
+                                $url = trim($link['url']);
+
+                                // Force https si oublié
+                                if (!preg_match("~^https?://~", $url)) {
+                                    $url = "https://" . $url;
+                                }
+                                ?>
+
+                                <a href="<?= htmlspecialchars($url) ?>"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 rounded-full flex items-center justify-center hover:bg-[#1C4D8D] hover:text-white transition-all duration-300 text-[#1C4D8D] transform hover:-translate-y-1">
+
                                     <i class="fab <?= htmlspecialchars($link['icon']) ?> text-base sm:text-xl"></i>
+
                                 </a>
+
                             <?php endforeach; ?>
                         </div>
                     </div>
                 <?php endif; ?>
+
             </div>
         </div>
     </section>
@@ -813,7 +838,7 @@ foreach ($officeHours as $index => $hour) {
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-6"></div>
                     <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                        Ready to join our team? Submit your application and we'll get back to you shortly.
+                        Ready to join Our Partner? Submit your application and we'll get back to you shortly.
                     </p>
                 </div>
 
@@ -868,7 +893,7 @@ foreach ($officeHours as $index => $hour) {
                             </label>
                             <textarea id="cover-letter" name="cover_letter" rows="5" required
                                 class="w-full px-4 py-4 border border-gray-300 rounded-xl focus:border-[#1C4D8D] focus:ring-2 focus:ring-blue-100 outline-none transition duration-300 resize-none text-base"
-                                placeholder="Tell us about yourself and why you're interested in joining our team..."></textarea>
+                                placeholder="Tell us about yourself and why you're interested in joining Our Partner..."></textarea>
                         </div>
 
                         <div>

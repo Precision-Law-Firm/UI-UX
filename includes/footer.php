@@ -30,13 +30,13 @@
             <div class="text-center sm:text-left">
                 <h3 class="text-lg sm:text-xl font-semibold mb-4 text-white">Quick Links</h3>
                 <ul class="space-y-2 sm:space-y-3">
-                    <li><a href="/plf/index.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Home</a></li>
-                    <li><a href="/plf/pages/overview.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Overview</a></li>
-                    <li><a href="/plf/pages/team.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Our Team</a></li>
-                    <li><a href="/plf/pages/expertise.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Expertise</a></li>
-                    <li><a href="/plf/pages/jurisprudence.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Jurisprudence</a></li>
-                    <li><a href="/plf/pages/courses.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Courses</a></li>
-                    <li><a href="/plf/pages/appointment.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Appointment</a></li>
+                    <li><a href="/index.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Home</a></li>
+                    <li><a href="/pages/overview.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">About Us</a></li>
+                    <li><a href="/pages/team.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Our Partner</a></li>
+                    <li><a href="/pages/expertise.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Services</a></li>
+                    <li><a href="/pages/jurisprudence.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Landmark Cases</a></li>
+                    <li><a href="/pages/courses.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Courses</a></li>
+                    <li><a href="/pages/appointment.php" class="text-gray-300 hover:text-white transition text-sm sm:text-base inline-block py-1">Appointment</a></li>
                 </ul>
             </div>
 
@@ -46,7 +46,7 @@
                 <ul class="space-y-3 text-gray-300">
                     <li class="flex items-start justify-center sm:justify-start text-sm sm:text-base">
                         <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300 flex-shrink-0"></i>
-                        <span>7th floor, Astor Court<br>Georges Guibert Street, Port Louis</span>
+                        <span>7th floor, Astor Court<br>Georges Guibert Street, <br>Port Louis</span>
                     </li>
                     <li class="flex items-center justify-center sm:justify-start text-sm sm:text-base">
                         <i class="fas fa-phone mr-3 text-blue-300 flex-shrink-0"></i>

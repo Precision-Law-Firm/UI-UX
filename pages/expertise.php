@@ -1,11 +1,11 @@
 <?php
 require '../config.php';
 
-// --- Fetch Expertise Hero ---
+// --- Fetch Services Hero ---
 $stmt = $pdo->query("SELECT * FROM expertise_hero ORDER BY id DESC LIMIT 1");
 $hero = $stmt->fetch();
 
-// --- Fetch Expertise Categories ---
+// --- Fetch Services Categories ---
 $stmt = $pdo->query("SELECT * FROM expertise_categories WHERE is_active = 1 ORDER BY sort_order ASC");
 $categories = $stmt->fetchAll();
 
@@ -36,13 +36,13 @@ $cta = $stmt->fetch();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expertise - Precision Law Firm</title>
+    <title>Services - Precision Law Firm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- AOS CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="bg-white">
@@ -55,7 +55,7 @@ $cta = $stmt->fetch();
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0">
                 <img src="<?= htmlspecialchars($hero['background_image'] ?? '../components/img/bg-try.png') ?>"
-                    alt="Precision Law Firm Expertise"
+                    alt="Precision Law Firm Services"
                     class="w-full h-full object-cover object-center">
                 <div class="absolute inset-0 bg-gradient-to-r from-[#0F2854]/70 to-[#1C4D8D]/50"></div>
             </div>
@@ -64,7 +64,7 @@ $cta = $stmt->fetch();
         <div class="container mx-auto px-6 md:px-12 lg:px-24 z-10 relative">
             <div class="max-w-4xl">
                 <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-blue-100 mb-8" data-aos="fade-up-slow" data-aos-duration="1400">
-                    <?= htmlspecialchars($hero['title'] ?? 'OUR EXPERTISE') ?>
+                    <?= htmlspecialchars($hero['title'] ?? 'OUR Services') ?>
                 </h1>
                 <div class="text-white text-xl md:text-2xl leading-relaxed space-y-4" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
                     <p class="opacity-95">
@@ -75,7 +75,7 @@ $cta = $stmt->fetch();
         </div>
     </div>
 
-    <!-- Main Expertise Sections -->
+    <!-- Main Services Sections -->
     <div class="py-16 md:py-20 lg:py-24 bg-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -100,11 +100,11 @@ $cta = $stmt->fetch();
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                         <?php if (!empty($practiceAreasByCategory[$category['id']])): ?>
                             <?php foreach ($practiceAreasByCategory[$category['id']] as $index => $area): ?>
-                                <div class="expertise-card bg-white border border-gray-200 rounded-xl p-6 sm:p-8 hover-lift"
+                                <div class="Services-card bg-white border border-gray-200 rounded-xl p-6 sm:p-8 hover-lift"
                                     data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="<?= $index * 100 ?>">
 
                                     <!-- Icon -->
-                                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-4 sm:mb-6 expertise-icon">
+                                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-4 sm:mb-6 Services-icon">
                                         <i class="fas <?= htmlspecialchars($area['icon']) ?> text-xl sm:text-2xl text-[#1C4D8D]"></i>
                                     </div>
 
@@ -127,8 +127,8 @@ $cta = $stmt->fetch();
                             <?php endforeach; ?>
                         <?php else: ?>
                             <!-- Fallback practice areas -->
-                            <div class="expertise-card bg-white border border-gray-200 rounded-xl p-6 sm:p-8 hover-lift" data-aos="fade-up-slow" data-aos-duration="1400">
-                                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-4 sm:mb-6 expertise-icon">
+                            <div class="Services-card bg-white border border-gray-200 rounded-xl p-6 sm:p-8 hover-lift" data-aos="fade-up-slow" data-aos-duration="1400">
+                                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-4 sm:mb-6 Services-icon">
                                     <i class="fas fa-gavel text-xl sm:text-2xl text-[#1C4D8D]"></i>
                                 </div>
                                 <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3">Civil & Commercial Litigation</h3>
@@ -152,7 +152,7 @@ $cta = $stmt->fetch();
                         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F2854] mb-3 md:mb-4">Specialized Practice Areas</h2>
                         <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-4 md:mb-6"></div>
                         <p class="text-gray-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto px-4 ">
-                            Focused expertise in key legal domains requiring specialized knowledge
+                            Focused Services in key legal domains requiring specialized knowledge
                         </p>
                     </div>
 
@@ -180,7 +180,7 @@ $cta = $stmt->fetch();
         </div>
     </div>
 
-    <!-- Why Choose Our Expertise -->
+    <!-- Why Choose Our Services -->
     <?php if (!empty($whyChooseFeatures)): ?>
         <div class="bg-gradient-to-b from-white to-gray-50 py-16 md:py-20 lg:py-24">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -188,7 +188,7 @@ $cta = $stmt->fetch();
 
                     <!-- Section Header -->
                     <div class="text-center mb-12 md:mb-16" data-aos="fade-up-slow" data-aos-duration="1400">
-                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F2854] mb-3 md:mb-4">Why Choose Our Legal Expertise</h2>
+                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F2854] mb-3 md:mb-4">Why Choose Our Legal Services</h2>
                         <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-4 md:mb-6"></div>
                     </div>
 
@@ -256,13 +256,13 @@ $cta = $stmt->fetch();
                         Need Specialized Legal Assistance?
                     </h2>
                     <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto px-4 " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
-                        Contact us to discuss how our expertise can help with your specific legal requirements.
+                        Contact us to discuss how our Services can help with your specific legal requirements.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4">
                         <a href="contact.php"
                             class="inline-flex items-center justify-center bg-[#1C4D8D] text-white px-6 md:px-10 py-3 md:py-4 rounded-lg hover:bg-[#0F2854] transition-all duration-300 hover-lift text-sm md:text-lg"
                             data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
-                            <span class="mr-2 md:mr-3 font-medium">Contact Our Team</span>
+                            <span class="mr-2 md:mr-3 font-medium">Contact Our Partner</span>
                             <i class="fas fa-arrow-right text-sm md:text-lg"></i>
                         </a>
                         <a href="team.php"

@@ -80,9 +80,15 @@ try {
     ");
 
     $stmt->execute([
-        $firstName, $lastName, $email, $phone,
-        $appointmentDate, $appointmentTime,
-        $consultationType, $attorneyPreference, $caseDescription
+        $firstName,
+        $lastName,
+        $email,
+        $phone,
+        $appointmentDate,
+        $appointmentTime,
+        $consultationType,
+        $attorneyPreference,
+        $caseDescription
     ]);
 
     // Bloquer créneau
@@ -141,7 +147,7 @@ try {
     $mailClient->addAddress($email, "$firstName $lastName");
 
     $mailClient->isHTML(true);
-    $mailClient->Subject = "Appointment Request Received ✔";
+    $mailClient->Subject = "Appointment Request Received";
 
     $mailClient->Body = "
     <div style='font-family:Arial; padding:20px'>
@@ -151,7 +157,7 @@ try {
         <p><strong>Time:</strong> $appointmentTime</p>
         <p><strong>Consultation:</strong> $consultationType</p>
         <br>
-        <p>Our team will contact you soon to confirm.</p>
+        <p>Our Partner will contact you soon to confirm.</p>
         <br>
         <p style='color:#888;'>Precision Law Firm</p>
     </div>
@@ -163,7 +169,6 @@ try {
         'status' => 'success',
         'message' => 'Appointment successfully booked! Confirmation email sent.'
     ]);
-
 } catch (Exception $e) {
 
     if ($pdo->inTransaction()) {

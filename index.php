@@ -8,9 +8,9 @@ $hero = $stmt->fetch();
 $stmt = $pdo->query("SELECT * FROM about_us ORDER BY id ASC");
 $about_us = $stmt->fetchAll();
 
-// --- Expertise Areas ---
+// --- Services Areas ---
 $stmt = $pdo->query("SELECT * FROM expertise_areas ORDER BY id ASC");
-$expertise = $stmt->fetchAll();
+$Services = $stmt->fetchAll();
 
 // --- Public Service Experience ---
 $stmt = $pdo->query("SELECT * FROM public_service ORDER BY id ASC");
@@ -96,7 +96,7 @@ $stats = [
         <!-- Content -->
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <!-- Search Bar -->
-            <div class="max-w-2xl mx-auto mb-8 md:mb-10" data-aos="fade-down" data-aos-duration="800">
+            <!-- <div class="max-w-2xl mx-auto mb-8 md:mb-10" data-aos="fade-down" data-aos-duration="800">
                 <div class="relative group">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-[#1C4D8D] to-[#D4B28C] rounded-full opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
                     <div class="relative flex items-center bg-white/10 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl hover:border-white/30 transition-all duration-300">
@@ -104,7 +104,7 @@ $stats = [
                             <i class="fas fa-search text-white/60 text-sm"></i>
                         </div>
                         <input type="text"
-                            placeholder="Search for legal expertise, cases, or information..."
+                            placeholder="Search for legal Services, cases, or information..."
                             class="w-full py-3.5 pr-3 outline-none text-white placeholder-white/50 text-sm bg-transparent">
                         <button class="relative mr-2 group/btn">
                             <div class="absolute inset-0 bg-gradient-to-r from-[#1C4D8D] to-[#2A5A9E] rounded-full opacity-90 group-hover/btn:opacity-100 transition-opacity duration-300 blur-[2px] group-hover/btn:blur-[3px]"></div>
@@ -120,7 +120,7 @@ $stats = [
                         Press Enter to search
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Main content - Flex row -->
             <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-14 max-w-6xl mx-auto">
@@ -156,12 +156,12 @@ $stats = [
                     </div>
 
                     <div data-aos="fade-right" data-aos-delay="500">
-                        <a href="pages/overview.php"
+                        <a href="pages/about us.php"
                             class="inline-flex items-center gap-4 group relative">
                             <span class="relative z-10 bg-[#1C4D8D] text-white px-8 py-3 rounded-full font-semibold text-base
                                    hover:bg-[#0F2854] transition-all duration-300 shadow-lg hover:shadow-xl
                                    group-hover:pr-12">
-                                <?= htmlspecialchars($hero['button_label'] ?? 'Discover our expertise') ?>
+                                <?= htmlspecialchars($hero['button_label'] ?? 'Discover our Services') ?>
                             </span>
                             <span class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/30
                                    flex items-center justify-center text-white
@@ -236,7 +236,7 @@ $stats = [
                     </h2>
                     <p class="text-lg text-gray-600 max-w-3xl">
                         A Mauritian law firm founded by former Senior State Attorney,
-                        combining government expertise with private practice excellence.
+                        combining government Services with private practice excellence.
                     </p>
                     <div class="w-24 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mt-6"></div>
                 </div>
@@ -276,7 +276,7 @@ $stats = [
                                 <?php endif; ?>
                             </div>
 
-                            <!-- Expertise -->
+                            <!-- Services -->
                             <div class="mt-8 pt-6 border-t border-gray-200">
                                 <div class="text-xl font-bold text-[#0F2854] mb-2">
                                     Multi-Specialist
@@ -286,8 +286,8 @@ $stats = [
                                 </div>
 
                                 <div class="flex flex-wrap gap-2">
-                                    <?php if (!empty($expertise)): ?>
-                                        <?php foreach (array_slice($expertise, 0, 3) as $area): ?>
+                                    <?php if (!empty($Services)): ?>
+                                        <?php foreach (array_slice($Services, 0, 3) as $area): ?>
                                             <span class="px-4 py-2 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full text-sm shadow-sm">
                                                 <?= htmlspecialchars($area['name']) ?>
                                             </span>

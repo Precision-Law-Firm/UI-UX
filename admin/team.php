@@ -184,7 +184,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Our Team | Precision Law Firm</title>
+    <title>Admin - Our Partner | Precision Law Firm</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -417,7 +417,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Subtitle</label>
-                            <textarea name="subtitle" rows="2" class="form-textarea"><?= htmlspecialchars($hero['subtitle'] ?? 'Strategic legal professionals combining government expertise with commercial insight') ?></textarea>
+                            <textarea name="subtitle" rows="2" class="form-textarea"><?= htmlspecialchars($hero['subtitle'] ?? 'Strategic legal professionals combining government Services with commercial insight') ?></textarea>
                         </div>
                     </div>
                     <button type="submit" name="update_hero" class="btn-primary mt-4">
@@ -665,7 +665,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                            <input type="text" name="title" value="<?= htmlspecialchars($cta['title'] ?? 'Work With Our Team') ?>" class="form-input">
+                            <input type="text" name="title" value="<?= htmlspecialchars($cta['title'] ?? 'Work With Our Partner') ?>" class="form-input">
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
@@ -673,7 +673,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
-                            <input type="text" name="button_text" value="<?= htmlspecialchars($cta['button_text'] ?? 'Contact Our Team') ?>" class="form-input">
+                            <input type="text" name="button_text" value="<?= htmlspecialchars($cta['button_text'] ?? 'Contact Our Partner') ?>" class="form-input">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Button Link</label>
@@ -697,7 +697,7 @@ $cta = $pdo->query("SELECT * FROM team_cta WHERE is_active = 1 ORDER BY id DESC 
     <!-- Footer -->
     <footer class="bg-[#0F2854] text-white py-8 mt-12">
         <div class="container mx-auto px-6 md:px-12 lg:px-24 text-center">
-            <p class="text-gray-300 text-base">© 2024 Precision Law Firm Admin Panel. All rights reserved.</p>
+            <p class="text-gray-300 text-base">© 2026 Precision Law Firm Admin Panel. All rights reserved.</p>
         </div>
     </footer>
 

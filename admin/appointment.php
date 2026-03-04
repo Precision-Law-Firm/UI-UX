@@ -458,7 +458,7 @@ try {
 
 <body class="bg-gray-50">
 
-   <?php include "navbar.php"; ?>
+    <?php include "navbar.php"; ?>
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
@@ -1150,7 +1150,7 @@ try {
     <!-- Footer -->
     <footer class="bg-[#0F2854] text-white py-8 mt-12">
         <div class="container mx-auto px-6 md:px-12 lg:px-24 text-center">
-            <p class="text-gray-300 text-base">© 2024 Precision Law Firm Admin Panel. All rights reserved.</p>
+            <p class="text-gray-300 text-base">© 2026 Precision Law Firm Admin Panel. All rights reserved.</p>
         </div>
     </footer>
 

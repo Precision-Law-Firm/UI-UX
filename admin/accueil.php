@@ -47,25 +47,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $success = "About Us section deleted successfully!";
     }
 
-    // Add Expertise Area
+    // Add Services Area
     if (isset($_POST['add_expertise'])) {
         $stmt = $pdo->prepare("INSERT INTO expertise_areas (name, description) VALUES (?, ?)");
         $stmt->execute([$_POST['name'], $_POST['description']]);
-        $success = "Expertise area added successfully!";
+        $success = "Services area added successfully!";
     }
 
-    // Update Expertise Area
+    // Update Services Area
     if (isset($_POST['update_expertise'])) {
         $stmt = $pdo->prepare("UPDATE expertise_areas SET name = ?, description = ? WHERE id = ?");
         $stmt->execute([$_POST['name'], $_POST['description'], $_POST['expertise_id']]);
-        $success = "Expertise area updated successfully!";
+        $success = "Services area updated successfully!";
     }
 
-    // Delete Expertise Area
+    // Delete Services Area
     if (isset($_POST['delete_expertise'])) {
         $stmt = $pdo->prepare("DELETE FROM expertise_areas WHERE id = ?");
         $stmt->execute([$_POST['expertise_id']]);
-        $success = "Expertise area deleted successfully!";
+        $success = "Services area deleted successfully!";
     }
 
     // Add Public Service Experience
@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch all data for display
 $hero = $pdo->query("SELECT * FROM hero ORDER BY id DESC LIMIT 1")->fetch();
 $about_us = $pdo->query("SELECT * FROM about_us ORDER BY id ASC")->fetchAll();
-$expertise = $pdo->query("SELECT * FROM expertise_areas ORDER BY id ASC")->fetchAll();
+$Services = $pdo->query("SELECT * FROM expertise_areas ORDER BY id ASC")->fetchAll();
 $public_service = $pdo->query("SELECT * FROM public_service ORDER BY id ASC")->fetchAll();
 $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetchAll();
 ?>
@@ -649,7 +649,7 @@ $testimonials = $pdo->query("SELECT * FROM testimonials ORDER BY id ASC")->fetch
     <!-- Footer - Simplified -->
     <footer class="bg-[#0F2854] text-white py-8 mt-12">
         <div class="container mx-auto px-6 md:px-12 lg:px-24 text-center">
-            <p class="text-gray-300 text-base">© 2024 Precision Law Firm Admin Panel. All rights reserved.</p>
+            <p class="text-gray-300 text-base">© 2026 Precision Law Firm Admin Panel. All rights reserved.</p>
         </div>
     </footer>
 

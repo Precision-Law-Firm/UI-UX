@@ -1,11 +1,11 @@
 <?php
 require '../config.php';
 
-// --- Fetch Overview Hero ---
+// --- Fetch about us Hero ---
 $stmt = $pdo->query("SELECT * FROM overview_hero ORDER BY id DESC LIMIT 1");
 $hero = $stmt->fetch();
 
-// --- Fetch Overview Description paragraphs ---
+// --- Fetch about us Description paragraphs ---
 $stmt = $pdo->query("SELECT * FROM overview_description ORDER BY sort_order ASC");
 $descriptions = $stmt->fetchAll();
 
@@ -43,7 +43,7 @@ $cta = $stmt->fetch();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overview - Precision Law Firm</title>
+    <title>about us - Precision Law Firm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -137,7 +137,7 @@ $cta = $stmt->fetch();
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0">
                 <img src="<?= htmlspecialchars($hero['background_image'] ?? '../components/img/bg-try.png') ?>"
-                    alt="Precision Law Firm Overview"
+                    alt="Precision Law Firm about us"
                     class="w-full h-full object-cover object-center">
                 <div class="absolute inset-0 bg-gradient-to-r from-[#0F2854]/70 to-[#1C4D8D]/50"></div>
             </div>
@@ -147,7 +147,7 @@ $cta = $stmt->fetch();
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 z-10 relative">
             <div class="max-w-4xl">
                 <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white" data-aos="fade-up-slow" data-aos-duration="1400">
-                    <span class="text-blue-100 mb-1">OVERVIEW</span>
+                    <span class="text-blue-100 mb-1">About us</span>
                 </h1>
                 <div class="text-white text-base sm:text-lg md:text-xl leading-relaxed space-y-4 ">
                     <?php if (!empty($descriptions)): ?>
@@ -186,7 +186,7 @@ $cta = $stmt->fetch();
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <p class="text-gray-700 text-base sm:text-lg leading-relaxed" data-aos="fade-up-slow" data-aos-duration="1400">
-                                    We advise on all legal issues that arise in commercial transactions and business operations in Mauritius. Our expertise spans from routine corporate matters to complex regulatory compliance.
+                                    We advise on all legal issues that arise in commercial transactions and business operations in Mauritius. Our Services spans from routine corporate matters to complex regulatory compliance.
                                 </p>
                                 <p class="text-gray-700 text-base sm:text-lg leading-relaxed" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                                     Our litigation team represents clients before Mauritian courts including the Supreme Court, Intermediate Court, and various specialized tribunals.
@@ -241,7 +241,7 @@ $cta = $stmt->fetch();
                                 <i class="fas fa-lightbulb text-[#1C4D8D] text-lg"></i>
                             </div>
                             <h4 class="font-bold text-gray-800 text-lg mb-2">Intellectual Property</h4>
-                            <p class="text-gray-600 text-sm">Industrial Property Act 2019 expertise</p>
+                            <p class="text-gray-600 text-sm">Industrial Property Act 2019 Services</p>
                         </div>
                         <div class="border border-gray-200 p-6 hover:border-[#1C4D8D] transition-colors hover-lift" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
                             <div class="w-12 h-12 bg-blue-50 rounded flex items-center justify-center mb-3">
@@ -364,12 +364,12 @@ $cta = $stmt->fetch();
                         Ready to discuss your legal needs?
                     </h2>
                     <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
-                        Contact us for strategic legal advice from attorneys with government-level expertise and commercial insight.
+                        Contact us for strategic legal advice from attorneys with government-level Services and commercial insight.
                     </p>
                     <a href="contact.php"
                         class="inline-flex items-center bg-[#1C4D8D] text-white px-8 py-3 rounded-lg hover:bg-[#0F2854] transition-all duration-300 hover-lift text-base"
                         data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
-                        <span class="mr-2 font-medium">Contact Our Team</span>
+                        <span class="mr-2 font-medium">Contact Our Partner</span>
                         <i class="fas fa-arrow-right text-base"></i>
                     </a>
                 <?php endif; ?>

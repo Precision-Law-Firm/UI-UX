@@ -11,21 +11,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Update Overview Hero
-    if (isset($_POST['update_hero'])) {
-        // First check if record exists
-        $check = $pdo->query("SELECT COUNT(*) FROM overview_hero")->fetchColumn();
-        if ($check > 0) {
-            $stmt = $pdo->prepare("UPDATE overview_hero SET title = ?, background_image = ? WHERE id = ?");
-            $stmt->execute([$_POST['title'], $_POST['background_image'], $_POST['hero_id']]);
-        } else {
-            $stmt = $pdo->prepare("INSERT INTO overview_hero (title, background_image) VALUES (?, ?)");
-            $stmt->execute([$_POST['title'], $_POST['background_image']]);
-        }
-        $success = "Hero section updated successfully!";
-    }
-
-    // Add Overview Description
+    // Add about us Description
     if (isset($_POST['add_description'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM overview_description")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
@@ -34,14 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $success = "Description paragraph added successfully!";
     }
 
-    // Update Overview Description
+    // Update about us Description
     if (isset($_POST['update_description'])) {
         $stmt = $pdo->prepare("UPDATE overview_description SET paragraph = ? WHERE id = ?");
         $stmt->execute([$_POST['paragraph'], $_POST['desc_id']]);
         $success = "Description paragraph updated successfully!";
     }
 
-    // Delete Overview Description
+    // Delete about us Description
     if (isset($_POST['delete_description'])) {
         $stmt = $pdo->prepare("DELETE FROM overview_description WHERE id = ?");
         $stmt->execute([$_POST['desc_id']]);
@@ -82,19 +68,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $success = "What We Do content deleted successfully!";
     }
 
-    // Add Practice Area
+    // Add Practice Area (sans icon)
     if (isset($_POST['add_practice'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM practice_areas")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        $stmt = $pdo->prepare("INSERT INTO practice_areas (title, description, icon, sort_order) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $sort_order]);
+        $stmt = $pdo->prepare("INSERT INTO practice_areas (title, description, sort_order) VALUES (?, ?, ?)");
+        $stmt->execute([$_POST['title'], $_POST['description'], $sort_order]);
         $success = "Practice area added successfully!";
     }
 
-    // Update Practice Area
+    // Update Practice Area (sans icon)
     if (isset($_POST['update_practice'])) {
-        $stmt = $pdo->prepare("UPDATE practice_areas SET title = ?, description = ?, icon = ? WHERE id = ?");
-        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $_POST['practice_id']]);
+        $stmt = $pdo->prepare("UPDATE practice_areas SET title = ?, description = ? WHERE id = ?");
+        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['practice_id']]);
         $success = "Practice area updated successfully!";
     }
 
@@ -128,19 +114,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $success = "Approach content deleted successfully!";
     }
 
-    // Add Approach Feature
+    // Add Approach Feature (sans icon)
     if (isset($_POST['add_feature'])) {
         $maxSort = $pdo->query("SELECT MAX(sort_order) FROM approach_features")->fetchColumn();
         $sort_order = ($maxSort !== null) ? $maxSort + 1 : 1;
-        $stmt = $pdo->prepare("INSERT INTO approach_features (title, description, icon, sort_order) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $sort_order]);
+        $stmt = $pdo->prepare("INSERT INTO approach_features (title, description, sort_order) VALUES (?, ?, ?)");
+        $stmt->execute([$_POST['title'], $_POST['description'], $sort_order]);
         $success = "Approach feature added successfully!";
     }
 
-    // Update Approach Feature
+    // Update Approach Feature (sans icon)
     if (isset($_POST['update_feature'])) {
-        $stmt = $pdo->prepare("UPDATE approach_features SET title = ?, description = ?, icon = ? WHERE id = ?");
-        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['icon'], $_POST['feature_id']]);
+        $stmt = $pdo->prepare("UPDATE approach_features SET title = ?, description = ? WHERE id = ?");
+        $stmt->execute([$_POST['title'], $_POST['description'], $_POST['feature_id']]);
         $success = "Approach feature updated successfully!";
     }
 
@@ -151,23 +137,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $success = "Approach feature deleted successfully!";
     }
 
-    // Update CTA Section
+    // Update CTA Section (sans boutons et liens)
     if (isset($_POST['update_cta'])) {
-        // First check if record exists
         $check = $pdo->query("SELECT COUNT(*) FROM cta_section")->fetchColumn();
         if ($check > 0) {
-            $stmt = $pdo->prepare("UPDATE cta_section SET title = ?, description = ?, button_text = ?, button_link = ?, is_active = ? WHERE id = ?");
-            $stmt->execute([$_POST['title'], $_POST['description'], $_POST['button_text'], $_POST['button_link'], isset($_POST['is_active']) ? 1 : 0, $_POST['cta_id']]);
+            $stmt = $pdo->prepare("UPDATE cta_section SET title = ?, description = ?, is_active = ? WHERE id = ?");
+            $stmt->execute([$_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0, $_POST['cta_id']]);
         } else {
-            $stmt = $pdo->prepare("INSERT INTO cta_section (title, description, button_text, button_link, is_active) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$_POST['title'], $_POST['description'], $_POST['button_text'], $_POST['button_link'], isset($_POST['is_active']) ? 1 : 0]);
+            $stmt = $pdo->prepare("INSERT INTO cta_section (title, description, is_active) VALUES (?, ?, ?)");
+            $stmt->execute([$_POST['title'], $_POST['description'], isset($_POST['is_active']) ? 1 : 0]);
         }
         $success = "CTA section updated successfully!";
     }
 }
 
 // Fetch all data
-$hero = $pdo->query("SELECT * FROM overview_hero ORDER BY id DESC LIMIT 1")->fetch();
 $descriptions = $pdo->query("SELECT * FROM overview_description ORDER BY sort_order ASC")->fetchAll();
 $whatWeDo = $pdo->query("SELECT * FROM what_we_do ORDER BY column_number, sort_order ASC")->fetchAll();
 $whatWeDoCol1 = array_filter($whatWeDo, function ($item) {
@@ -188,10 +172,10 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Overview | Precision Law Firm</title>
+    <title>Admin - About Us | Precision Law Firm</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
+    <!-- Font Awesome (gardé pour les icônes d'interface admin uniquement) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -338,17 +322,6 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
             }
         }
 
-        /* Admin badge */
-        .admin-badge {
-            background: #D4AF37;
-            color: #0F2854;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-left: 1rem;
-        }
-
         /* Hover effects */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -368,18 +341,16 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
 
 <body class="bg-gray-50">
 
-    <!-- Navbar - EXACT same as accueil admin panel -->
+    <!-- Navbar -->
     <?php include "navbar.php"; ?>
-
-
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 md:px-12 lg:px-24 py-8">
 
         <!-- Header -->
         <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
-            <h1 class="text-3xl font-bold text-[#0F2854]">Overview Page Management</h1>
-            <a href="overview.php" target="_blank" class="btn-primary inline-flex items-center">
+            <h1 class="text-3xl font-bold text-[#0F2854]">About Us Page Management</h1>
+            <a href="about-us.php" target="_blank" class="btn-primary inline-flex items-center">
                 <i class="fas fa-external-link-alt mr-2"></i>View Live Page
             </a>
         </div>
@@ -390,32 +361,6 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                 <i class="fas fa-check-circle mr-2"></i><?= $success ?>
             </div>
         <?php endif; ?>
-
-        <!-- Hero Section Management -->
-        <div id="hero-section" class="admin-card" data-aos="fade-up-slow">
-            <div class="section-header flex justify-between items-center" onclick="toggleSection('hero-content')">
-                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-home mr-2"></i>Hero Section</h2>
-                <span class="text-sm opacity-75">Click to toggle</span>
-            </div>
-            <div id="hero-content" class="section-content p-6">
-                <form method="POST">
-                    <input type="hidden" name="hero_id" value="<?= $hero['id'] ?? '' ?>">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                            <input type="text" name="title" value="<?= htmlspecialchars($hero['title'] ?? 'OVERVIEW') ?>" class="form-input">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Background Image URL</label>
-                            <input type="text" name="background_image" value="<?= htmlspecialchars($hero['background_image'] ?? '../components/img/bg-try.png') ?>" class="form-input">
-                        </div>
-                    </div>
-                    <button type="submit" name="update_hero" class="btn-primary mt-4">
-                        <i class="fas fa-save mr-2"></i>Update Hero Section
-                    </button>
-                </form>
-            </div>
-        </div>
 
         <!-- Description Paragraphs Management -->
         <div id="description-section" class="admin-card" data-aos="fade-up-slow">
@@ -461,22 +406,22 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                                         <button type="submit" name="update_description" class="text-blue-600 hover:text-blue-800 mr-2" title="Save">
                                             <i class="fas fa-save"></i>
                                         </button>
-                </form>
-                <form method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
-                    <input type="hidden" name="desc_id" value="<?= $desc['id'] ?>">
-                    <button type="submit" name="delete_description" class="text-red-600 hover:text-red-800" title="Delete">
-                        <i class="fas fa-trash"></i>
+                                    </form>
+                                    <form method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
+                                        <input type="hidden" name="desc_id" value="<?= $desc['id'] ?>">
+                                        <button type="submit" name="delete_description" class="text-red-600 hover:text-red-800" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <button type="submit" name="update_sort_order" class="btn-warning mt-4">
+                        <i class="fas fa-sort mr-2"></i>Update Sort Order
                     </button>
                 </form>
-                </td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-            </table>
-            <button type="submit" name="update_sort_order" class="btn-warning mt-4">
-                <i class="fas fa-sort mr-2"></i>Update Sort Order
-            </button>
-            </form>
             </div>
         </div>
 
@@ -568,19 +513,20 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
             </div>
         </div>
 
-        <!-- Practice Areas Management -->
+        <!-- Practice Areas Management (sans icônes) -->
         <div id="practice-section" class="admin-card" data-aos="fade-up-slow">
             <div class="section-header flex justify-between items-center" onclick="toggleSection('practice-content')">
                 <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-briefcase mr-2"></i>Practice Areas</h2>
                 <span class="text-sm opacity-75">Click to toggle</span>
             </div>
             <div id="practice-content" class="section-content p-6">
-                <!-- Add New Practice Area -->
+                <!-- Add New Practice Area (sans icon) -->
                 <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
                     <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Add New Practice Area</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" name="title" placeholder="Title" class="form-input" required>
-                        <input type="text" name="icon" placeholder="Font Awesome Icon (e.g., fa-gavel)" class="form-input" required>
+                        <div class="col-span-2">
+                            <input type="text" name="title" placeholder="Title" class="form-input" required>
+                        </div>
                         <div class="col-span-2">
                             <textarea name="description" rows="2" placeholder="Description" class="form-input" required></textarea>
                         </div>
@@ -592,11 +538,10 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                     </div>
                 </form>
 
-                <!-- Existing Practice Areas -->
+                <!-- Existing Practice Areas (sans icon) -->
                 <table class="w-full">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2 text-left">Icon</th>
                             <th class="px-4 py-2 text-left">Title</th>
                             <th class="px-4 py-2 text-left">Description</th>
                             <th class="px-4 py-2 text-left">Actions</th>
@@ -608,10 +553,7 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                                 <td class="px-4 py-3">
                                     <form method="POST" class="flex items-center gap-2">
                                         <input type="hidden" name="practice_id" value="<?= $area['id'] ?>">
-                                        <input type="text" name="icon" value="<?= htmlspecialchars($area['icon']) ?>" class="form-input text-sm w-24">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <input type="text" name="title" value="<?= htmlspecialchars($area['title']) ?>" class="form-input text-sm">
+                                        <input type="text" name="title" value="<?= htmlspecialchars($area['title']) ?>" class="form-input text-sm">
                                 </td>
                                 <td class="px-4 py-3">
                                     <input type="text" name="description" value="<?= htmlspecialchars($area['description']) ?>" class="form-input text-sm">
@@ -680,19 +622,20 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                     </tbody>
                 </table>
 
-                <!-- Approach Features -->
+                <!-- Approach Features (sans icônes) -->
                 <h3 class="text-lg font-semibold mb-4 text-[#0F2854]">Approach Features</h3>
 
-                <!-- Add New Feature -->
+                <!-- Add New Feature (sans icon) -->
                 <form method="POST" class="mb-6 p-4 bg-gray-50 rounded-lg">
                     <h4 class="font-medium mb-2">Add New Feature</h4>
-                    <div class="grid grid-cols-3 gap-4">
-                        <input type="text" name="title" placeholder="Title" class="form-input" required>
-                        <input type="text" name="icon" placeholder="Icon (e.g., fa-search)" class="form-input" required>
-                        <div class="col-span-3">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2">
+                            <input type="text" name="title" placeholder="Title" class="form-input" required>
+                        </div>
+                        <div class="col-span-2">
                             <textarea name="description" rows="2" placeholder="Description" class="form-input" required></textarea>
                         </div>
-                        <div class="col-span-3">
+                        <div class="col-span-2">
                             <button type="submit" name="add_feature" class="btn-success">
                                 <i class="fas fa-plus mr-2"></i>Add Feature
                             </button>
@@ -700,11 +643,10 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                     </div>
                 </form>
 
-                <!-- Existing Features -->
+                <!-- Existing Features (sans icon) -->
                 <table class="w-full">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2 text-left">Icon</th>
                             <th class="px-4 py-2 text-left">Title</th>
                             <th class="px-4 py-2 text-left">Description</th>
                             <th class="px-4 py-2 text-left">Actions</th>
@@ -716,10 +658,7 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                                 <td class="px-4 py-3">
                                     <form method="POST" class="flex items-center gap-2">
                                         <input type="hidden" name="feature_id" value="<?= $feature['id'] ?>">
-                                        <input type="text" name="icon" value="<?= htmlspecialchars($feature['icon']) ?>" class="form-input text-sm w-24">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <input type="text" name="title" value="<?= htmlspecialchars($feature['title']) ?>" class="form-input text-sm">
+                                        <input type="text" name="title" value="<?= htmlspecialchars($feature['title']) ?>" class="form-input text-sm">
                                 </td>
                                 <td class="px-4 py-3">
                                     <input type="text" name="description" value="<?= htmlspecialchars($feature['description']) ?>" class="form-input text-sm">
@@ -743,7 +682,7 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
             </div>
         </div>
 
-        <!-- CTA Section Management -->
+        <!-- CTA Section Management (sans boutons et liens) -->
         <div id="cta-section" class="admin-card" data-aos="fade-up-slow">
             <div class="section-header flex justify-between items-center" onclick="toggleSection('cta-content')">
                 <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-bullhorn mr-2"></i>Call to Action Section</h2>
@@ -760,14 +699,6 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                             <textarea name="description" rows="2" class="form-input"><?= htmlspecialchars($cta['description'] ?? 'Contact us for strategic legal advice from attorneys with government-level expertise and commercial insight.') ?></textarea>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
-                            <input type="text" name="button_text" value="<?= htmlspecialchars($cta['button_text'] ?? 'Contact Our Team') ?>" class="form-input">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Button Link</label>
-                            <input type="text" name="button_link" value="<?= htmlspecialchars($cta['button_link'] ?? 'contact.php') ?>" class="form-input">
                         </div>
                         <div class="col-span-2">
                             <label class="flex items-center">
@@ -787,7 +718,7 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
     <!-- Footer -->
     <footer class="bg-[#0F2854] text-white py-8 mt-12">
         <div class="container mx-auto px-6 md:px-12 lg:px-24 text-center">
-            <p class="text-gray-300 text-base">© 2024 Precision Law Firm Admin Panel. All rights reserved.</p>
+            <p class="text-gray-300 text-base">© 2026 Precision Law Firm Admin Panel. All rights reserved.</p>
         </div>
     </footer>
 
@@ -830,22 +761,6 @@ $cta = $pdo->query("SELECT * FROM cta_section WHERE is_active = 1 ORDER BY id DE
             content.classList.toggle('collapsed');
             icon.classList.toggle('rotate-[-90deg]');
         }
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('.scroll-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
 
         // Auto-hide success message after 5 seconds
         const successMessage = document.querySelector('.success-message');

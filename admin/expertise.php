@@ -11,7 +11,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Update Expertise Hero
+    // Update Services Hero
     if (isset($_POST['update_hero'])) {
         $check = $pdo->query("SELECT COUNT(*) FROM expertise_hero")->fetchColumn();
         if ($check > 0) {
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO expertise_hero (title, subtitle, background_image) VALUES (?, ?, ?)");
             $stmt->execute([$_POST['title'], $_POST['subtitle'], $_POST['background_image']]);
         }
-        $success = "Expertise hero section updated successfully!";
+        $success = "Services hero section updated successfully!";
     }
 
     // Add Category
@@ -190,7 +190,7 @@ $cta = $pdo->query("SELECT * FROM expertise_cta WHERE is_active = 1 ORDER BY id 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Expertise | Precision Law Firm</title>
+    <title>Admin - Services | Precision Law Firm</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -400,8 +400,8 @@ $cta = $pdo->query("SELECT * FROM expertise_cta WHERE is_active = 1 ORDER BY id 
 
         <!-- Header -->
         <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
-            <h1 class="text-3xl font-bold text-[#0F2854]">Expertise Page Management</h1>
-            <a href="expertise.php" target="_blank" class="btn-primary inline-flex items-center">
+            <h1 class="text-3xl font-bold text-[#0F2854]">Services Page Management</h1>
+            <a href="Services.php" target="_blank" class="btn-primary inline-flex items-center">
                 <i class="fas fa-external-link-alt mr-2"></i>View Live Page
             </a>
         </div>
@@ -425,7 +425,7 @@ $cta = $pdo->query("SELECT * FROM expertise_cta WHERE is_active = 1 ORDER BY id 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                            <input type="text" name="title" value="<?= htmlspecialchars($hero['title'] ?? 'OUR EXPERTISE') ?>" class="form-input">
+                            <input type="text" name="title" value="<?= htmlspecialchars($hero['title'] ?? 'OUR Services') ?>" class="form-input">
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Subtitle</label>
@@ -446,7 +446,7 @@ $cta = $pdo->query("SELECT * FROM expertise_cta WHERE is_active = 1 ORDER BY id 
         <!-- Categories Management -->
         <div id="categories-section" class="admin-card" data-aos="fade-up-slow">
             <div class="section-header flex justify-between items-center" onclick="toggleSection('categories-content')">
-                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-folder mr-2"></i>Expertise Categories</h2>
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-folder mr-2"></i>Services Categories</h2>
                 <span class="text-sm opacity-75">Click to toggle</span>
             </div>
             <div id="categories-content" class="section-content p-6">
@@ -698,7 +698,7 @@ $cta = $pdo->query("SELECT * FROM expertise_cta WHERE is_active = 1 ORDER BY id 
         <!-- Why Choose Features Management -->
         <div id="features-section" class="admin-card" data-aos="fade-up-slow">
             <div class="section-header flex justify-between items-center" onclick="toggleSection('features-content')">
-                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-check-circle mr-2"></i>Why Choose Our Expertise</h2>
+                <h2 class="text-xl font-semibold"><i class="fas fa-chevron-down mr-3 transition-transform"></i><i class="fas fa-check-circle mr-2"></i>Why Choose Our Services</h2>
                 <span class="text-sm opacity-75">Click to toggle</span>
             </div>
             <div id="features-content" class="section-content p-6">
@@ -790,11 +790,11 @@ $cta = $pdo->query("SELECT * FROM expertise_cta WHERE is_active = 1 ORDER BY id 
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea name="description" rows="2" class="form-textarea"><?= htmlspecialchars($cta['description'] ?? 'Contact us to discuss how our expertise can help with your specific legal requirements.') ?></textarea>
+                            <textarea name="description" rows="2" class="form-textarea"><?= htmlspecialchars($cta['description'] ?? 'Contact us to discuss how our Services can help with your specific legal requirements.') ?></textarea>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Primary Button Text</label>
-                            <input type="text" name="primary_button_text" value="<?= htmlspecialchars($cta['primary_button_text'] ?? 'Contact Our Team') ?>" class="form-input">
+                            <input type="text" name="primary_button_text" value="<?= htmlspecialchars($cta['primary_button_text'] ?? 'Contact Our Partner') ?>" class="form-input">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Primary Button Link</label>
@@ -826,7 +826,7 @@ $cta = $pdo->query("SELECT * FROM expertise_cta WHERE is_active = 1 ORDER BY id 
     <!-- Footer -->
     <footer class="bg-[#0F2854] text-white py-8 mt-12">
         <div class="container mx-auto px-6 md:px-12 lg:px-24 text-center">
-            <p class="text-gray-300 text-base">© 2024 Precision Law Firm Admin Panel. All rights reserved.</p>
+            <p class="text-gray-300 text-base">© 2026 Precision Law Firm Admin Panel. All rights reserved.</p>
         </div>
     </footer>
 

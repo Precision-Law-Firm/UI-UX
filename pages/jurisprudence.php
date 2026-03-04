@@ -1,7 +1,7 @@
 <?php
 require '../config.php';
 
-// --- Fetch Jurisprudence Hero ---
+// --- Fetch Landmark Cases Hero ---
 $stmt = $pdo->query("SELECT * FROM jurisprudence_hero ORDER BY id DESC LIMIT 1");
 $hero = $stmt->fetch();
 
@@ -56,7 +56,7 @@ function getColorClasses($color)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jurisprudence - Precision Law Firm</title>
+    <title>Landmark Cases - Precision Law Firm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -251,7 +251,7 @@ function getColorClasses($color)
                 <!-- Title -->
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6"
                     data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
-                    <?= htmlspecialchars($hero['title'] ?? 'Our Jurisprudence') ?>
+                    <?= htmlspecialchars($hero['title'] ?? 'Our Landmark Cases') ?>
                 </h1>
 
                 <!-- Description justifiée -->

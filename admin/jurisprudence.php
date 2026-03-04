@@ -258,7 +258,7 @@ $colorOptions = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Jurisprudence | Precision Law Firm</title>
+    <title>Admin - Landmark Cases | Precision Law Firm</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -478,8 +478,8 @@ $colorOptions = [
 
         <!-- Header -->
         <div class="flex justify-between items-center mb-8" data-aos="fade-up-slow">
-            <h1 class="text-3xl font-bold text-[#0F2854]">Jurisprudence Page Management</h1>
-            <a href="jurisprudence.php" target="_blank" class="btn-primary inline-flex items-center">
+            <h1 class="text-3xl font-bold text-[#0F2854]">Landmark Cases Page Management</h1>
+            <a href="Landmark Cases.php" target="_blank" class="btn-primary inline-flex items-center">
                 <i class="fas fa-external-link-alt mr-2"></i>View Live Page
             </a>
         </div>
@@ -507,7 +507,7 @@ $colorOptions = [
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                            <input type="text" name="title" value="<?= htmlspecialchars($hero['title'] ?? 'Our Jurisprudence') ?>" class="form-input">
+                            <input type="text" name="title" value="<?= htmlspecialchars($hero['title'] ?? 'Our Landmark Cases') ?>" class="form-input">
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Subtitle</label>
@@ -1006,7 +1006,7 @@ $colorOptions = [
     <!-- Footer -->
     <footer class="bg-[#0F2854] text-white py-8 mt-12">
         <div class="container mx-auto px-6 md:px-12 lg:px-24 text-center">
-            <p class="text-gray-300 text-base">© 2024 Precision Law Firm Admin Panel. All rights reserved.</p>
+            <p class="text-gray-300 text-base">© 2026 Precision Law Firm Admin Panel. All rights reserved.</p>
         </div>
     </footer>
 

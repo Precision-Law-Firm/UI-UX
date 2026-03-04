@@ -27,7 +27,7 @@ $cta = $stmt->fetch();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Team - Precision Law Firm</title>
+    <title>Our Partner - Precision Law Firm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -148,14 +148,14 @@ $cta = $stmt->fetch();
         <div class="container mx-auto px-6 z-10 relative">
             <div class="max-w-3xl mx-auto">
                 <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white" data-aos="fade-up-slow" data-aos-duration="1400">
-                    <span>Our</span>
-                    <span class="text-blue-100">Team</span>
+                    <span>Founder</span>
+                    <span class="text-blue-100">Partner</span>
                 </h1>
                 <div class="w-32 h-1 bg-gradient-to-r from-white to-blue-100 mx-auto mb-8"
                     data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                 </div>
                 <p class="text-white text-xl md:text-2xl" data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
-                    <?= htmlspecialchars($hero['subtitle'] ?? 'Strategic legal professionals combining government expertise with commercial insight') ?>
+                    <?= htmlspecialchars($hero['subtitle'] ?? 'Strategic legal professionals combining government Services with commercial insight') ?>
                 </p>
             </div>
         </div>
@@ -249,7 +249,7 @@ $cta = $stmt->fetch();
     </div>
 
     <!-- Legal Team Members Section -->
-    <div class="bg-gradient-to-b from-white to-gray-50 py-16 md:py-20">
+    <!-- <div class="bg-gradient-to-b from-white to-gray-50 py-16 md:py-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-12 md:mb-16" data-aos="fade-up-slow" data-aos-duration="1400">
@@ -257,7 +257,7 @@ $cta = $stmt->fetch();
                         <span class="text-[#0F2854]">Our Legal Team</span>
                     </h2>
                     <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-[#1C4D8D] to-[#0F2854] mx-auto mb-5 md:mb-6"></div>
-                    <p class="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto px-4">Meet our team of dedicated legal professionals, each bringing specialized expertise to serve your needs.</p>
+                    <p class="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto px-4">Meet Our Partner of dedicated legal professionals, each bringing specialized Services to serve your needs.</p>
                 </div>
 
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -310,7 +310,7 @@ $cta = $stmt->fetch();
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     <!-- Team Stats Section - VRAIMENT responsive -->
@@ -380,7 +380,7 @@ $cta = $stmt->fetch();
                                 Versatile
                             </div>
                             <p class="text-[#1C4D8D] text-sm xs:text-base sm:text-sm md:text-base lg:text-lg font-medium mb-1 px-2">
-                                Multi-Practice Expertise
+                                Multi-Practice Services
                             </p>
                             <p class="text-gray-500 text-xs xs:text-sm sm:text-xs md:text-sm lg:text-base max-w-[250px] xs:max-w-[300px] sm:max-w-none mx-auto">
                                 Comprehensive legal services across diverse areas
@@ -411,7 +411,7 @@ $cta = $stmt->fetch();
                 </a>
             <?php else: ?>
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-6" data-aos="fade-up-slow" data-aos-duration="1400">
-                    Work With Our Team
+                    Work With Us
                 </h2>
                 <p class="text-gray-600 text-sm sm:text-base md:text-lg mb-6 md:mb-10 max-w-2xl mx-auto px-4 " data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="100">
                     Benefit from legal counsel backed by government-level experience and strategic commercial insight.
@@ -419,7 +419,7 @@ $cta = $stmt->fetch();
                 <a href="contact.php"
                     class="inline-flex items-center bg-[#1C4D8D] text-white px-6 md:px-8 py-3 md:py-4 rounded-lg hover:bg-[#0F2854] transition-all duration-300 hover-lift text-sm sm:text-base md:text-lg"
                     data-aos="fade-up-slow" data-aos-duration="1400" data-aos-delay="200">
-                    <span class="mr-2 md:mr-3">Contact Our Team</span>
+                    <span class="mr-2 md:mr-3">Contact Our Partner</span>
                     <i class="fas fa-arrow-right text-sm md:text-base"></i>
                 </a>
             <?php endif; ?>

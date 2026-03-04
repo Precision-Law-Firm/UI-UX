@@ -44,11 +44,11 @@ body {
     transition: all 0.3s ease;
 }
 
-.expertise-icon {
+.Services-icon {
     transition: transform 0.3s ease;
 }
 
-.expertise-card:hover .expertise-icon {
+.Services-card:hover .Services-icon {
     transform: scale(1.1);
 }
 
