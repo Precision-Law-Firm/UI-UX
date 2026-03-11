@@ -15,7 +15,9 @@
                     A forward-thinking legal practice combining commercial insight with legal excellence.
                 </p>
                 <div class="flex justify-center sm:justify-start space-x-4">
-                    <a href="#"
+                    <a href="https://www.linkedin.com/in/precision-law-firm-258b253b3"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
                         <i class="fab fa-linkedin-in text-base sm:text-lg"></i>
                     </a>

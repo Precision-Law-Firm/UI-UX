@@ -1,9 +1,9 @@
 <?php
-$host =  "srv502.hstgr.io";
+$host =  "localhost";
 $port = 3306;
 $dbname = "u662658788_plf_db";
-$username = "u662658788_plf";
-$password = "y>Mf9|v$9X/";
+$username = "root";
+$password = "root";
 
 try {
  $pdo = new PDO(

@@ -159,6 +159,25 @@ foreach ($officeHours as $index => $hour) {
             font-family: 'Inter', sans-serif;
         }
 
+        .chatbox-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbox-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            margin-right: 1rem;
+            border: #1C4D8D solid 1px;
+            border-radius : 30px;
+            background-color : #1C4D8D;
+            color : white;
+            padding : 1rem 1rem;
+        }
+
         /* Title Badge - Version sans retour à la ligne */
         .chatbox-title-badge {
             position: absolute;
@@ -268,6 +287,7 @@ foreach ($officeHours as $index => $hour) {
             box-shadow: 0 10px 25px rgba(28, 77, 141, 0.3);
             transition: all 0.3s ease;
             position: relative;
+            
         }
 
         .chatbox-toggle:hover {
@@ -779,8 +799,11 @@ foreach ($officeHours as $index => $hour) {
                                     </a>
                                 </div>
                             <?php endif; ?>
+
                         </div>
                     <?php endforeach; ?>
+
+
                 </div>
 
                 <!-- Social Links -->
@@ -945,23 +968,26 @@ foreach ($officeHours as $index => $hour) {
     <!-- Chatbox -->
     <div class="chatbox-container">
 
-        <!-- Title Badge -->
-        <div class="chatbox-title-badge">
-            <div class="title-content">
+        <!-- Top Bar (Badge + Toggle) -->
+        <div class="chatbox-top">
+
+            <!-- Title -->
+            <div class="chatbox-title">
                 <i class="fas fa-scale-balanced"></i>
-                <span>Law Bot</span>
+                <span>Legal Assistant</span>
             </div>
-            <div class="title-arrow">
-                <i class="fas fa-chevron-down"></i>
+
+            <!-- Toggle Button -->
+            <div class="chatbox-toggle" id="chatbox-toggle">
+                <i class="fas fa-comments"></i>
+                <div class="notification-badge">3</div>
             </div>
+
         </div>
 
-        <div class="chatbox-toggle" id="chatbox-toggle">
-            <i class="fas fa-comments"></i>
-            <div class="notification-badge">3</div>
-        </div>
-
+        <!-- Chat Window -->
         <div class="chatbox-window" id="chatbox-window">
+
             <div class="chatbox-header">
                 <div class="header-title">
                     <i class="fas fa-scale-balanced"></i>
@@ -975,7 +1001,9 @@ foreach ($officeHours as $index => $hour) {
                 </button>
             </div>
 
+            <!-- chatbox body -->
             <div class="chatbox-body" id="chatbox-body">
+
                 <div class="message bot">
                     <div class="message-avatar">
                         <i class="fas fa-robot"></i>
@@ -991,51 +1019,65 @@ foreach ($officeHours as $index => $hour) {
                 <!-- Quick Questions -->
                 <div class="quick-questions" id="quickQuestions">
                     <p class="quick-questions-title">📋 Suggested questions:</p>
+
                     <div class="questions-grid">
                         <button class="question-btn" data-question="appointment">
                             <i class="fas fa-calendar-check"></i>
                             Book appointment
                         </button>
+
                         <button class="question-btn" data-question="hours">
                             <i class="fas fa-clock"></i>
                             Office hours
                         </button>
+
                         <button class="question-btn" data-question="phone">
                             <i class="fas fa-phone"></i>
                             Phone number
                         </button>
+
                         <button class="question-btn" data-question="email">
                             <i class="fas fa-envelope"></i>
                             Email us
                         </button>
+
                         <button class="question-btn" data-question="location">
                             <i class="fas fa-location-dot"></i>
                             Our location
                         </button>
+
                         <button class="question-btn" data-question="career">
                             <i class="fas fa-briefcase"></i>
                             Careers
                         </button>
                     </div>
                 </div>
+
             </div>
 
             <div class="chatbox-footer">
+
                 <div class="typing-indicator" id="typingIndicator">
                     <span></span><span></span><span></span>
                 </div>
+
                 <div class="message-input">
                     <input type="text" id="chat-input" placeholder="Type your message here..." autocomplete="off">
                     <button class="send-btn" id="send-message">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
+
                 <div class="footer-note">
                     <i class="fas fa-shield-alt"></i> Secure & confidential
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 
     <!-- Footer -->
     <?php include "../includes/footer.php" ?>
